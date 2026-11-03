@@ -1,25 +1,27 @@
 import React, { useState } from 'react';
 import { supabase } from '../../lib/supabase';
 import { styles } from '../../styles/theme';
+import { useToast } from '../../context/ToastContext';
+import { useTranslation } from '../../context/I18nContext';
 
-export default function SignUpForm({ onRegistered, onSwitchMode, onError, onMessage }) {
+export default function SignUpForm({ onRegistered, onSwitchMode }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const { showError, showSuccess } = useToast();
+  const { t } = useTranslation();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    onError(null);
-    onMessage(null);
 
     const { error } = await supabase.auth.signUp({ email, password });
     setLoading(false);
 
     if (error) {
-      onError(error.message);
+      showError(error.message);
     } else {
-      onMessage('Usuario registrado. Ingresa el código de 6 dígitos enviado a Inbucket.');
+      showSuccess('Código OTP enviado a Inbucket.');
       onRegistered(email);
     }
   };
@@ -28,7 +30,7 @@ export default function SignUpForm({ onRegistered, onSwitchMode, onError, onMess
     <form onSubmit={handleSubmit} style={styles.form}>
       <input
         type="email"
-        placeholder="correo@ejemplo.com"
+        placeholder={t('auth.email_placeholder')}
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         required
@@ -36,23 +38,23 @@ export default function SignUpForm({ onRegistered, onSwitchMode, onError, onMess
       />
       <input
         type="password"
-        placeholder="Contraseña (mínimo 6 caracteres)"
+        placeholder={t('auth.password_placeholder')}
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         required
         style={styles.input}
       />
       <button type="submit" disabled={loading} style={styles.button}>
-        {loading ? 'Registrando...' : 'Registrarse'}
+        {loading ? t('common.loading') : t('auth.signup_btn')}
       </button>
       <p style={styles.toggleText}>
-        ¿Ya tienes cuenta?{' '}
+        {t('auth.have_account')}{' '}
         <button
           type="button"
           onClick={() => onSwitchMode('login')}
           style={styles.linkButton}
         >
-          Inicia sesión
+          {t('auth.login_here')}
         </button>
       </p>
     </form>

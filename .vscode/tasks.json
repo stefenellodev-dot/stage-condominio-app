@@ -4,7 +4,7 @@
     {
       "label": "Deploy to Piave Staging",
       "type": "shell",
-      "command": "git push origin main && rsync -avz --exclude 'node_modules' --exclude '.git' ./ piave:~/stage-platform/apps/stage-auth-app/src/ && ssh piave '~/stage-platform/bin/stage-cli deploy stage-auth-app'",
+      "command": "npm run build && rsync -avz --exclude 'node_modules' --exclude '.git' ./ piave:~/stage-platform/apps/stage-condominio-app/src/ && ssh piave '~/stage-platform/bin/stage-cli deploy stage-condominio-app'",
       "group": {
         "kind": "build",
         "isDefault": true

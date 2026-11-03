@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
 import { supabase } from '../../lib/supabase';
 import { styles } from '../../styles/theme';
+import { useToast } from '../../context/ToastContext';
+import { useTranslation } from '../../context/I18nContext';
 
-export default function VerifyOtpForm({ email, onVerified, onSwitchMode, onError, onMessage }) {
+export default function VerifyOtpForm({ email, onSwitchMode }) {
   const [otpCode, setOtpCode] = useState('');
   const [loading, setLoading] = useState(false);
+  const { showError, showSuccess } = useToast();
+  const { t } = useTranslation();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    onError(null);
-    onMessage(null);
 
-    const { data, error } = await supabase.auth.verifyOtp({
+    const { error } = await supabase.auth.verifyOtp({
       email,
       token: otpCode.trim(),
       type: 'signup',
@@ -20,10 +22,9 @@ export default function VerifyOtpForm({ email, onVerified, onSwitchMode, onError
 
     setLoading(false);
     if (error) {
-      onError(error.message);
+      showError(error.message);
     } else {
-      onMessage('¡Correo verificado con éxito!');
-      onVerified(data.session);
+      showSuccess('¡Correo verificado con éxito!');
     }
   };
 
@@ -40,7 +41,7 @@ export default function VerifyOtpForm({ email, onVerified, onSwitchMode, onError
         style={{ ...styles.input, textAlign: 'center', fontSize: '20px', letterSpacing: '4px' }}
       />
       <button type="submit" disabled={loading} style={styles.button}>
-        {loading ? 'Verificando...' : 'Verificar Código'}
+        {loading ? t('common.loading') : t('auth.verify_btn')}
       </button>
       <p style={styles.toggleText}>
         <button
@@ -48,7 +49,7 @@ export default function VerifyOtpForm({ email, onVerified, onSwitchMode, onError
           onClick={() => onSwitchMode('login')}
           style={styles.linkButton}
         >
-          Volver al inicio de sesión
+          {t('auth.back_to_login')}
         </button>
       </p>
     </form>

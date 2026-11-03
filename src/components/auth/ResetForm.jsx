@@ -1,19 +1,21 @@
 import React, { useState } from 'react';
 import { supabase } from '../../lib/supabase';
 import { styles } from '../../styles/theme';
+import { useToast } from '../../context/ToastContext';
+import { useTranslation } from '../../context/I18nContext';
 
-export default function ResetForm({ email, onPasswordUpdated, onSwitchMode, onError, onMessage }) {
+export default function ResetForm({ email, onSwitchMode }) {
   const [otpCode, setOtpCode] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const { showError, showSuccess } = useToast();
+  const { t } = useTranslation();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    onError(null);
-    onMessage(null);
 
-    const { data, error: otpError } = await supabase.auth.verifyOtp({
+    const { error: otpError } = await supabase.auth.verifyOtp({
       email,
       token: otpCode.trim(),
       type: 'recovery',
@@ -21,7 +23,7 @@ export default function ResetForm({ email, onPasswordUpdated, onSwitchMode, onEr
 
     if (otpError) {
       setLoading(false);
-      onError(otpError.message);
+      showError(otpError.message);
       return;
     }
 
@@ -31,10 +33,9 @@ export default function ResetForm({ email, onPasswordUpdated, onSwitchMode, onEr
 
     setLoading(false);
     if (updateError) {
-      onError(updateError.message);
+      showError(updateError.message);
     } else {
-      onMessage('Contraseña restablecida exitosamente.');
-      onPasswordUpdated(data.session);
+      showSuccess('Contraseña restablecida exitosamente.');
     }
   };
 
@@ -42,7 +43,7 @@ export default function ResetForm({ email, onPasswordUpdated, onSwitchMode, onEr
     <form onSubmit={handleSubmit} style={styles.form}>
       <input
         type="text"
-        placeholder="Código de 6 dígitos (ej. 123456)"
+        placeholder="123456"
         value={otpCode}
         onChange={(e) => setOtpCode(e.target.value)}
         maxLength={6}
@@ -52,14 +53,14 @@ export default function ResetForm({ email, onPasswordUpdated, onSwitchMode, onEr
       />
       <input
         type="password"
-        placeholder="Nueva contraseña (mínimo 6 caracteres)"
+        placeholder={t('auth.new_password_placeholder')}
         value={newPassword}
         onChange={(e) => setNewPassword(e.target.value)}
         required
         style={styles.input}
       />
       <button type="submit" disabled={loading} style={styles.button}>
-        {loading ? 'Guardando...' : 'Guardar y Acceder'}
+        {loading ? t('common.loading') : t('auth.save_access_btn')}
       </button>
       <p style={styles.toggleText}>
         <button
@@ -67,7 +68,7 @@ export default function ResetForm({ email, onPasswordUpdated, onSwitchMode, onEr
           onClick={() => onSwitchMode('login')}
           style={styles.linkButton}
         >
-          Cancelar
+          {t('common.cancel')}
         </button>
       </p>
     </form>

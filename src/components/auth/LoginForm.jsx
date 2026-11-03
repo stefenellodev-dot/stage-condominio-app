@@ -1,25 +1,27 @@
 import React, { useState } from 'react';
 import { supabase } from '../../lib/supabase';
 import { styles } from '../../styles/theme';
+import { useToast } from '../../context/ToastContext';
+import { useTranslation } from '../../context/I18nContext';
 
-export default function LoginForm({ onLoginSuccess, onSwitchMode, onError, onMessage }) {
+export default function LoginForm({ onSwitchMode }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const { showError, showSuccess } = useToast();
+  const { t } = useTranslation();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    onError(null);
-    onMessage(null);
 
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
     setLoading(false);
 
     if (error) {
-      onError(error.message);
+      showError(error.message);
     } else {
-      onLoginSuccess(data.session);
+      showSuccess(t('auth.login_btn') + ' OK');
     }
   };
 
@@ -27,7 +29,7 @@ export default function LoginForm({ onLoginSuccess, onSwitchMode, onError, onMes
     <form onSubmit={handleSubmit} style={styles.form}>
       <input
         type="email"
-        placeholder="correo@ejemplo.com"
+        placeholder={t('auth.email_placeholder')}
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         required
@@ -35,7 +37,7 @@ export default function LoginForm({ onLoginSuccess, onSwitchMode, onError, onMes
       />
       <input
         type="password"
-        placeholder="Contraseña"
+        placeholder={t('auth.password_placeholder')}
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         required
@@ -47,20 +49,20 @@ export default function LoginForm({ onLoginSuccess, onSwitchMode, onError, onMes
           onClick={() => onSwitchMode('forgot')}
           style={styles.linkButtonSmall}
         >
-          ¿Olvidaste tu contraseña?
+          {t('auth.forgot_link')}
         </button>
       </div>
       <button type="submit" disabled={loading} style={styles.button}>
-        {loading ? 'Iniciando...' : 'Entrar'}
+        {loading ? t('common.loading') : t('auth.login_btn')}
       </button>
       <p style={styles.toggleText}>
-        ¿No tienes cuenta?{' '}
+        {t('auth.no_account')}{' '}
         <button
           type="button"
           onClick={() => onSwitchMode('signup')}
           style={styles.linkButton}
         >
-          Regístrate aquí
+          {t('auth.register_here')}
         </button>
       </p>
     </form>

@@ -1,46 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
+import AppLayout from '../layout/AppLayout';
 import ProfileSection from './ProfileSection';
 import AdminTable from './AdminTable';
-import { styles } from '../../styles/theme';
+import { businessModules } from '../../config/modules';
 
-export default function Dashboard({ session, profile, onProfileUpdated, onLogout, onError, onMessage }) {
-  const isAdmin = profile?.role === 'admin';
+export default function Dashboard() {
+  const defaultModule = businessModules.find((m) => m.default) || businessModules[0];
+  const [activeTab, setActiveTab] = useState(defaultModule?.id || 'home');
+
+  const currentBusinessModule = businessModules.find((m) => m.id === activeTab);
+  const BusinessComponent = currentBusinessModule?.component;
 
   return (
-    <div style={styles.container}>
-      <div style={isAdmin ? styles.cardWide : styles.card}>
-        <div style={styles.headerRow}>
-          <div>
-            <h2 style={{ color: '#22c55e', margin: '0 0 4px' }}>
-              {isAdmin ? 'Panel de Administración (CRUD)' : 'Panel de Usuario'}
-            </h2>
-            <span style={isAdmin ? styles.badgeAdmin : styles.badgeUser}>
-              ROL: {profile?.role?.toUpperCase() || 'CARGANDO...'}
-            </span>
-          </div>
-          <button onClick={onLogout} style={styles.buttonLogout}>Cerrar Sesión</button>
-        </div>
-
-        <ProfileSection
-          session={session}
-          profile={profile}
-          onProfileUpdated={onProfileUpdated}
-          onError={onError}
-          onMessage={onMessage}
-        />
-
-        {isAdmin ? (
-          <AdminTable
-            currentUserId={session.user.id}
-            onError={onError}
-            onMessage={onMessage}
-          />
-        ) : (
-          <div style={{ marginTop: '16px', color: '#94a3b8', fontSize: '13px' }}>
-            ℹ️ Como usuario regular, las políticas RLS te permiten actualizar tus datos pero no modificar usuarios ajenos.
-          </div>
-        )}
-      </div>
-    </div>
+    <AppLayout activeTab={activeTab} onSelectTab={setActiveTab}>
+      {BusinessComponent && <BusinessComponent />}
+      {activeTab === 'profile' && <ProfileSection />}
+      {activeTab === 'admin_users' && <AdminTable />}
+    </AppLayout>
   );
 }
