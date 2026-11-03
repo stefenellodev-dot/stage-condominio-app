@@ -1,0 +1,20 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Deploy to Piave Staging",
+      "type": "shell",
+      "command": "git push origin main && rsync -avz --exclude 'node_modules' --exclude '.git' ./ piave:~/stage-platform/apps/stage-auth-app/src/ && ssh piave '~/stage-platform/bin/stage-cli deploy stage-auth-app'",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "focus": true
+      },
+      "problemMatcher": []
+    }
+  ]
+}
