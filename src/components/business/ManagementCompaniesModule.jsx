@@ -40,7 +40,7 @@ const isValidEmail = (value) => !value || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(valu
 const isValidDate = (value) => !value || !Number.isNaN(Date.parse(value));
 
 export default function ManagementCompaniesModule() {
-  const { isSuperadmin } = useAuth();
+  const { isSuperadmin, isAdmin } = useAuth();
   const { showSuccess, showError } = useToast();
   const { t } = useTranslation();
 
@@ -472,7 +472,7 @@ export default function ManagementCompaniesModule() {
     page * perPage
   );
 
-  if (!isSuperadmin) {
+  if (!isSuperadmin && !isAdmin) {
     return (
       <div style={{ marginTop: '28px' }}>
         <h3 style={{ margin: '0 0 8px' }}>
