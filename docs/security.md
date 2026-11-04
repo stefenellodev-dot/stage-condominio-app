@@ -34,6 +34,8 @@ Esto significa que un cambio en `profiles.role` surte efecto inmediatamente en l
 
 ## 3. RLS actual
 
+Tablas de negocio implementadas: `management_companies`, `management_company_members` y `condominiums`, todas con RLS y grants mínimos para `authenticated`.
+
 | Tabla | Política | Comando | Roles | Regla | Estado |
 |---|---|---|---|---|---|
 | `public.profiles` | `Lectura de perfiles` | SELECT | `authenticated` | `auth.uid() = id OR is_superadmin()` | Correcto |

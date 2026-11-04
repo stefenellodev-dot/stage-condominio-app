@@ -1,6 +1,6 @@
 # Roadmap y brechas — Condominio App
 
-> **Estado:** actualizado 2026-11-04. Aplicados P0-1, P0-2, P1-1 (perfiles/CORS), P1-2 (puerto), P1-5 y parte de P3-1. P1-4 tiene backup local; off-host pendiente. P0-3 Inbucket sigue abierto temporalmente por pruebas. **Regla:** no producción mientras quede un P0 abierto.
+> **Estado:** actualizado 2026-11-04. Aplicados P0-1, P0-2, P1-1, P1-2, P1-4 (backup local), P1-5 y P1-7 (empresas/condominios/membresías). P0-3 Inbucket sigue abierto temporalmente por pruebas. **Regla:** no producción mientras quede un P0 abierto.
 >
 > Los IDs coinciden con la [auditoría profunda](../auditoria_profunda_condominio_2026-11-03.md).
 
