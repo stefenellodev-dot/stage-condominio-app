@@ -50,6 +50,7 @@ export default function ManagementCompaniesModule() {
   const [regions, setRegions] = useState([]);
   const [communes, setCommunes] = useState([]);
   const [view, setView] = useState('list');
+  const [readOnly, setReadOnly] = useState(false);
   const [editingId, setEditingId] = useState(null);
   const [form, setForm] = useState(emptyForm);
   const [searchTerm, setSearchTerm] = useState('');
@@ -253,12 +254,49 @@ export default function ManagementCompaniesModule() {
 
   const handleNew = () => {
     setEditingId(null);
+    setReadOnly(false);
     setForm(emptyForm);
     setView('form');
   };
 
   const handleEdit = (company) => {
     setEditingId(company.id);
+    setReadOnly(false);
+    setForm({
+      rut: company.rut || '',
+      legalName: company.legal_name || '',
+      fantasyName: company.fantasy_name || '',
+      businessLine: company.business_line || '',
+      legalRepName: company.legal_rep_name || '',
+      legalRepRut: company.legal_rep_rut || '',
+      legalRepEmail: company.legal_rep_email || '',
+      minvuRegistryNumber: company.minvu_registry_number || '',
+      minvuStatus: company.minvu_status || 'pending',
+      minvuRegisteredAt: company.minvu_registered_at || '',
+      hasGuaranteeInsurance: Boolean(company.has_guarantee_insurance),
+      email: company.email || '',
+      phone: company.phone || '',
+      emergencyPhone: company.emergency_phone || '',
+      website: company.website || '',
+      street: company.street || '',
+      streetNumber: company.street_number || '',
+      deptOrUnit: company.dept_or_unit || '',
+      regionId: company.region_id ? String(company.region_id) : '',
+      communeId: company.commune_id ? String(company.commune_id) : '',
+      region: company.region || '',
+      commune: company.commune || '',
+      bankName: company.bank_name || '',
+      accountType: company.account_type || '',
+      accountNumber: company.account_number || '',
+      bankRecipientRut: company.bank_recipient_rut || '',
+      status: company.status || 'active',
+    });
+    setView('form');
+  };
+
+  const handleView = (company) => {
+    setEditingId(company.id);
+    setReadOnly(true);
     setForm({
       rut: company.rut || '',
       legalName: company.legal_name || '',
@@ -293,6 +331,7 @@ export default function ManagementCompaniesModule() {
 
   const handleBack = () => {
     setEditingId(null);
+    setReadOnly(false);
     setForm(emptyForm);
     setView('list');
   };
@@ -491,7 +530,9 @@ export default function ManagementCompaniesModule() {
         >
           <div>
             <h3 style={{ margin: '0 0 4px' }}>
-              {editingId
+              {readOnly
+                ? t('management_companies.view_title')
+                : editingId
                 ? t('management_companies.edit_title')
                 : t('management_companies.new_title')}
             </h3>
@@ -516,6 +557,8 @@ export default function ManagementCompaniesModule() {
                   name="legalName"
                   value={form.legalName}
                   onChange={handleChange}
+                  disabled={readOnly}
+
                   style={styles.input}
                 />
               </div>
@@ -525,6 +568,8 @@ export default function ManagementCompaniesModule() {
                   name="fantasyName"
                   value={form.fantasyName}
                   onChange={handleChange}
+                  disabled={readOnly}
+
                   style={styles.input}
                 />
               </div>
@@ -534,6 +579,8 @@ export default function ManagementCompaniesModule() {
                   name="rut"
                   value={form.rut}
                   onChange={handleChange}
+                  disabled={readOnly}
+
                   style={styles.input}
                 />
               </div>
@@ -543,6 +590,8 @@ export default function ManagementCompaniesModule() {
                   name="businessLine"
                   value={form.businessLine}
                   onChange={handleChange}
+                  disabled={readOnly}
+
                   style={styles.input}
                 />
               </div>
@@ -560,6 +609,8 @@ export default function ManagementCompaniesModule() {
                   name="legalRepName"
                   value={form.legalRepName}
                   onChange={handleChange}
+                  disabled={readOnly}
+
                   style={styles.input}
                 />
               </div>
@@ -569,6 +620,8 @@ export default function ManagementCompaniesModule() {
                   name="legalRepRut"
                   value={form.legalRepRut}
                   onChange={handleChange}
+                  disabled={readOnly}
+
                   style={styles.input}
                 />
               </div>
@@ -579,6 +632,8 @@ export default function ManagementCompaniesModule() {
                   name="legalRepEmail"
                   value={form.legalRepEmail}
                   onChange={handleChange}
+                  disabled={readOnly}
+
                   style={styles.input}
                 />
               </div>
@@ -596,6 +651,8 @@ export default function ManagementCompaniesModule() {
                   name="minvuRegistryNumber"
                   value={form.minvuRegistryNumber}
                   onChange={handleChange}
+                  disabled={readOnly}
+
                   style={styles.input}
                 />
               </div>
@@ -605,6 +662,8 @@ export default function ManagementCompaniesModule() {
                   name="minvuStatus"
                   value={form.minvuStatus}
                   onChange={handleChange}
+                  disabled={readOnly}
+
                   style={styles.select}
                 >
                   <option value="pending">{t('management_companies.minvu_pending')}</option>
@@ -620,6 +679,8 @@ export default function ManagementCompaniesModule() {
                   name="minvuRegisteredAt"
                   value={form.minvuRegisteredAt}
                   onChange={handleChange}
+                  disabled={readOnly}
+
                   style={styles.input}
                 />
               </div>
@@ -630,6 +691,7 @@ export default function ManagementCompaniesModule() {
                     name="hasGuaranteeInsurance"
                     checked={form.hasGuaranteeInsurance}
                     onChange={handleChange}
+                    disabled={readOnly}
                   />
                   {t('management_companies.has_guarantee')}
                 </label>
@@ -649,6 +711,8 @@ export default function ManagementCompaniesModule() {
                   name="email"
                   value={form.email}
                   onChange={handleChange}
+                  disabled={readOnly}
+
                   style={styles.input}
                 />
               </div>
@@ -658,6 +722,8 @@ export default function ManagementCompaniesModule() {
                   name="phone"
                   value={form.phone}
                   onChange={handleChange}
+                  disabled={readOnly}
+
                   style={styles.input}
                 />
               </div>
@@ -667,6 +733,8 @@ export default function ManagementCompaniesModule() {
                   name="emergencyPhone"
                   value={form.emergencyPhone}
                   onChange={handleChange}
+                  disabled={readOnly}
+
                   style={styles.input}
                 />
               </div>
@@ -677,6 +745,8 @@ export default function ManagementCompaniesModule() {
                   name="website"
                   value={form.website}
                   onChange={handleChange}
+                  disabled={readOnly}
+
                   style={styles.input}
                 />
               </div>
@@ -694,6 +764,8 @@ export default function ManagementCompaniesModule() {
                   name="street"
                   value={form.street}
                   onChange={handleChange}
+                  disabled={readOnly}
+
                   style={styles.input}
                 />
               </div>
@@ -703,6 +775,8 @@ export default function ManagementCompaniesModule() {
                   name="streetNumber"
                   value={form.streetNumber}
                   onChange={handleChange}
+                  disabled={readOnly}
+
                   style={styles.input}
                 />
               </div>
@@ -712,6 +786,8 @@ export default function ManagementCompaniesModule() {
                   name="deptOrUnit"
                   value={form.deptOrUnit}
                   onChange={handleChange}
+                  disabled={readOnly}
+
                   style={styles.input}
                 />
               </div>
@@ -721,6 +797,8 @@ export default function ManagementCompaniesModule() {
                   name="regionId"
                   value={form.regionId}
                   onChange={handleChange}
+                  disabled={readOnly}
+
                   style={styles.select}
                 >
                   <option value="">{t('profile.select_region')}</option>
@@ -737,8 +815,8 @@ export default function ManagementCompaniesModule() {
                   name="communeId"
                   value={form.communeId}
                   onChange={handleChange}
+                  disabled={readOnly || !form.regionId}
                   style={styles.select}
-                  disabled={!form.regionId}
                 >
                   <option value="">{t('profile.select_commune')}</option>
                   {communes.map((commune) => (
@@ -762,6 +840,8 @@ export default function ManagementCompaniesModule() {
                   name="bankName"
                   value={form.bankName}
                   onChange={handleChange}
+                  disabled={readOnly}
+
                   style={styles.input}
                 />
               </div>
@@ -771,6 +851,8 @@ export default function ManagementCompaniesModule() {
                   name="accountType"
                   value={form.accountType}
                   onChange={handleChange}
+                  disabled={readOnly}
+
                   style={styles.select}
                 >
                   <option value="">{t('management_companies.select_option')}</option>
@@ -785,6 +867,8 @@ export default function ManagementCompaniesModule() {
                   name="accountNumber"
                   value={form.accountNumber}
                   onChange={handleChange}
+                  disabled={readOnly}
+
                   style={styles.input}
                 />
               </div>
@@ -794,6 +878,8 @@ export default function ManagementCompaniesModule() {
                   name="bankRecipientRut"
                   value={form.bankRecipientRut}
                   onChange={handleChange}
+                  disabled={readOnly}
+
                   style={styles.input}
                 />
               </div>
@@ -807,6 +893,8 @@ export default function ManagementCompaniesModule() {
                 name="status"
                 value={form.status}
                 onChange={handleChange}
+                disabled={readOnly}
+
                 style={styles.select}
               >
                 <option value="active">{t('management_companies.active_status')}</option>
@@ -816,11 +904,17 @@ export default function ManagementCompaniesModule() {
             </div>
           </div>
 
-          <button type="submit" disabled={saving} style={styles.button}>
-            {saving
-              ? t('management_companies.saving')
-              : t('management_companies.save')}
-          </button>
+          {!readOnly ? (
+            <button type="submit" disabled={saving} style={styles.button}>
+              {saving
+                ? t('management_companies.saving')
+                : t('management_companies.save')}
+            </button>
+          ) : (
+            <div style={{ color: 'var(--text-secondary)', fontSize: '13px', marginTop: '8px' }}>
+              {t('management_companies.read_only_notice')}
+            </div>
+          )}
         </form>
       </div>
     );
@@ -926,6 +1020,8 @@ export default function ManagementCompaniesModule() {
               type="text"
               value={memberSearch}
               onChange={(event) => setMemberSearch(event.target.value)}
+              disabled={readOnly}
+
               style={styles.input}
               placeholder={t('management_companies.members_search_placeholder')}
             />
@@ -1037,11 +1133,15 @@ export default function ManagementCompaniesModule() {
           placeholder={t('management_companies.search_placeholder')}
           value={searchTerm}
           onChange={(event) => setSearchTerm(event.target.value)}
+          disabled={readOnly}
+
           style={styles.input}
         />
         <select
           value={filterStatus}
           onChange={(event) => setFilterStatus(event.target.value)}
+          disabled={readOnly}
+
           style={styles.select}
         >
           <option value="all">{t('management_companies.all_statuses')}</option>
@@ -1052,6 +1152,8 @@ export default function ManagementCompaniesModule() {
         <select
           value={filterMinvu}
           onChange={(event) => setFilterMinvu(event.target.value)}
+          disabled={readOnly}
+
           style={styles.select}
         >
           <option value="all">{t('management_companies.all_minvu')}</option>
@@ -1126,6 +1228,12 @@ export default function ManagementCompaniesModule() {
                   </td>
                   <td style={{ ...styles.td, textAlign: 'center' }}>
                     <div style={{ display: 'flex', gap: '6px', justifyContent: 'center', flexWrap: 'wrap' }}>
+                      <button
+                        onClick={() => handleView(company)}
+                        style={styles.buttonAction}
+                      >
+                        {t('management_companies.view_button')}
+                      </button>
                       <button
                         onClick={() => openMembers(company)}
                         style={styles.buttonAction}

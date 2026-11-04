@@ -35,7 +35,8 @@ const isValidEmail = (value) => !value || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(valu
 const isValidDate = (value) => !value || !Number.isNaN(Date.parse(value));
 
 export default function CondominiumsModule() {
-  const { isSuperadmin } = useAuth();
+  const { isSuperadmin, isAdmin } = useAuth();
+  const canManageCondominiums = isSuperadmin || isAdmin;
   const { showSuccess, showError } = useToast();
   const { t } = useTranslation();
 
@@ -46,6 +47,7 @@ export default function CondominiumsModule() {
   const [regions, setRegions] = useState([]);
   const [communes, setCommunes] = useState([]);
   const [view, setView] = useState('list');
+  const [readOnly, setReadOnly] = useState(false);
   const [editingId, setEditingId] = useState(null);
   const [form, setForm] = useState(emptyForm);
   const [searchTerm, setSearchTerm] = useState('');
@@ -276,6 +278,7 @@ export default function CondominiumsModule() {
 
   const handleNew = () => {
     setEditingId(null);
+    setReadOnly(false);
     const nextForm = { ...emptyForm };
     if (!isSuperadmin && companies.length === 1) {
       nextForm.managementCompanyId = companies[0].id;
@@ -286,6 +289,37 @@ export default function CondominiumsModule() {
 
   const handleEdit = (condominium) => {
     setEditingId(condominium.id);
+    setReadOnly(false);
+    setForm({
+      managementCompanyId: condominium.management_company_id ? String(condominium.management_company_id) : '',
+      name: condominium.name || '',
+      rut: condominium.rut || '',
+      siiPropertyRole: condominium.sii_property_role || '',
+      type: condominium.type || 'tipo_a',
+      destination: condominium.destination || 'habitacional',
+      totalUnits: condominium.total_units ? String(condominium.total_units) : '1',
+      domCertificateNumber: condominium.dom_certificate_number || '',
+      domApprovalDate: condominium.dom_approval_date || '',
+      reserveFundPercentage: condominium.reserve_fund_percentage ? String(condominium.reserve_fund_percentage) : '5.00',
+      street: condominium.street || '',
+      streetNumber: condominium.street_number || '',
+      regionId: condominium.region_id ? String(condominium.region_id) : '',
+      communeId: condominium.commune_id ? String(condominium.commune_id) : '',
+      region: condominium.region || '',
+      commune: condominium.commune || '',
+      bankName: condominium.bank_name || '',
+      accountType: condominium.account_type || 'corriente',
+      accountNumber: condominium.account_number || '',
+      conciergePhone: condominium.concierge_phone || '',
+      administrationEmail: condominium.administration_email || '',
+      status: condominium.status || 'active',
+    });
+    setView('form');
+  };
+
+  const handleView = (condominium) => {
+    setEditingId(condominium.id);
+    setReadOnly(true);
     setForm({
       managementCompanyId: condominium.management_company_id ? String(condominium.management_company_id) : '',
       name: condominium.name || '',
@@ -315,6 +349,7 @@ export default function CondominiumsModule() {
 
   const handleBack = () => {
     setEditingId(null);
+    setReadOnly(false);
     setForm(emptyForm);
     setView('list');
   };
@@ -402,7 +437,9 @@ export default function CondominiumsModule() {
         >
           <div>
             <h3 style={{ margin: '0 0 4px' }}>
-              {editingId
+              {readOnly
+                ? t('condominiums.view_title')
+                : editingId
                 ? t('condominiums.edit_title')
                 : t('condominiums.new_title')}
             </h3>
@@ -427,6 +464,8 @@ export default function CondominiumsModule() {
                   name="name"
                   value={form.name}
                   onChange={handleChange}
+                  disabled={readOnly}
+
                   style={styles.input}
                 />
               </div>
@@ -436,6 +475,8 @@ export default function CondominiumsModule() {
                   name="rut"
                   value={form.rut}
                   onChange={handleChange}
+                  disabled={readOnly}
+
                   style={styles.input}
                 />
               </div>
@@ -445,6 +486,8 @@ export default function CondominiumsModule() {
                   name="siiPropertyRole"
                   value={form.siiPropertyRole}
                   onChange={handleChange}
+                  disabled={readOnly}
+
                   style={styles.input}
                 />
               </div>
@@ -454,6 +497,8 @@ export default function CondominiumsModule() {
                   name="type"
                   value={form.type}
                   onChange={handleChange}
+                  disabled={readOnly}
+
                   style={styles.select}
                 >
                   <option value="tipo_a">{t('condominiums.type_a')}</option>
@@ -466,6 +511,8 @@ export default function CondominiumsModule() {
                   name="destination"
                   value={form.destination}
                   onChange={handleChange}
+                  disabled={readOnly}
+
                   style={styles.select}
                 >
                   <option value="habitacional">{t('condominiums.destination_habitacional')}</option>
@@ -481,6 +528,8 @@ export default function CondominiumsModule() {
                   name="totalUnits"
                   value={form.totalUnits}
                   onChange={handleChange}
+                  disabled={readOnly}
+
                   style={styles.input}
                 />
               </div>
@@ -498,6 +547,8 @@ export default function CondominiumsModule() {
                   name="managementCompanyId"
                   value={form.managementCompanyId}
                   onChange={handleChange}
+                  disabled={readOnly}
+
                   style={styles.select}
                 >
                   <option value="">{t('condominiums.select_company')}</option>
@@ -514,6 +565,8 @@ export default function CondominiumsModule() {
                 <input
                   value={getCompanyName(form.managementCompanyId)}
                   readOnly
+                  disabled={readOnly}
+
                   style={styles.input}
                 />
               </div>
@@ -531,6 +584,8 @@ export default function CondominiumsModule() {
                   name="domCertificateNumber"
                   value={form.domCertificateNumber}
                   onChange={handleChange}
+                  disabled={readOnly}
+
                   style={styles.input}
                 />
               </div>
@@ -541,6 +596,8 @@ export default function CondominiumsModule() {
                   name="domApprovalDate"
                   value={form.domApprovalDate}
                   onChange={handleChange}
+                  disabled={readOnly}
+
                   style={styles.input}
                 />
               </div>
@@ -554,6 +611,8 @@ export default function CondominiumsModule() {
                   name="reserveFundPercentage"
                   value={form.reserveFundPercentage}
                   onChange={handleChange}
+                  disabled={readOnly}
+
                   style={styles.input}
                 />
               </div>
@@ -571,6 +630,8 @@ export default function CondominiumsModule() {
                   name="street"
                   value={form.street}
                   onChange={handleChange}
+                  disabled={readOnly}
+
                   style={styles.input}
                 />
               </div>
@@ -580,6 +641,8 @@ export default function CondominiumsModule() {
                   name="streetNumber"
                   value={form.streetNumber}
                   onChange={handleChange}
+                  disabled={readOnly}
+
                   style={styles.input}
                 />
               </div>
@@ -589,6 +652,8 @@ export default function CondominiumsModule() {
                   name="regionId"
                   value={form.regionId}
                   onChange={handleChange}
+                  disabled={readOnly}
+
                   style={styles.select}
                 >
                   <option value="">{t('profile.select_region')}</option>
@@ -605,8 +670,8 @@ export default function CondominiumsModule() {
                   name="communeId"
                   value={form.communeId}
                   onChange={handleChange}
+                  disabled={readOnly || !form.regionId}
                   style={styles.select}
-                  disabled={!form.regionId}
                 >
                   <option value="">{t('profile.select_commune')}</option>
                   {communes.map((commune) => (
@@ -630,6 +695,8 @@ export default function CondominiumsModule() {
                   name="bankName"
                   value={form.bankName}
                   onChange={handleChange}
+                  disabled={readOnly}
+
                   style={styles.input}
                 />
               </div>
@@ -639,6 +706,8 @@ export default function CondominiumsModule() {
                   name="accountType"
                   value={form.accountType}
                   onChange={handleChange}
+                  disabled={readOnly}
+
                   style={styles.select}
                 >
                   <option value="corriente">{t('condominiums.account_corriente')}</option>
@@ -651,6 +720,8 @@ export default function CondominiumsModule() {
                   name="accountNumber"
                   value={form.accountNumber}
                   onChange={handleChange}
+                  disabled={readOnly}
+
                   style={styles.input}
                 />
               </div>
@@ -668,6 +739,8 @@ export default function CondominiumsModule() {
                   name="conciergePhone"
                   value={form.conciergePhone}
                   onChange={handleChange}
+                  disabled={readOnly}
+
                   style={styles.input}
                 />
               </div>
@@ -678,6 +751,8 @@ export default function CondominiumsModule() {
                   name="administrationEmail"
                   value={form.administrationEmail}
                   onChange={handleChange}
+                  disabled={readOnly}
+
                   style={styles.input}
                 />
               </div>
@@ -691,6 +766,8 @@ export default function CondominiumsModule() {
                 name="status"
                 value={form.status}
                 onChange={handleChange}
+                disabled={readOnly}
+
                 style={styles.select}
               >
                 <option value="active">{t('condominiums.active_status')}</option>
@@ -699,11 +776,17 @@ export default function CondominiumsModule() {
             </div>
           </div>
 
-          <button type="submit" disabled={saving} style={styles.button}>
-            {saving
-              ? t('condominiums.saving')
-              : t('condominiums.save')}
-          </button>
+          {!readOnly ? (
+            <button type="submit" disabled={saving} style={styles.button}>
+              {saving
+                ? t('condominiums.saving')
+                : t('condominiums.save')}
+            </button>
+          ) : (
+            <div style={{ color: 'var(--text-secondary)', fontSize: '13px', marginTop: '8px' }}>
+              {t('condominiums.read_only_notice')}
+            </div>
+          )}
         </form>
       </div>
     );
@@ -729,9 +812,11 @@ export default function CondominiumsModule() {
             {t('condominiums.subtitle')}
           </p>
         </div>
-        <button onClick={handleNew} style={styles.buttonAction}>
-          {t('condominiums.new_button')}
-        </button>
+        {canManageCondominiums ? (
+          <button onClick={handleNew} style={styles.buttonAction}>
+            {t('condominiums.new_button')}
+          </button>
+        ) : null}
       </div>
 
       <div
@@ -747,11 +832,15 @@ export default function CondominiumsModule() {
           placeholder={t('condominiums.search_placeholder')}
           value={searchTerm}
           onChange={(event) => setSearchTerm(event.target.value)}
+          disabled={readOnly}
+
           style={styles.input}
         />
         <select
           value={filterStatus}
           onChange={(event) => setFilterStatus(event.target.value)}
+          disabled={readOnly}
+
           style={styles.select}
         >
           <option value="all">{t('condominiums.all_statuses')}</option>
@@ -761,6 +850,8 @@ export default function CondominiumsModule() {
         <select
           value={filterType}
           onChange={(event) => setFilterType(event.target.value)}
+          disabled={readOnly}
+
           style={styles.select}
         >
           <option value="all">{t('condominiums.all_types')}</option>
@@ -770,6 +861,8 @@ export default function CondominiumsModule() {
         <select
           value={filterDestination}
           onChange={(event) => setFilterDestination(event.target.value)}
+          disabled={readOnly}
+
           style={styles.select}
         >
           <option value="all">{t('condominiums.all_destinations')}</option>
@@ -784,6 +877,8 @@ export default function CondominiumsModule() {
           <select
             value={filterCompany}
             onChange={(event) => setFilterCompany(event.target.value)}
+            disabled={readOnly}
+
             style={styles.select}
           >
             <option value="all">{t('condominiums.all_companies')}</option>
@@ -865,17 +960,27 @@ export default function CondominiumsModule() {
                   <td style={{ ...styles.td, textAlign: 'center' }}>
                     <div style={{ display: 'flex', gap: '6px', justifyContent: 'center', flexWrap: 'wrap' }}>
                       <button
-                        onClick={() => handleEdit(condominium)}
+                        onClick={() => handleView(condominium)}
                         style={styles.buttonAction}
                       >
-                        {t('condominiums.edit_button')}
+                        {t('condominiums.view_button')}
                       </button>
-                      <button
-                        onClick={() => handleDelete(condominium.id)}
-                        style={styles.btnDelete}
-                      >
-                        {t('common.delete')}
-                      </button>
+                      {canManageCondominiums ? (
+                        <>
+                          <button
+                            onClick={() => handleEdit(condominium)}
+                            style={styles.buttonAction}
+                          >
+                            {t('condominiums.edit_button')}
+                          </button>
+                          <button
+                            onClick={() => handleDelete(condominium.id)}
+                            style={styles.btnDelete}
+                          >
+                            {t('common.delete')}
+                          </button>
+                        </>
+                      ) : null}
                     </div>
                   </td>
                 </tr>
