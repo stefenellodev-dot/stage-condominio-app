@@ -6,6 +6,6 @@ export const businessModules = [
     labelKey: 'nav.management_companies',
     icon: '🏢',
     component: ManagementCompaniesModule,
-    roles: ['superadmin'],
+    roles: ['superadmin', 'admin'],
   },
 ];

@@ -382,7 +382,7 @@ export default function ManagementCompaniesModule() {
     setMemberSearch('');
     setSelectedUserId('');
     loadMembers(company.id);
-    loadCandidateUsers();
+    if (isSuperadmin) loadCandidateUsers();
   };
 
   const closeMembers = () => {
@@ -924,6 +924,7 @@ export default function ManagementCompaniesModule() {
           </table>
         </div>
 
+        {isSuperadmin ? (
         <section style={{ ...styles.sectionBox, marginTop: '18px' }}>
           <h4 style={{ margin: '0 0 12px', color: 'var(--primary)' }}>
             {t('management_companies.members_assign_title')}
@@ -1000,6 +1001,7 @@ export default function ManagementCompaniesModule() {
             </div>
           )}
         </section>
+        ) : null}
       </div>
     );
   }
@@ -1024,9 +1026,11 @@ export default function ManagementCompaniesModule() {
             {t('management_companies.subtitle')}
           </p>
         </div>
-        <button onClick={handleNew} style={styles.buttonAction}>
-          {t('management_companies.new_button')}
-        </button>
+        {isSuperadmin ? (
+          <button onClick={handleNew} style={styles.buttonAction}>
+            {t('management_companies.new_button')}
+          </button>
+        ) : null}
       </div>
 
       <div
@@ -1137,18 +1141,22 @@ export default function ManagementCompaniesModule() {
                       >
                         {t('management_companies.members_button')}
                       </button>
-                      <button
-                        onClick={() => handleEdit(company)}
-                        style={styles.buttonAction}
-                      >
-                        {t('management_companies.edit_button')}
-                      </button>
-                      <button
-                        onClick={() => handleDelete(company.id)}
-                        style={styles.btnDelete}
-                      >
-                        {t('common.delete')}
-                      </button>
+                      {isSuperadmin ? (
+                        <>
+                          <button
+                            onClick={() => handleEdit(company)}
+                            style={styles.buttonAction}
+                          >
+                            {t('management_companies.edit_button')}
+                          </button>
+                          <button
+                            onClick={() => handleDelete(company.id)}
+                            style={styles.btnDelete}
+                          >
+                            {t('common.delete')}
+                          </button>
+                        </>
+                      ) : null}
                     </div>
                   </td>
                 </tr>
