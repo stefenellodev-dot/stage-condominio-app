@@ -1,4 +1,5 @@
 import ManagementCompaniesModule from '../components/business/ManagementCompaniesModule';
+import CondominiumsModule from '../components/business/CondominiumsModule';
 
 export const businessModules = [
   {
@@ -6,6 +7,13 @@ export const businessModules = [
     labelKey: 'nav.management_companies',
     icon: '🏢',
     component: ManagementCompaniesModule,
+    roles: ['superadmin', 'admin'],
+  },
+  {
+    id: 'condominiums',
+    labelKey: 'nav.condominiums',
+    icon: '🏗️',
+    component: CondominiumsModule,
     roles: ['superadmin', 'admin'],
   },
 ];

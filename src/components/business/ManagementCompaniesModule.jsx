@@ -473,16 +473,7 @@ export default function ManagementCompaniesModule() {
   );
 
   if (!isSuperadmin && !isAdmin) {
-    return (
-      <div style={{ marginTop: '28px' }}>
-        <h3 style={{ margin: '0 0 8px' }}>
-          {t('management_companies.title')}
-        </h3>
-        <p style={{ color: 'var(--text-secondary)', margin: 0 }}>
-          {t('management_companies.no_companies')}
-        </p>
-      </div>
-    );
+    return null;
   }
 
   if (view === 'form') {
