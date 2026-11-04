@@ -7,6 +7,7 @@ export function AuthProvider({ children }) {
   const [session, setSession] = useState(null);
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isPasswordRecovery, setIsPasswordRecovery] = useState(false);
 
   const fetchProfile = async (userId) => {
     if (!userId) {
@@ -25,6 +26,9 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
+      if (session && window.location.hash.includes('type=recovery')) {
+        setIsPasswordRecovery(true);
+      }
       if (session) {
         fetchProfile(session.user.id).finally(() => setLoading(false));
       } else {
@@ -32,8 +36,14 @@ export function AuthProvider({ children }) {
       }
     });
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       setSession(session);
+      if (event === 'PASSWORD_RECOVERY') {
+        setIsPasswordRecovery(true);
+      }
+      if (event === 'SIGNED_OUT') {
+        setIsPasswordRecovery(false);
+      }
       if (session) {
         fetchProfile(session.user.id);
       } else {
@@ -54,6 +64,7 @@ export function AuthProvider({ children }) {
     await supabase.auth.signOut();
     setSession(null);
     setProfile(null);
+    setIsPasswordRecovery(false);
   };
 
   const value = {
@@ -62,7 +73,9 @@ export function AuthProvider({ children }) {
     profile,
     isSuperadmin: profile?.role === 'superadmin',
     isAdmin: profile?.role === 'admin' || profile?.role === 'superadmin',
+    isPasswordRecovery,
     loading,
+    setIsPasswordRecovery,
     refreshProfile,
     signOut,
   };

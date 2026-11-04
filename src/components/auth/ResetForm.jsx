@@ -3,12 +3,14 @@ import { supabase } from '../../lib/supabase';
 import { styles } from '../../styles/theme';
 import { useToast } from '../../context/ToastContext';
 import { useTranslation } from '../../context/I18nContext';
+import { useAuth } from '../../context/AuthContext';
 
 export default function ResetForm({ email, onSwitchMode }) {
   const [otpCode, setOtpCode] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const { showError, showSuccess } = useToast();
+  const { signOut } = useAuth();
   const { t } = useTranslation();
 
   const handleSubmit = async (e) => {
@@ -36,6 +38,8 @@ export default function ResetForm({ email, onSwitchMode }) {
       showError(updateError.message);
     } else {
       showSuccess('Contraseña restablecida exitosamente.');
+      await signOut();
+      onSwitchMode('login');
     }
   };
 

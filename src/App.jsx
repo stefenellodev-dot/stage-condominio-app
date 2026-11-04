@@ -11,7 +11,7 @@ import ResetForm from './components/auth/ResetForm';
 import Dashboard from './components/dashboard/Dashboard';
 
 function MainApp() {
-  const { session, loading } = useAuth();
+  const { session, loading, isPasswordRecovery, setIsPasswordRecovery } = useAuth();
   const { lang, toggleLang, t } = useTranslation();
   const [mode, setMode] = useState('login');
   const [activeEmail, setActiveEmail] = useState('');
@@ -21,6 +21,18 @@ function MainApp() {
       <div style={styles.container}>
         <div style={{ color: 'var(--text-secondary)' }}>{t('common.loading')}</div>
       </div>
+    );
+  }
+
+  if (isPasswordRecovery) {
+    return (
+      <ResetForm
+        email={activeEmail || session?.user?.email || ''}
+        onSwitchMode={(nextMode) => {
+          if (nextMode === 'login') setIsPasswordRecovery(false);
+          setMode(nextMode);
+        }}
+      />
     );
   }
 
