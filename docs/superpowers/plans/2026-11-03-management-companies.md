@@ -1,0 +1,1324 @@
+# Módulo de Empresas Administradoras — Plan de implementación
+
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+
+**Goal:** Agregar un módulo de negocio para que `superadmin` administre empresas administradoras de condominios, con CRUD completo, RLS y UI coherente con `SuperAdminTabla` y `ProfileSection`.
+
+**Architecture:** La autorización real vive en PostgreSQL mediante RLS y `public.is_superadmin()`. El frontend solo oculta acciones y muestra formularios. La lista sigue el patrón de `SuperAdminTabla`; la alta, edición y detalle usan una vista completa con secciones estilo `ProfileSection`.
+
+**Tech Stack:** React 18, Vite 5, Supabase self-hosted, PostgreSQL/RLS, JavaScript ESM, i18n propio.
+
+---
+
+## File structure
+
+- Create: `supabase/migrations/20261103_000002_management_companies.sql`
+- Create: `src/components/business/ManagementCompaniesModule.jsx`
+- Modify: `src/config/modules.js`
+- Modify: `src/components/layout/AppLayout.jsx`
+- Modify: `src/locales/es.js`
+- Modify: `src/locales/en.js`
+- Verify: `npm run build`, RLS manual y despliegue.
+
+## Task 1: Migración de base de datos
+
+**Files:**
+- Create: `supabase/migrations/20261103_000002_management_companies.sql`
+
+- [ ] **Step 1: Crear la migración**
+
+```sql
+BEGIN;
+
+CREATE TABLE IF NOT EXISTS public.management_companies (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+
+  rut VARCHAR(12) NOT NULL UNIQUE,
+  legal_name TEXT NOT NULL,
+  fantasy_name TEXT,
+  business_line TEXT,
+
+  legal_rep_name TEXT NOT NULL,
+  legal_rep_rut VARCHAR(12) NOT NULL,
+  legal_rep_email TEXT,
+
+  minvu_registry_number TEXT UNIQUE,
+  minvu_status TEXT NOT NULL DEFAULT 'pending'
+    CHECK (minvu_status IN ('active', 'pending', 'suspended', 'expired')),
+  minvu_registered_at DATE,
+  has_guarantee_insurance BOOLEAN NOT NULL DEFAULT false,
+
+  email TEXT NOT NULL,
+  phone TEXT,
+  emergency_phone TEXT,
+  website TEXT,
+
+  street TEXT,
+  street_number TEXT,
+  dept_or_unit TEXT,
+  region_id INTEGER REFERENCES public.regions(id) ON DELETE SET NULL,
+  commune_id INTEGER REFERENCES public.communes(id) ON DELETE SET NULL,
+  region TEXT,
+  commune TEXT,
+
+  bank_name TEXT,
+  account_type TEXT CHECK (account_type IN ('corriente', 'vista', 'ahorro')),
+  account_number TEXT,
+  bank_recipient_rut VARCHAR(12),
+
+  status TEXT NOT NULL DEFAULT 'active'
+    CHECK (status IN ('active', 'inactive', 'suspended')),
+  created_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc', now()),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc', now()),
+  deleted_at TIMESTAMPTZ
+);
+
+CREATE INDEX IF NOT EXISTS idx_management_companies_commune_id
+  ON public.management_companies(commune_id);
+
+CREATE INDEX IF NOT EXISTS idx_management_companies_deleted_at
+  ON public.management_companies(deleted_at);
+
+CREATE OR REPLACE FUNCTION public.set_management_companies_updated_at()
+RETURNS trigger
+LANGUAGE plpgsql
+AS $$
+BEGIN
+  NEW.updated_at = timezone('utc', now());
+  RETURN NEW;
+END;
+$$;
+
+DROP TRIGGER IF EXISTS tr_management_companies_updated_at
+  ON public.management_companies;
+
+CREATE TRIGGER tr_management_companies_updated_at
+  BEFORE UPDATE ON public.management_companies
+  FOR EACH ROW
+  EXECUTE FUNCTION public.set_management_companies_updated_at();
+
+ALTER TABLE public.management_companies ENABLE ROW LEVEL SECURITY;
+
+REVOKE ALL ON TABLE public.management_companies FROM anon;
+REVOKE ALL ON TABLE public.management_companies FROM authenticated;
+
+GRANT SELECT, INSERT, UPDATE ON TABLE public.management_companies
+  TO authenticated;
+GRANT ALL ON TABLE public.management_companies TO service_role;
+
+DROP POLICY IF EXISTS "Lectura administradoras" ON public.management_companies;
+DROP POLICY IF EXISTS "Alta administradoras" ON public.management_companies;
+DROP POLICY IF EXISTS "Edición administradoras" ON public.management_companies;
+
+CREATE POLICY "Lectura administradoras"
+  ON public.management_companies
+  FOR SELECT
+  TO authenticated
+  USING (deleted_at IS NULL AND public.is_superadmin());
+
+CREATE POLICY "Alta administradoras"
+  ON public.management_companies
+  FOR INSERT
+  TO authenticated
+  WITH CHECK (public.is_superadmin());
+
+CREATE POLICY "Edición administradoras"
+  ON public.management_companies
+  FOR UPDATE
+  TO authenticated
+  USING (public.is_superadmin())
+  WITH CHECK (public.is_superadmin());
+
+COMMIT;
+```
+
+- [ ] **Step 2: Verificar sintaxis SQL local**
+
+Run: `python3 - <<'PY'\nfrom pathlib import Path\np=Path('supabase/migrations/20261103_000002_management_companies.sql')\nprint('bytes:', p.stat().st_size)\nPY`
+
+Expected: el archivo existe y tiene contenido.
+
+- [ ] **Step 3: Aplicar la migración en Piave**
+
+Run: `ssh piave "podman exec -i condo-sb-db psql -U postgres -d postgres -v ON_ERROR_STOP=1" < supabase/migrations/20261103_000002_management_companies.sql`
+
+Expected: `CREATE TABLE`, `CREATE INDEX`, `CREATE FUNCTION`, `CREATE TRIGGER`, `ALTER TABLE`, `REVOKE`, `GRANT`, `CREATE POLICY` y `COMMIT`.
+
+- [ ] **Step 4: Verificar tabla, trigger y RLS**
+
+Run: `ssh piave "podman exec condo-sb-db psql -U postgres -d postgres -Atc \\"SELECT 'rls='||relrowsecurity FROM pg_class WHERE relname='management_companies'; SELECT 'trigger='||count(*) FROM pg_trigger WHERE tgname='tr_management_companies_updated_at'; SELECT 'anon='||has_table_privilege('anon','public.management_companies','SELECT'); SELECT 'auth_select='||has_table_privilege('authenticated','public.management_companies','SELECT'); SELECT 'auth_delete='||has_table_privilege('authenticated','public.management_companies','DELETE');\\""`
+
+Expected: `rls=true`, `trigger=1`, `anon=false`, `auth_select=true`, `auth_delete=false`.
+
+## Task 2: Registro del módulo y navegación
+
+**Files:**
+- Modify: `src/config/modules.js`
+- Modify: `src/components/layout/AppLayout.jsx`
+
+- [ ] **Step 1: Registrar el módulo**
+
+Modificar `src/config/modules.js`:
+
+```js
+import InventoryModule from '../components/business/InventoryModule';
+import ManagementCompaniesModule from '../components/business/ManagementCompaniesModule';
+
+export const businessModules = [
+  {
+    id: 'inventory',
+    label: 'Inventario',
+    icon: '📦',
+    component: InventoryModule,
+    roles: ['admin', 'operator'],
+  },
+  {
+    id: 'management_companies',
+    labelKey: 'nav.management_companies',
+    icon: '🏢',
+    component: ManagementCompaniesModule,
+    roles: ['superadmin'],
+  },
+];
+```
+
+- [ ] **Step 2: Ajustar AppLayout para `labelKey`**
+
+En `src/components/layout/AppLayout.jsx`, cambiar:
+
+```js
+const currentModule = availableModules.find((m) => m.id === activeTab);
+let activeTitle = currentModule ? currentModule.label : '';
+```
+
+por:
+
+```js
+const currentModule = availableModules.find((m) => m.id === activeTab);
+let activeTitle = currentModule
+  ? (currentModule.labelKey ? t(currentModule.labelKey) : currentModule.label)
+  : '';
+```
+
+Y en el render de módulos:
+
+```jsx
+<span>{mod.icon}</span> {mod.labelKey ? t(mod.labelKey) : mod.label}
+```
+
+- [ ] **Step 3: Verificar que el build no rompe por imports**
+
+Run: `npm run build`
+
+Expected: error si `ManagementCompaniesModule.jsx` todavía no existe; este paso se completa después de Task 3.
+
+## Task 3: Componente de negocio
+
+**Files:**
+- Create: `src/components/business/ManagementCompaniesModule.jsx`
+
+- [ ] **Step 1: Crear el componente completo**
+
+```jsx
+import React, { useState, useEffect, useMemo } from 'react';
+import { supabase } from '../../lib/supabase';
+import { styles } from '../../styles/theme';
+import { useAuth } from '../../context/AuthContext';
+import { useToast } from '../../context/ToastContext';
+import { useTranslation } from '../../context/I18nContext';
+import { formatRut, validateRut } from '../../lib/rut';
+
+const emptyForm = {
+  rut: '',
+  legalName: '',
+  fantasyName: '',
+  businessLine: '',
+  legalRepName: '',
+  legalRepRut: '',
+  legalRepEmail: '',
+  minvuRegistryNumber: '',
+  minvuStatus: 'pending',
+  minvuRegisteredAt: '',
+  hasGuaranteeInsurance: false,
+  email: '',
+  phone: '',
+  emergencyPhone: '',
+  website: '',
+  street: '',
+  streetNumber: '',
+  deptOrUnit: '',
+  regionId: '',
+  communeId: '',
+  region: '',
+  commune: '',
+  bankName: '',
+  accountType: '',
+  accountNumber: '',
+  bankRecipientRut: '',
+  status: 'active',
+};
+
+const isValidEmail = (value) => !value || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+const isValidDate = (value) => !value || !Number.isNaN(Date.parse(value));
+
+export default function ManagementCompaniesModule() {
+  const { isSuperadmin } = useAuth();
+  const { showSuccess, showError } = useToast();
+  const { t } = useTranslation();
+
+  const [companies, setCompanies] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [regions, setRegions] = useState([]);
+  const [communes, setCommunes] = useState([]);
+  const [view, setView] = useState('list');
+  const [editingId, setEditingId] = useState(null);
+  const [form, setForm] = useState(emptyForm);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filterStatus, setFilterStatus] = useState('all');
+  const [filterMinvu, setFilterMinvu] = useState('all');
+  const [page, setPage] = useState(1);
+
+  const perPage = 8;
+
+  const loadCompanies = async () => {
+    setLoading(true);
+    const { data, error } = await supabase
+      .from('management_companies')
+      .select('*')
+      .is('deleted_at', null)
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      showError(error.message);
+    } else {
+      setCompanies(data || []);
+    }
+    setLoading(false);
+  };
+
+  const loadRegions = async () => {
+    const { data, error } = await supabase
+      .from('regions')
+      .select('id, name')
+      .order('id', { ascending: true });
+
+    if (!error && data) setRegions(data);
+  };
+
+  const loadCommunes = async (regionId) => {
+    const { data, error } = await supabase
+      .from('communes')
+      .select('id, name')
+      .eq('region_id', regionId)
+      .order('name', { ascending: true });
+
+    if (!error && data) setCommunes(data);
+  };
+
+  useEffect(() => {
+    loadCompanies();
+    loadRegions();
+  }, []);
+
+  useEffect(() => {
+    if (form.regionId) {
+      loadCommunes(form.regionId);
+    } else {
+      setCommunes([]);
+    }
+  }, [form.regionId]);
+
+  useEffect(() => {
+    setPage(1);
+  }, [searchTerm, filterStatus, filterMinvu]);
+
+  const handleChange = (event) => {
+    const { name, value, type, checked } = event.target;
+
+    setForm((prev) => {
+      if (type === 'checkbox') {
+        return { ...prev, [name]: checked };
+      }
+
+      if (name === 'regionId') {
+        const region = regions.find((item) => String(item.id) === value);
+        return {
+          ...prev,
+          regionId: value,
+          communeId: '',
+          region: region?.name || '',
+          commune: '',
+        };
+      }
+
+      if (name === 'communeId') {
+        const commune = communes.find((item) => String(item.id) === value);
+        return {
+          ...prev,
+          communeId: value,
+          commune: commune?.name || '',
+        };
+      }
+
+      if (name === 'rut' || name === 'legalRepRut' || name === 'bankRecipientRut') {
+        return { ...prev, [name]: formatRut(value) };
+      }
+
+      return { ...prev, [name]: value };
+    });
+  };
+
+  const validateForm = () => {
+    if (!validateRut(form.rut)) {
+      showError(t('management_companies.invalid_rut'));
+      return false;
+    }
+    if (!form.legalName.trim()) {
+      showError(t('management_companies.required_fields'));
+      return false;
+    }
+    if (!form.legalRepName.trim()) {
+      showError(t('management_companies.required_fields'));
+      return false;
+    }
+    if (!validateRut(form.legalRepRut)) {
+      showError(t('management_companies.invalid_rut'));
+      return false;
+    }
+    if (!form.email.trim() || !isValidEmail(form.email)) {
+      showError(t('management_companies.invalid_email'));
+      return false;
+    }
+    if (form.legalRepEmail && !isValidEmail(form.legalRepEmail)) {
+      showError(t('management_companies.invalid_email'));
+      return false;
+    }
+    if (!isValidDate(form.minvuRegisteredAt)) {
+      showError(t('management_companies.required_fields'));
+      return false;
+    }
+    return true;
+  };
+
+  const buildPayload = () => ({
+    rut: form.rut.trim(),
+    legal_name: form.legalName.trim(),
+    fantasy_name: form.fantasyName.trim() || null,
+    business_line: form.businessLine.trim() || null,
+    legal_rep_name: form.legalRepName.trim(),
+    legal_rep_rut: form.legalRepRut.trim(),
+    legal_rep_email: form.legalRepEmail.trim() || null,
+    minvu_registry_number: form.minvuRegistryNumber.trim() || null,
+    minvu_status: form.minvuStatus || 'pending',
+    minvu_registered_at: form.minvuRegisteredAt || null,
+    has_guarantee_insurance: form.hasGuaranteeInsurance,
+    email: form.email.trim(),
+    phone: form.phone.trim() || null,
+    emergency_phone: form.emergencyPhone.trim() || null,
+    website: form.website.trim() || null,
+    street: form.street.trim() || null,
+    street_number: form.streetNumber.trim() || null,
+    dept_or_unit: form.deptOrUnit.trim() || null,
+    region_id: form.regionId ? Number(form.regionId) : null,
+    commune_id: form.communeId ? Number(form.communeId) : null,
+    region: form.regionId ? form.region : null,
+    commune: form.communeId ? form.commune : null,
+    bank_name: form.bankName.trim() || null,
+    account_type: form.accountType || null,
+    account_number: form.accountNumber.trim() || null,
+    bank_recipient_rut: form.bankRecipientRut.trim() || null,
+    status: form.status || 'active',
+    deleted_at: null,
+  });
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    if (!validateForm()) return;
+
+    setSaving(true);
+    const payload = buildPayload();
+    const query = editingId
+      ? supabase.from('management_companies').update(payload).eq('id', editingId)
+      : supabase.from('management_companies').insert(payload);
+
+    const { error } = await query;
+    setSaving(false);
+
+    if (error) {
+      if (error.code === '23505') {
+        showError(t('management_companies.duplicate_error'));
+      } else {
+        showError(error.message);
+      }
+      return;
+    }
+
+    showSuccess(
+      editingId
+        ? t('management_companies.update_success')
+        : t('management_companies.create_success')
+    );
+    setEditingId(null);
+    setForm(emptyForm);
+    setView('list');
+    loadCompanies();
+  };
+
+  const handleNew = () => {
+    setEditingId(null);
+    setForm(emptyForm);
+    setView('form');
+  };
+
+  const handleEdit = (company) => {
+    setEditingId(company.id);
+    setForm({
+      rut: company.rut || '',
+      legalName: company.legal_name || '',
+      fantasyName: company.fantasy_name || '',
+      businessLine: company.business_line || '',
+      legalRepName: company.legal_rep_name || '',
+      legalRepRut: company.legal_rep_rut || '',
+      legalRepEmail: company.legal_rep_email || '',
+      minvuRegistryNumber: company.minvu_registry_number || '',
+      minvuStatus: company.minvu_status || 'pending',
+      minvuRegisteredAt: company.minvu_registered_at || '',
+      hasGuaranteeInsurance: Boolean(company.has_guarantee_insurance),
+      email: company.email || '',
+      phone: company.phone || '',
+      emergencyPhone: company.emergency_phone || '',
+      website: company.website || '',
+      street: company.street || '',
+      streetNumber: company.street_number || '',
+      deptOrUnit: company.dept_or_unit || '',
+      regionId: company.region_id ? String(company.region_id) : '',
+      communeId: company.commune_id ? String(company.commune_id) : '',
+      region: company.region || '',
+      commune: company.commune || '',
+      bankName: company.bank_name || '',
+      accountType: company.account_type || '',
+      accountNumber: company.account_number || '',
+      bankRecipientRut: company.bank_recipient_rut || '',
+      status: company.status || 'active',
+    });
+    setView('form');
+  };
+
+  const handleBack = () => {
+    setEditingId(null);
+    setForm(emptyForm);
+    setView('list');
+  };
+
+  const handleDelete = async (id) => {
+    if (!window.confirm(t('management_companies.delete_confirm'))) return;
+
+    const { error } = await supabase
+      .from('management_companies')
+      .update({
+        deleted_at: new Date().toISOString(),
+        status: 'inactive',
+      })
+      .eq('id', id);
+
+    if (error) {
+      showError(error.message);
+      return;
+    }
+
+    showSuccess(t('management_companies.delete_success'));
+    loadCompanies();
+  };
+
+  const filteredCompanies = useMemo(() => {
+    const term = searchTerm.trim().toLowerCase();
+
+    return companies.filter((company) => {
+      const matchesSearch =
+        !term ||
+        [
+          company.legal_name,
+          company.fantasy_name,
+          company.rut,
+          company.legal_rep_name,
+          company.commune,
+        ]
+          .filter(Boolean)
+          .some((value) => value.toLowerCase().includes(term));
+
+      const matchesStatus =
+        filterStatus === 'all' || (company.status || 'active') === filterStatus;
+
+      const matchesMinvu =
+        filterMinvu === 'all' ||
+        (company.minvu_status || 'pending') === filterMinvu;
+
+      return matchesSearch && matchesStatus && matchesMinvu;
+    });
+  }, [companies, searchTerm, filterStatus, filterMinvu]);
+
+  const totalPages = Math.max(1, Math.ceil(filteredCompanies.length / perPage));
+  const paginatedCompanies = filteredCompanies.slice(
+    (page - 1) * perPage,
+    page * perPage
+  );
+
+  if (!isSuperadmin) {
+    return (
+      <div style={{ marginTop: '28px' }}>
+        <h3 style={{ margin: '0 0 8px' }}>
+          {t('management_companies.title')}
+        </h3>
+        <p style={{ color: 'var(--text-secondary)', margin: 0 }}>
+          {t('management_companies.no_companies')}
+        </p>
+      </div>
+    );
+  }
+
+  if (view === 'form') {
+    return (
+      <div style={{ marginTop: '28px' }}>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            gap: '12px',
+            marginBottom: '18px',
+            flexWrap: 'wrap',
+          }}
+        >
+          <div>
+            <h3 style={{ margin: '0 0 4px' }}>
+              {editingId
+                ? t('management_companies.edit_title')
+                : t('management_companies.new_title')}
+            </h3>
+            <p style={{ margin: 0, color: 'var(--text-secondary)', fontSize: '13px' }}>
+              {t('management_companies.subtitle')}
+            </p>
+          </div>
+          <button onClick={handleBack} style={styles.buttonAction}>
+            {t('management_companies.back_to_list')}
+          </button>
+        </div>
+
+        <form onSubmit={handleSubmit} style={styles.form}>
+          <section style={styles.sectionBox}>
+            <h4 style={{ margin: '0 0 12px', color: 'var(--primary)' }}>
+              {t('management_companies.section_identification')}
+            </h4>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+              <div>
+                <label style={styles.label}>{t('management_companies.legal_name')}</label>
+                <input
+                  name="legalName"
+                  value={form.legalName}
+                  onChange={handleChange}
+                  style={styles.input}
+                />
+              </div>
+              <div>
+                <label style={styles.label}>{t('management_companies.fantasy_name')}</label>
+                <input
+                  name="fantasyName"
+                  value={form.fantasyName}
+                  onChange={handleChange}
+                  style={styles.input}
+                />
+              </div>
+              <div>
+                <label style={styles.label}>{t('management_companies.rut')}</label>
+                <input
+                  name="rut"
+                  value={form.rut}
+                  onChange={handleChange}
+                  style={styles.input}
+                />
+              </div>
+              <div>
+                <label style={styles.label}>{t('management_companies.business_line')}</label>
+                <input
+                  name="businessLine"
+                  value={form.businessLine}
+                  onChange={handleChange}
+                  style={styles.input}
+                />
+              </div>
+            </div>
+          </section>
+
+          <section style={styles.sectionBox}>
+            <h4 style={{ margin: '0 0 12px', color: 'var(--primary)' }}>
+              {t('management_companies.section_representative')}
+            </h4>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+              <div>
+                <label style={styles.label}>{t('management_companies.legal_rep_name')}</label>
+                <input
+                  name="legalRepName"
+                  value={form.legalRepName}
+                  onChange={handleChange}
+                  style={styles.input}
+                />
+              </div>
+              <div>
+                <label style={styles.label}>{t('management_companies.legal_rep_rut')}</label>
+                <input
+                  name="legalRepRut"
+                  value={form.legalRepRut}
+                  onChange={handleChange}
+                  style={styles.input}
+                />
+              </div>
+              <div style={{ gridColumn: '1 / -1' }}>
+                <label style={styles.label}>{t('management_companies.legal_rep_email')}</label>
+                <input
+                  type="email"
+                  name="legalRepEmail"
+                  value={form.legalRepEmail}
+                  onChange={handleChange}
+                  style={styles.input}
+                />
+              </div>
+            </div>
+          </section>
+
+          <section style={styles.sectionBox}>
+            <h4 style={{ margin: '0 0 12px', color: 'var(--primary)' }}>
+              {t('management_companies.section_minvu')}
+            </h4>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+              <div>
+                <label style={styles.label}>{t('management_companies.minvu_number')}</label>
+                <input
+                  name="minvuRegistryNumber"
+                  value={form.minvuRegistryNumber}
+                  onChange={handleChange}
+                  style={styles.input}
+                />
+              </div>
+              <div>
+                <label style={styles.label}>{t('management_companies.minvu_status')}</label>
+                <select
+                  name="minvuStatus"
+                  value={form.minvuStatus}
+                  onChange={handleChange}
+                  style={styles.select}
+                >
+                  <option value="pending">{t('management_companies.minvu_pending')}</option>
+                  <option value="active">{t('management_companies.minvu_active')}</option>
+                  <option value="suspended">{t('management_companies.minvu_suspended')}</option>
+                  <option value="expired">{t('management_companies.minvu_expired')}</option>
+                </select>
+              </div>
+              <div>
+                <label style={styles.label}>{t('management_companies.minvu_registered_at')}</label>
+                <input
+                  type="date"
+                  name="minvuRegisteredAt"
+                  value={form.minvuRegisteredAt}
+                  onChange={handleChange}
+                  style={styles.input}
+                />
+              </div>
+              <div style={{ display: 'flex', alignItems: 'end' }}>
+                <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <input
+                    type="checkbox"
+                    name="hasGuaranteeInsurance"
+                    checked={form.hasGuaranteeInsurance}
+                    onChange={handleChange}
+                  />
+                  {t('management_companies.has_guarantee')}
+                </label>
+              </div>
+            </div>
+          </section>
+
+          <section style={styles.sectionBox}>
+            <h4 style={{ margin: '0 0 12px', color: 'var(--primary)' }}>
+              {t('management_companies.section_contact')}
+            </h4>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+              <div>
+                <label style={styles.label}>{t('management_companies.email')}</label>
+                <input
+                  type="email"
+                  name="email"
+                  value={form.email}
+                  onChange={handleChange}
+                  style={styles.input}
+                />
+              </div>
+              <div>
+                <label style={styles.label}>{t('management_companies.phone')}</label>
+                <input
+                  name="phone"
+                  value={form.phone}
+                  onChange={handleChange}
+                  style={styles.input}
+                />
+              </div>
+              <div>
+                <label style={styles.label}>{t('management_companies.emergency_phone')}</label>
+                <input
+                  name="emergencyPhone"
+                  value={form.emergencyPhone}
+                  onChange={handleChange}
+                  style={styles.input}
+                />
+              </div>
+              <div>
+                <label style={styles.label}>{t('management_companies.website')}</label>
+                <input
+                  type="url"
+                  name="website"
+                  value={form.website}
+                  onChange={handleChange}
+                  style={styles.input}
+                />
+              </div>
+            </div>
+          </section>
+
+          <section style={styles.sectionBox}>
+            <h4 style={{ margin: '0 0 12px', color: 'var(--primary)' }}>
+              {t('management_companies.section_address')}
+            </h4>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+              <div>
+                <label style={styles.label}>{t('management_companies.street')}</label>
+                <input
+                  name="street"
+                  value={form.street}
+                  onChange={handleChange}
+                  style={styles.input}
+                />
+              </div>
+              <div>
+                <label style={styles.label}>{t('management_companies.street_number')}</label>
+                <input
+                  name="streetNumber"
+                  value={form.streetNumber}
+                  onChange={handleChange}
+                  style={styles.input}
+                />
+              </div>
+              <div>
+                <label style={styles.label}>{t('management_companies.dept_unit')}</label>
+                <input
+                  name="deptOrUnit"
+                  value={form.deptOrUnit}
+                  onChange={handleChange}
+                  style={styles.input}
+                />
+              </div>
+              <div>
+                <label style={styles.label}>{t('management_companies.region')}</label>
+                <select
+                  name="regionId"
+                  value={form.regionId}
+                  onChange={handleChange}
+                  style={styles.select}
+                >
+                  <option value="">{t('profile.select_region')}</option>
+                  {regions.map((region) => (
+                    <option key={region.id} value={region.id}>
+                      {region.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label style={styles.label}>{t('management_companies.commune')}</label>
+                <select
+                  name="communeId"
+                  value={form.communeId}
+                  onChange={handleChange}
+                  style={styles.select}
+                  disabled={!form.regionId}
+                >
+                  <option value="">{t('profile.select_commune')}</option>
+                  {communes.map((commune) => (
+                    <option key={commune.id} value={commune.id}>
+                      {commune.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          </section>
+
+          <section style={styles.sectionBox}>
+            <h4 style={{ margin: '0 0 12px', color: 'var(--primary)' }}>
+              {t('management_companies.section_bank')}
+            </h4>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+              <div>
+                <label style={styles.label}>{t('management_companies.bank_name')}</label>
+                <input
+                  name="bankName"
+                  value={form.bankName}
+                  onChange={handleChange}
+                  style={styles.input}
+                />
+              </div>
+              <div>
+                <label style={styles.label}>{t('management_companies.account_type')}</label>
+                <select
+                  name="accountType"
+                  value={form.accountType}
+                  onChange={handleChange}
+                  style={styles.select}
+                >
+                  <option value="">{t('common.cancel')}</option>
+                  <option value="corriente">{t('management_companies.account_corriente')}</option>
+                  <option value="vista">{t('management_companies.account_vista')}</option>
+                  <option value="ahorro">{t('management_companies.account_ahorro')}</option>
+                </select>
+              </div>
+              <div>
+                <label style={styles.label}>{t('management_companies.account_number')}</label>
+                <input
+                  name="accountNumber"
+                  value={form.accountNumber}
+                  onChange={handleChange}
+                  style={styles.input}
+                />
+              </div>
+              <div>
+                <label style={styles.label}>{t('management_companies.bank_recipient_rut')}</label>
+                <input
+                  name="bankRecipientRut"
+                  value={form.bankRecipientRut}
+                  onChange={handleChange}
+                  style={styles.input}
+                />
+              </div>
+            </div>
+          </section>
+
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+            <div>
+              <label style={styles.label}>{t('management_companies.status')}</label>
+              <select
+                name="status"
+                value={form.status}
+                onChange={handleChange}
+                style={styles.select}
+              >
+                <option value="active">{t('management_companies.active_status')}</option>
+                <option value="inactive">{t('management_companies.inactive_status')}</option>
+                <option value="suspended">{t('management_companies.suspended_status')}</option>
+              </select>
+            </div>
+          </div>
+
+          <button type="submit" disabled={saving} style={styles.button}>
+            {saving
+              ? t('management_companies.saving')
+              : t('management_companies.save')}
+          </button>
+        </form>
+      </div>
+    );
+  }
+
+  return (
+    <div style={{ marginTop: '28px' }}>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          gap: '12px',
+          marginBottom: '14px',
+          flexWrap: 'wrap',
+        }}
+      >
+        <div>
+          <h3 style={{ margin: '0 0 4px' }}>
+            {t('management_companies.title')} ({filteredCompanies.length})
+          </h3>
+          <p style={{ margin: 0, color: 'var(--text-secondary)', fontSize: '13px' }}>
+            {t('management_companies.subtitle')}
+          </p>
+        </div>
+        <button onClick={handleNew} style={styles.buttonAction}>
+          {t('management_companies.new_button')}
+        </button>
+      </div>
+
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: '2fr 1fr 1fr',
+          gap: '10px',
+          marginBottom: '14px',
+        }}
+      >
+        <input
+          type="text"
+          placeholder={t('management_companies.search_placeholder')}
+          value={searchTerm}
+          onChange={(event) => setSearchTerm(event.target.value)}
+          style={styles.input}
+        />
+        <select
+          value={filterStatus}
+          onChange={(event) => setFilterStatus(event.target.value)}
+          style={styles.select}
+        >
+          <option value="all">{t('management_companies.all_statuses')}</option>
+          <option value="active">{t('management_companies.active_status')}</option>
+          <option value="inactive">{t('management_companies.inactive_status')}</option>
+          <option value="suspended">{t('management_companies.suspended_status')}</option>
+        </select>
+        <select
+          value={filterMinvu}
+          onChange={(event) => setFilterMinvu(event.target.value)}
+          style={styles.select}
+        >
+          <option value="all">{t('management_companies.all_minvu')}</option>
+          <option value="active">{t('management_companies.minvu_active')}</option>
+          <option value="pending">{t('management_companies.minvu_pending')}</option>
+          <option value="suspended">{t('management_companies.minvu_suspended')}</option>
+          <option value="expired">{t('management_companies.minvu_expired')}</option>
+        </select>
+      </div>
+
+      <div style={styles.tableWrapper}>
+        <table style={{ ...styles.table, tableLayout: 'fixed', minWidth: '980px' }}>
+          <thead>
+            <tr style={styles.thRow}>
+              <th style={{ ...styles.th, width: '24%' }}>{t('management_companies.col_company')}</th>
+              <th style={{ ...styles.th, width: '12%' }}>{t('management_companies.col_rut')}</th>
+              <th style={{ ...styles.th, width: '18%' }}>{t('management_companies.col_rep')}</th>
+              <th style={{ ...styles.th, width: '14%' }}>{t('management_companies.col_minvu')}</th>
+              <th style={{ ...styles.th, width: '12%' }}>{t('management_companies.col_commune')}</th>
+              <th style={{ ...styles.th, width: '10%', textAlign: 'center' }}>{t('management_companies.col_status')}</th>
+              <th style={{ ...styles.th, width: '10%', textAlign: 'center' }}>{t('management_companies.col_actions')}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {loading ? (
+              <tr>
+                <td colSpan="7" style={{ ...styles.td, textAlign: 'center', color: 'var(--text-dim)', padding: '24px' }}>
+                  {t('common.loading')}
+                </td>
+              </tr>
+            ) : paginatedCompanies.length === 0 ? (
+              <tr>
+                <td colSpan="7" style={{ ...styles.td, textAlign: 'center', color: 'var(--text-dim)', padding: '24px' }}>
+                  {t('management_companies.no_companies')}
+                </td>
+              </tr>
+            ) : (
+              paginatedCompanies.map((company) => (
+                <tr key={company.id} style={styles.tr}>
+                  <td style={styles.td}>
+                    <div style={{ fontWeight: '600', color: 'var(--text-main)' }}>
+                      {company.legal_name}
+                    </div>
+                    {company.fantasy_name ? (
+                      <div style={{ fontSize: '12px', color: 'var(--text-secondary)', marginTop: '2px' }}>
+                        {company.fantasy_name}
+                      </div>
+                    ) : null}
+                  </td>
+                  <td style={{ ...styles.td, fontFamily: 'var(--font-mono)', fontSize: '12px' }}>
+                    {company.rut}
+                  </td>
+                  <td style={styles.td}>
+                    <div>{company.legal_rep_name}</div>
+                    {company.legal_rep_email ? (
+                      <div style={{ fontSize: '12px', color: 'var(--text-secondary)', marginTop: '2px' }}>
+                        {company.legal_rep_email}
+                      </div>
+                    ) : null}
+                  </td>
+                  <td style={styles.td}>
+                    <div>{company.minvu_registry_number || '—'}</div>
+                    <div style={{ fontSize: '11px', color: 'var(--text-secondary)', marginTop: '2px' }}>
+                      {company.minvu_status || 'pending'}
+                    </div>
+                  </td>
+                  <td style={styles.td}>
+                    {company.commune || '—'}
+                  </td>
+                  <td style={{ ...styles.td, textAlign: 'center' }}>
+                    {(company.status || 'active').toUpperCase()}
+                  </td>
+                  <td style={{ ...styles.td, textAlign: 'center' }}>
+                    <div style={{ display: 'flex', gap: '6px', justifyContent: 'center', flexWrap: 'wrap' }}>
+                      <button
+                        onClick={() => handleEdit(company)}
+                        style={styles.buttonAction}
+                      >
+                        {t('common.edit') || 'Editar'}
+                      </button>
+                      <button
+                        onClick={() => handleDelete(company.id)}
+                        style={styles.btnDelete}
+                      >
+                        {t('common.delete')}
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
+
+      {totalPages > 1 ? (
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginTop: '14px',
+            fontSize: '13px',
+          }}
+        >
+          <span style={{ color: 'var(--text-secondary)' }}>
+            {t('common.page')} <strong>{page}</strong> {t('common.of')} {totalPages}
+          </span>
+          <div style={{ display: 'flex', gap: '8px' }}>
+            <button
+              onClick={() => setPage((current) => Math.max(current - 1, 1))}
+              disabled={page === 1}
+              style={{
+                ...styles.buttonAction,
+                padding: '6px 12px',
+                fontSize: '12px',
+                backgroundColor: page === 1 ? 'var(--bg-card)' : 'var(--primary)',
+                color: page === 1 ? 'var(--text-dim)' : '#ffffff',
+                border: page === 1 ? '1px solid var(--border-subtle)' : 'none',
+                cursor: page === 1 ? 'not-allowed' : 'pointer',
+                opacity: page === 1 ? 0.6 : 1,
+              }}
+            >
+              {t('common.previous')}
+            </button>
+            <button
+              onClick={() => setPage((current) => Math.min(current + 1, totalPages))}
+              disabled={page === totalPages}
+              style={{
+                ...styles.buttonAction,
+                padding: '6px 12px',
+                fontSize: '12px',
+                backgroundColor: page === totalPages ? 'var(--bg-card)' : 'var(--primary)',
+                color: page === totalPages ? 'var(--text-dim)' : '#ffffff',
+                border: page === totalPages ? '1px solid var(--border-subtle)' : 'none',
+                cursor: page === totalPages ? 'not-allowed' : 'pointer',
+                opacity: page === totalPages ? 0.6 : 1,
+              }}
+            >
+              {t('common.next')}
+            </button>
+          </div>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+```
+
+- [ ] **Step 2: Crear el archivo**
+
+Run: `cat > src/components/business/ManagementCompaniesModule.jsx <<'EOF'\n...\nEOF`
+
+Expected: archivo creado.
+
+- [ ] **Step 3: Ejecutar build**
+
+Run: `npm run build`
+
+Expected: build exitoso. Si falla, corregir imports o i18n.
+
+## Task 4: Textos i18n
+
+**Files:**
+- Modify: `src/locales/es.js`
+- Modify: `src/locales/en.js`
+
+- [ ] **Step 1: Agregar clave de navegación y namespace en español**
+
+En `src/locales/es.js`, agregar dentro de `nav`:
+
+```js
+management_companies: 'Empresas Administradoras',
+```
+
+Y agregar antes del cierre final de `es`:
+
+```js
+management_companies: {
+  title: 'Empresas Administradoras de Condominios',
+  subtitle: 'Gestión de empresas administradoras, representantes legales y datos bancarios.',
+  new_title: 'Nueva empresa administradora',
+  edit_title: 'Editar empresa administradora',
+  new_button: 'Nueva empresa',
+  back_to_list: 'Volver al listado',
+  search_placeholder: '🔍 Buscar por empresa, RUT, representante o comuna...',
+  all_statuses: 'Todos los estados',
+  active_status: 'Activas',
+  inactive_status: 'Inactivas',
+  suspended_status: 'Suspendidas',
+  all_minvu: 'Todos los estados MINVU',
+  minvu_active: 'MINVU activo',
+  minvu_pending: 'MINVU pendiente',
+  minvu_suspended: 'MINVU suspendido',
+  minvu_expired: 'MINVU vencido',
+  col_company: 'Empresa',
+  col_rut: 'RUT',
+  col_rep: 'Representante legal',
+  col_minvu: 'Registro MINVU',
+  col_commune: 'Comuna',
+  col_status: 'Estado',
+  col_actions: 'Acciones',
+  no_companies: 'No se encontraron empresas administradoras.',
+  section_identification: 'Identificación legal',
+  section_representative: 'Representante legal',
+  section_minvu: 'Registro Nacional MINVU',
+  section_contact: 'Contacto',
+  section_address: 'Dirección',
+  section_bank: 'Datos bancarios',
+  rut: 'RUT *',
+  legal_name: 'Razón social *',
+  fantasy_name: 'Nombre de fantasía',
+  business_line: 'Giro comercial',
+  legal_rep_name: 'Nombre del representante legal *',
+  legal_rep_rut: 'RUT representante legal *',
+  legal_rep_email: 'Email representante legal',
+  minvu_number: 'N° registro MINVU',
+  minvu_status: 'Estado MINVU',
+  minvu_registered_at: 'Fecha aprobación MINVU',
+  has_guarantee: 'Cuenta con póliza de garantía/seguro',
+  email: 'Email corporativo *',
+  phone: 'Teléfono oficina',
+  emergency_phone: 'Teléfono urgencias 24/7',
+  website: 'Sitio web',
+  street: 'Calle / Avenida',
+  street_number: 'Número',
+  dept_unit: 'Depto / Oficina',
+  region: 'Región',
+  commune: 'Comuna',
+  bank_name: 'Banco',
+  account_type: 'Tipo de cuenta',
+  account_number: 'Número de cuenta',
+  bank_recipient_rut: 'RUT titular de cuenta',
+  status: 'Estado operativo',
+  save: 'Guardar empresa',
+  saving: 'Guardando...',
+  create_success: 'Empresa creada correctamente.',
+  update_success: 'Empresa actualizada correctamente.',
+  delete_success: 'Empresa dada de baja correctamente.',
+  delete_confirm: '¿Deseas dar de baja esta empresa administradora?',
+  invalid_rut: 'El RUT ingresado no es válido.',
+  invalid_email: 'El email ingresado no es válido.',
+  required_fields: 'Completá los campos obligatorios.',
+  duplicate_error: 'Ya existe una empresa con ese RUT o registro MINVU.',
+  account_corriente: 'Cuenta corriente',
+  account_vista: 'Cuenta vista',
+  account_ahorro: 'Cuenta de ahorro',
+},
+```
+
+- [ ] **Step 2: Agregar equivalente en inglés**
+
+En `src/locales/en.js`, agregar dentro de `nav`:
+
+```js
+management_companies: 'Management Companies',
+```
+
+Y agregar el namespace equivalente en inglés.
+
+- [ ] **Step 3: Ejecutar build**
+
+Run: `npm run build`
+
+Expected: build exitoso.
+
+## Task 5: Verificación de RLS y comportamiento
+
+**Files:**
+- No code changes.
+
+- [ ] **Step 1: Verificar que el módulo carga para superadmin**
+
+Run manual en navegador: iniciar sesión como superadmin y abrir el tab `Empresas Administradoras`.
+
+Expected: la tabla carga, la búsqueda funciona y el botón `Nueva empresa` abre la vista completa.
+
+- [ ] **Step 2: Verificar RLS con usuario normal**
+
+Run SQL o prueba de API:
+
+```sql
+SET ROLE authenticated;
+SELECT count(*) FROM public.management_companies;
+```
+
+Expected: `0` para un usuario no superadmin.
+
+- [ ] **Step 3: Verificar anon**
+
+Run: `curl -s -o /dev/null -w '%{http_code}\n' 'http://<piave-tailscale-ip>:8200/rest/v1/management_companies?select=id&limit=1' -H 'apikey: <anon-key>'`
+
+Expected: `401` o `0` filas.
+
+- [ ] **Step 4: Verificar baja lógica**
+
+Crear una empresa de prueba, darla de baja y confirmar que desaparece del listado y que `deleted_at` no es null.
+
+## Task 6: Documentación y cierre
+
+**Files:**
+- Modify: `docs/frontend.md`
+- Modify: `docs/roadmap.md` o `docs/README.md` si corresponde.
+
+- [ ] **Step 1: Documentar el módulo**
+
+Agregar en `docs/frontend.md` una entrada para `ManagementCompaniesModule.jsx` y su patrón de vista completa.
+
+- [ ] **Step 2: Actualizar roadmap**
+
+Marcar como implementado el módulo de empresas administradoras y dejar pendiente la asociación `admin → empresa`.
+
+- [ ] **Step 3: Build final**
+
+Run: `npm run build`
+
+Expected: build exitoso.
+
+- [ ] **Step 4: Despliegue**
+
+Run:
+
+```bash
+npm run build
+rsync -avz --exclude 'node_modules' --exclude '.git' --exclude '.env' --exclude '.env.*' --exclude 'dist' --exclude 'docs' --exclude 'scripts' --exclude 'deploy' --exclude '.vscode' --exclude '.opencode' --exclude '*.md' --exclude '.DS_Store' ./ piave:~/stage-platform/apps/stage-condominio-app/src/
+ssh piave '~/stage-platform/bin/stage-cli deploy stage-condominio-app'
+```
+
+Expected: deploy exitoso y app respondiendo.
+
+## Spec coverage check
+
+- Tabla y campos: Task 1.
+- RLS y grants: Task 1.
+- Módulo y registro: Tasks 2 y 3.
+- i18n: Task 4.
+- Listado estilo `SuperAdminTabla`: Task 3.
+- Vista completa estilo `ProfileSection`: Task 3.
+- Validaciones y errores: Task 3.
+- Baja lógica: Task 3 y Task 5.
+- Verificación: Tasks 1, 5 y 6.
+- Futura asociación `admin`: fuera de implementación, documentada en spec.

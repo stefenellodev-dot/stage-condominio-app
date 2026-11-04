@@ -31,6 +31,7 @@
 | P1-4 | Alta | Sin backups | Timer + `pg_dump` + checksum + off-host | Backup diario y restore de prueba |
 | P1-5 | Alta | Build no reproducible | `npm ci`, lockfile, digests, non-root, healthcheck | Build idéntico y auditado |
 | P1-6 | Alta | Dominio ausente | Migraciones versionadas + RLS + reemplazar placeholder | Modelo mínimo con pruebas |
+| P1-7 | Alta | Módulo de empresas administradoras | CRUD completo, RLS para superadmin, listado y vista de detalle | Módulo visible y operativo para superadmin |
 | P2-1 | Media | `SuperAdminTabla` solo cubre `superadmin`; falta alcance `admin` | RPC administrativa, membresía por comunidad, auditoría | Cambios de rol/estado funcionan solo para el admin de su comunidad |
 | P2-2 | Media | Sin cabeceras de seguridad | CSP, HSTS, `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`, `Permissions-Policy` | Cabeceras presentes en respuestas |
 | P2-3 | Media | GoTrue débil | URI allow list, rate limits, captcha, password policy, SMTP real | Configuración verificada |

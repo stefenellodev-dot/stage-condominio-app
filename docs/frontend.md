@@ -119,7 +119,7 @@ La UI no debe ser la única barrera. Un usuario sin permisos debe recibir 0 fila
 
 ### 4.3 Módulos
 
-`businessModules` solo contiene `inventory`, que renderiza un `<div>` placeholder. Es el tab inicial porque es el primer elemento y no tiene `default`. `HomeOverview` existe pero no está referenciado.
+`businessModules` ahora contiene `inventory` y `management_companies`. `management_companies` usa una vista completa de alta/edición/detalle con secciones estilo `ProfileSection` y una tabla estilo `SuperAdminTabla`.
 
 ---
 

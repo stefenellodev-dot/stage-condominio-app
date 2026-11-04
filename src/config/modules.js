@@ -1,12 +1,11 @@
-import InventoryModule from '../components/business/InventoryModule';
+import ManagementCompaniesModule from '../components/business/ManagementCompaniesModule';
 
 export const businessModules = [
-  // ... módulos existentes ...
   {
-    id: 'inventory',
-    label: 'Inventario',
-    icon: '📦',
-    component: InventoryModule,
-    roles: ['admin', 'operator'], // Control RBAC automático
+    id: 'management_companies',
+    labelKey: 'nav.management_companies',
+    icon: '🏢',
+    component: ManagementCompaniesModule,
+    roles: ['superadmin'],
   },
 ];

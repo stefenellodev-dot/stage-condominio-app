@@ -44,7 +44,9 @@ export default function AppLayout({ activeTab, onSelectTab, children }) {
 
   // Determinar título para la cabecera superior
   const currentModule = availableModules.find((m) => m.id === activeTab);
-  let activeTitle = currentModule ? currentModule.label : '';
+  let activeTitle = currentModule
+    ? (currentModule.labelKey ? t(currentModule.labelKey) : currentModule.label)
+    : '';
   if (activeTab === 'profile') activeTitle = t('nav.my_profile');
   if (activeTab === 'superadmin_users') activeTitle = t('nav.users_management');
 
@@ -96,7 +98,7 @@ export default function AppLayout({ activeTab, onSelectTab, children }) {
                 onClick={() => onSelectTab(mod.id)}
                 style={navItemStyle(activeTab === mod.id)}
               >
-                <span>{mod.icon}</span> {mod.label}
+                <span>{mod.icon}</span> {mod.labelKey ? t(mod.labelKey) : mod.label}
               </button>
             ))}
 
