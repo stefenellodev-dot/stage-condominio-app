@@ -22,6 +22,6 @@ export const businessModules = [
     labelKey: 'nav.units',
     icon: '🚪',
     component: UnitsModule,
-    roles: ['superadmin', 'admin'],
+    roles: ['superadmin', 'admin', 'user'],
   },
 ];

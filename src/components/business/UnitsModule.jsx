@@ -21,7 +21,8 @@ const emptyForm = {
 const isValidNumber = (value) => value === '' || !Number.isNaN(Number(value));
 
 export default function UnitsModule() {
-  const { isSuperadmin } = useAuth();
+  const { isSuperadmin, isAdmin } = useAuth();
+  const canManageUnits = isSuperadmin || isAdmin;
   const { showSuccess, showError } = useToast();
   const { t } = useTranslation();
 
@@ -33,6 +34,7 @@ export default function UnitsModule() {
   const [saving, setSaving] = useState(false);
   const [view, setView] = useState('list');
   const [editingId, setEditingId] = useState(null);
+  const [readOnly, setReadOnly] = useState(false);
   const [form, setForm] = useState(emptyForm);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
@@ -186,12 +188,32 @@ export default function UnitsModule() {
 
   const handleNew = () => {
     setEditingId(null);
+    setReadOnly(false);
     setForm(emptyForm);
     setView('form');
   };
 
   const handleEdit = (unit) => {
     setEditingId(unit.id);
+    setReadOnly(false);
+    setForm({
+      condominiumId: unit.condominium_id ? String(unit.condominium_id) : '',
+      unitNumber: unit.unit_number || '',
+      unitType: unit.unit_type || 'departamento',
+      floor: unit.floor ? String(unit.floor) : '',
+      blockOrTower: unit.block_or_tower || '',
+      aliquot: unit.aliquot ? String(unit.aliquot) : '',
+      surfaceM2: unit.surface_m2 ? String(unit.surface_m2) : '',
+      ownerId: unit.owner_id || '',
+      occupancyStatus: unit.occupancy_status || 'owner_occupied',
+      status: unit.status || 'active',
+    });
+    setView('form');
+  };
+
+  const handleView = (unit) => {
+    setEditingId(unit.id);
+    setReadOnly(true);
     setForm({
       condominiumId: unit.condominium_id ? String(unit.condominium_id) : '',
       unitNumber: unit.unit_number || '',
@@ -209,6 +231,7 @@ export default function UnitsModule() {
 
   const handleBack = () => {
     setEditingId(null);
+    setReadOnly(false);
     setForm(emptyForm);
     setView('list');
   };
@@ -311,7 +334,11 @@ export default function UnitsModule() {
         >
           <div>
             <h3 style={{ margin: '0 0 4px' }}>
-              {editingId ? t('units.edit_title') : t('units.new_title')}
+              {readOnly
+                ? t('units.view_title')
+                : editingId
+                ? t('units.edit_title')
+                : t('units.new_title')}
             </h3>
             <p style={{ margin: 0, color: 'var(--text-secondary)', fontSize: '13px' }}>
               {t('units.subtitle')}
@@ -334,6 +361,7 @@ export default function UnitsModule() {
                   name="condominiumId"
                   value={form.condominiumId}
                   onChange={handleChange}
+                  disabled={readOnly}
                   style={styles.select}
                 >
                   <option value="">{t('units.select_condominium')}</option>
@@ -350,6 +378,7 @@ export default function UnitsModule() {
                   name="unitNumber"
                   value={form.unitNumber}
                   onChange={handleChange}
+                  disabled={readOnly}
                   style={styles.input}
                 />
               </div>
@@ -359,6 +388,7 @@ export default function UnitsModule() {
                   name="unitType"
                   value={form.unitType}
                   onChange={handleChange}
+                  disabled={readOnly}
                   style={styles.select}
                 >
                   <option value="departamento">{t('units.type_departamento')}</option>
@@ -375,6 +405,7 @@ export default function UnitsModule() {
                   name="floor"
                   value={form.floor}
                   onChange={handleChange}
+                  disabled={readOnly}
                   style={styles.input}
                 />
               </div>
@@ -384,6 +415,7 @@ export default function UnitsModule() {
                   name="blockOrTower"
                   value={form.blockOrTower}
                   onChange={handleChange}
+                  disabled={readOnly}
                   style={styles.input}
                 />
               </div>
@@ -397,6 +429,7 @@ export default function UnitsModule() {
                   name="aliquot"
                   value={form.aliquot}
                   onChange={handleChange}
+                  disabled={readOnly}
                   style={styles.input}
                 />
               </div>
@@ -409,6 +442,7 @@ export default function UnitsModule() {
                   name="surfaceM2"
                   value={form.surfaceM2}
                   onChange={handleChange}
+                  disabled={readOnly}
                   style={styles.input}
                 />
               </div>
@@ -426,6 +460,7 @@ export default function UnitsModule() {
                   name="ownerId"
                   value={form.ownerId}
                   onChange={handleChange}
+                  disabled={readOnly}
                   style={styles.select}
                 >
                   <option value="">{t('units.no_owner')}</option>
@@ -448,6 +483,7 @@ export default function UnitsModule() {
                   name="occupancyStatus"
                   value={form.occupancyStatus}
                   onChange={handleChange}
+                  disabled={readOnly}
                   style={styles.select}
                 >
                   <option value="owner_occupied">{t('units.occupancy_owner')}</option>
@@ -465,6 +501,7 @@ export default function UnitsModule() {
                 name="status"
                 value={form.status}
                 onChange={handleChange}
+                disabled={readOnly}
                 style={styles.select}
               >
                 <option value="active">{t('units.active_status')}</option>
@@ -473,11 +510,17 @@ export default function UnitsModule() {
             </div>
           </div>
 
-          <button type="submit" disabled={saving} style={styles.button}>
-            {saving
-              ? t('units.saving')
-              : t('units.save')}
-          </button>
+          {!readOnly ? (
+            <button type="submit" disabled={saving} style={styles.button}>
+              {saving
+                ? t('units.saving')
+                : t('units.save')}
+            </button>
+          ) : (
+            <div style={{ color: 'var(--text-secondary)', fontSize: '13px', marginTop: '8px' }}>
+              {t('units.read_only_notice')}
+            </div>
+          )}
         </form>
       </div>
     );
@@ -503,9 +546,11 @@ export default function UnitsModule() {
             {t('units.subtitle')}
           </p>
         </div>
-        <button onClick={handleNew} style={styles.buttonAction}>
-          {t('units.new_button')}
-        </button>
+        {canManageUnits ? (
+          <button onClick={handleNew} style={styles.buttonAction}>
+            {t('units.new_button')}
+          </button>
+        ) : null}
       </div>
 
       <div
@@ -652,17 +697,27 @@ export default function UnitsModule() {
                   <td style={{ ...styles.td, textAlign: 'center' }}>
                     <div style={{ display: 'flex', gap: '6px', justifyContent: 'center', flexWrap: 'wrap' }}>
                       <button
-                        onClick={() => handleEdit(unit)}
+                        onClick={() => handleView(unit)}
                         style={styles.buttonAction}
                       >
-                        {t('units.edit_button')}
+                        {t('units.view_button')}
                       </button>
-                      <button
-                        onClick={() => handleDelete(unit.id)}
-                        style={styles.btnDelete}
-                      >
-                        {t('common.delete')}
-                      </button>
+                      {canManageUnits ? (
+                        <>
+                          <button
+                            onClick={() => handleEdit(unit)}
+                            style={styles.buttonAction}
+                          >
+                            {t('units.edit_button')}
+                          </button>
+                          <button
+                            onClick={() => handleDelete(unit.id)}
+                            style={styles.btnDelete}
+                          >
+                            {t('common.delete')}
+                          </button>
+                        </>
+                      ) : null}
                     </div>
                   </td>
                 </tr>
