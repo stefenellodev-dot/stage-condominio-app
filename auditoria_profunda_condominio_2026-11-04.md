@@ -133,3 +133,18 @@ Conteos actuales:
 6. Revocar grants de escritura sobre `regions` y `communes`.
 7. Agregar cabeceras de seguridad y observabilidad.
 8. Separar formalmente producción de preproducción.
+
+
+## 11. Ejecución del plan de endurecimiento
+
+| Fase | Estado | Evidencia |
+|---|---|---|
+| 1. Avatares privados | Cerrada | Bucket `avatars` privado; URLs firmadas de 15 minutos; código desplegado |
+| 2. Campos limitados de perfil | Cerrada | Trigger y UI restringen edición para `user`; prueba SQL de escalada falla |
+| 3. Backup off-host en Mac | Cerrada | Copia en `~/Backups/condo-sb-db`, checksum verificado |
+| 4. Pruebas RLS | Cerrada | `supabase/tests/rls_authorization.sql` ejecutado con `ON_ERROR_STOP=1` |
+| 5. Responsive | Implementada, verificación visual pendiente | CSS con media queries; build OK |
+| 6. CI | Implementada | `.github/workflows/ci.yml` con build, audit y prueba RLS condicional |
+| 7. Cabeceras y observabilidad | Parcial | CSP y `Referrer-Policy` en `index.html`; alertas pendientes |
+
+Resultado: no se detectaron regresiones en build ni en RLS. Pendientes de producción: Inbucket temporal, backup off-host automatizado, TLS, alertas y pruebas visuales responsive.

@@ -4,12 +4,12 @@ Leyenda: `Cumple`, `Parcial`, `Pendiente`.
 
 | Módulo | Estructura | Búsqueda | Filtros | Crear | Listado | Acciones | Paginación | Estados | Formulario | Navegación | Permisos UI | RLS | i18n | Tests/CI | Responsive | Resultado |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| Empresas Administradoras | Cumple | Cumple | Parcial | Cumple | Cumple | Cumple | Cumple | Parcial | Cumple | Cumple | Cumple | Cumple | Cumple | Pendiente | Pendiente | Parcial |
-| Condominios | Cumple | Cumple | Cumple | Cumple | Cumple | Cumple | Cumple | Parcial | Cumple | Cumple | Cumple | Cumple | Cumple | Pendiente | Pendiente | Parcial |
-| Unidades | Cumple | Cumple | Cumple | Cumple | Cumple | Cumple | Cumple | Parcial | Cumple | Cumple | Cumple | Cumple | Cumple | Pendiente | Pendiente | Parcial |
-| Espacios Comunes | Cumple | Cumple | Cumple | Cumple | Cumple | Cumple | Cumple | Parcial | Cumple | Cumple | Cumple | Cumple | Cumple | Pendiente | Pendiente | Parcial |
-| Reservas | Cumple | Cumple | Cumple | Cumple | Cumple | Cumple | Cumple | Parcial | Cumple | Cumple | Cumple | Cumple | Cumple | Pendiente | Pendiente | Parcial |
-| Usuarios (SuperAdmin) | Parcial | Cumple | Cumple | Pendiente | Cumple | Cumple | Cumple | Parcial | Parcial | Parcial | Cumple | Cumple | Cumple | Pendiente | Pendiente | Parcial |
+| Empresas Administradoras | Cumple | Cumple | Parcial | Cumple | Cumple | Cumple | Cumple | Parcial | Cumple | Cumple | Cumple | Cumple | Cumple | Parcial | Parcial | Parcial |
+| Condominios | Cumple | Cumple | Cumple | Cumple | Cumple | Cumple | Cumple | Parcial | Cumple | Cumple | Cumple | Cumple | Cumple | Parcial | Parcial | Parcial |
+| Unidades | Cumple | Cumple | Cumple | Cumple | Cumple | Cumple | Cumple | Parcial | Cumple | Cumple | Cumple | Cumple | Cumple | Parcial | Parcial | Parcial |
+| Espacios Comunes | Cumple | Cumple | Cumple | Cumple | Cumple | Cumple | Cumple | Parcial | Cumple | Cumple | Cumple | Cumple | Cumple | Parcial | Parcial | Parcial |
+| Reservas | Cumple | Cumple | Cumple | Cumple | Cumple | Cumple | Cumple | Parcial | Cumple | Cumple | Cumple | Cumple | Cumple | Parcial | Parcial | Parcial |
+| Usuarios (SuperAdmin) | Parcial | Cumple | Cumple | Pendiente | Cumple | Cumple | Cumple | Parcial | Parcial | Parcial | Cumple | Cumple | Cumple | Parcial | Parcial | Parcial |
 
 ## Criterios
 
