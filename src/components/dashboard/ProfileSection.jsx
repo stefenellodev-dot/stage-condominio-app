@@ -75,7 +75,14 @@ export default function ProfileSection() {
         regionId: profile.region_id || '',
         communeId: profile.commune_id || '',
       });
-      setAvatarUrl(profile.avatar_url || '');
+      const avatarPath = profile.avatar_url || '';
+      if (avatarPath && !avatarPath.startsWith('http')) {
+        supabase.storage.from('avatars').createSignedUrl(avatarPath, 3600).then(({ data }) => {
+          setAvatarUrl(data?.signedUrl || '');
+        });
+      } else {
+        setAvatarUrl(avatarPath);
+      }
     }
   }, [profile]);
 
@@ -113,11 +120,11 @@ export default function ProfileSection() {
       return;
     }
 
-    const { data: publicData } = supabase.storage
+    const { data: signedData } = await supabase.storage
       .from('avatars')
-      .getPublicUrl(filePath);
+      .createSignedUrl(filePath, 3600);
 
-    const finalUrl = publicData.publicUrl;
+    const finalUrl = signedData?.signedUrl || filePath;
 
     const { error: updateProfileError } = await supabase
       .from('profiles')

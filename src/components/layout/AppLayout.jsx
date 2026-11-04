@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useTranslation } from '../../context/I18nContext';
 import { styles } from '../../styles/theme';
+import { supabase } from '../../lib/supabase';
 import { appConfig } from '../../config/appConfig';
 import { businessModules } from '../../config/modules';
 
 export default function AppLayout({ activeTab, onSelectTab, children }) {
   const { profile, isAdmin, isSuperadmin, signOut } = useAuth();
+  const [avatarUrl, setAvatarUrl] = useState('');
   const { lang, toggleLang, t } = useTranslation();
 
   const userRole = profile?.role || 'user';
@@ -15,6 +17,21 @@ export default function AppLayout({ activeTab, onSelectTab, children }) {
   const availableModules = businessModules.filter(
     (mod) => !mod.roles || userRole === 'superadmin' || mod.roles.includes(userRole)
   );
+
+  useEffect(() => {
+    const avatarPath = profile?.avatar_url || '';
+    if (!avatarPath) {
+      setAvatarUrl('');
+      return;
+    }
+    if (avatarPath.startsWith('http')) {
+      setAvatarUrl(avatarPath);
+      return;
+    }
+    supabase.storage.from('avatars').createSignedUrl(avatarPath, 3600).then(({ data }) => {
+      setAvatarUrl(data?.signedUrl || '');
+    });
+  }, [profile?.avatar_url]);
 
   const navItemStyle = (isActive) => ({
     display: 'flex',
@@ -146,7 +163,7 @@ export default function AppLayout({ activeTab, onSelectTab, children }) {
           >
             {profile?.avatar_url ? (
               <img
-                src={profile.avatar_url}
+                src={avatarUrl}
                 alt="Avatar"
                 style={{ width: '36px', height: '36px', borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }}
               />

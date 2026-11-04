@@ -1,11 +1,11 @@
-FROM docker.io/library/node:20-alpine AS builder
+FROM docker.io/library/node:22-alpine AS builder
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci
 COPY . ./
 RUN npm run build
 
-FROM docker.io/library/node:20-alpine
+FROM docker.io/library/node:22-alpine
 WORKDIR /app
 RUN npm install -g serve@14.2.4
 COPY --from=builder --chown=node:node /app/dist ./dist

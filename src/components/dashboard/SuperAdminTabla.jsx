@@ -11,6 +11,7 @@ export default function SuperAdminTabla() {
   const { t } = useTranslation();
 
   const [profiles, setProfiles] = useState([]);
+  const [avatarUrls, setAvatarUrls] = useState({});
   const [searchTerm, setSearchTerm] = useState('');
   const [filterRole, setFilterRole] = useState('all');
   const [filterStatus, setFilterStatus] = useState('all');
@@ -34,6 +35,23 @@ export default function SuperAdminTabla() {
   useEffect(() => {
     fetchProfiles();
   }, []);
+
+  useEffect(() => {
+    const loadAvatarUrls = async () => {
+      const entries = await Promise.all(
+        profiles.map(async (profile) => {
+          const avatarPath = profile.avatar_url || '';
+          if (!avatarPath || avatarPath.startsWith('http')) {
+            return [profile.id, avatarPath];
+          }
+          const { data } = await supabase.storage.from('avatars').createSignedUrl(avatarPath, 3600);
+          return [profile.id, data?.signedUrl || ''];
+        })
+      );
+      setAvatarUrls(Object.fromEntries(entries));
+    };
+    loadAvatarUrls();
+  }, [profiles]);
 
   if (!isSuperadmin) return null;
 
@@ -179,7 +197,7 @@ export default function SuperAdminTabla() {
                     <td style={{ ...styles.td, textAlign: 'center' }}>
                       {item.avatar_url ? (
                         <img
-                          src={item.avatar_url}
+                          src={avatarUrls[item.id] || item.avatar_url}
                           alt="Avatar"
                           style={{ width: '36px', height: '36px', borderRadius: '50%', objectFit: 'cover', display: 'inline-block' }}
                         />
