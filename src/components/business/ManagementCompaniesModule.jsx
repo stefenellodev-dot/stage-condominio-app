@@ -391,15 +391,15 @@ export default function ManagementCompaniesModule() {
     setMembers([]);
   };
 
-  const handleAssignMember = async () => {
-    if (!selectedCompany || !selectedUserId) return;
+  const handleAssignMember = async (userId = selectedUserId) => {
+    if (!selectedCompany || !userId) return;
 
     setMemberSaving(true);
     const { error } = await supabase
       .from('management_company_members')
       .insert({
         management_company_id: selectedCompany.id,
-        user_id: selectedUserId,
+        user_id: userId,
         role: 'admin',
         status: 'active',
       });
@@ -928,46 +928,77 @@ export default function ManagementCompaniesModule() {
           <h4 style={{ margin: '0 0 12px', color: 'var(--primary)' }}>
             {t('management_companies.members_assign_title')}
           </h4>
-          <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '10px', alignItems: 'end' }}>
-            <div>
-              <label style={styles.label}>{t('management_companies.members_search')}</label>
-              <input
-                type="text"
-                value={memberSearch}
-                onChange={(event) => setMemberSearch(event.target.value)}
-                style={styles.input}
-                placeholder={t('management_companies.members_search_placeholder')}
-              />
-            </div>
-            <div>
-              <label style={styles.label}>{t('management_companies.members_candidate')}</label>
-              <select
-                value={selectedUserId}
-                onChange={(event) => setSelectedUserId(event.target.value)}
-                style={styles.select}
-              >
-                <option value="">{t('management_companies.select_option')}</option>
-                {filteredCandidates.map((user) => (
-                  <option key={user.id} value={user.id} disabled={memberUserIds.has(user.id)}>
-                    {(user.full_name || [user.first_name, user.last_name].filter(Boolean).join(' ') || user.email)} - {user.email}
-                    {memberUserIds.has(user.id) ? ` (${t('management_companies.members_already_associated')})` : ''}
-                  </option>
-                ))}
-              </select>
-            </div>
+          <div style={{ marginBottom: '12px' }}>
+            <label style={styles.label}>{t('management_companies.members_search')}</label>
+            <input
+              type="text"
+              value={memberSearch}
+              onChange={(event) => setMemberSearch(event.target.value)}
+              style={styles.input}
+              placeholder={t('management_companies.members_search_placeholder')}
+            />
           </div>
           {filteredCandidates.length === 0 ? (
             <p style={{ color: 'var(--text-secondary)', fontSize: '13px', marginTop: '10px' }}>
               {t('management_companies.members_no_candidates')}
             </p>
-          ) : null}
-          <button
-            onClick={handleAssignMember}
-            disabled={memberSaving || !selectedUserId || memberUserIds.has(selectedUserId)}
-            style={{ ...styles.button, marginTop: '12px' }}
-          >
-            {memberSaving ? t('management_companies.saving') : t('management_companies.members_assign_button')}
-          </button>
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              {filteredCandidates.map((user) => {
+                const alreadyAssociated = memberUserIds.has(user.id);
+                const displayName =
+                  user.full_name ||
+                  [user.first_name, user.last_name].filter(Boolean).join(' ') ||
+                  user.email;
+
+                return (
+                  <div
+                    key={user.id}
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      gap: '12px',
+                      padding: '10px 12px',
+                      border: '1px solid var(--border-subtle)',
+                      borderRadius: 'var(--radius-md)',
+                      backgroundColor: 'var(--bg-surface)',
+                    }}
+                  >
+                    <div style={{ minWidth: 0 }}>
+                      <div style={{ fontWeight: '600', color: 'var(--text-main)' }}>
+                        {displayName}
+                      </div>
+                      <div style={{ fontSize: '12px', color: 'var(--text-secondary)', marginTop: '2px' }}>
+                        {user.email}
+                      </div>
+                      {user.rut ? (
+                        <div style={{ fontSize: '11px', color: 'var(--text-dim)', marginTop: '2px', fontFamily: 'var(--font-mono)' }}>
+                          {user.rut}
+                        </div>
+                      ) : null}
+                    </div>
+                    <button
+                      onClick={() => handleAssignMember(user.id)}
+                      disabled={memberSaving || alreadyAssociated}
+                      style={{
+                        ...styles.buttonAction,
+                        opacity: alreadyAssociated ? 0.55 : 1,
+                        cursor: alreadyAssociated ? 'not-allowed' : 'pointer',
+                        whiteSpace: 'nowrap',
+                      }}
+                    >
+                      {alreadyAssociated
+                        ? t('management_companies.members_already_associated')
+                        : memberSaving
+                        ? t('management_companies.saving')
+                        : t('management_companies.members_assign_button')}
+                    </button>
+                  </div>
+                );
+              })}
+            </div>
+          )}
         </section>
       </div>
     );
