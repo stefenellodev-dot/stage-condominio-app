@@ -46,7 +46,7 @@ export default function AppLayout({ activeTab, onSelectTab, children }) {
   const currentModule = availableModules.find((m) => m.id === activeTab);
   let activeTitle = currentModule ? currentModule.label : '';
   if (activeTab === 'profile') activeTitle = t('nav.my_profile');
-  if (activeTab === 'admin_users') activeTitle = t('nav.users_management');
+  if (activeTab === 'superadmin_users') activeTitle = t('nav.users_management');
 
   return (
     <div style={{ display: 'flex', minHeight: '100vh', backgroundColor: 'var(--bg-app)' }}>
@@ -109,10 +109,10 @@ export default function AppLayout({ activeTab, onSelectTab, children }) {
               <span>👤</span> {t('nav.my_profile')}
             </button>
 
-            {isAdmin && (
+            {isSuperadmin && (
               <button
-                onClick={() => onSelectTab('admin_users')}
-                style={navItemStyle(activeTab === 'admin_users')}
+                onClick={() => onSelectTab('superadmin_users')}
+                style={navItemStyle(activeTab === 'superadmin_users')}
               >
                 <span>👥</span> {t('nav.users_management')}
               </button>

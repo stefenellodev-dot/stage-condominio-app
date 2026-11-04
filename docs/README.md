@@ -31,15 +31,15 @@ La app autentica y carga perfiles, pero el esquema real solo tiene `profiles`, `
 
 | ID | Hallazgo | Estado |
 |---|---|---|
-| P0-1 | Un usuario autenticado puede ascender a `superadmin` actualizando `profiles.role`. | Abierto |
-| P0-2 | `handle_new_user` toma `role` desde `raw_user_meta_data`. | Abierto |
-| P0-3 | Inbucket sin autenticación permite leer confirmaciones y OTP de recuperación. | Abierto |
-| P0-4 | Supabase Studio expuesto sin autenticación, con service key. | Abierto |
-| P1-1 | `anon` puede leer todos los perfiles (email, RUT, teléfono) y CORS es `*`. | Abierto |
-| P1-2 | PostgreSQL expuesto en la tailnet, sin TLS y con contraseña compartida en texto plano. | Abierto |
+| P0-1 | Un usuario autenticado puede ascender a `superadmin` actualizando `profiles.role`. | Corregido |
+| P0-2 | `handle_new_user` toma `role` desde `raw_user_meta_data`. | Corregido |
+| P0-3 | Inbucket sin autenticación permite leer confirmaciones y OTP de recuperación. | Abierto temporalmente; aceptado en pruebas |
+| P0-4 | Supabase Studio expuesto sin autenticación, con service key. | Mitigado: solo localhost |
+| P1-1 | `anon` puede leer todos los perfiles (email, RUT, teléfono) y CORS es `*`. | Corregido para perfiles/CORS |
+| P1-2 | PostgreSQL expuesto en la tailnet, sin TLS y con contraseña compartida en texto plano. | Parcial: puerto cerrado; rotación pendiente |
 | P1-3 | Avatares públicos y sobrescribibles por cualquier usuario autenticado. | Abierto |
-| P1-4 | Sin respaldos de la base de Condominio. | Abierto |
-| P1-5 | Build no reproducible y cadena de suministro débil. | Abierto |
+| P1-4 | Sin respaldos de la base de Condominio. | Parcial: timer local; off-host pendiente |
+| P1-5 | Build no reproducible y cadena de suministro débil. | Parcial: `npm ci`, non-root y healthcheck; digests/Node pendientes |
 | P1-6 | Esquema de dominio ausente y módulo principal vacío. | Abierto |
 
 El detalle, evidencia y remediación están en la [auditoría profunda](../auditoria_profunda_condominio_2026-11-03.md).

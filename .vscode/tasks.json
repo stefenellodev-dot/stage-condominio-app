@@ -4,7 +4,7 @@
     {
       "label": "Deploy to Piave Staging",
       "type": "shell",
-      "command": "npm run build && rsync -avz --exclude 'node_modules' --exclude '.git' ./ piave:~/stage-platform/apps/stage-condominio-app/src/ && ssh piave '~/stage-platform/bin/stage-cli deploy stage-condominio-app'",
+      "command": "npm run build && rsync -avz --exclude 'node_modules' --exclude '.git' --exclude '.env' --exclude '.env.*' --exclude 'dist' --exclude 'docs' --exclude 'scripts' --exclude 'deploy' --exclude '.vscode' --exclude '.opencode' --exclude '*.md' --exclude '.DS_Store' ./ piave:~/stage-platform/apps/stage-condominio-app/src/ && ssh piave '~/stage-platform/bin/stage-cli deploy stage-condominio-app'",
       "group": {
         "kind": "build",
         "isDefault": true

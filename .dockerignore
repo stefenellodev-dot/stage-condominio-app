@@ -1,0 +1,10 @@
+node_modules
+dist
+.git
+.gitignore
+.vscode
+.opencode
+docs
+*.md
+audit_condominio*.sh
+auditoria*.md

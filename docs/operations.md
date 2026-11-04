@@ -23,11 +23,11 @@
 
 | Puerto | Servicio | Exposición actual | Objetivo |
 |---|---|---|---|
-| `3002` | App | Tailscale | Mantener, preferiblemente detrás de TLS/proxy |
-| `8200` | Kong | Tailscale | Mantener; restringir CORS |
-| `8280` | Studio | Tailscale, sin auth | **Cerrar** o exigir autenticación |
-| `9100` | Inbucket | Tailscale, sin auth | **Cerrar** o exigir autenticación |
-| `54322` | PostgreSQL | Tailscale, `ssl=off` | **Cerrar**; usar red interna o túnel |
+| `3002` | App | Tailscale | Mantener; TLS solo si se publica |
+| `8200` | Kong | Tailscale | Mantener; CORS restringido a la app y Vite local |
+| `8280` | Studio | `127.0.0.1`, sin auth | Acceso por túnel SSH restringido |
+| `9100` | Inbucket | Tailscale, sin auth | **Cerrar al terminar pruebas** |
+| `54322` | PostgreSQL | Cerrado; solo red de contenedores | Mantener cerrado |
 
 Las IPs de los contenedores cambian al recrearlos. Usar nombres DNS de la red, no IPs.
 
@@ -41,7 +41,7 @@ La tarea de VS Code `Deploy to Piave Staging` ejecuta:
 
 ```bash
 npm run build
-rsync -avz --exclude 'node_modules' --exclude '.git' ./ piave:~/stage-platform/apps/stage-condominio-app/src/
+rsync -avz --exclude 'node_modules' --exclude '.git' --exclude '.env' --exclude '.env.*' --exclude 'dist' --exclude 'docs' --exclude 'scripts' --exclude 'deploy' --exclude '.vscode' --exclude '.opencode' --exclude '*.md' --exclude '.DS_Store' ./ piave:~/stage-platform/apps/stage-condominio-app/src/
 ssh piave '~/stage-platform/bin/stage-cli deploy stage-condominio-app'
 ```
 
@@ -73,11 +73,11 @@ Si el asset cambió pero el HTML sigue apuntando al anterior, el build o la copi
 
 ### 2.4 Sincronización y secretos
 
-El `rsync` actual copia `.env` y otros archivos del repositorio. Antes de desplegar:
+El `rsync` excluye `.env`, `.env.*`, `dist`, `docs`, `scripts`, `deploy`, `.vscode`, `.opencode`, `*.md`, `node_modules` y `.git`. El `.env` de producción/preproducción debe existir y mantenerse en el servidor; no viaja desde el repo. `.gitignore` y `.dockerignore` evitan publicar secretos y artefactos.
 
-- Confirmar que `.env` no contiene secretos que no deban viajar.
-- Añadir `.dockerignore`/`.gitignore` para excluir `.env`, `node_modules`, `dist` y reportes.
+- Confirmar que el `.env` remoto tiene las variables correctas antes de desplegar.
 - No copiar credenciales de auditoría ni claves de servicio.
+- El healthcheck efectivo vive en el Quadlet, no en la imagen OCI.
 
 ---
 
@@ -85,28 +85,29 @@ El `rsync` actual copia `.env` y otros archivos del repositorio. Antes de desple
 
 ### 3.1 Estado actual
 
-No existe timer/servicio de respaldo para `condo-sb-db`. El único respaldo encontrado pertenece al proyecto CondoSmart y no cubre esta base. Esto es un riesgo P1: no hay recuperación ante corrupción o borrado.
+- Timer de usuario `condo-sb-db-backup.timer` habilitado, con `Linger=yes`.
+- Script desplegado: `~/stage-platform/bin/backup-condo-sb-db.sh`.
+- Salida: `~/stage-platform/backups/condo-sb-db/condo-sb-db-<UTC>.dump` + `.sha256`.
+- Retención local: 30 días.
+- Primera ejecución manual OK; backup verificado con `sha256sum -c`.
+- Pendiente: copia fuera del host y prueba de restore mensual automatizada.
 
-### 3.2 Patrón recomendado
-
-Adaptar el script de CondoSmart (`~/condosmart/backup-db.sh`) para `condo-sb-db`:
+### 3.2 Operación
 
 ```bash
-STAMP="$(date -u +%Y%m%d_%H%M%S)"
-OUT="/ruta/segura/condo_${STAMP}.dump"
-podman exec condo-sb-db pg_dump -U postgres -d postgres -Fc > "$OUT"
-sha256sum "$OUT" > "$OUT.sha256"
+# Ejecutar ahora
+systemctl --user start condo-sb-db-backup.service
+
+# Ver próximo disparo y estado
+systemctl --user list-timers condo-sb-db-backup.timer --no-pager
+systemctl --user status condo-sb-db-backup.service --no-pager
+
+# Verificar el backup más reciente
+latest=$(ls -t ~/stage-platform/backups/condo-sb-db/*.dump | head -1)
+sha256sum -c "$latest.sha256"
 ```
 
-Requisitos:
-
-- Ejecutar como usuario sin privilegios, no como root.
-- Verificar que el archivo no esté vacío.
-- Publicar de forma atómica (tmp -> verificación -> rename).
-- Retención mínima de 30 días.
-- Copia fuera del servidor (restic/rclone) y cifrada.
-- Prueba de restauración mensual en un entorno aislado.
-- Alerta si el backup falla o no se ejecuta.
+El script usa `pg_dump -Fc`, escribe en temporal, valida que no esté vacío, aplica checksum y renombra de forma atómica. La copia off-host sigue pendiente porque no hay destino configurado.
 
 ### 3.3 Restauración
 
@@ -134,7 +135,7 @@ podman exec condo-sb-db pg_isready -U postgres
 
 ### 4.2 Estado actual
 
-- `condo-sb-db` y Kong tienen healthcheck; la mayoría de los servicios restantes no.
+- `condo-sb-db` y Kong tienen healthcheck; la app tiene healthcheck en el Quadlet y responde `healthy`.
 - No hay alertas de 5xx, backup, disco, memoria ni saturación.
 - `log_min_duration_statement = -1`; no hay slow query log.
 - Los logs usan journald y pueden contener correos/PII.

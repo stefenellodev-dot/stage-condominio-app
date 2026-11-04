@@ -1,0 +1,10 @@
+[Unit]
+Description=Timer diario de backup de condo-sb-db
+
+[Timer]
+OnCalendar=*-*-* 03:30:00
+RandomizedDelaySec=5m
+Persistent=true
+
+[Install]
+WantedBy=timers.target

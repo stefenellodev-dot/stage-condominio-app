@@ -1,6 +1,6 @@
 # Roadmap y brechas — Condominio App
 
-> **Estado:** verificado 2026-11-03. **Regla:** no producción mientras quede un P0 abierto.
+> **Estado:** actualizado 2026-11-04. Aplicados P0-1, P0-2, P1-1 (perfiles/CORS), P1-2 (puerto), P1-5 y parte de P3-1. P1-4 tiene backup local; off-host pendiente. P0-3 Inbucket sigue abierto temporalmente por pruebas. **Regla:** no producción mientras quede un P0 abierto.
 >
 > Los IDs coinciden con la [auditoría profunda](../auditoria_profunda_condominio_2026-11-03.md).
 
@@ -31,7 +31,7 @@
 | P1-4 | Alta | Sin backups | Timer + `pg_dump` + checksum + off-host | Backup diario y restore de prueba |
 | P1-5 | Alta | Build no reproducible | `npm ci`, lockfile, digests, non-root, healthcheck | Build idéntico y auditado |
 | P1-6 | Alta | Dominio ausente | Migraciones versionadas + RLS + reemplazar placeholder | Modelo mínimo con pruebas |
-| P2-1 | Media | `AdminTable` no coincide con RLS | RPC administrativa, grants, auditoría | Cambios de rol/estado funcionan solo para admin |
+| P2-1 | Media | `SuperAdminTabla` solo cubre `superadmin`; falta alcance `admin` | RPC administrativa, membresía por comunidad, auditoría | Cambios de rol/estado funcionan solo para el admin de su comunidad |
 | P2-2 | Media | Sin cabeceras de seguridad | CSP, HSTS, `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`, `Permissions-Policy` | Cabeceras presentes en respuestas |
 | P2-3 | Media | GoTrue débil | URI allow list, rate limits, captcha, password policy, SMTP real | Configuración verificada |
 | P2-4 | Media | Dependencias e imágenes | Actualizar Vite/esbuild; fijar versiones | `npm audit` sin high/critical |
@@ -48,18 +48,18 @@
 
 1. Backup manual antes de tocar RLS.
 2. Corregir P0-1 y P0-2 en una migración revisada.
-3. Cerrar puertos `8280`, `9100` y `54322`; recrear contenedores.
+3. Cerrar `8280` y `54322`; `9100` queda temporal por pruebas.
 4. Rotar service key/JWT si hay sospecha de acceso.
 5. Verificar con las pruebas de aceptación.
 6. Recién entonces permitir usuarios de prueba.
 
 ## 4. Corto plazo (1–7 días)
 
-1. Cerrar P1-1: RLS de `profiles`, revocar `anon`, CORS exacto.
-2. Cerrar P1-2: secretos y exposición de DB.
+1. P1-1 hecho para `profiles`/CORS; storage sigue en P1-3.
+2. P1-2: puerto cerrado; rotación de secretos pendiente.
 3. Cerrar P1-3: bucket privado y políticas por propietario.
-4. Implementar backup diario y restore de prueba.
-5. `npm ci`, digests, non-root, healthcheck.
+4. Backup local implementado; off-host y restore automatizado pendientes.
+5. `npm ci`, non-root y healthcheck hechos; digests y Node ≥22 pendientes.
 6. Definir migraciones del dominio.
 
 ## 5. Medio plazo (7–30 días)

@@ -1,0 +1,7 @@
+[Unit]
+Description=Backup de condo-sb-db
+
+[Service]
+Type=oneshot
+ExecStart=%h/stage-platform/bin/backup-condo-sb-db.sh
+Environment=RETENTION_DAYS=7

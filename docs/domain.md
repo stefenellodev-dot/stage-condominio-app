@@ -93,7 +93,7 @@ CHECK (role = ANY (ARRAY['superadmin'::text, 'admin'::text, 'user'::text]))
 ### 2.5 RLS actual
 
 - `regions` y `communes`: lectura pública.
-- `profiles`: lectura `public`, actualización del propio perfil sin `WITH CHECK`, y política total para superadmin. Ver [security.md](security.md) para el detalle y la corrección.
+- `profiles`: `anon` sin acceso; usuario autenticado lee/actualiza su propio perfil; `superadmin` lee/actualiza todos; trigger bloquea cambios de rol, estado y campos de control. Ver [security.md](security.md) y la migración `20261103_000001_profiles_security.sql`.
 
 ---
 

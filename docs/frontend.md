@@ -1,6 +1,6 @@
 # Frontend — Condominio App
 
-> **Estado:** verificado 2026-11-03. React 18 + Vite 5, build estático servido por `serve -s`.
+> **Estado:** actualizado 2026-11-04. React 18 + Vite 5, build estático servido por `serve -s` como usuario `node`.
 >
 > El frontend no es la frontera de seguridad. Toda autorización real debe vivir en RLS; la UI solo oculta acciones.
 
@@ -39,7 +39,7 @@ src/
 │   ├── dashboard/
 │   │   ├── Dashboard.jsx
 │   │   ├── ProfileSection.jsx
-│   │   └── AdminTable.jsx
+│   │   └── SuperAdminTabla.jsx
 │   └── layout/
 │       └── AppLayout.jsx
 ├── config/
@@ -113,9 +113,9 @@ USER: 'user'
 | `src/config/modules.js` | `roles: ['admin', 'operator']`; `operator` no existe en `roles.js` ni en la base. |
 | `src/lib/roles.js` | `canAccessModule` devuelve `true` si `allowedRoles` incluye `user`, lo que puede abrir módulos a todos; la última condición es redundante. No se usa en la navegación. |
 | `src/components/layout/AppLayout.jsx` | Filtra por `userRole === 'superadmin'` o `mod.roles.includes(userRole)`; no usa `canAccessModule`. |
-| `src/components/dashboard/Dashboard.jsx` | No valida rol para `admin_users`; la única protección es ocultar el botón en `AppLayout`. |
+| `src/components/dashboard/Dashboard.jsx` | `superadmin_users` se renderiza solo si `isSuperadmin`; además RLS bloquea datos. El alcance `admin` por comunidad queda pendiente de las tablas de dominio. |
 
-La UI no debe ser la única barrera. Después de corregir RLS, un usuario sin permisos debe recibir 0 filas/error aunque fuerce el tab.
+La UI no debe ser la única barrera. Un usuario sin permisos debe recibir 0 filas/error aunque fuerce el tab; la guarda de UI es defensa en profundidad.
 
 ### 4.3 Módulos
 
@@ -152,12 +152,12 @@ Ver [security.md](security.md) para el bucket privado y las políticas por propi
 
 ## 6. Administración de usuarios
 
-`AdminTable` lista perfiles, busca, filtra, cambia rol, suspende y hace soft delete. Problemas:
+`SuperAdminTabla` lista perfiles, busca, filtra, cambia rol, suspende y hace soft delete. Solo se monta para `superadmin`; RLS y el trigger son la barrera real. Pendientes:
 
-- `select('*')` sobre `profiles`; tras corregir RLS, un admin verá lo permitido, pero la UI asume todas las columnas.
-- Cambia `role`, `status` y `deleted_at` directamente; tras la corrección de grants, esas columnas no serán editables por el usuario común. Se necesita una RPC administrativa o políticas/grants específicos.
+- `select('*')` sobre `profiles`; un admin con alcance futuro verá solo lo permitido, pero la UI asume todas las columnas.
+- Cambia `role`, `status` y `deleted_at` directamente; solo `superadmin` puede hacerlo. El alcance `admin` por comunidad requiere tablas de dominio y una RPC administrativa.
 - No hay paginación de servidor; trae todos los perfiles y pagina en cliente.
-- No muestra errores de RLS de forma distinguishible de otros errores.
+- No muestra errores de RLS de forma distinguible de otros errores.
 - No hay auditoría de cambios de rol/estado.
 
 ---
@@ -206,7 +206,7 @@ Ver [security.md](security.md) para el bucket privado y las políticas por propi
 | P1 | Avatar | Bucket privado + políticas por usuario |
 | P1 | RUT | Añadir UNIQUE/validación si el negocio lo requiere |
 | P1 | `operator` | Eliminar o implementar el rol en DB y UI |
-| P2 | AdminTable | RPC administrativa, auditoría y paginación de servidor |
+| P2 | `SuperAdminTabla` | RPC administrativa, auditoría y paginación de servidor |
 | P2 | Branding/i18n | Título, nombre y strings consistentes |
 | P2 | Tests/CI | Cobertura mínima y pipeline |
 | P3 | `HomeOverview` | Referenciar o eliminar |

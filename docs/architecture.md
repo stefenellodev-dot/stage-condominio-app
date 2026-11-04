@@ -19,9 +19,9 @@ Navegador
              +-- /rest/v1/     --> PostgREST --> PostgreSQL
              +-- /storage/v1/  --> Storage API --> PostgreSQL + volumen de archivos
              |
-             +-- Studio :8280  (administración, sin auth)
-             +-- Inbucket :9100 (buzón SMTP, sin auth)
-             +-- PostgreSQL :54322 (acceso directo, sin TLS)
+             +-- Studio 127.0.0.1:8280 (administración, solo localhost)
+             +-- Inbucket :9100 (buzón SMTP, Tailscale, sin auth)
+             +-- PostgreSQL (sin puerto host; solo red de contenedores)
              +-- Meta :8080 interno (solo red de contenedores)
 ```
 
@@ -31,14 +31,14 @@ Navegador
 
 | Componente | Imagen / versión | Puerto host | Exposición actual | Estado deseado |
 |---|---|---|---|---|
-| Frontend | `localhost/stage-stage-condominio-app:latest` | `3002` | Tailscale | Mantener detrás de TLS/proxy |
-| Kong | `kong:2.8.1-alpine` | `8200` | Tailscale | Mantener; restringir CORS |
+| Frontend | `localhost/stage-stage-condominio-app:latest` | `3002` | Tailscale | Mantener; TLS solo si se publica |
+| Kong | `kong:2.8.1-alpine` | `8200` | Tailscale | Mantener; CORS restringido |
 | PostgREST | `postgrest:v12.0.2` | interno | Solo red de contenedores | Mantener |
 | GoTrue | `gotrue:v2.158.1` | interno | Solo red de contenedores | Mantener; endurecer |
 | Storage API | `storage-api:v1.11.1` | interno | Solo red de contenedores | Mantener; bucket privado |
-| PostgreSQL | `supabase/postgres:15.6.1.139` | `54322` | Tailscale, `ssl=off` | **Quitar exposición**; TLS si hay acceso remoto |
-| Studio | `supabase/studio:latest` | `8280` | Tailscale, sin auth | **Quitar exposición** o poner auth |
-| Inbucket | `inbucket:latest` | `9100` | Tailscale, sin auth | **Quitar exposición** o poner auth |
+| PostgreSQL | `supabase/postgres:15.6.1.139` | — | Solo red de contenedores | Cerrado |
+| Studio | `supabase/studio:latest` | `8280` | `127.0.0.1`, sin auth | Túnel SSH restringido |
+| Inbucket | `inbucket:latest` | `9100` | Tailscale, sin auth | Cerrar al terminar pruebas |
 | Meta | `postgres-meta:v0.84.2` | interno | Solo red de contenedores | Mantener |
 
 Los contenedores `condo-sb-*` viven en la red `net-stage-platform`. Las IPs internas son dinámicas; no deben hardcodearse en documentación ni configuración.
@@ -101,13 +101,13 @@ Ver [domain.md](domain.md) para el detalle y las diferencias entre estado real y
 | Área | Actual | Objetivo |
 |---|---|---|
 | Frontend | HTTP en `:3002`, sin cabeceras de seguridad | HTTPS en proxy, CSP y cabeceras |
-| API | Kong con CORS `*` | Orígenes exactos y métodos mínimos |
-| Auth | Signup abierto, rol desde metadata | Signup cerrado/invitación, rol forzado a `user` |
-| RLS | `profiles` legible por `anon`; UPDATE de rol permitido | RLS por usuario/admin, columnas restringidas |
+| API | CORS restringido a la app y Vite local | Mantener allowlist y métodos mínimos |
+| Auth | Signup abierto; rol forzado a `user` | Signup cerrado/invitación |
+| RLS | `profiles`: anon bloqueado; usuario propio; superadmin total; trigger de columnas | RLS por membresía multi-tenant |
 | Storage | Bucket público, políticas por bucket | Bucket privado, políticas por propietario/ruta |
-| Servicios admin | Studio/Inbucket/DB en Tailscale | Solo red interna o túnel autenticado |
-| Backups | Sin backup de Condominio | Backup automático, checksum y restore probado |
-| Build | `npm install`, imágenes `latest` | `npm ci`, lockfile, digests, usuario no root |
+| Servicios admin | Studio localhost, DB cerrada, Inbucket en Tailscale | Inbucket cerrado o autenticado |
+| Backups | Timer local con checksum; off-host pendiente | Backup diario off-host y restore probado |
+| Build | `npm ci`, usuario no root, healthcheck en Quadlet | Digests fijos; Node ≥22 |
 
 ---
 

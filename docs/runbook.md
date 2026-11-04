@@ -135,7 +135,7 @@ systemctl --user stop stage-stage-condominio-app.service
 2. Restaurar con `pg_restore`:
 
 ```bash
-podman exec -i condo-sb-db pg_restore -U postgres -d postgres --clean --if-exists < /ruta/backup.dump
+podman exec -i condo-sb-db pg_restore -U postgres -d postgres --clean --if-exists < ~/stage-platform/backups/condo-sb-db/<archivo>.dump
 ```
 
 3. Validar:
