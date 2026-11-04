@@ -64,6 +64,15 @@ body {
     flex-direction: column !important;
   }
 
+  table {
+    min-width: 0 !important;
+    font-size: 12px;
+  }
+
+  th, td {
+    padding: 8px 6px !important;
+  }
+
   aside {
     width: 100% !important;
     border-right: none !important;
