@@ -204,3 +204,10 @@ Las migraciones deben ser reversibles o tener un plan de restauración. Si no ha
 - [security.md](security.md)
 - [architecture.md](architecture.md)
 - [Auditoría profunda](../auditoria_profunda_condominio_2026-11-03.md)
+
+## 5. Cabeceras y observabilidad
+
+- CSP y `Referrer-Policy` se envían desde `index.html`.
+- `X-Content-Type-Options` y `X-Frame-Options` deben validarse en el proxy o Kong; `serve` no agrega cabeceras HTTP.
+- Healthchecks activos: `condo-sb-db`, Kong y app.
+- Pendiente: alertas de 5xx, auth, backup y espacio.

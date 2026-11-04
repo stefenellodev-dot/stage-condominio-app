@@ -58,3 +58,27 @@ body {
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
 }
+
+@media (max-width: 768px) {
+  body > div {
+    flex-direction: column !important;
+  }
+
+  aside {
+    width: 100% !important;
+    border-right: none !important;
+    border-bottom: 1px solid var(--border-subtle) !important;
+  }
+
+  main {
+    padding: 16px !important;
+  }
+
+  header {
+    padding: 0 16px !important;
+  }
+
+  div[style*="display: grid"] {
+    grid-template-columns: 1fr !important;
+  }
+}

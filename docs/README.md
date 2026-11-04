@@ -18,6 +18,7 @@ Esta carpeta es la referencia técnica y operativa de `stage-condominio-app`. Re
 | [runbook.md](runbook.md) | Operación / guardia | Procedimientos para 502, recarga de esquema, superadmin, restore y rollback. |
 | [domain.md](domain.md) | Producto / datos | Esquema implementado y modelo de dominio propuesto para condominios. |
 | [frontend.md](frontend.md) | Frontend | Componentes, auth, roles, módulos, i18n y deuda técnica. |
+| [modules.md](modules.md) | Módulos | Flujos, permisos y acciones por rol. |
 | [roadmap.md](roadmap.md) | Todos | Brechas priorizadas P0/P1/P2/P3 y criterios de aceptación. |
 | [audits/README.md](audits/README.md) | Todos | Índice de auditorías y documentos históricos obsoletos. |
 

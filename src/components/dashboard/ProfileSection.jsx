@@ -7,7 +7,7 @@ import { useToast } from '../../context/ToastContext';
 import { useTranslation } from '../../context/I18nContext';
 
 export default function ProfileSection() {
-  const { session, profile, refreshProfile } = useAuth();
+  const { session, profile, refreshProfile, isAdmin } = useAuth();
   const { showSuccess, showError } = useToast();
   const { t } = useTranslation();
 
@@ -77,7 +77,7 @@ export default function ProfileSection() {
       });
       const avatarPath = profile.avatar_url || '';
       if (avatarPath && !avatarPath.startsWith('http')) {
-        supabase.storage.from('avatars').createSignedUrl(avatarPath, 3600).then(({ data }) => {
+        supabase.storage.from('avatars').createSignedUrl(avatarPath, 900).then(({ data }) => {
           setAvatarUrl(data?.signedUrl || '');
         });
       } else {
@@ -122,7 +122,7 @@ export default function ProfileSection() {
 
     const { data: signedData } = await supabase.storage
       .from('avatars')
-      .createSignedUrl(filePath, 3600);
+      .createSignedUrl(filePath, 900);
 
     const finalUrl = signedData?.signedUrl || filePath;
 
@@ -246,6 +246,7 @@ export default function ProfileSection() {
               value={formData.firstName}
               onChange={handleChange}
               required
+              disabled={!isAdmin}
               style={styles.input}
             />
           </div>
@@ -256,6 +257,7 @@ export default function ProfileSection() {
               name="secondName"
               value={formData.secondName}
               onChange={handleChange}
+              disabled={!isAdmin}
               style={styles.input}
             />
           </div>
@@ -267,6 +269,7 @@ export default function ProfileSection() {
               value={formData.lastName}
               onChange={handleChange}
               required
+              disabled={!isAdmin}
               style={styles.input}
             />
           </div>
@@ -277,6 +280,7 @@ export default function ProfileSection() {
               name="secondLastName"
               value={formData.secondLastName}
               onChange={handleChange}
+              disabled={!isAdmin}
               style={styles.input}
             />
           </div>
@@ -291,6 +295,7 @@ export default function ProfileSection() {
               placeholder="12.345.678-5"
               value={formData.rut}
               onChange={handleChange}
+              disabled={!isAdmin}
               style={styles.input}
             />
           </div>
@@ -312,6 +317,7 @@ export default function ProfileSection() {
               name="birthDate"
               value={formData.birthDate}
               onChange={handleChange}
+              disabled={!isAdmin}
               style={styles.input}
             />
           </div>
@@ -327,6 +333,7 @@ export default function ProfileSection() {
               name="street"
               value={formData.street}
               onChange={handleChange}
+              disabled={!isAdmin}
               style={styles.input}
             />
           </div>
@@ -337,6 +344,7 @@ export default function ProfileSection() {
               name="streetNumber"
               value={formData.streetNumber}
               onChange={handleChange}
+              disabled={!isAdmin}
               style={styles.input}
             />
           </div>
@@ -347,6 +355,7 @@ export default function ProfileSection() {
               name="deptOrUnit"
               value={formData.deptOrUnit}
               onChange={handleChange}
+              disabled={!isAdmin}
               style={styles.input}
             />
           </div>
@@ -359,6 +368,7 @@ export default function ProfileSection() {
               name="regionId"
               value={formData.regionId}
               onChange={handleChange}
+              disabled={!isAdmin}
               style={styles.select}
             >
               <option value="">{t('profile.select_region')}</option>
@@ -376,7 +386,7 @@ export default function ProfileSection() {
               name="communeId"
               value={formData.communeId}
               onChange={handleChange}
-              disabled={!formData.regionId}
+              disabled={!isAdmin || !formData.regionId}
               style={styles.select}
             >
               <option value="">{t('profile.select_commune')}</option>

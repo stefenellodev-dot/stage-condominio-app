@@ -18,3 +18,13 @@ jobs:
       - run: npm ci
       - run: npm run build
       - run: npm audit --omit=dev
+
+  rls:
+    runs-on: ubuntu-latest
+    if: secrets.DATABASE_URL != ''
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update && sudo apt-get install -y postgresql-client
+      - run: psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f supabase/tests/rls_authorization.sql
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}

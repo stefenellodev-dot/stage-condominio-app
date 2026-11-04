@@ -44,7 +44,7 @@ export default function SuperAdminTabla() {
           if (!avatarPath || avatarPath.startsWith('http')) {
             return [profile.id, avatarPath];
           }
-          const { data } = await supabase.storage.from('avatars').createSignedUrl(avatarPath, 3600);
+          const { data } = await supabase.storage.from('avatars').createSignedUrl(avatarPath, 900);
           return [profile.id, data?.signedUrl || ''];
         })
       );

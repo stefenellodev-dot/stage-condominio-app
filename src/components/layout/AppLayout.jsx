@@ -28,7 +28,7 @@ export default function AppLayout({ activeTab, onSelectTab, children }) {
       setAvatarUrl(avatarPath);
       return;
     }
-    supabase.storage.from('avatars').createSignedUrl(avatarPath, 3600).then(({ data }) => {
+    supabase.storage.from('avatars').createSignedUrl(avatarPath, 900).then(({ data }) => {
       setAvatarUrl(data?.signedUrl || '');
     });
   }, [profile?.avatar_url]);
