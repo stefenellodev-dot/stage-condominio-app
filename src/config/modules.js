@@ -1,5 +1,6 @@
 import ManagementCompaniesModule from '../components/business/ManagementCompaniesModule';
 import CondominiumsModule from '../components/business/CondominiumsModule';
+import UnitsModule from '../components/business/UnitsModule';
 
 export const businessModules = [
   {
@@ -14,6 +15,13 @@ export const businessModules = [
     labelKey: 'nav.condominiums',
     icon: '🏗️',
     component: CondominiumsModule,
+    roles: ['superadmin', 'admin'],
+  },
+  {
+    id: 'units',
+    labelKey: 'nav.units',
+    icon: '🚪',
+    component: UnitsModule,
     roles: ['superadmin', 'admin'],
   },
 ];
