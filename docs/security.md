@@ -34,7 +34,17 @@ Esto significa que un cambio en `profiles.role` surte efecto inmediatamente en l
 
 ## 3. RLS actual
 
-Tablas de negocio implementadas: `management_companies`, `management_company_members` y `condominiums`, todas con RLS y grants mínimos para `authenticated`.
+| Tabla | Acceso implementado |
+|---|---|
+| `profiles` | Usuario propio; superadmin; miembros activos de la misma empresa; propietarios de unidades de la empresa |
+| `management_companies` | Superadmin; miembro activo de la empresa; propietario de unidad de la empresa |
+| `management_company_members` | Superadmin administra; miembro activo lee miembros de su empresa |
+| `condominiums` | Superadmin; miembro activo de la empresa; propietario de unidad del condominio |
+| `units` | Superadmin y miembros activos de la empresa; propietario lee su unidad |
+| `regions`, `communes` | Lectura pública |
+| `storage.objects` (`avatars`) | Pendiente: bucket público |
+
+`anon` no tiene acceso a `profiles`, `management_companies`, `management_company_members`, `condominiums` ni `units`.
 
 | Tabla | Política | Comando | Roles | Regla | Estado |
 |---|---|---|---|---|---|

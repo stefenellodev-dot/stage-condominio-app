@@ -1,6 +1,6 @@
 # Roadmap y brechas — Condominio App
 
-> **Estado:** actualizado 2026-11-04. Aplicados P0-1, P0-2, P1-1, P1-2, P1-4 (backup local), P1-5 y P1-7 (empresas/condominios/membresías). P0-3 Inbucket sigue abierto temporalmente por pruebas. **Regla:** no producción mientras quede un P0 abierto.
+> **Estado:** actualizado 2026-11-04. Aplicados P0-1, P0-2, P1-1, P1-2, P1-4 (backup local), P1-5, P1-7 (empresas, membresías, condominios y unidades). P0-3 Inbucket sigue abierto temporalmente por pruebas. **Regla:** no producción mientras quede un P0 abierto.
 >
 > Los IDs coinciden con la [auditoría profunda](../auditoria_profunda_condominio_2026-11-03.md).
 
@@ -31,7 +31,7 @@
 | P1-4 | Alta | Sin backups | Timer + `pg_dump` + checksum + off-host | Backup diario y restore de prueba |
 | P1-5 | Alta | Build no reproducible | `npm ci`, lockfile, digests, non-root, healthcheck | Build idéntico y auditado |
 | P1-6 | Alta | Dominio ausente | Migraciones versionadas + RLS + reemplazar placeholder | Modelo mínimo con pruebas |
-| P1-7 | Alta | Módulo de empresas administradoras | CRUD completo, RLS para superadmin, listado y vista de detalle | Módulo visible y operativo para superadmin |
+| P1-7 | Alta | Módulos de empresas, membresías, condominios y unidades | CRUD + RLS por membresía | Implementado y verificado |
 | P2-1 | Media | `SuperAdminTabla` solo cubre `superadmin`; falta alcance `admin` | RPC administrativa, membresía por comunidad, auditoría | Cambios de rol/estado funcionan solo para el admin de su comunidad |
 | P2-2 | Media | Sin cabeceras de seguridad | CSP, HSTS, `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`, `Permissions-Policy` | Cabeceras presentes en respuestas |
 | P2-3 | Media | GoTrue débil | URI allow list, rate limits, captcha, password policy, SMTP real | Configuración verificada |

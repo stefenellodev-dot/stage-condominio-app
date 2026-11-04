@@ -35,7 +35,7 @@ src/
 │   │   └── ResetForm.jsx
 │   ├── business/
 │   │   ├── HomeOverview.jsx        # No referenciado
-│   │   └── InventoryModule.jsx     # Placeholder
+│   │   └── (sin módulo placeholder; negocio en ManagementCompanies, Condominiums y Units)
 │   ├── dashboard/
 │   │   ├── Dashboard.jsx
 │   │   ├── ProfileSection.jsx
@@ -119,7 +119,7 @@ La UI no debe ser la única barrera. Un usuario sin permisos debe recibir 0 fila
 
 ### 4.3 Módulos
 
-`businessModules` ahora contiene `management_companies` y `condominiums`. Ambos usan vista completa de alta/edición/detalle con secciones estilo `ProfileSection` y tabla estilo `SuperAdminTabla`. `AppLayout` resuelve `labelKey` con `t()`.
+`businessModules` ahora contiene `management_companies`, `condominiums` y `units`. Todos usan vista completa de alta/edición/detalle con secciones estilo `ProfileSection` y tabla estilo `SuperAdminTabla`. `AppLayout` resuelve `labelKey` con `t()`.
 
 ---
 

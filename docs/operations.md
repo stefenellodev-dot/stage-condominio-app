@@ -25,7 +25,7 @@
 |---|---|---|---|
 | `3002` | App | Tailscale | Mantener; TLS solo si se publica |
 | `8200` | Kong | Tailscale | Mantener; CORS restringido a la app y Vite local |
-| `8280` | Studio | `127.0.0.1`, sin auth | Acceso por túnel SSH restringido |
+| `8280` | Studio | `127.0.0.1`, sin auth | Túnel SSH restringido |
 | `9100` | Inbucket | Tailscale, sin auth | **Cerrar al terminar pruebas** |
 | `54322` | PostgreSQL | Cerrado; solo red de contenedores | Mantener cerrado |
 
@@ -135,7 +135,7 @@ podman exec condo-sb-db pg_isready -U postgres
 
 ### 4.2 Estado actual
 
-- `condo-sb-db` y Kong tienen healthcheck; la app tiene healthcheck en el Quadlet y responde `healthy`.
+- `condo-sb-db`, Kong y la app tienen healthcheck; la app responde `healthy`.
 - No hay alertas de 5xx, backup, disco, memoria ni saturación.
 - `log_min_duration_statement = -1`; no hay slow query log.
 - Los logs usan journald y pueden contener correos/PII.

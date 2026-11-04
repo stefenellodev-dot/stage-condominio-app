@@ -2,7 +2,7 @@
 
 Aplicación web para la administración de condominios en Chile. Frontend React/Vite con Supabase self-hosted.
 
-> **Estado:** staging / no producción. **Última verificación:** 2026-11-03.
+> **Estado:** staging / no producción. **Última verificación:** 2026-11-04.
 >
 > **No usar con datos reales** hasta cerrar los P0 de la [auditoría profunda](auditoria_profunda_condominio_2026-11-03.md): autoascenso a `superadmin`, inyección de rol en signup, Inbucket sin autenticación y Studio expuesto.
 

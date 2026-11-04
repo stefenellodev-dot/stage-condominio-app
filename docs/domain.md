@@ -1,6 +1,6 @@
 # Dominio y datos — Condominio App
 
-> **Estado:** esquema actual verificado en el catálogo de PostgreSQL el 2026-11-03. El modelo de condominio es **propuesto** y no está implementado.
+> **Estado:** esquema verificado en PostgreSQL. Implementados: empresas administradoras, membresías, condominios y unidades. El modelo de comunidades/membresías por comunidad sigue siendo propuesto.
 >
 > **No usar datos reales** hasta cerrar los P0 de seguridad. Ver [security.md](security.md).
 
@@ -108,7 +108,7 @@ Tablas implementadas con RLS:
 
 ## 3. Modelo de condominio propuesto
 
-> Todo lo de esta sección es **propuesto**. No existe en la base ni en el frontend.
+> Parcialmente implementado: empresas administradoras, membresías, condominios y unidades. Comunidades, edificios, unidades de condominio y gastos siguen siendo propuestos.
 
 ### 3.1 Entidades
 
