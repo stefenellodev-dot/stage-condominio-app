@@ -56,6 +56,14 @@ export default function ManagementCompaniesModule() {
   const [filterStatus, setFilterStatus] = useState('all');
   const [filterMinvu, setFilterMinvu] = useState('all');
   const [page, setPage] = useState(1);
+  const [membersView, setMembersView] = useState(null);
+  const [selectedCompany, setSelectedCompany] = useState(null);
+  const [members, setMembers] = useState([]);
+  const [membersLoading, setMembersLoading] = useState(false);
+  const [memberSearch, setMemberSearch] = useState('');
+  const [candidateUsers, setCandidateUsers] = useState([]);
+  const [selectedUserId, setSelectedUserId] = useState('');
+  const [memberSaving, setMemberSaving] = useState(false);
 
   const perPage = 8;
 
@@ -307,6 +315,128 @@ export default function ManagementCompaniesModule() {
 
     showSuccess(t('management_companies.delete_success'));
     loadCompanies();
+  };
+
+  const loadMembers = async (companyId) => {
+    setMembersLoading(true);
+    const { data, error } = await supabase
+      .from('management_company_members')
+      .select('id, role, status, created_at, user_id')
+      .eq('management_company_id', companyId)
+      .is('deleted_at', null)
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      showError(error.message);
+      setMembers([]);
+      setMembersLoading(false);
+      return;
+    }
+
+    const userIds = (data || []).map((member) => member.user_id);
+    const profilesById = {};
+
+    if (userIds.length) {
+      const { data: profiles, error: profilesError } = await supabase
+        .from('profiles')
+        .select('id, first_name, last_name, full_name, email, rut')
+        .in('id', userIds);
+
+      if (profilesError) {
+        showError(profilesError.message);
+      } else {
+        (profiles || []).forEach((profile) => {
+          profilesById[profile.id] = profile;
+        });
+      }
+    }
+
+    setMembers(
+      (data || []).map((member) => ({
+        ...member,
+        profile: profilesById[member.user_id] || null,
+      }))
+    );
+    setMembersLoading(false);
+  };
+
+  const loadCandidateUsers = async () => {
+    const { data, error } = await supabase
+      .from('profiles')
+      .select('id, first_name, last_name, full_name, email, rut')
+      .eq('role', 'admin')
+      .is('deleted_at', null)
+      .order('email', { ascending: true });
+
+    if (error) {
+      showError(error.message);
+      setCandidateUsers([]);
+      return;
+    }
+    setCandidateUsers(data || []);
+  };
+
+  const openMembers = (company) => {
+    setSelectedCompany(company);
+    setMembersView('members');
+    setMemberSearch('');
+    setSelectedUserId('');
+    loadMembers(company.id);
+    loadCandidateUsers();
+  };
+
+  const closeMembers = () => {
+    setSelectedCompany(null);
+    setMembersView('list');
+    setMembers([]);
+  };
+
+  const handleAssignMember = async () => {
+    if (!selectedCompany || !selectedUserId) return;
+
+    setMemberSaving(true);
+    const { error } = await supabase
+      .from('management_company_members')
+      .insert({
+        management_company_id: selectedCompany.id,
+        user_id: selectedUserId,
+        role: 'admin',
+        status: 'active',
+      });
+    setMemberSaving(false);
+
+    if (error) {
+      if (error.code === '23505') {
+        showError(t('management_companies.members_duplicate'));
+      } else {
+        showError(error.message);
+      }
+      return;
+    }
+
+    showSuccess(t('management_companies.members_assigned'));
+    setSelectedUserId('');
+    loadMembers(selectedCompany.id);
+  };
+
+  const handleRemoveMember = async (memberId) => {
+    if (!window.confirm(t('management_companies.members_remove_confirm'))) return;
+
+    const { error } = await supabase
+      .from('management_company_members')
+      .update({
+        deleted_at: new Date().toISOString(),
+        status: 'inactive',
+      })
+      .eq('id', memberId);
+
+    if (error) {
+      showError(error.message);
+      return;
+    }
+
+    showSuccess(t('management_companies.members_removed'));
+    if (selectedCompany) loadMembers(selectedCompany.id);
   };
 
   const filteredCompanies = useMemo(() => {
@@ -705,6 +835,144 @@ export default function ManagementCompaniesModule() {
     );
   }
 
+  if (membersView === 'members' && selectedCompany) {
+    const memberUserIds = new Set(members.map((member) => member.user_id));
+    const filteredCandidates = candidateUsers.filter((user) => {
+      const term = memberSearch.trim().toLowerCase();
+      if (!term) return true;
+      return [user.full_name, user.first_name, user.last_name, user.email, user.rut]
+        .filter(Boolean)
+        .some((value) => value.toLowerCase().includes(term));
+    });
+
+    return (
+      <div style={{ marginTop: '28px' }}>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            gap: '12px',
+            marginBottom: '18px',
+            flexWrap: 'wrap',
+          }}
+        >
+          <div>
+            <h3 style={{ margin: '0 0 4px' }}>
+              {t('management_companies.members_title')}: {selectedCompany.legal_name}
+            </h3>
+            <p style={{ margin: 0, color: 'var(--text-secondary)', fontSize: '13px' }}>
+              {t('management_companies.members_subtitle')}
+            </p>
+          </div>
+          <button onClick={closeMembers} style={styles.buttonAction}>
+            {t('management_companies.back_to_list')}
+          </button>
+        </div>
+
+        <div style={styles.tableWrapper}>
+          <table style={{ ...styles.table, tableLayout: 'fixed', minWidth: '760px' }}>
+            <thead>
+              <tr style={styles.thRow}>
+                <th style={{ ...styles.th, width: '28%' }}>{t('management_companies.members_col_user')}</th>
+                <th style={{ ...styles.th, width: '28%' }}>{t('management_companies.members_col_email')}</th>
+                <th style={{ ...styles.th, width: '16%' }}>{t('management_companies.members_col_rut')}</th>
+                <th style={{ ...styles.th, width: '12%', textAlign: 'center' }}>{t('management_companies.members_col_role')}</th>
+                <th style={{ ...styles.th, width: '10%', textAlign: 'center' }}>{t('management_companies.members_col_status')}</th>
+                <th style={{ ...styles.th, width: '10%', textAlign: 'center' }}>{t('management_companies.members_col_actions')}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {membersLoading ? (
+                <tr>
+                  <td colSpan="6" style={{ ...styles.td, textAlign: 'center', color: 'var(--text-dim)', padding: '24px' }}>
+                    {t('common.loading')}
+                  </td>
+                </tr>
+              ) : members.length === 0 ? (
+                <tr>
+                  <td colSpan="6" style={{ ...styles.td, textAlign: 'center', color: 'var(--text-dim)', padding: '24px' }}>
+                    {t('management_companies.members_empty')}
+                  </td>
+                </tr>
+              ) : (
+                members.map((member) => (
+                  <tr key={member.id} style={styles.tr}>
+                    <td style={styles.td}>
+                      {member.profile?.full_name ||
+                        [member.profile?.first_name, member.profile?.last_name].filter(Boolean).join(' ') ||
+                        '—'}
+                    </td>
+                    <td style={styles.td}>{member.profile?.email || '—'}</td>
+                    <td style={{ ...styles.td, fontFamily: 'var(--font-mono)', fontSize: '12px' }}>
+                      {member.profile?.rut || '—'}
+                    </td>
+                    <td style={{ ...styles.td, textAlign: 'center' }}>{member.role}</td>
+                    <td style={{ ...styles.td, textAlign: 'center' }}>{member.status}</td>
+                    <td style={{ ...styles.td, textAlign: 'center' }}>
+                      <button
+                        onClick={() => handleRemoveMember(member.id)}
+                        style={styles.btnDelete}
+                      >
+                        {t('management_companies.members_remove')}
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
+
+        <section style={{ ...styles.sectionBox, marginTop: '18px' }}>
+          <h4 style={{ margin: '0 0 12px', color: 'var(--primary)' }}>
+            {t('management_companies.members_assign_title')}
+          </h4>
+          <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '10px', alignItems: 'end' }}>
+            <div>
+              <label style={styles.label}>{t('management_companies.members_search')}</label>
+              <input
+                type="text"
+                value={memberSearch}
+                onChange={(event) => setMemberSearch(event.target.value)}
+                style={styles.input}
+                placeholder={t('management_companies.members_search_placeholder')}
+              />
+            </div>
+            <div>
+              <label style={styles.label}>{t('management_companies.members_candidate')}</label>
+              <select
+                value={selectedUserId}
+                onChange={(event) => setSelectedUserId(event.target.value)}
+                style={styles.select}
+              >
+                <option value="">{t('management_companies.select_option')}</option>
+                {filteredCandidates.map((user) => (
+                  <option key={user.id} value={user.id} disabled={memberUserIds.has(user.id)}>
+                    {(user.full_name || [user.first_name, user.last_name].filter(Boolean).join(' ') || user.email)} - {user.email}
+                    {memberUserIds.has(user.id) ? ` (${t('management_companies.members_already_associated')})` : ''}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+          {filteredCandidates.length === 0 ? (
+            <p style={{ color: 'var(--text-secondary)', fontSize: '13px', marginTop: '10px' }}>
+              {t('management_companies.members_no_candidates')}
+            </p>
+          ) : null}
+          <button
+            onClick={handleAssignMember}
+            disabled={memberSaving || !selectedUserId || memberUserIds.has(selectedUserId)}
+            style={{ ...styles.button, marginTop: '12px' }}
+          >
+            {memberSaving ? t('management_companies.saving') : t('management_companies.members_assign_button')}
+          </button>
+        </section>
+      </div>
+    );
+  }
+
   return (
     <div style={{ marginTop: '28px' }}>
       <div
@@ -832,6 +1100,12 @@ export default function ManagementCompaniesModule() {
                   </td>
                   <td style={{ ...styles.td, textAlign: 'center' }}>
                     <div style={{ display: 'flex', gap: '6px', justifyContent: 'center', flexWrap: 'wrap' }}>
+                      <button
+                        onClick={() => openMembers(company)}
+                        style={styles.buttonAction}
+                      >
+                        {t('management_companies.members_button')}
+                      </button>
                       <button
                         onClick={() => handleEdit(company)}
                         style={styles.buttonAction}
