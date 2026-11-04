@@ -21,6 +21,8 @@ export const es = {
     users_management: 'Usuarios y Accesos',
   },
   roles: {
+    superadmin: 'superadmin',
+    badge_superadmin: 'SUPERADMIN',
     admin: 'admin',
     user: 'user',
     badge_admin: 'ADMIN',

@@ -6,14 +6,14 @@ import { appConfig } from '../../config/appConfig';
 import { businessModules } from '../../config/modules';
 
 export default function AppLayout({ activeTab, onSelectTab, children }) {
-  const { profile, isAdmin, signOut } = useAuth();
+  const { profile, isAdmin, isSuperadmin, signOut } = useAuth();
   const { lang, toggleLang, t } = useTranslation();
 
   const userRole = profile?.role || 'user';
 
   // Filtrado de módulos según el rol del usuario autenticado
   const availableModules = businessModules.filter(
-    (mod) => !mod.roles || mod.roles.includes(userRole)
+    (mod) => !mod.roles || userRole === 'superadmin' || mod.roles.includes(userRole)
   );
 
   const navItemStyle = (isActive) => ({
@@ -163,8 +163,18 @@ export default function AppLayout({ activeTab, onSelectTab, children }) {
               }}>
                 {profile?.first_name ? `${profile.first_name} ${profile.last_name || ''}` : profile?.full_name || 'Usuario'}
               </div>
-              <span style={isAdmin ? styles.badgeAdmin : styles.badgeUser}>
-                {isAdmin ? t('roles.badge_admin') : t('roles.badge_user')}
+              <span style={
+                (profile?.role === 'superadmin' || isSuperadmin)
+                  ? { ...styles.badgeAdmin, backgroundColor: "#7c3aed", color: "#ffffff" }
+                  : isAdmin
+                  ? styles.badgeAdmin
+                  : styles.badgeUser
+              }>
+                {(profile?.role === 'superadmin' || isSuperadmin)
+                  ? (t('roles.badge_superadmin') || "SUPERADMIN")
+                  : isAdmin
+                  ? t('roles.badge_admin')
+                  : t('roles.badge_user')}
               </span>
             </div>
           </div>

@@ -1,93 +1,123 @@
-REGLAS Y DIRECTRICES MAESTRAS PARA OPENCODE
+# Reglas y directrices para OpenCode
 
-Eres el desarrollador de software principal que asiste en el desarrollo de Gestión Condominio (stage-condominio-app).
-Debes ceñirte de forma estricta a los siguientes principios y límites arquitectónicos.
+Eres el desarrollador principal de **Gestión Condominio** (`stage-condominio-app`). Estas reglas tienen prioridad sobre las convenciones por defecto del asistente. Si algo no está claro, pregunta antes de tocar zonas congeladas o seguridad.
 
-1. Ámbito Arquitectura (Código Congelado vs Código de Negocio)
+---
 
-ZONA CONGELADA (PROHIBIDO MODIFICAR SIN ORDEN EXPLÍCITA):
+## 0. Prioridad y estado
 
-src/components/auth/*: Formularios de Login, Registro, Recuperación y OTP.
+1. **No usar datos reales** hasta cerrar los P0 de `auditoria_profunda_condominio_2026-11-03.md`.
+2. La documentación de referencia es `docs/README.md`; la arquitectura, `docs/architecture.md`; la seguridad, `docs/security.md`; la operación, `docs/operations.md` y `docs/runbook.md`.
+3. Si el código y la documentación difieren, gana el código/configuración verificado; corrige la documentación en el mismo cambio.
+4. No hardcodear IPs, secretos, tokens, correos, UUID ni credenciales. Usar variables de entorno y placeholders.
+5. No commitear secretos ni archivos `.env` con valores reales.
 
-src/context/AuthContext.jsx: Ciclo de vida de autenticación Supabase.
+---
 
-src/components/layout/AppLayout.jsx: Layout maestro, Sidebar, selector de idioma y logout.
+## 1. Zonas congeladas y zona de negocio
 
-src/components/dashboard/*: Gestión de perfiles y usuarios del Starter Kit.
+### Congelado: no modificar sin orden explícita
 
-ZONA PERMITIDA PARA TRABAJO DE NEGOCIO:
+- `src/components/auth/*`
+- `src/context/AuthContext.jsx`
+- `src/lib/supabase.js`
+- `src/components/layout/AppLayout.jsx`
+- `src/components/dashboard/*`
 
-src/components/business/*: Aquí se implementan el 100% de las pantallas, tablas, modales y formularios de condominios.
+Una corrección de seguridad aprobada puede tocar estas zonas, pero debe ser explícita, mínima y verificada. No mezclar refactors cosméticos con seguridad.
 
-src/config/modules.js: Aquí se registran los nuevos módulos creados.
+### Zona de negocio
 
-src/locales/es.js y src/locales/en.js: Diccionarios de internacionalización obligatorios para cualquier texto nuevo en la interfaz.
+- `src/components/business/*`: aquí se implementan las pantallas, tablas, modales y formularios de condominio.
+- `src/config/modules.js`: registro declarativo de módulos.
+- `src/locales/es.js` y `src/locales/en.js`: todo texto nuevo debe tener clave en ambos idiomas.
 
-2. Protocolo Obligatorio para Crear Módulos
+---
 
-Cuando se solicite crear una nueva pantalla o funcionalidad (ej: Gastos Comunes):
+## 2. Protocolo para crear módulos
 
-Crear el componente dentro de src/components/business/NombreModulo.jsx.
+1. Crear el componente en `src/components/business/NombreModulo.jsx`.
+2. Añadir los textos en `src/locales/es.js` y `src/locales/en.js`.
+3. Registrarlo en `src/config/modules.js`:
 
-Definir los textos en los diccionarios src/locales/es.js y src/locales/en.js.
-
-Registrarlo en src/config/modules.js con la siguiente estructura declarativa:
-
+```js
 {
   id: 'slug-del-modulo',
   label: 'Nombre Visible',
   icon: '🏢',
   component: NombreModulo,
-  roles: ['admin', 'conserje'] // Control RBAC
+  roles: ['admin'] // roles válidos: user, admin, superadmin
 }
+```
 
+Reglas:
 
-NUNCA agregar rutas manuales en App.jsx: El enrutador y el menú lateral son dinámicos y leen directamente la configuración de modules.js.
+- Roles válidos hoy: `user`, `admin`, `superadmin`. `operator` y `conserje` **no existen**; no usarlos.
+- `superadmin` siempre debe poder acceder; no lo incluyas en `roles` si el filtro ya lo contempla, pero verifica el comportamiento.
+- No agregar rutas manuales en `App.jsx`; el menú es dinámico.
+- La UI no es una frontera de seguridad: si el módulo muestra datos, la RLS debe impedir el acceso no autorizado aunque se fuerce el tab.
 
-3. Ámbito Base de Datos y Supabase
+---
 
-Ubicación del Backend:
+## 3. Base de datos, RLS y Supabase
 
-Instancia: Supabase Staging en Piave (http://100.126.211.117:8100).
+### Reglas obligatorias
 
-Seguridad y RLS (Row Level Security):
+- Toda tabla nueva debe tener `ALTER TABLE ... ENABLE ROW LEVEL SECURITY`.
+- Cada tabla debe tener políticas explícitas para `SELECT`, `INSERT`, `UPDATE` y `DELETE` según corresponda.
+- No usar `USING (true)` ni `WITH CHECK (true)` para datos personales, perfiles, unidades o gastos.
+- No confiar en `raw_user_meta_data` para roles. `handle_new_user` debe forzar `'user'`.
+- `profiles.role` solo lo cambia un `superadmin`; el usuario común solo edita columnas de perfil.
+- No otorgar `UPDATE` de tabla completa a `authenticated` si incluye `role`, `status`, `deleted_at` o `email`.
+- `anon` no debe leer `profiles` ni objetos de Storage.
+- El bucket `avatars` debe ser privado y las políticas deben validar el propietario/ruta con `auth.uid()`.
+- No exponer el service role key en el frontend ni en documentación.
+- No exponer Studio, Inbucket ni PostgreSQL en la tailnet.
+- Usar migraciones versionadas; no editar `supabase/init.sql` como si fuera la base real.
+- Las funciones `SECURITY DEFINER` solo cuando se justifiquen; fijar `SET search_path = public` y revisar el riesgo de escalada.
+- Validar RUT y datos personales también en servidor si el negocio lo requiere; la validación de cliente es solo UX.
 
-Toda tabla nueva creada en PostgreSQL DEBE TENER RLS ACTIVO (ALTER TABLE x ENABLE ROW LEVEL SECURITY;).
+### Estado actual que no se debe reproducir
 
-Las funciones en PL/pgSQL deben incluir siempre SECURITY DEFINER y SET search_path = public para evitar inyecciones de esquemas.
+`supabase/init.sql` está desalineado con la base real y las políticas actuales permiten autoascenso, lectura anónima y sobrescritura de avatares. Ver `docs/security.md`.
 
-Convenciones de Datos:
+### SQL
 
-Claves primarias: UUID PRIMARY KEY DEFAULT gen_random_uuid() o SERIAL para catálogos estáticos.
+- Entregar SQL como migración idempotente y revisada.
+- Incluir `BEGIN`/`COMMIT` solo cuando corresponda y advertir sobre bloqueos.
+- Probar en una base de prueba antes de producción.
+- No incluir credenciales en ejemplos.
 
-Auditoría: Columnas created_at TIMESTAMPTZ DEFAULT timezone('utc', now()) y updated_at.
+---
 
-Localización Chilena: Si se vinculan personas, relacionar mediante clave foránea a public.profiles(id) y validar RUT chileno con src/lib/rut.js.
+## 4. UI, estilos e i18n
 
-4. Ámbito Diseño, UI y Estilos
+- Usar los tokens de `src/styles/theme.js` y `src/styles/tokens.css`.
+- No agregar Tailwind, Bootstrap ni librerías de UI sin pedido explícito.
+- No usar librerías nuevas si el proyecto ya tiene una solución equivalente.
+- Todo texto visible debe pasar por `useTranslation` y existir en `es.js` y `en.js`.
+- Mantener el branding en `src/config/appConfig.js` y variables `VITE_*`.
+- Evitar strings hardcodeados en español en componentes nuevos.
 
-Sin dependencias pesadas de CSS: No instalar Tailwind, Bootstrap ni librerías externas de UI a menos que se indique explícitamente.
+---
 
-Uso estricto de Design Tokens: Utilizar las variables CSS declaradas en src/styles/tokens.css e index.html:
+## 5. Infraestructura y despliegue
 
-Fondos: var(--bg-app) (#0f172a), var(--bg-surface) (#1e293b).
+- La app corre en Piave en el puerto `3002`, servicio `stage-stage-condominio-app.service`.
+- No apuntar `rsync`, contenedores ni puertos a `stage-auth-app` (puerto `3001`).
+- El deploy real es: tarea de VS Code -> `rsync` -> `stage-cli deploy` -> `podman build` -> `systemctl --user restart`.
+- `podman restart` **no** aplica una imagen nueva. No documentarlo como deploy.
+- Verificar después del deploy: `podman inspect`, asset servido, login y healthchecks.
+- No copiar `.env` con secretos al servidor ni al repositorio.
+- No ejecutar comandos destructivos sin backup y confirmación.
 
-Bordes: var(--border-subtle) (rgba(255, 255, 255, 0.08)).
+---
 
-Textos: var(--text-main) (#f8fafc), var(--text-muted) (#94a3b8).
+## 6. Documentación y verificación
 
-Colores de acción: var(--primary) (#3b82f6), var(--primary-hover).
-
-5. Ámbito Infraestructura y Despliegue (Piave)
-
-Aislamiento de Servidor:
-
-Esta aplicación corre en Piave en el puerto 3002 bajo el servicio Podman stage-stage-condominio-app.service.
-
-NUNCA apuntar transferencias rsync, contenedores o puertos hacia stage-auth-app (puerto 3001).
-
-Despliegue estándar:
-
-Compilar siempre con npm run build antes de desplegar.
-
-El despliegue se ejecuta exclusivamente mediante la tarea de VS Code configurada en .vscode/tasks.json.
+- Actualizar `docs/` cuando cambie una política RLS, un puerto, un contenedor, el esquema o un procedimiento.
+- Usar las etiquetas **Verificado**, **Propuesto** y **Obsoleto**.
+- No presentar como implementado lo que solo está propuesto.
+- Al cerrar un P0/P1, actualizar `docs/roadmap.md` y la fecha de verificación.
+- Añadir tests cuando exista infraestructura; si no existe, proponerla antes de afirmar que algo está verificado.
+- No afirmar que un cambio funciona sin evidencia: ejecutar build/tests o indicar exactamente qué falta verificar.

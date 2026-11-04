@@ -132,6 +132,7 @@ export default function AdminTable() {
           <option value="all">{t('admin.all_roles')}</option>
           <option value="user">{t('admin.only_users')}</option>
           <option value="admin">{t('admin.only_admins')}</option>
+          <option value="superadmin">superadmin</option>
         </select>
         <select
           value={filterStatus}
@@ -222,30 +223,48 @@ export default function AdminTable() {
                     </td>
 
                     <td style={styles.td}>
-                      <select
-                        value={item.role}
-                        onChange={(e) => handleRoleChange(item.id, e.target.value)}
-                        disabled={item.id === session.user.id}
-                        style={{ ...styles.select, width: '100%' }}
-                      >
-                        <option value="user">user</option>
-                        <option value="admin">admin</option>
-                      </select>
+                      {item.role === 'superadmin' ? (
+                        <span style={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          padding: '4px 8px',
+                          borderRadius: 'var(--radius-sm)',
+                          backgroundColor: 'rgba(139, 92, 246, 0.15)',
+                          color: '#a78bfa',
+                          fontSize: '11px',
+                          fontWeight: '700',
+                          letterSpacing: '0.5px'
+                        }}>
+                          SUPERADMIN
+                        </span>
+                      ) : (
+                        <select
+                          value={item.role || 'user'}
+                          onChange={(e) => handleRoleChange(item.id, e.target.value)}
+                          disabled={item.id === session?.user?.id}
+                          style={{ ...styles.select, width: '100%' }}
+                        >
+                          <option value="user">user</option>
+                          <option value="admin">admin</option>
+                        </select>
+                      )}
                     </td>
 
                     <td style={{ ...styles.td, textAlign: 'center' }}>
                       <button
                         onClick={() => handleStatusToggle(item.id, item.status || 'active')}
-                        disabled={item.id === session.user.id}
+                        disabled={item.id === session?.user?.id || item.role === 'superadmin'}
                         style={{
                           padding: '4px 8px',
                           borderRadius: 'var(--radius-sm)',
                           border: 'none',
-                          cursor: item.id === session.user.id ? 'not-allowed' : 'pointer',
+                          cursor: (item.id === session?.user?.id || item.role === 'superadmin') ? 'not-allowed' : 'pointer',
                           fontSize: '11px',
                           fontWeight: '700',
                           backgroundColor: (item.status || 'active') === 'active' ? 'var(--success-bg)' : 'var(--danger-bg)',
-                          color: (item.status || 'active') === 'active' ? 'var(--success-text)' : 'var(--danger-text)'
+                          color: (item.status || 'active') === 'active' ? 'var(--success-text)' : 'var(--danger-text)',
+                          opacity: item.role === 'superadmin' ? 0.7 : 1
                         }}
                       >
                         {(item.status || 'active').toUpperCase()}
@@ -253,11 +272,7 @@ export default function AdminTable() {
                     </td>
 
                     <td style={{ ...styles.td, textAlign: 'center' }}>
-                      {item.id !== session.user.id ? (
-                        <button onClick={() => handleSoftDelete(item.id)} style={styles.btnDelete}>
-                          {t('common.delete')}
-                        </button>
-                      ) : (
+                      {item.id === session?.user?.id ? (
                         <span style={{
                           display: 'inline-block',
                           padding: '3px 8px',
@@ -269,6 +284,22 @@ export default function AdminTable() {
                         }}>
                           {t('common.you')}
                         </span>
+                      ) : item.role === 'superadmin' ? (
+                        <span style={{
+                          display: 'inline-block',
+                          padding: '3px 8px',
+                          borderRadius: 'var(--radius-sm)',
+                          backgroundColor: 'var(--border-subtle)',
+                          color: 'var(--text-dim)',
+                          fontSize: '11px',
+                          fontWeight: '600'
+                        }}>
+                          —
+                        </span>
+                      ) : (
+                        <button onClick={() => handleSoftDelete(item.id)} style={styles.btnDelete}>
+                          {t('common.delete')}
+                        </button>
                       )}
                     </td>
                   </tr>

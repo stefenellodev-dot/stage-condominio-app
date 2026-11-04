@@ -1,24 +1,35 @@
-CONTEXTO DEL PROYECTO: GESTIÓN CONDOMINIO
+# Contexto del proyecto: Gestión Condominio
 
-Este repositorio es una aplicación web SaaS para la administración y operación de comunidades y condominios en Chile.
-Se derivó del Starter Kit corporativo stage-auth-app y utiliza una arquitectura modular desacoplada.
+Este repositorio es una aplicación web para la administración de comunidades y condominios en Chile, derivada del Starter Kit corporativo `stage-auth-app`.
 
-Ficha Técnica del Entorno
+ESTADO
 
-Frontend: React 18, Vite 5, JavaScript estándar (ESM).
+- Staging / no producción. Última verificación: 2026-11-03.
+- No usar datos reales hasta cerrar los P0 de `auditoria_profunda_condominio_2026-11-03.md`.
+- El dominio de condominio (comunidades, unidades, gastos) no está implementado; el placeholder actual es `InventoryModule`.
 
-Backend: Supabase autohospedado en servidor Piave (http://100.126.211.117:8100).
+DOCUMENTACIÓN
 
-Base de datos: PostgreSQL 15 con PostgREST, GoTrue (Auth) y Storage.
+- Índice y estado: `docs/README.md`.
+- Arquitectura: `docs/architecture.md`.
+- Seguridad y RLS: `docs/security.md`.
+- Operación y deploy: `docs/operations.md` y `docs/runbook.md`.
+- Dominio y esquema real: `docs/domain.md`.
+- Frontend y deuda técnica: `docs/frontend.md`.
+- Roadmap: `docs/roadmap.md`.
+- Reglas para agentes: `.opencode/rules.md`.
 
-Contenedor en Staging: Podman rootless en servidor piave (IP Tailscale: 100.126.211.117:3002).
+ENTORNO
 
-Servicio Host: Systemd Quadlet stage-stage-condominio-app.service.
+- Frontend: React 18, Vite 5, JavaScript ESM.
+- Backend: Supabase self-hosted en Piave (Kong, GoTrue, PostgREST, Storage, PostgreSQL).
+- Contenedor: Podman rootless; servicio systemd de usuario `stage-stage-condominio-app.service`.
+- No hardcodear IPs, puertos de administración ni secretos en código o documentación.
+- El deploy real usa la tarea de VS Code + `stage-cli deploy`; `podman restart` no aplica una imagen nueva.
 
-Cómo interactuar con este proyecto
+CÓMO INTERACTUAR
 
-Revisa siempre .opencode/rules.md antes de generar o proponer código nuevo.
-
-Consulta DOMAIN.md para entender las relaciones de base de datos de condominios.
-
-Si generas scripts SQL, entrégalos en bloques idempotentes (CREATE TABLE IF NOT EXISTS, ON CONFLICT DO NOTHING) listos para el SQL Editor de Supabase.
+1. Lee `.opencode/rules.md` antes de proponer o generar código.
+2. Consulta `docs/domain.md` para el estado real y el modelo propuesto.
+3. No modifiques las zonas congeladas sin una orden explícita; las correcciones de seguridad requieren aprobación y orden.
+4. Entrega SQL como migraciones idempotentes y revisadas, no como parches sueltos en el SQL Editor.

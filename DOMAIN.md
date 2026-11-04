@@ -1,89 +1,44 @@
-MODELO DE DOMINIO: GESTIÓN CONDOMINIO
+# Modelo de dominio — Condominio
 
-Este documento detalla las entidades principales requeridas para la gestión del sistema de condominios.
+> **Estado real verificado:** 2026-11-03. El detalle completo está en **[docs/domain.md](docs/domain.md)**.
 
-1. Entidades Principales
+---
 
-communities (Comunidades / Condominios)
+## 1. Implementado
 
-Representa a cada conjunto residencial o condominio independiente.
+| Entidad | Estado | Nota |
+|---|---|---|
+| `public.profiles` | Verificado | 26 columnas; rol `user`/`admin`/`superadmin` |
+| `public.regions` | Verificado | 16 filas; `code`, `name`, `roman_numeral` |
+| `public.communes` | Verificado | 104 filas; FK a `regions` |
+| `communities` | **No existe** | Propuesto |
+| `buildings` | **No existe** | Propuesto |
+| `units` | **No existe** | Propuesto |
+| `expenses_period` | **No existe** | Propuesto |
+| `unit_expenses` | **No existe** | Propuesto |
 
-id: UUID (PK, gen_random_uuid())
+`supabase/init.sql` no refleja la base real: tiene menos columnas, otro CHECK de roles, FKs que no existen y nombres distintos. No usarlo para reconstruir la base. Ver la tabla de deriva en [docs/domain.md](docs/domain.md).
 
-name: VARCHAR(150) (Ej: "Condominio Los Alerces")
+---
 
-rut: VARCHAR(20) (RUT tributario de la comunidad chilena)
+## 2. Modelo propuesto
 
-address: VARCHAR(200)
+El dominio objetivo incluye:
 
-commune_id: INT (FK -> public.communes(id))
+- `communities`: condominio, RUT tributario, dirección, comuna/región.
+- `buildings`: torres/bloques dentro de una comunidad.
+- `units`: departamentos, casas, bodegas y estacionamientos; prorrateo (`aliquot`).
+- `community_members`: membresía y rol por comunidad (`community_admin`, `resident`, `viewer`).
+- `expenses_period`: periodo mensual de gastos comunes (`draft`, `issued`, `closed`).
+- `unit_expenses`: monto por unidad, pagos y estado (`pending`, `partial`, `paid`, `overdue`).
 
-region_id: INT (FK -> public.regions(id))
+El modelo propuesto, las reglas de negocio y el orden de migración están en [docs/domain.md](docs/domain.md).
 
-created_at: TIMESTAMPTZ
+---
 
-buildings (Torres / Bloques)
+## 3. Regla de autorización
 
-Subdivisiones físicas de una comunidad.
-
-id: UUID (PK, gen_random_uuid())
-
-community_id: UUID (FK -> public.communities(id) ON DELETE CASCADE)
-
-name: VARCHAR(50) (Ej: "Torre A", "Edificio Poniente")
-
-created_at: TIMESTAMPTZ
-
-units (Unidades: Departamentos, Casas, Bodegas, Estacionamientos)
-
-Inmuebles individuales pertenecientes a un edificio o comunidad.
-
-id: UUID (PK, gen_random_uuid())
-
-building_id: UUID (FK -> public.buildings(id) ON DELETE CASCADE)
-
-unit_number: VARCHAR(20) (Ej: "1004", "Casa 12")
-
-type: VARCHAR(20) CHECK (department, parking, storage, house)
-
-aliquot: NUMERIC(6,4) (Porcentaje de prorrateo para gastos comunes, ej: 0.0125 = 1.25%)
-
-owner_id: UUID (FK -> public.profiles(id) ON DELETE SET NULL)
-
-created_at: TIMESTAMPTZ
-
-expenses_period (Períodos de Gastos Comunes)
-
-Control mensual de facturación del condominio.
-
-id: UUID (PK, gen_random_uuid())
-
-community_id: UUID (FK -> public.communities(id) ON DELETE CASCADE)
-
-period_month: INT (1-12)
-
-period_year: INT (Ej: 2026)
-
-total_amount: NUMERIC(12,2)
-
-status: VARCHAR(20) DEFAULT 'draft' CHECK (draft, issued, closed)
-
-created_at: TIMESTAMPTZ
-
-unit_expenses (Cuentas individuales por unidad)
-
-Detalle del cobro asignado a cada copropietario en un período específico.
-
-id: UUID (PK, gen_random_uuid())
-
-period_id: UUID (FK -> public.expenses_period(id) ON DELETE CASCADE)
-
-unit_id: UUID (FK -> public.units(id) ON DELETE CASCADE)
-
-amount_to_pay: NUMERIC(12,2)
-
-paid_amount: NUMERIC(12,2) DEFAULT 0
-
-status: VARCHAR(20) DEFAULT 'pending' CHECK (pending, partial, paid, overdue)
-
-created_at: TIMESTAMPTZ
+- Los roles globales son `user`, `admin`, `superadmin`.
+- Los roles por comunidad son un concepto **propuesto**, no implementado.
+- Toda tabla de condominio debe tener RLS por membresía; no alcanza con ocultar el módulo en la UI.
+- El estado actual de RLS y sus fallas están en [docs/security.md](docs/security.md).
