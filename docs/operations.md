@@ -88,9 +88,9 @@ El `rsync` excluye `.env`, `.env.*`, `dist`, `docs`, `scripts`, `deploy`, `.vsco
 - Timer de usuario `condo-sb-db-backup.timer` habilitado, con `Linger=yes`.
 - Script desplegado: `~/stage-platform/bin/backup-condo-sb-db.sh`.
 - Salida: `~/stage-platform/backups/condo-sb-db/condo-sb-db-<UTC>.dump` + `.sha256`.
-- Retención local: 30 días.
+- Retención local: 7 días.
 - Primera ejecución manual OK; backup verificado con `sha256sum -c`.
-- Pendiente: copia fuera del host y prueba de restore mensual automatizada.
+- Copia off-host: implementada en la Mac del desarrollador en `~/Backups/condo-sb-db` (fuera del repositorio, sin GitHub). Verificado con checksum.
 
 ### 3.2 Operación
 
@@ -107,18 +107,37 @@ latest=$(ls -t ~/stage-platform/backups/condo-sb-db/*.dump | head -1)
 sha256sum -c "$latest.sha256"
 ```
 
-El script usa `pg_dump -Fc`, escribe en temporal, valida que no esté vacío, aplica checksum y renombra de forma atómica. La copia off-host sigue pendiente porque no hay destino configurado.
+El script usa `pg_dump -Fc`, escribe en temporal, valida que no esté vacío, aplica checksum y renombra de forma atómica.
+
+#### Copia off-host (Mac)
+
+- Script: `scripts/sync-backup-offhost.sh` del repositorio. Trae el dump más reciente desde `piave` a `~/Backups/condo-sb-db` y verifica el checksum por valor (los `.sha256` contienen la ruta absoluta de piave, no sirven con `shasum -c` local).
+- Programación: LaunchAgent `cl.stefenello.condo-backup-sync` en `~/Library/LaunchAgents`, diario 09:30.
+- Log: `~/Backups/condo-sb-db/.sync.log`.
+- Retención off-host: 30 días.
+
+```bash
+# Copiar ahora desde la Mac
+scripts/sync-backup-offhost.sh
+
+# Estado del LaunchAgent
+launchctl print gui/$(id -u)/cl.stefenello.condo-backup-sync | grep -E "state =|last exit"
+
+# Ejecutar manualmente vía launchd
+launchctl kickstart gui/$(id -u)/cl.stefenello.condo-backup-sync
+```
 
 ### 3.3 Restauración
 
 Procedimiento resumido; el detalle está en [runbook.md](runbook.md):
 
 1. Identificar el backup y verificar el checksum.
-2. Detener la app para evitar escrituras.
-3. Restaurar con `pg_restore` en una base de prueba primero.
-4. Validar conteos y RLS.
-5. Cambiar a producción y arrancar la app.
-6. Registrar el incidente y el RPO/RTO real.
+2. Si el backup local se perdió, traer la última copia off-host desde la Mac: `scp ~/Backups/condo-sb-db/<archivo>.dump piave:~/stage-platform/backups/condo-sb-db/` y verificar `sha256sum -c`.
+3. Detener la app para evitar escrituras.
+4. Restaurar con `pg_restore` en una base de prueba primero.
+5. Validar conteos y RLS.
+6. Cambiar a producción y arrancar la app.
+7. Registrar el incidente y el RPO/RTO real.
 
 ---
 
