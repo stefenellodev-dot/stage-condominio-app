@@ -17,6 +17,19 @@ export default function SuperAdminTabla() {
   const [filterStatus, setFilterStatus] = useState('all');
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
+  const [view, setView] = useState('list');
+  const [editingId, setEditingId] = useState(null);
+  const [readOnly, setReadOnly] = useState(false);
+  const [form, setForm] = useState({
+    first_name: '',
+    last_name: '',
+    email: '',
+    rut: '',
+    phone: '',
+    address: '',
+    role: 'user',
+    status: 'active',
+  });
 
   const fetchProfiles = async () => {
     const { data, error } = await supabase
@@ -52,8 +65,6 @@ export default function SuperAdminTabla() {
     };
     loadAvatarUrls();
   }, [profiles]);
-
-  if (!isSuperadmin) return null;
 
   const handleRoleChange = async (id, newRole) => {
     const { error } = await supabase
@@ -100,6 +111,39 @@ export default function SuperAdminTabla() {
     }
   };
 
+  const handleView = (profile) => {
+    if (!profile) return;
+    setEditingId(profile.id);
+    setReadOnly(true);
+    setForm({
+      first_name: profile.first_name || '',
+      last_name: profile.last_name || '',
+      email: profile.email || '',
+      rut: profile.rut || '',
+      phone: profile.phone || '',
+      address: profile.address || '',
+      role: profile.role || 'user',
+      status: profile.status || 'active',
+    });
+    setView('form');
+  };
+
+  const handleBack = () => {
+    setEditingId(null);
+    setReadOnly(false);
+    setForm({
+      first_name: '',
+      last_name: '',
+      email: '',
+      rut: '',
+      phone: '',
+      address: '',
+      role: 'user',
+      status: 'active',
+    });
+    setView('list');
+  };
+
   const getInitials = (item) => {
     if (item.first_name || item.last_name) {
       const f = item.first_name ? item.first_name[0] : '';
@@ -131,6 +175,144 @@ export default function SuperAdminTabla() {
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
+
+  if (view === 'form') {
+    return (
+      <div style={{ marginTop: '28px' }}>
+        <div style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          gap: '12px',
+          marginBottom: '14px',
+          flexWrap: 'wrap',
+        }}>
+          <div>
+            <h3 style={{ margin: '0 0 4px' }}>
+              {readOnly
+                ? t('admin.view_title')
+                : editingId
+                ? t('admin.edit_title')
+                : t('admin.new_title')}
+            </h3>
+            <p style={{ margin: 0, color: 'var(--text-secondary)', fontSize: '13px' }}>
+              {t('admin.subtitle')}
+            </p>
+          </div>
+          <button onClick={handleBack} style={styles.buttonAction}>
+            {t('admin.back_to_list')}
+          </button>
+        </div>
+
+        <form style={styles.form}>
+          <section style={styles.sectionBox}>
+            <h4 style={{ margin: '0 0 12px', color: 'var(--primary)' }}>
+              {t('admin.section_identification')}
+            </h4>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+              <div>
+                <label style={styles.label}>{t('admin.first_name')}</label>
+                <input
+                  name="first_name"
+                  value={form.first_name}
+                  onChange={(e) => setForm((prev) => ({ ...prev, first_name: e.target.value }))}
+                  disabled={readOnly}
+                  style={styles.input}
+                />
+              </div>
+              <div>
+                <label style={styles.label}>{t('admin.last_name')}</label>
+                <input
+                  name="last_name"
+                  value={form.last_name}
+                  onChange={(e) => setForm((prev) => ({ ...prev, last_name: e.target.value }))}
+                  disabled={readOnly}
+                  style={styles.input}
+                />
+              </div>
+            </div>
+            <div style={{ marginTop: '12px' }}>
+              <label style={styles.label}>{t('admin.email')}</label>
+              <input
+                type="email"
+                name="email"
+                value={form.email}
+                onChange={(e) => setForm((prev) => ({ ...prev, email: e.target.value }))}
+                disabled={readOnly}
+                style={styles.input}
+              />
+            </div>
+            <div style={{ marginTop: '12px' }}>
+              <label style={styles.label}>{t('admin.rut')}</label>
+              <input
+                name="rut"
+                value={form.rut}
+                onChange={(e) => setForm((prev) => ({ ...prev, rut: e.target.value }))}
+                disabled={readOnly}
+                style={styles.input}
+              />
+            </div>
+            <div style={{ marginTop: '12px' }}>
+              <label style={styles.label}>{t('admin.phone')}</label>
+              <input
+                type="tel"
+                name="phone"
+                value={form.phone}
+                onChange={(e) => setForm((prev) => ({ ...prev, phone: e.target.value }))}
+                disabled={readOnly}
+                style={styles.input}
+              />
+            </div>
+            <div style={{ marginTop: '12px' }}>
+              <label style={styles.label}>{t('admin.address')}</label>
+              <input
+                name="address"
+                value={form.address}
+                onChange={(e) => setForm((prev) => ({ ...prev, address: e.target.value }))}
+                disabled={readOnly}
+                style={styles.input}
+              />
+            </div>
+            <div style={{ marginTop: '12px' }}>
+              <label style={styles.label}>{t('admin.role')}</label>
+              <select
+                name="role"
+                value={form.role}
+                onChange={(e) => setForm((prev) => ({ ...prev, role: e.target.value }))}
+                disabled={readOnly}
+                style={{ ...styles.select, width: '100%' }}
+              >
+                <option value="user">user</option>
+                <option value="admin">admin</option>
+                <option value="superadmin">superadmin</option>
+              </select>
+            </div>
+            <div style={{ marginTop: '12px' }}>
+              <label style={styles.label}>{t('admin.status')}</label>
+              <select
+                name="status"
+                value={form.status}
+                onChange={(e) => setForm((prev) => ({ ...prev, status: e.target.value }))}
+                disabled={readOnly}
+                style={{ ...styles.select, width: '100%' }}
+              >
+                <option value="active">active</option>
+                <option value="suspended">suspended</option>
+              </select>
+            </div>
+          </section>
+
+          {!readOnly ? null : (
+            <div style={{ color: 'var(--text-secondary)', fontSize: '13px', marginTop: '8px' }}>
+              {t('admin.read_only_notice')}
+            </div>
+          )}
+        </form>
+      </div>
+    );
+  }
+
+  if (!isSuperadmin) return null;
 
   return (
     <div style={{ marginTop: '28px' }}>
@@ -292,35 +474,43 @@ export default function SuperAdminTabla() {
                     </td>
 
                     <td style={{ ...styles.td, textAlign: 'center' }}>
-                      {item.id === session?.user?.id ? (
-                        <span style={{
-                          display: 'inline-block',
-                          padding: '3px 8px',
-                          borderRadius: 'var(--radius-sm)',
-                          backgroundColor: 'var(--border-subtle)',
-                          color: 'var(--text-secondary)',
-                          fontSize: '11px',
-                          fontWeight: '600'
-                        }}>
-                          {t('common.you')}
-                        </span>
-                      ) : item.role === 'superadmin' ? (
-                        <span style={{
-                          display: 'inline-block',
-                          padding: '3px 8px',
-                          borderRadius: 'var(--radius-sm)',
-                          backgroundColor: 'var(--border-subtle)',
-                          color: 'var(--text-dim)',
-                          fontSize: '11px',
-                          fontWeight: '600'
-                        }}>
-                          —
-                        </span>
-                      ) : (
-                        <button onClick={() => handleSoftDelete(item.id)} style={styles.btnDelete}>
-                          {t('common.delete')}
+                      <div style={{ display: 'flex', gap: '6px', justifyContent: 'center', flexWrap: 'wrap' }}>
+                        <button
+                          onClick={() => handleView(item)}
+                          style={styles.buttonAction}
+                        >
+                          {t('common.view')}
                         </button>
-                      )}
+                        {item.id === session?.user?.id ? (
+                          <span style={{
+                            display: 'inline-block',
+                            padding: '3px 8px',
+                            borderRadius: 'var(--radius-sm)',
+                            backgroundColor: 'var(--border-subtle)',
+                            color: 'var(--text-secondary)',
+                            fontSize: '11px',
+                            fontWeight: '600'
+                          }}>
+                            {t('common.you')}
+                          </span>
+                        ) : item.role === 'superadmin' ? (
+                          <span style={{
+                            display: 'inline-block',
+                            padding: '3px 8px',
+                            borderRadius: 'var(--radius-sm)',
+                            backgroundColor: 'var(--border-subtle)',
+                            color: 'var(--text-dim)',
+                            fontSize: '11px',
+                            fontWeight: '600'
+                          }}>
+                            —
+                          </span>
+                        ) : (
+                          <button onClick={() => handleSoftDelete(item.id)} style={styles.btnDelete}>
+                            {t('common.delete')}
+                          </button>
+                        )}
+                      </div>
                     </td>
                   </tr>
                 );

@@ -2,6 +2,7 @@ import ManagementCompaniesModule from '../components/business/ManagementCompanie
 import CondominiumsModule from '../components/business/CondominiumsModule';
 import UnitsModule from '../components/business/UnitsModule';
 import CommonAreasModule from '../components/business/CommonAreasModule';
+import UsersModule from '../components/business/UsersModule';
 
 export const businessModules = [
   {
@@ -31,5 +32,12 @@ export const businessModules = [
     icon: '🏊',
     component: CommonAreasModule,
     roles: ['superadmin', 'admin', 'user'],
+  },
+  {
+    id: 'users',
+    labelKey: 'nav.users_management',
+    icon: '👥',
+    component: UsersModule,
+    roles: ['superadmin', 'admin'],
   },
 ];

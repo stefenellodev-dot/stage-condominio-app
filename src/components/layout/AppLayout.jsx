@@ -65,7 +65,7 @@ export default function AppLayout({ activeTab, onSelectTab, children }) {
     ? (currentModule.labelKey ? t(currentModule.labelKey) : currentModule.label)
     : '';
   if (activeTab === 'profile') activeTitle = t('nav.my_profile');
-  if (activeTab === 'superadmin_users') activeTitle = t('nav.users_management');
+  if (activeTab === 'users') activeTitle = t('nav.users_management');
 
   return (
     <div style={{ display: 'flex', minHeight: '100vh', backgroundColor: 'var(--bg-app)' }}>
@@ -128,14 +128,7 @@ export default function AppLayout({ activeTab, onSelectTab, children }) {
               <span>👤</span> {t('nav.my_profile')}
             </button>
 
-            {isSuperadmin && (
-              <button
-                onClick={() => onSelectTab('superadmin_users')}
-                style={navItemStyle(activeTab === 'superadmin_users')}
-              >
-                <span>👥</span> {t('nav.users_management')}
-              </button>
-            )}
+
           </nav>
         </div>
 

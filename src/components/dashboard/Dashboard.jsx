@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import AppLayout from '../layout/AppLayout';
 import ProfileSection from './ProfileSection';
-import SuperAdminTabla from './SuperAdminTabla';
 import { businessModules } from '../../config/modules';
 import { useAuth } from '../../context/AuthContext';
 
@@ -17,7 +16,6 @@ export default function Dashboard() {
     <AppLayout activeTab={activeTab} onSelectTab={setActiveTab}>
       {BusinessComponent && <BusinessComponent />}
       {activeTab === 'profile' && <ProfileSection />}
-      {activeTab === 'superadmin_users' && isSuperadmin && <SuperAdminTabla />}
     </AppLayout>
   );
 }
