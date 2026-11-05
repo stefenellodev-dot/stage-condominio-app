@@ -155,10 +155,11 @@ podman exec condo-sb-db pg_isready -U postgres
 ### 4.2 Estado actual
 
 - `condo-sb-db`, Kong y la app tienen healthcheck; la app responde `healthy`.
-- No hay alertas de 5xx, backup, disco, memoria ni saturación.
+- Cabeceras de seguridad vía Kong (`response-transformer`, 2026-11-05): `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, `Referrer-Policy: strict-origin-when-cross-origin` en `auth`, `rest` y `storage` (verificado con `curl -D -` en `/auth/v1/health` y `/rest/v1/`). El plugin `response-transformer` se añadió a `KONG_PLUGINS` en `docker-compose.yml` (contenedor recreado con `podman compose up -d condo-sb-kong`; `restart` no reaplica env). Backups: `kong.yml.bak-*` y `docker-compose.yml.bak-*` en `~/stage-platform/core/supabase-condominio/`.
+- `index.html` incluye CSP y `Referrer-Policy` vía meta tags (la app en :3002 no pasa por Kong).
+- No hay alertas de 5xx, backup, disco, memoria ni saturación. 
 - `log_min_duration_statement = -1`; no hay slow query log.
 - Los logs usan journald y pueden contener correos/PII.
-- La app no envía cabeceras de seguridad.
 
 ### 4.3 Objetivo
 
