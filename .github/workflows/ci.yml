@@ -25,6 +25,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: sudo apt-get update && sudo apt-get install -y postgresql-client
-      - run: psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f supabase/tests/rls_authorization.sql
+      - run: psql -v ON_ERROR_STOP=1 "$DATABASE_URL" -f tests/rls/rls-tests.sql
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
