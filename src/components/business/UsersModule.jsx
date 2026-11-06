@@ -799,7 +799,7 @@ export default function UsersModule() {
                               .update({ role: newRole })
                               .eq('id', user.id);
                             if (!error) {
-                              showSuccess('Rol actualizado correctamente.');
+                              showSuccess(t('users.role_updated'));
                               loadUsers();
                             } else {
                               showError(error.message);

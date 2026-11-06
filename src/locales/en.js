@@ -190,6 +190,7 @@ export const en = {
     delete_confirm: 'Deactivate this user?',
     delete_success: 'User deactivated.',
     update_success: 'User updated.',
+    role_updated: 'Role updated successfully.',
     create_success: 'User created.',
     create: 'Create user',
     save: 'Save',

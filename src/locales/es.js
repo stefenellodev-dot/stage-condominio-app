@@ -190,6 +190,7 @@ export const es = {
     delete_confirm: '¿Deseas dar de baja a este usuario?',
     delete_success: 'Usuario dado de baja.',
     update_success: 'Usuario actualizado.',
+    role_updated: 'Rol actualizado correctamente.',
     create_success: 'Usuario creado.',
     create: 'Crear usuario',
     save: 'Guardar',
