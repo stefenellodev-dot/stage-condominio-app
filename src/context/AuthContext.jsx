@@ -15,20 +15,19 @@ export function AuthProvider({ children }) {
       return;
     }
     try {
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('id', userId)
-        .single();
-
+      const result = await Promise.race([
+        supabase.from('profiles').select('*').eq('id', userId).single(),
+        new Promise((_, reject) => setTimeout(() => reject(new Error('fetchProfile timeout 10s')), 10000)),
+      ]);
+      const { data, error } = result;
       if (error) {
-        console.error('[AuthContext] fetchProfile error', error);
+        console.error('[AuthContext] fetchProfile error:', error.message, error.code, error.details);
         setProfile(null);
         return;
       }
       setProfile(data);
     } catch (err) {
-      console.error('[AuthContext] fetchProfile unexpected', err);
+      console.error('[AuthContext] fetchProfile unexpected:', err?.message || err);
       setProfile(null);
     }
   };
