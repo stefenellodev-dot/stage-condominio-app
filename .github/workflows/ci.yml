@@ -25,12 +25,30 @@ jobs:
   rls:
     runs-on: ubuntu-latest
     env:
-      HAS_DATABASE_URL: ${{ secrets.DATABASE_URL != '' }}
+      HAS_RLS_SSH_KEY: ${{ secrets.RLS_SSH_KEY != '' }}
+      HAS_TS_OAUTH: ${{ secrets.TS_OAUTH_CLIENT_ID != '' }}
     steps:
       - uses: actions/checkout@v4
-      - run: sudo apt-get update && sudo apt-get install -y postgresql-client
+      # El runner se une al tailnet como nodo efímero para alcanzar piave
+      # (100.126.211.117) por SSH. Requiere los secretos TS_OAUTH_CLIENT_ID
+      # y TS_OAUTH_CLIENT_SECRET (OAuth client de Tailscale con tag tag:ci).
+      - name: Connect to Tailscale
+        if: env.HAS_RLS_SSH_KEY == 'true' && env.HAS_TS_OAUTH == 'true'
+        uses: tailscale/github-action@v3
+        with:
+          oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
+          oauth-client-secret: ${{ secrets.TS_OAUTH_CLIENT_SECRET }}
+      # piave solo permite esta conexión con comando forzado en
+      # authorized_keys: `podman exec -i condo-sb-db psql ...` (sin shell).
       - name: Run RLS suite
-        if: env.HAS_DATABASE_URL == 'true'
+        if: env.HAS_RLS_SSH_KEY == 'true' && env.HAS_TS_OAUTH == 'true'
         env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-        run: psql -v ON_ERROR_STOP=1 "$DATABASE_URL" -f tests/rls/rls-tests.sql
+          SSH_KEY: ${{ secrets.RLS_SSH_KEY }}
+        run: |
+          echo "$SSH_KEY" > /tmp/rls_ci_key
+          chmod 600 /tmp/rls_ci_key
+          ssh -i /tmp/rls_ci_key -o IdentitiesOnly=yes -o BatchMode=yes \
+            -o StrictHostKeyChecking=accept-new \
+            stefenello@100.126.211.117 \
+            "podman exec -i condo-sb-db psql -U postgres -d postgres -v ON_ERROR_STOP=1" \
+            < tests/rls/rls-tests.sql
