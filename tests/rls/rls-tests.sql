@@ -373,6 +373,42 @@ SELECT rls_tests.check(
   $q$INSERT INTO public.management_companies (legal_name, rut, legal_rep_name, legal_rep_rut, email, minvu_status, has_guarantee_insurance, status) VALUES ('rls-test', '11.111.111-1', 'rls', '11.111.111-1', 'rls@test.com', 'pending', false, 'active')$q$);
 ROLLBACK;
 
+-- ===== 2.2 Finanzas (Gastos Comunes) =====
+BEGIN;
+SELECT rls_tests.check(
+  '{"role":"authenticated","sub":"f0750053-6996-420d-8f63-31c7ae18fa42"}',
+  '36 user ve solo su propia colilla', 'rows', 1,
+  $q$SELECT count(*) FROM public.unit_expense_bills WHERE owner_id = 'f0750053-6996-420d-8f63-31c7ae18fa42'$q$);
+ROLLBACK;
+
+BEGIN;
+SELECT rls_tests.check(
+  '{"role":"authenticated","sub":"f0750053-6996-420d-8f63-31c7ae18fa42"}',
+  '37 user no ve colillas de otros', 'bool', 1,
+  $q$SELECT count(*) = 0 FROM public.unit_expense_bills WHERE owner_id <> 'f0750053-6996-420d-8f63-31c7ae18fa42'$q$);
+ROLLBACK;
+
+BEGIN;
+SELECT rls_tests.check(
+  '{"role":"authenticated","sub":"e64b00b9-8630-4f0b-98fa-ba18bf3c06fc"}',
+  '38 superadmin ve todas las colillas', 'bool', 1,
+  $q$SELECT count(*) >= 292 FROM public.unit_expense_bills$q$);
+ROLLBACK;
+
+BEGIN;
+SELECT rls_tests.check(
+  '{"role":"authenticated","sub":"f0750053-6996-420d-8f63-31c7ae18fa42"}',
+  '39 user puede informar pago de su propia colilla', 'affects', 1,
+  $q$INSERT INTO public.bill_payments (bill_id, unit_id, user_id, amount, payment_method) VALUES ('6beb3e6e-f241-43e3-93b8-ad687b3ddbc2', 'c6181dc3-caf9-436f-9dfb-593604f8bd9e', 'f0750053-6996-420d-8f63-31c7ae18fa42', 1000, 'transferencia')$q$);
+ROLLBACK;
+
+BEGIN;
+SELECT rls_tests.check(
+  '{"role":"authenticated","sub":"f0750053-6996-420d-8f63-31c7ae18fa42"}',
+  '40 user no puede informar pago de colilla ajena', 'error', 0,
+  $q$INSERT INTO public.bill_payments (bill_id, unit_id, user_id, amount, payment_method) VALUES ('6beb3e6e-f241-43e3-93b8-ad687b3ddbc2', 'c6181dc3-caf9-436f-9dfb-593604f8bd9e', '92076747-aca1-442d-8c23-9bb6f1ee400f', 1000, 'transferencia')$q$);
+ROLLBACK;
+
 -- ===== 3. Limpieza de fixtures =====
 BEGIN;
 DELETE FROM public.units WHERE unit_number = 'ZZZ-01';
