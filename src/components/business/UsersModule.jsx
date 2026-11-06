@@ -150,45 +150,38 @@ export default function UsersModule() {
   };
 
   const handleView = (user) => {
-    showSuccess('Cargando usuario: ' + (user.email || user.id) + ' | first_name: ' + (user.first_name || 'null') + ' | last_name: ' + (user.last_name || 'null'));
     setEditingId(user.id);
     setReadOnly(true);
-    // Fetch fresh data from DB
+    // Poblar con los datos de la lista de inmediato (evita pantalla vacía)
+    setForm({
+      first_name: user.first_name || '',
+      second_name: user.second_name || '',
+      last_name: user.last_name || '',
+      second_last_name: user.second_last_name || '',
+      full_name: user.full_name || '',
+      email: user.email || '',
+      password: '',
+      rut: user.rut || '',
+      phone: user.phone || '',
+      birth_date: user.birth_date || '',
+      street: user.street || '',
+      street_number: user.street_number || '',
+      dept_unit: user.dept_unit || '',
+      region: user.region || '',
+      commune: user.commune || '',
+      role: user.role || 'user',
+      status: user.status || 'active',
+    });
+    setView('form');
+
+    // Refrescar desde DB (RLS puede bloquear para algunos roles; si falla, se conservan los datos de la lista)
     supabase
       .from('profiles')
       .select('*')
       .eq('id', user.id)
       .single()
       .then(({ data: profile, error }) => {
-        if (error) {
-          showError('Error DB: ' + error.message);
-          // Use list data as fallback
-          setForm({
-            first_name: user.first_name || '',
-            second_name: user.second_name || '',
-            last_name: user.last_name || '',
-            second_last_name: user.second_last_name || '',
-            full_name: user.full_name || '',
-            email: user.email || '',
-            password: '',
-            rut: user.rut || '',
-            phone: user.phone || '',
-            birth_date: user.birth_date || '',
-            street: user.street || '',
-            street_number: user.street_number || '',
-            dept_unit: user.dept_unit || '',
-            region: user.region || '',
-            commune: user.commune || '',
-            role: user.role || 'user',
-            status: user.status || 'active',
-          });
-          setView('form');
-          return;
-        }
-        if (!profile) {
-          showError('Perfil no encontrado en DB');
-          return;
-        }
+        if (error || !profile) return;
         setForm({
           first_name: profile.first_name || '',
           second_name: profile.second_name || '',
@@ -208,7 +201,6 @@ export default function UsersModule() {
           role: profile.role || 'user',
           status: profile.status || 'active',
         });
-        setView('form');
       });
   };
 
