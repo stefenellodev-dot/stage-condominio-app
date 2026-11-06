@@ -208,6 +208,19 @@ Criterio establecido: **secretos de humano → Vaultwarden; secretos de máquina
 - Sospecha de acceso a Studio/Inbucket/DB.
 - Salida de un operador con acceso al servidor.
 
+### 5.1a Rotaciones aplicadas (2026-11-06)
+
+- `POSTGRES_PASSWORD` rotada (nueva generada con `openssl rand -hex` en piave, sin imprimir). Ojo con la imagen `supabase/postgres` (15.6.1.139 + **supautils**): `postgres` es el *rol privilegiado* y los roles internos son *reservados* — `ALTER ROLE` a estos genera "only superusers can alter privileged roles/reserved". Procedimiento que funcionó:
+  1. Reemplazo literal (6 ocurrencias) en `docker-compose.yml`.
+  2. `supautils.reserved_roles=''` en `/etc/postgresql-custom/supautils.conf` (dentro del contenedor; con `podman restart`, **no** recreate) → `ALTER ROLE supabase_auth_admin, supabase_storage_admin` (como `postgres`) y `ALTER ROLE supabase_admin` (self-alter por psql login) → restaurar el conf y `restart`.
+  3. `ALTER ROLE postgres` como `supabase_admin` (el superuser de la imagen) con conexión por la red interna.
+  4. Recreate de `rest/auth/storage/meta/studio` (lean el compose con la URI nueva).
+  5. Verificación **por wire** (red interna, `scram-sha-256`): la `pg_hba` tiene `trust` para `127.0.0.1` — no vale como verificación. Nueva OK / vieja rechazada en los 4 roles.
+- `RLS_SSH_KEY` (CI) rotada: certificado par nuevo, command-forced line reemplazada en `authorized_keys`, secreto GitHub actualizado. La vieja rechazada.
+- `TS_AUTHKEY` (CI) rotada: vieja revocada en consola Tailscale, nueva (reuable+ephemeral, 90 días → **renovar antes del 2027-02-04**).
+- Valores nuevos almacenados en la bóveda Vaultwarden (`https://piave.tailfbc159.ts.net`); los archivos `.bak-*` del compose contienen la contraseña vieja (ya inválida).
+- Backup inmediato post-rotación: `condo-sb-db-20261106-013727.dump` verificado y copiado off-host.
+
 ### 5.2 Orden recomendado
 
 1. Tomar backup y avisar ventana de mantenimiento.
