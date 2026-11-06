@@ -14,13 +14,23 @@ export function AuthProvider({ children }) {
       setProfile(null);
       return;
     }
-    const { data } = await supabase
-      .from('profiles')
-      .select('*')
-      .eq('id', userId)
-      .single();
+    try {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', userId)
+        .single();
 
-    if (data) setProfile(data);
+      if (error) {
+        console.error('[AuthContext] fetchProfile error', error);
+        setProfile(null);
+        return;
+      }
+      setProfile(data);
+    } catch (err) {
+      console.error('[AuthContext] fetchProfile unexpected', err);
+      setProfile(null);
+    }
   };
 
   useEffect(() => {

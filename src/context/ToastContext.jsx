@@ -10,7 +10,10 @@ export function ToastProvider({ children }) {
   }, []);
 
   const addToast = useCallback((message, type = 'success') => {
-    const id = Math.random().toString(36).substring(2, 9);
+    const id =
+      typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function'
+        ? crypto.randomUUID()
+        : `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 9)}`;
     setToasts((prev) => [...prev, { id, message, type }]);
 
     setTimeout(() => {

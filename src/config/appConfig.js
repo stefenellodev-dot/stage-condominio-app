@@ -3,5 +3,5 @@ export const appConfig = {
   tagline: import.meta.env.VITE_APP_TAGLINE || 'Panel Operativo',
   symbol: import.meta.env.VITE_APP_SYMBOL || 'A',
   version: '1.0.0',
-  roles: ['admin', 'user'],
+  roles: ['superadmin', 'admin', 'user'],
 };
