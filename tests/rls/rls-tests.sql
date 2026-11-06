@@ -445,6 +445,35 @@ SELECT rls_tests.check(
   $q$INSERT INTO public.assembly_votes (topic_id, unit_id, user_id, vote, aliquot_weight) VALUES ('2ddb6334-0004-487b-ba99-126686b2efc6', 'c6181dc3-caf9-436f-9dfb-593604f8bd9e', 'f0750053-6996-420d-8f63-31c7ae18fa42', 'against', 0.71429)$q$);
 ROLLBACK;
 
+-- ===== 2.4 Mantenciones y Certificaciones (Ley 21.442) =====
+BEGIN;
+SELECT rls_tests.check(
+  '{"role":"authenticated","sub":"e64b00b9-8630-4f0b-98fa-ba18bf3c06fc"}',
+  '47 superadmin ve activos de equipamiento', 'bool', 1,
+  $q$SELECT count(*) >= 5 FROM public.equipment_assets WHERE condominium_id = 'e8372d2e-0e16-46ca-a535-f44372b3cf9d'$q$);
+ROLLBACK;
+
+BEGIN;
+SELECT rls_tests.check(
+  '{"role":"authenticated","sub":"f0750053-6996-420d-8f63-31c7ae18fa42"}',
+  '48 user ve certificaciones', 'bool', 1,
+  $q$SELECT count(*) >= 4 FROM public.official_certifications$q$);
+ROLLBACK;
+
+BEGIN;
+SELECT rls_tests.check(
+  '{"role":"authenticated","sub":"f0750053-6996-420d-8f63-31c7ae18fa42"}',
+  '49 user no puede crear activos (INSERT equipment_assets)', 'error', 0,
+  $q$INSERT INTO public.equipment_assets (condominium_id, name, category, location) VALUES ('e8372d2e-0e16-46ca-a535-f44372b3cf9d', 'Test Asset', 'portones_accesos', 'Test')$q$);
+ROLLBACK;
+
+BEGIN;
+SELECT rls_tests.check(
+  '{"role":"authenticated","sub":"e64b00b9-8630-4f0b-98fa-ba18bf3c06fc"}',
+  '50 superadmin puede crear activos (INSERT equipment_assets)', 'affects', 1,
+  $q$INSERT INTO public.equipment_assets (condominium_id, name, category, location) VALUES ('e8372d2e-0e16-46ca-a535-f44372b3cf9d', 'Test Asset', 'portones_accesos', 'Test')$q$);
+ROLLBACK;
+
 -- ===== 3. Limpieza de fixtures =====
 BEGIN;
 DELETE FROM public.units WHERE unit_number = 'ZZZ-01';
