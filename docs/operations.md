@@ -189,6 +189,17 @@ podman exec condo-sb-db pg_isready -U postgres
 
 ## 5. Rotación de secretos
 
+### 5.0 Bóveda: Vaultwarden (2026-11-06)
+
+Criterio establecido: **secretos de humano → Vaultwarden; secretos de máquina → GitHub Secrets / `authorized_keys` / env del servidor.**
+
+- Contenedor `vaultwarden` (podman rootless, compose en `~/stage-platform/core/vaultwarden/`, datos en `~/stage-platform/vaultwarden/` `volumes/` en `~/stage-platform/volumes/vaultwarden/data`).
+- Acceso: `http://100.126.211.117:8222` (solo Tailscale; HTTP hoy, `tailscale serve` para HTTPS si se desea).
+- Imagen `vaultwarden/server:latest` (v1.37.5 al desplegar), `restart: unless-stopped`, healthcheck `/alive`.
+- `SIGNUPS_ALLOWED: 'true'` solo hasta terminar el registro de la cuenta propia — **cambiar a `'false'` y recrear después** (`podman compose up -d --force-recreate --always-recreate-deps vaultwarden`). Credencial de admin del panel (`ADMIN_TOKEN` argon2) opcional, off por defecto.
+- Backup: `~/stage-platform/bin/backup-vaultwarden.sh` (sqlite online vía `python3`, checksum, retención 7 días) + timer systemd user `vaultwarden-backup.timer` (03:00 diario). Off-host: la copia `sync-backup-offhost.sh` en la Mac sincroniza también `~/Backups/vaultwarden/`.
+- La bóveda guarda credenciales de persona de **todo lo administrado en piave** (stack Supabase, apps, cuentas GitHub/Tailscale, usuarios de prueba). No la consultan procesos ni CI.
+
 ### 5.1 Cuándo rotar
 
 - Contraseña de PostgreSQL compartida expuesta en texto plano.
