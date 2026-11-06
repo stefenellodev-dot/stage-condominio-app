@@ -36,7 +36,9 @@ export function AuthProvider({ children }) {
           return;
         }
         const data = await res.json();
-        setProfile(data);
+        const profile = Array.isArray(data) ? data[0] : data;
+        if (!profile) { setProfile(null); return; }
+        setProfile(profile);
         return;
       } catch (err) {
         console.error('[AuthContext] fetchProfile unexpected (attempt ' + (attempt + 1) + ')', err?.message || err);
