@@ -64,6 +64,7 @@ export function ToastProvider({ children }) {
               <button
                 type="button"
                 onClick={() => removeToast(toast.id)}
+                aria-label="Cerrar notificación"
                 style={{
                   background: 'none',
                   border: 'none',

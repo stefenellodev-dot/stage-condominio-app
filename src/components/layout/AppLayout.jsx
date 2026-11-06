@@ -69,6 +69,14 @@ export default function AppLayout({ activeTab, onSelectTab, children }) {
 
   return (
     <div style={{ display: 'flex', minHeight: '100vh', backgroundColor: 'var(--bg-app)' }}>
+      {/* SKIP LINK */}
+      <a href="#main-content" style={{
+        position: 'absolute', left: '-9999px', top: 0, zIndex: 10001,
+        padding: '8px 12px', background: 'var(--primary)', color: '#fff',
+      }} onFocus={(e) => { e.currentTarget.style.left = '8px'; e.currentTarget.style.top = '8px'; }}
+        onBlur={(e) => { e.currentTarget.style.left = '-9999px'; e.currentTarget.style.top = '0'; }}>
+        Saltar al contenido principal
+      </a>
       {/* SIDEBAR */}
       <aside style={{
         width: '260px',
@@ -194,6 +202,7 @@ export default function AppLayout({ activeTab, onSelectTab, children }) {
           <button
             onClick={signOut}
             title={t('common.logout')}
+            aria-label={t('common.logout')}
             style={{
               background: 'transparent',
               border: '1px solid var(--border-subtle)',
@@ -256,7 +265,7 @@ export default function AppLayout({ activeTab, onSelectTab, children }) {
           </div>
         </header>
 
-        <main style={{ padding: '28px', flex: 1, overflowY: 'auto' }}>
+        <main id="main-content" style={{ padding: '28px', flex: 1, overflowY: 'auto' }}>
           <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
             {children}
           </div>
