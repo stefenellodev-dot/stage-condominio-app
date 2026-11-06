@@ -186,7 +186,7 @@ podman exec condo-sb-db pg_isready -U postgres
 ### 4.4 Retención y redacción de logs (2026-11-06)
 
 - Journald en piave: `SystemMaxUse=500M`, `MaxRetentionSec=7day` en `/etc/systemd/journald.conf` (backup `.bak-YYYYMMDD-HHMMSS`); aplicado con `systemctl restart systemd-journald` y `journalctl --vacuum-time=7d --vacuum-size=500M` (454.8 MB pre-cap → cap 500 MB efectivo).
-- Podman rootless: `~/.config/containers/containers.conf` con `log_size_max = "10m"` para contenedores nuevos (los actuales son ~2.6 MB en total).
+- Podman rootless: `~/.config/containers/containers.conf` con `log_size_max = 10485760` para contenedores nuevos (los actuales son ~2.6 MB en total). **Ojo**: es un entero en bytes, no `"10m"` — podman 4.9.3 rechaza el string con "incompatible types" y bloquea cualquier `podman exec` (incluyendo el job de CI).
 - Auditoría de PII: 8 emails distintos en los logs de contenedores (auth/meta/storage). Retención por tamaño + vacío histórico es el compromiso elegido; redacción línea a línea queda como mejora futura.
 - Vaultwarden y auth siguen usando journald/podman logs para auditoría de eventos de login.
 
