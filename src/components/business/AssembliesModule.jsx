@@ -265,7 +265,6 @@ export default function AssembliesModule() {
         </div>
       )}
 
-      {ConfirmDialogNode}
     </div>
   );
 }
