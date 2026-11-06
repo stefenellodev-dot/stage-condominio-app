@@ -16,18 +16,26 @@ export function AuthProvider({ children }) {
     }
     for (let attempt = 0; attempt < 3; attempt++) {
       try {
-        const { data, error } = await supabase
-          .from('profiles')
-          .select('*')
-          .eq('id', userId)
-          .single();
-
-        if (error) {
-          console.error('[AuthContext] fetchProfile error (attempt ' + (attempt + 1) + ')', error.message);
+        const session = await supabase.auth.getSession();
+        const token = session?.data?.session?.access_token;
+        if (!token) { setProfile(null); return; }
+        const res = await fetch(
+          `${import.meta.env.VITE_SUPABASE_URL}/rest/v1/profiles?select=*&id=eq.${userId}`,
+          {
+            headers: {
+              'apikey': import.meta.env.VITE_SUPABASE_ANON_KEY,
+              'Authorization': `Bearer ${token}`,
+              'Accept': 'application/vnd.pgrst.object+json',
+            },
+          }
+        );
+        if (!res.ok) {
+          console.error('[AuthContext] fetchProfile HTTP', res.status, '(attempt ' + (attempt + 1) + ')');
           if (attempt < 2) { await new Promise(r => setTimeout(r, 1000)); continue; }
           setProfile(null);
           return;
         }
+        const data = await res.json();
         setProfile(data);
         return;
       } catch (err) {
