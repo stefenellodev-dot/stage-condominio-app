@@ -12,3 +12,5 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
     detectSessionInUrl: true,
   },
 });
+
+if (typeof window !== 'undefined') window.__supabase = supabase;
