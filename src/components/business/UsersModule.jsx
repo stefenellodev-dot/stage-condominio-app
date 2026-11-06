@@ -399,6 +399,15 @@ export default function UsersModule() {
             <p style={{ margin: 0, color: 'var(--text-secondary)', fontSize: '13px' }}>
               {t('users.subtitle')}
             </p>
+            {readOnly && !form.first_name && !form.last_name ? (
+              <div style={{
+                marginTop: '10px', padding: '10px 12px', borderRadius: '8px',
+                background: 'rgba(250,204,21,0.10)', border: '1px solid rgba(250,204,21,0.35)',
+                color: '#ca8a04', fontSize: '13px',
+              }}>
+                Este perfil tiene datos incompletos: solo se registró el correo electrónico. Los demás campos están vacíos en la base de datos.
+              </div>
+            ) : null}
           </div>
           <button onClick={handleBack} style={styles.buttonAction}>
             {t('users.back_to_list')}
