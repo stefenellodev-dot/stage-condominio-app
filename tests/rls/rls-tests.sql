@@ -359,6 +359,20 @@ SELECT rls_tests.check(
   $q$SELECT count(*) >= 4 FROM public.common_area_bookings$q$);
 ROLLBACK;
 
+BEGIN;
+SELECT rls_tests.check(
+  '{"role":"authenticated","sub":"f0750053-6996-420d-8f63-31c7ae18fa42"}',
+  '34 user no puede escalar su rol (UPDATE profiles role)', 'error', 0,
+  $q$UPDATE public.profiles SET role = 'superadmin' WHERE id = 'f0750053-6996-420d-8f63-31c7ae18fa42'$q$);
+ROLLBACK;
+
+BEGIN;
+SELECT rls_tests.check(
+  '{"role":"authenticated","sub":"f0750053-6996-420d-8f63-31c7ae18fa42"}',
+  '35 user no puede crear empresas (INSERT management_companies)', 'error', 0,
+  $q$INSERT INTO public.management_companies (legal_name, rut, legal_rep_name, legal_rep_rut, email, minvu_status, has_guarantee_insurance, status) VALUES ('rls-test', '11.111.111-1', 'rls', '11.111.111-1', 'rls@test.com', 'pending', false, 'active')$q$);
+ROLLBACK;
+
 -- ===== 3. Limpieza de fixtures =====
 BEGIN;
 DELETE FROM public.units WHERE unit_number = 'ZZZ-01';
