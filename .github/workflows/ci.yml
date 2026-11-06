@@ -26,22 +26,24 @@ jobs:
     runs-on: ubuntu-latest
     env:
       HAS_RLS_SSH_KEY: ${{ secrets.RLS_SSH_KEY != '' }}
-      HAS_TS_OAUTH: ${{ secrets.TS_OAUTH_CLIENT_ID != '' }}
+      HAS_TS_AUTHKEY: ${{ secrets.TS_AUTHKEY != '' }}
     steps:
       - uses: actions/checkout@v4
       # El runner se une al tailnet como nodo efímero para alcanzar piave
-      # (100.126.211.117) por SSH. Requiere los secretos TS_OAUTH_CLIENT_ID
-      # y TS_OAUTH_CLIENT_SECRET (OAuth client de Tailscale con tag tag:ci).
+      # (100.126.211.117) por SSH. La auth key TS_AUTHKEY es reusable +
+      # ephemeral (90 días: renovarla en la consola de Tailscale).
       - name: Connect to Tailscale
-        if: env.HAS_RLS_SSH_KEY == 'true' && env.HAS_TS_OAUTH == 'true'
+        if: env.HAS_RLS_SSH_KEY == 'true' && env.HAS_TS_AUTHKEY == 'true'
         uses: tailscale/github-action@v3
         with:
-          oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
-          oauth-client-secret: ${{ secrets.TS_OAUTH_CLIENT_SECRET }}
+          authkey: ${{ secrets.TS_AUTHKEY }}
+          version: latest
+          hostname: github-ci-rls
+          ping: 100.126.211.117
       # piave solo permite esta conexión con comando forzado en
       # authorized_keys: `podman exec -i condo-sb-db psql ...` (sin shell).
       - name: Run RLS suite
-        if: env.HAS_RLS_SSH_KEY == 'true' && env.HAS_TS_OAUTH == 'true'
+        if: env.HAS_RLS_SSH_KEY == 'true' && env.HAS_TS_AUTHKEY == 'true'
         env:
           SSH_KEY: ${{ secrets.RLS_SSH_KEY }}
         run: |
