@@ -218,7 +218,7 @@ export default function ProfileSection() {
             cursor: uploadingAvatar ? 'not-allowed' : 'pointer',
             fontSize: '12px',
             padding: '6px 12px'
-          }}>
+          }} htmlFor="firstName">
             {uploadingAvatar ? t('profile.uploading') : t('profile.change_photo')}
             <input
               type="file"
@@ -239,9 +239,9 @@ export default function ProfileSection() {
 
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
           <div>
-            <label style={styles.label}>{t('profile.first_name')}</label>
+            <label style={styles.label} htmlFor="firstName">{t('profile.first_name')}</label>
             <input
-              type="text"
+              id="firstName" type="text"
               name="firstName"
               value={formData.firstName}
               onChange={handleChange}
@@ -251,9 +251,9 @@ export default function ProfileSection() {
             />
           </div>
           <div>
-            <label style={styles.label}>{t('profile.second_name')}</label>
+            <label style={styles.label} htmlFor="secondName">{t('profile.second_name')}</label>
             <input
-              type="text"
+              id="secondName" type="text"
               name="secondName"
               value={formData.secondName}
               onChange={handleChange}
@@ -262,9 +262,9 @@ export default function ProfileSection() {
             />
           </div>
           <div>
-            <label style={styles.label}>{t('profile.last_name')}</label>
+            <label style={styles.label} htmlFor="lastName">{t('profile.last_name')}</label>
             <input
-              type="text"
+              id="lastName" type="text"
               name="lastName"
               value={formData.lastName}
               onChange={handleChange}
@@ -274,9 +274,9 @@ export default function ProfileSection() {
             />
           </div>
           <div>
-            <label style={styles.label}>{t('profile.second_last_name')}</label>
+            <label style={styles.label} htmlFor="secondLastName">{t('profile.second_last_name')}</label>
             <input
-              type="text"
+              id="secondLastName" type="text"
               name="secondLastName"
               value={formData.secondLastName}
               onChange={handleChange}
@@ -288,9 +288,9 @@ export default function ProfileSection() {
 
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '12px' }}>
           <div>
-            <label style={styles.label}>{t('profile.rut')}</label>
+            <label style={styles.label} htmlFor="rut">{t('profile.rut')}</label>
             <input
-              type="text"
+              id="rut" type="text"
               name="rut"
               placeholder="12.345.678-5"
               value={formData.rut}
@@ -300,9 +300,9 @@ export default function ProfileSection() {
             />
           </div>
           <div>
-            <label style={styles.label}>{t('profile.phone')}</label>
+            <label style={styles.label} htmlFor="phone">{t('profile.phone')}</label>
             <input
-              type="tel"
+              id="phone" type="tel"
               name="phone"
               placeholder="+56 9 1234 5678"
               value={formData.phone}
@@ -311,9 +311,9 @@ export default function ProfileSection() {
             />
           </div>
           <div>
-            <label style={styles.label}>{t('profile.birth_date')}</label>
+            <label style={styles.label} htmlFor="birthDate">{t('profile.birth_date')}</label>
             <input
-              type="date"
+              id="birthDate" type="date"
               name="birthDate"
               value={formData.birthDate}
               onChange={handleChange}
@@ -327,9 +327,9 @@ export default function ProfileSection() {
 
         <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', gap: '12px' }}>
           <div>
-            <label style={styles.label}>{t('profile.street')}</label>
+            <label style={styles.label} htmlFor="street">{t('profile.street')}</label>
             <input
-              type="text"
+              id="street" type="text"
               name="street"
               value={formData.street}
               onChange={handleChange}
@@ -338,9 +338,9 @@ export default function ProfileSection() {
             />
           </div>
           <div>
-            <label style={styles.label}>{t('profile.street_number')}</label>
+            <label style={styles.label} htmlFor="streetNumber">{t('profile.street_number')}</label>
             <input
-              type="text"
+              id="streetNumber" type="text"
               name="streetNumber"
               value={formData.streetNumber}
               onChange={handleChange}
@@ -349,9 +349,9 @@ export default function ProfileSection() {
             />
           </div>
           <div>
-            <label style={styles.label}>{t('profile.dept_unit')}</label>
+            <label style={styles.label} htmlFor="deptOrUnit">{t('profile.dept_unit')}</label>
             <input
-              type="text"
+              id="deptOrUnit" type="text"
               name="deptOrUnit"
               value={formData.deptOrUnit}
               onChange={handleChange}
@@ -363,9 +363,9 @@ export default function ProfileSection() {
 
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
           <div>
-            <label style={styles.label}>{t('profile.region')}</label>
+            <label style={styles.label} htmlFor="regionId">{t('profile.region')}</label>
             <select
-              name="regionId"
+              id="regionId" name="regionId"
               value={formData.regionId}
               onChange={handleChange}
               disabled={!isAdmin}
@@ -381,9 +381,9 @@ export default function ProfileSection() {
           </div>
 
           <div>
-            <label style={styles.label}>{t('profile.commune')}</label>
+            <label style={styles.label} htmlFor="communeId">{t('profile.commune')}</label>
             <select
-              name="communeId"
+              id="communeId" name="communeId"
               value={formData.communeId}
               onChange={handleChange}
               disabled={!isAdmin || !formData.regionId}

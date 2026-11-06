@@ -462,9 +462,9 @@ export default function CondominiumsModule() {
             </h4>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
               <div>
-                <label style={styles.label}>{t('condominiums.name')}</label>
+                <label style={styles.label} htmlFor="name">{t('condominiums.name')}</label>
                 <input
-                  name="name"
+                  id="name" name="name"
                   value={form.name}
                   onChange={handleChange}
                   disabled={readOnly}
@@ -473,9 +473,9 @@ export default function CondominiumsModule() {
                 />
               </div>
               <div>
-                <label style={styles.label}>{t('condominiums.rut')}</label>
+                <label style={styles.label} htmlFor="rut">{t('condominiums.rut')}</label>
                 <input
-                  name="rut"
+                  id="rut" name="rut"
                   value={form.rut}
                   onChange={handleChange}
                   disabled={readOnly}
@@ -484,9 +484,9 @@ export default function CondominiumsModule() {
                 />
               </div>
               <div>
-                <label style={styles.label}>{t('condominiums.sii_role')}</label>
+                <label style={styles.label} htmlFor="siiPropertyRole">{t('condominiums.sii_role')}</label>
                 <input
-                  name="siiPropertyRole"
+                  id="siiPropertyRole" name="siiPropertyRole"
                   value={form.siiPropertyRole}
                   onChange={handleChange}
                   disabled={readOnly}
@@ -495,9 +495,9 @@ export default function CondominiumsModule() {
                 />
               </div>
               <div>
-                <label style={styles.label}>{t('condominiums.type')}</label>
+                <label style={styles.label} htmlFor="type">{t('condominiums.type')}</label>
                 <select
-                  name="type"
+                  id="type" name="type"
                   value={form.type}
                   onChange={handleChange}
                   disabled={readOnly}
@@ -509,9 +509,9 @@ export default function CondominiumsModule() {
                 </select>
               </div>
               <div>
-                <label style={styles.label}>{t('condominiums.destination')}</label>
+                <label style={styles.label} htmlFor="destination">{t('condominiums.destination')}</label>
                 <select
-                  name="destination"
+                  id="destination" name="destination"
                   value={form.destination}
                   onChange={handleChange}
                   disabled={readOnly}
@@ -524,9 +524,9 @@ export default function CondominiumsModule() {
                 </select>
               </div>
               <div>
-                <label style={styles.label}>{t('condominiums.total_units')}</label>
+                <label style={styles.label} htmlFor="totalUnits">{t('condominiums.total_units')}</label>
                 <input
-                  type="number"
+                  id="totalUnits" type="number"
                   min="1"
                   name="totalUnits"
                   value={form.totalUnits}
@@ -545,9 +545,9 @@ export default function CondominiumsModule() {
             </h4>
             {isSuperadmin ? (
               <div>
-                <label style={styles.label}>{t('condominiums.company')}</label>
+                <label style={styles.label} htmlFor="managementCompanyId">{t('condominiums.company')}</label>
                 <select
-                  name="managementCompanyId"
+                  id="managementCompanyId" name="managementCompanyId"
                   value={form.managementCompanyId}
                   onChange={handleChange}
                   disabled={readOnly}
@@ -564,7 +564,7 @@ export default function CondominiumsModule() {
               </div>
             ) : (
               <div>
-                <label style={styles.label}>{t('condominiums.company')}</label>
+                <label style={styles.label} htmlFor="domCertificateNumber">{t('condominiums.company')}</label>
                 <input
                   value={getCompanyName(form.managementCompanyId)}
                   readOnly
@@ -582,9 +582,9 @@ export default function CondominiumsModule() {
             </h4>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
               <div>
-                <label style={styles.label}>{t('condominiums.dom_certificate')}</label>
+                <label style={styles.label} htmlFor="domCertificateNumber">{t('condominiums.dom_certificate')}</label>
                 <input
-                  name="domCertificateNumber"
+                  id="domCertificateNumber" name="domCertificateNumber"
                   value={form.domCertificateNumber}
                   onChange={handleChange}
                   disabled={readOnly}
@@ -593,9 +593,9 @@ export default function CondominiumsModule() {
                 />
               </div>
               <div>
-                <label style={styles.label}>{t('condominiums.dom_approval_date')}</label>
+                <label style={styles.label} htmlFor="domApprovalDate">{t('condominiums.dom_approval_date')}</label>
                 <input
-                  type="date"
+                  id="domApprovalDate" type="date"
                   name="domApprovalDate"
                   value={form.domApprovalDate}
                   onChange={handleChange}
@@ -605,9 +605,9 @@ export default function CondominiumsModule() {
                 />
               </div>
               <div>
-                <label style={styles.label}>{t('condominiums.reserve_fund')}</label>
+                <label style={styles.label} htmlFor="reserveFundPercentage">{t('condominiums.reserve_fund')}</label>
                 <input
-                  type="number"
+                  id="reserveFundPercentage" type="number"
                   min="0"
                   max="100"
                   step="0.01"
@@ -628,9 +628,9 @@ export default function CondominiumsModule() {
             </h4>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
               <div>
-                <label style={styles.label}>{t('condominiums.street')}</label>
+                <label style={styles.label} htmlFor="street">{t('condominiums.street')}</label>
                 <input
-                  name="street"
+                  id="street" name="street"
                   value={form.street}
                   onChange={handleChange}
                   disabled={readOnly}
@@ -639,9 +639,9 @@ export default function CondominiumsModule() {
                 />
               </div>
               <div>
-                <label style={styles.label}>{t('condominiums.street_number')}</label>
+                <label style={styles.label} htmlFor="streetNumber">{t('condominiums.street_number')}</label>
                 <input
-                  name="streetNumber"
+                  id="streetNumber" name="streetNumber"
                   value={form.streetNumber}
                   onChange={handleChange}
                   disabled={readOnly}
@@ -650,9 +650,9 @@ export default function CondominiumsModule() {
                 />
               </div>
               <div>
-                <label style={styles.label}>{t('condominiums.region')}</label>
+                <label style={styles.label} htmlFor="regionId">{t('condominiums.region')}</label>
                 <select
-                  name="regionId"
+                  id="regionId" name="regionId"
                   value={form.regionId}
                   onChange={handleChange}
                   disabled={readOnly}
@@ -668,9 +668,9 @@ export default function CondominiumsModule() {
                 </select>
               </div>
               <div>
-                <label style={styles.label}>{t('condominiums.commune')}</label>
+                <label style={styles.label} htmlFor="communeId">{t('condominiums.commune')}</label>
                 <select
-                  name="communeId"
+                  id="communeId" name="communeId"
                   value={form.communeId}
                   onChange={handleChange}
                   disabled={readOnly || !form.regionId}
@@ -693,9 +693,9 @@ export default function CondominiumsModule() {
             </h4>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
               <div>
-                <label style={styles.label}>{t('condominiums.bank_name')}</label>
+                <label style={styles.label} htmlFor="bankName">{t('condominiums.bank_name')}</label>
                 <input
-                  name="bankName"
+                  id="bankName" name="bankName"
                   value={form.bankName}
                   onChange={handleChange}
                   disabled={readOnly}
@@ -704,9 +704,9 @@ export default function CondominiumsModule() {
                 />
               </div>
               <div>
-                <label style={styles.label}>{t('condominiums.account_type')}</label>
+                <label style={styles.label} htmlFor="accountType">{t('condominiums.account_type')}</label>
                 <select
-                  name="accountType"
+                  id="accountType" name="accountType"
                   value={form.accountType}
                   onChange={handleChange}
                   disabled={readOnly}
@@ -718,9 +718,9 @@ export default function CondominiumsModule() {
                 </select>
               </div>
               <div>
-                <label style={styles.label}>{t('condominiums.account_number')}</label>
+                <label style={styles.label} htmlFor="accountNumber">{t('condominiums.account_number')}</label>
                 <input
-                  name="accountNumber"
+                  id="accountNumber" name="accountNumber"
                   value={form.accountNumber}
                   onChange={handleChange}
                   disabled={readOnly}
@@ -737,9 +737,9 @@ export default function CondominiumsModule() {
             </h4>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
               <div>
-                <label style={styles.label}>{t('condominiums.concierge_phone')}</label>
+                <label style={styles.label} htmlFor="conciergePhone">{t('condominiums.concierge_phone')}</label>
                 <input
-                  name="conciergePhone"
+                  id="conciergePhone" name="conciergePhone"
                   value={form.conciergePhone}
                   onChange={handleChange}
                   disabled={readOnly}
@@ -748,9 +748,9 @@ export default function CondominiumsModule() {
                 />
               </div>
               <div>
-                <label style={styles.label}>{t('condominiums.administration_email')}</label>
+                <label style={styles.label} htmlFor="administrationEmail">{t('condominiums.administration_email')}</label>
                 <input
-                  type="email"
+                  id="administrationEmail" type="email"
                   name="administrationEmail"
                   value={form.administrationEmail}
                   onChange={handleChange}
@@ -764,9 +764,9 @@ export default function CondominiumsModule() {
 
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
             <div>
-              <label style={styles.label}>{t('condominiums.status')}</label>
+              <label style={styles.label} htmlFor="status">{t('condominiums.status')}</label>
               <select
-                name="status"
+                id="status" name="status"
                 value={form.status}
                 onChange={handleChange}
                 disabled={readOnly}

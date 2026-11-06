@@ -421,9 +421,9 @@ export default function UsersModule() {
             </h4>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
               <div>
-                <label style={styles.label}>{t('users.first_name')}</label>
+                <label style={styles.label} htmlFor="first_name">{t('users.first_name')}</label>
                 <input
-                  name="first_name"
+                  id="first_name" name="first_name"
                   value={form.first_name}
                   onChange={handleChange}
                   disabled={readOnly}
@@ -431,9 +431,9 @@ export default function UsersModule() {
                 />
               </div>
               <div>
-                <label style={styles.label}>{t('users.second_name')}</label>
+                <label style={styles.label} htmlFor="second_name">{t('users.second_name')}</label>
                 <input
-                  name="second_name"
+                  id="second_name" name="second_name"
                   value={form.second_name}
                   onChange={handleChange}
                   disabled={readOnly}
@@ -441,9 +441,9 @@ export default function UsersModule() {
                 />
               </div>
               <div>
-                <label style={styles.label}>{t('users.last_name')}</label>
+                <label style={styles.label} htmlFor="last_name">{t('users.last_name')}</label>
                 <input
-                  name="last_name"
+                  id="last_name" name="last_name"
                   value={form.last_name}
                   onChange={handleChange}
                   disabled={readOnly}
@@ -451,9 +451,9 @@ export default function UsersModule() {
                 />
               </div>
               <div>
-                <label style={styles.label}>{t('users.second_last_name')}</label>
+                <label style={styles.label} htmlFor="second_last_name">{t('users.second_last_name')}</label>
                 <input
-                  name="second_last_name"
+                  id="second_last_name" name="second_last_name"
                   value={form.second_last_name}
                   onChange={handleChange}
                   disabled={readOnly}
@@ -462,9 +462,9 @@ export default function UsersModule() {
               </div>
             </div>
             <div style={{ marginTop: '12px' }}>
-              <label style={styles.label}>{t('users.full_name')}</label>
+              <label style={styles.label} htmlFor="full_name">{t('users.full_name')}</label>
               <input
-                name="full_name"
+                id="full_name" name="full_name"
                 value={form.full_name}
                 onChange={handleChange}
                 disabled={readOnly}
@@ -472,9 +472,9 @@ export default function UsersModule() {
               />
             </div>
             <div style={{ marginTop: '12px' }}>
-              <label style={styles.label}>{t('users.email')}</label>
+              <label style={styles.label} htmlFor="email">{t('users.email')}</label>
               <input
-                type="email"
+                id="email" type="email"
                 name="email"
                 value={form.email}
                 onChange={handleChange}
@@ -484,9 +484,9 @@ export default function UsersModule() {
             </div>
             {!editingId ? (
               <div style={{ marginTop: '12px' }}>
-                <label style={styles.label}>{t('users.password')}</label>
+                <label style={styles.label} htmlFor="password">{t('users.password')}</label>
                 <input
-                  type="password"
+                  id="password" type="password"
                   name="password"
                   value={form.password}
                   onChange={handleChange}
@@ -496,9 +496,9 @@ export default function UsersModule() {
               </div>
             ) : null}
             <div style={{ marginTop: '12px' }}>
-              <label style={styles.label}>{t('users.rut')}</label>
+              <label style={styles.label} htmlFor="rut">{t('users.rut')}</label>
               <input
-                name="rut"
+                id="rut" name="rut"
                 value={form.rut}
                 onChange={handleChange}
                 disabled={readOnly}
@@ -506,9 +506,9 @@ export default function UsersModule() {
               />
             </div>
             <div style={{ marginTop: '12px' }}>
-              <label style={styles.label}>{t('users.phone')}</label>
+              <label style={styles.label} htmlFor="phone">{t('users.phone')}</label>
               <input
-                type="tel"
+                id="phone" type="tel"
                 name="phone"
                 value={form.phone}
                 onChange={handleChange}
@@ -517,9 +517,9 @@ export default function UsersModule() {
               />
             </div>
             <div style={{ marginTop: '12px' }}>
-              <label style={styles.label}>{t('users.birth_date')}</label>
+              <label style={styles.label} htmlFor="birth_date">{t('users.birth_date')}</label>
               <input
-                type="date"
+                id="birth_date" type="date"
                 name="birth_date"
                 value={form.birth_date}
                 onChange={handleChange}
@@ -528,9 +528,9 @@ export default function UsersModule() {
               />
             </div>
             <div style={{ marginTop: '12px' }}>
-              <label style={styles.label}>{t('users.street')}</label>
+              <label style={styles.label} htmlFor="street">{t('users.street')}</label>
               <input
-                name="street"
+                id="street" name="street"
                 value={form.street}
                 onChange={handleChange}
                 disabled={readOnly}
@@ -539,9 +539,9 @@ export default function UsersModule() {
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginTop: '12px' }}>
               <div>
-                <label style={styles.label}>{t('users.street_number')}</label>
+                <label style={styles.label} htmlFor="street_number">{t('users.street_number')}</label>
                 <input
-                  name="street_number"
+                  id="street_number" name="street_number"
                   value={form.street_number}
                   onChange={handleChange}
                   disabled={readOnly}
@@ -549,9 +549,9 @@ export default function UsersModule() {
                 />
               </div>
               <div>
-                <label style={styles.label}>{t('users.dept_unit')}</label>
+                <label style={styles.label} htmlFor="dept_unit">{t('users.dept_unit')}</label>
                 <input
-                  name="dept_unit"
+                  id="dept_unit" name="dept_unit"
                   value={form.dept_unit}
                   onChange={handleChange}
                   disabled={readOnly}
@@ -561,9 +561,9 @@ export default function UsersModule() {
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginTop: '12px' }}>
               <div>
-                <label style={styles.label}>{t('users.region')}</label>
+                <label style={styles.label} htmlFor="region">{t('users.region')}</label>
                 <input
-                  name="region"
+                  id="region" name="region"
                   value={form.region}
                   onChange={handleChange}
                   disabled={readOnly}
@@ -571,9 +571,9 @@ export default function UsersModule() {
                 />
               </div>
               <div>
-                <label style={styles.label}>{t('users.commune')}</label>
+                <label style={styles.label} htmlFor="commune">{t('users.commune')}</label>
                 <input
-                  name="commune"
+                  id="commune" name="commune"
                   value={form.commune}
                   onChange={handleChange}
                   disabled={readOnly}
@@ -589,9 +589,9 @@ export default function UsersModule() {
             </h4>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
               <div>
-                <label style={styles.label}>{t('users.role')}</label>
+                <label style={styles.label} htmlFor="role">{t('users.role')}</label>
                 <select
-                  name="role"
+                  id="role" name="role"
                   value={form.role}
                   onChange={handleChange}
                   disabled={readOnly || !isSuperadmin}
@@ -603,9 +603,9 @@ export default function UsersModule() {
                 </select>
               </div>
               <div>
-                <label style={styles.label}>{t('users.status')}</label>
+                <label style={styles.label} htmlFor="status">{t('users.status')}</label>
                 <select
-                  name="status"
+                  id="status" name="status"
                   value={form.status}
                   onChange={handleChange}
                   disabled={readOnly}

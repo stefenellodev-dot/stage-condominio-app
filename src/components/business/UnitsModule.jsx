@@ -359,9 +359,9 @@ export default function UnitsModule() {
             </h4>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
               <div>
-                <label style={styles.label}>{t('units.condominium')}</label>
+                <label style={styles.label} htmlFor="condominiumId">{t('units.condominium')}</label>
                 <select
-                  name="condominiumId"
+                  id="condominiumId" name="condominiumId"
                   value={form.condominiumId}
                   onChange={handleChange}
                   disabled={readOnly}
@@ -376,9 +376,9 @@ export default function UnitsModule() {
                 </select>
               </div>
               <div>
-                <label style={styles.label}>{t('units.unit_number')}</label>
+                <label style={styles.label} htmlFor="unitNumber">{t('units.unit_number')}</label>
                 <input
-                  name="unitNumber"
+                  id="unitNumber" name="unitNumber"
                   value={form.unitNumber}
                   onChange={handleChange}
                   disabled={readOnly}
@@ -386,9 +386,9 @@ export default function UnitsModule() {
                 />
               </div>
               <div>
-                <label style={styles.label}>{t('units.unit_type')}</label>
+                <label style={styles.label} htmlFor="unitType">{t('units.unit_type')}</label>
                 <select
-                  name="unitType"
+                  id="unitType" name="unitType"
                   value={form.unitType}
                   onChange={handleChange}
                   disabled={readOnly}
@@ -401,9 +401,9 @@ export default function UnitsModule() {
                 </select>
               </div>
               <div>
-                <label style={styles.label}>{t('units.floor')}</label>
+                <label style={styles.label} htmlFor="floor">{t('units.floor')}</label>
                 <input
-                  type="number"
+                  id="floor" type="number"
                   min="1"
                   name="floor"
                   value={form.floor}
@@ -413,9 +413,9 @@ export default function UnitsModule() {
                 />
               </div>
               <div>
-                <label style={styles.label}>{t('units.block')}</label>
+                <label style={styles.label} htmlFor="blockOrTower">{t('units.block')}</label>
                 <input
-                  name="blockOrTower"
+                  id="blockOrTower" name="blockOrTower"
                   value={form.blockOrTower}
                   onChange={handleChange}
                   disabled={readOnly}
@@ -423,9 +423,9 @@ export default function UnitsModule() {
                 />
               </div>
               <div>
-                <label style={styles.label}>{t('units.aliquot')}</label>
+                <label style={styles.label} htmlFor="aliquot">{t('units.aliquot')}</label>
                 <input
-                  type="number"
+                  id="aliquot" type="number"
                   min="0"
                   max="100"
                   step="0.00001"
@@ -437,9 +437,9 @@ export default function UnitsModule() {
                 />
               </div>
               <div>
-                <label style={styles.label}>{t('units.surface')}</label>
+                <label style={styles.label} htmlFor="surfaceM2">{t('units.surface')}</label>
                 <input
-                  type="number"
+                  id="surfaceM2" type="number"
                   min="0"
                   step="0.01"
                   name="surfaceM2"
@@ -458,9 +458,9 @@ export default function UnitsModule() {
             </h4>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
               <div>
-                <label style={styles.label}>{t('units.owner')}</label>
+                <label style={styles.label} htmlFor="ownerId">{t('units.owner')}</label>
                 <select
-                  name="ownerId"
+                  id="ownerId" name="ownerId"
                   value={form.ownerId}
                   onChange={handleChange}
                   disabled={readOnly}
@@ -481,9 +481,9 @@ export default function UnitsModule() {
                 </select>
               </div>
               <div>
-                <label style={styles.label}>{t('units.occupancy_status')}</label>
+                <label style={styles.label} htmlFor="occupancyStatus">{t('units.occupancy_status')}</label>
                 <select
-                  name="occupancyStatus"
+                  id="occupancyStatus" name="occupancyStatus"
                   value={form.occupancyStatus}
                   onChange={handleChange}
                   disabled={readOnly}
@@ -499,9 +499,9 @@ export default function UnitsModule() {
 
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
             <div>
-              <label style={styles.label}>{t('units.status')}</label>
+              <label style={styles.label} htmlFor="status">{t('units.status')}</label>
               <select
-                name="status"
+                id="status" name="status"
                 value={form.status}
                 onChange={handleChange}
                 disabled={readOnly}

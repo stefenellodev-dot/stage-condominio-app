@@ -555,9 +555,9 @@ export default function ManagementCompaniesModule() {
             </h4>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
               <div>
-                <label style={styles.label}>{t('management_companies.legal_name')}</label>
+                <label style={styles.label} htmlFor="legalName">{t('management_companies.legal_name')}</label>
                 <input
-                  name="legalName"
+                  id="legalName" name="legalName"
                   value={form.legalName}
                   onChange={handleChange}
                   disabled={readOnly}
@@ -566,9 +566,9 @@ export default function ManagementCompaniesModule() {
                 />
               </div>
               <div>
-                <label style={styles.label}>{t('management_companies.fantasy_name')}</label>
+                <label style={styles.label} htmlFor="fantasyName">{t('management_companies.fantasy_name')}</label>
                 <input
-                  name="fantasyName"
+                  id="fantasyName" name="fantasyName"
                   value={form.fantasyName}
                   onChange={handleChange}
                   disabled={readOnly}
@@ -577,9 +577,9 @@ export default function ManagementCompaniesModule() {
                 />
               </div>
               <div>
-                <label style={styles.label}>{t('management_companies.rut')}</label>
+                <label style={styles.label} htmlFor="rut">{t('management_companies.rut')}</label>
                 <input
-                  name="rut"
+                  id="rut" name="rut"
                   value={form.rut}
                   onChange={handleChange}
                   disabled={readOnly}
@@ -588,9 +588,9 @@ export default function ManagementCompaniesModule() {
                 />
               </div>
               <div>
-                <label style={styles.label}>{t('management_companies.business_line')}</label>
+                <label style={styles.label} htmlFor="businessLine">{t('management_companies.business_line')}</label>
                 <input
-                  name="businessLine"
+                  id="businessLine" name="businessLine"
                   value={form.businessLine}
                   onChange={handleChange}
                   disabled={readOnly}
@@ -607,9 +607,9 @@ export default function ManagementCompaniesModule() {
             </h4>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
               <div>
-                <label style={styles.label}>{t('management_companies.legal_rep_name')}</label>
+                <label style={styles.label} htmlFor="legalRepName">{t('management_companies.legal_rep_name')}</label>
                 <input
-                  name="legalRepName"
+                  id="legalRepName" name="legalRepName"
                   value={form.legalRepName}
                   onChange={handleChange}
                   disabled={readOnly}
@@ -618,9 +618,9 @@ export default function ManagementCompaniesModule() {
                 />
               </div>
               <div>
-                <label style={styles.label}>{t('management_companies.legal_rep_rut')}</label>
+                <label style={styles.label} htmlFor="legalRepRut">{t('management_companies.legal_rep_rut')}</label>
                 <input
-                  name="legalRepRut"
+                  id="legalRepRut" name="legalRepRut"
                   value={form.legalRepRut}
                   onChange={handleChange}
                   disabled={readOnly}
@@ -629,9 +629,9 @@ export default function ManagementCompaniesModule() {
                 />
               </div>
               <div style={{ gridColumn: '1 / -1' }}>
-                <label style={styles.label}>{t('management_companies.legal_rep_email')}</label>
+                <label style={styles.label} htmlFor="legalRepEmail">{t('management_companies.legal_rep_email')}</label>
                 <input
-                  type="email"
+                  id="legalRepEmail" type="email"
                   name="legalRepEmail"
                   value={form.legalRepEmail}
                   onChange={handleChange}
@@ -649,9 +649,9 @@ export default function ManagementCompaniesModule() {
             </h4>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
               <div>
-                <label style={styles.label}>{t('management_companies.minvu_number')}</label>
+                <label style={styles.label} htmlFor="minvuRegistryNumber">{t('management_companies.minvu_number')}</label>
                 <input
-                  name="minvuRegistryNumber"
+                  id="minvuRegistryNumber" name="minvuRegistryNumber"
                   value={form.minvuRegistryNumber}
                   onChange={handleChange}
                   disabled={readOnly}
@@ -660,9 +660,9 @@ export default function ManagementCompaniesModule() {
                 />
               </div>
               <div>
-                <label style={styles.label}>{t('management_companies.minvu_status')}</label>
+                <label style={styles.label} htmlFor="minvuStatus">{t('management_companies.minvu_status')}</label>
                 <select
-                  name="minvuStatus"
+                  id="minvuStatus" name="minvuStatus"
                   value={form.minvuStatus}
                   onChange={handleChange}
                   disabled={readOnly}
@@ -676,9 +676,9 @@ export default function ManagementCompaniesModule() {
                 </select>
               </div>
               <div>
-                <label style={styles.label}>{t('management_companies.minvu_registered_at')}</label>
+                <label style={styles.label} htmlFor="minvuRegisteredAt">{t('management_companies.minvu_registered_at')}</label>
                 <input
-                  type="date"
+                  id="minvuRegisteredAt" type="date"
                   name="minvuRegisteredAt"
                   value={form.minvuRegisteredAt}
                   onChange={handleChange}
@@ -688,7 +688,7 @@ export default function ManagementCompaniesModule() {
                 />
               </div>
               <div style={{ display: 'flex', alignItems: 'end' }}>
-                <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }} htmlFor="email">
                   <input
                     type="checkbox"
                     name="hasGuaranteeInsurance"
@@ -708,9 +708,9 @@ export default function ManagementCompaniesModule() {
             </h4>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
               <div>
-                <label style={styles.label}>{t('management_companies.email')}</label>
+                <label style={styles.label} htmlFor="email">{t('management_companies.email')}</label>
                 <input
-                  type="email"
+                  id="email" type="email"
                   name="email"
                   value={form.email}
                   onChange={handleChange}
@@ -720,9 +720,9 @@ export default function ManagementCompaniesModule() {
                 />
               </div>
               <div>
-                <label style={styles.label}>{t('management_companies.phone')}</label>
+                <label style={styles.label} htmlFor="phone">{t('management_companies.phone')}</label>
                 <input
-                  name="phone"
+                  id="phone" name="phone"
                   value={form.phone}
                   onChange={handleChange}
                   disabled={readOnly}
@@ -731,9 +731,9 @@ export default function ManagementCompaniesModule() {
                 />
               </div>
               <div>
-                <label style={styles.label}>{t('management_companies.emergency_phone')}</label>
+                <label style={styles.label} htmlFor="emergencyPhone">{t('management_companies.emergency_phone')}</label>
                 <input
-                  name="emergencyPhone"
+                  id="emergencyPhone" name="emergencyPhone"
                   value={form.emergencyPhone}
                   onChange={handleChange}
                   disabled={readOnly}
@@ -742,9 +742,9 @@ export default function ManagementCompaniesModule() {
                 />
               </div>
               <div>
-                <label style={styles.label}>{t('management_companies.website')}</label>
+                <label style={styles.label} htmlFor="website">{t('management_companies.website')}</label>
                 <input
-                  type="url"
+                  id="website" type="url"
                   name="website"
                   value={form.website}
                   onChange={handleChange}
@@ -762,9 +762,9 @@ export default function ManagementCompaniesModule() {
             </h4>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
               <div>
-                <label style={styles.label}>{t('management_companies.street')}</label>
+                <label style={styles.label} htmlFor="street">{t('management_companies.street')}</label>
                 <input
-                  name="street"
+                  id="street" name="street"
                   value={form.street}
                   onChange={handleChange}
                   disabled={readOnly}
@@ -773,9 +773,9 @@ export default function ManagementCompaniesModule() {
                 />
               </div>
               <div>
-                <label style={styles.label}>{t('management_companies.street_number')}</label>
+                <label style={styles.label} htmlFor="streetNumber">{t('management_companies.street_number')}</label>
                 <input
-                  name="streetNumber"
+                  id="streetNumber" name="streetNumber"
                   value={form.streetNumber}
                   onChange={handleChange}
                   disabled={readOnly}
@@ -784,9 +784,9 @@ export default function ManagementCompaniesModule() {
                 />
               </div>
               <div>
-                <label style={styles.label}>{t('management_companies.dept_unit')}</label>
+                <label style={styles.label} htmlFor="deptOrUnit">{t('management_companies.dept_unit')}</label>
                 <input
-                  name="deptOrUnit"
+                  id="deptOrUnit" name="deptOrUnit"
                   value={form.deptOrUnit}
                   onChange={handleChange}
                   disabled={readOnly}
@@ -795,9 +795,9 @@ export default function ManagementCompaniesModule() {
                 />
               </div>
               <div>
-                <label style={styles.label}>{t('management_companies.region')}</label>
+                <label style={styles.label} htmlFor="regionId">{t('management_companies.region')}</label>
                 <select
-                  name="regionId"
+                  id="regionId" name="regionId"
                   value={form.regionId}
                   onChange={handleChange}
                   disabled={readOnly}
@@ -813,9 +813,9 @@ export default function ManagementCompaniesModule() {
                 </select>
               </div>
               <div>
-                <label style={styles.label}>{t('management_companies.commune')}</label>
+                <label style={styles.label} htmlFor="communeId">{t('management_companies.commune')}</label>
                 <select
-                  name="communeId"
+                  id="communeId" name="communeId"
                   value={form.communeId}
                   onChange={handleChange}
                   disabled={readOnly || !form.regionId}
@@ -838,9 +838,9 @@ export default function ManagementCompaniesModule() {
             </h4>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
               <div>
-                <label style={styles.label}>{t('management_companies.bank_name')}</label>
+                <label style={styles.label} htmlFor="bankName">{t('management_companies.bank_name')}</label>
                 <input
-                  name="bankName"
+                  id="bankName" name="bankName"
                   value={form.bankName}
                   onChange={handleChange}
                   disabled={readOnly}
@@ -849,9 +849,9 @@ export default function ManagementCompaniesModule() {
                 />
               </div>
               <div>
-                <label style={styles.label}>{t('management_companies.account_type')}</label>
+                <label style={styles.label} htmlFor="accountType">{t('management_companies.account_type')}</label>
                 <select
-                  name="accountType"
+                  id="accountType" name="accountType"
                   value={form.accountType}
                   onChange={handleChange}
                   disabled={readOnly}
@@ -865,9 +865,9 @@ export default function ManagementCompaniesModule() {
                 </select>
               </div>
               <div>
-                <label style={styles.label}>{t('management_companies.account_number')}</label>
+                <label style={styles.label} htmlFor="accountNumber">{t('management_companies.account_number')}</label>
                 <input
-                  name="accountNumber"
+                  id="accountNumber" name="accountNumber"
                   value={form.accountNumber}
                   onChange={handleChange}
                   disabled={readOnly}
@@ -876,9 +876,9 @@ export default function ManagementCompaniesModule() {
                 />
               </div>
               <div>
-                <label style={styles.label}>{t('management_companies.bank_recipient_rut')}</label>
+                <label style={styles.label} htmlFor="bankRecipientRut">{t('management_companies.bank_recipient_rut')}</label>
                 <input
-                  name="bankRecipientRut"
+                  id="bankRecipientRut" name="bankRecipientRut"
                   value={form.bankRecipientRut}
                   onChange={handleChange}
                   disabled={readOnly}
@@ -891,9 +891,9 @@ export default function ManagementCompaniesModule() {
 
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
             <div>
-              <label style={styles.label}>{t('management_companies.status')}</label>
+              <label style={styles.label} htmlFor="status">{t('management_companies.status')}</label>
               <select
-                name="status"
+                id="status" name="status"
                 value={form.status}
                 onChange={handleChange}
                 disabled={readOnly}
@@ -1018,8 +1018,9 @@ export default function ManagementCompaniesModule() {
             {t('management_companies.members_assign_title')}
           </h4>
           <div style={{ marginBottom: '12px' }}>
-            <label style={styles.label}>{t('management_companies.members_search')}</label>
+            <label style={styles.label} htmlFor="members_search">{t('management_companies.members_search')}</label>
             <input
+              id="members_search"
               type="text"
               value={memberSearch}
               onChange={(event) => setMemberSearch(event.target.value)}

@@ -574,9 +574,9 @@ export default function CommonAreasModule() {
             </h4>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
               <div>
-                <label style={styles.label}>{t('common_areas.condominium')}</label>
+                <label style={styles.label} htmlFor="condominiumId">{t('common_areas.condominium')}</label>
                 <select
-                  name="condominiumId"
+                  id="condominiumId" name="condominiumId"
                   value={form.condominiumId}
                   onChange={handleChange}
                   disabled={readOnly}
@@ -591,9 +591,9 @@ export default function CommonAreasModule() {
                 </select>
               </div>
               <div>
-                <label style={styles.label}>{t('common_areas.name')}</label>
+                <label style={styles.label} htmlFor="name">{t('common_areas.name')}</label>
                 <input
-                  name="name"
+                  id="name" name="name"
                   value={form.name}
                   onChange={handleChange}
                   disabled={readOnly}
@@ -601,9 +601,9 @@ export default function CommonAreasModule() {
                 />
               </div>
               <div>
-                <label style={styles.label}>{t('common_areas.area_type')}</label>
+                <label style={styles.label} htmlFor="areaType">{t('common_areas.area_type')}</label>
                 <select
-                  name="areaType"
+                  id="areaType" name="areaType"
                   value={form.areaType}
                   onChange={handleChange}
                   disabled={readOnly}
@@ -621,9 +621,9 @@ export default function CommonAreasModule() {
                 </select>
               </div>
               <div>
-                <label style={styles.label}>{t('common_areas.capacity')}</label>
+                <label style={styles.label} htmlFor="capacity">{t('common_areas.capacity')}</label>
                 <input
-                  type="number"
+                  id="capacity" type="number"
                   min="1"
                   name="capacity"
                   value={form.capacity}
@@ -633,7 +633,7 @@ export default function CommonAreasModule() {
                 />
               </div>
               <div style={{ display: 'flex', alignItems: 'end' }}>
-                <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }} htmlFor="description">
                   <input
                     type="checkbox"
                     name="requiresBooking"
@@ -646,9 +646,9 @@ export default function CommonAreasModule() {
               </div>
             </div>
             <div style={{ marginTop: '12px' }}>
-              <label style={styles.label}>{t('common_areas.description')}</label>
+              <label style={styles.label} htmlFor="description">{t('common_areas.description')}</label>
               <textarea
-                name="description"
+                id="description" name="description"
                 value={form.description}
                 onChange={handleChange}
                 disabled={readOnly}
@@ -663,9 +663,9 @@ export default function CommonAreasModule() {
             </h4>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
               <div>
-                <label style={styles.label}>{t('common_areas.fee_amount')}</label>
+                <label style={styles.label} htmlFor="feeAmount">{t('common_areas.fee_amount')}</label>
                 <input
-                  type="number"
+                  id="feeAmount" type="number"
                   min="0"
                   name="feeAmount"
                   value={form.feeAmount}
@@ -675,9 +675,9 @@ export default function CommonAreasModule() {
                 />
               </div>
               <div>
-                <label style={styles.label}>{t('common_areas.deposit_amount')}</label>
+                <label style={styles.label} htmlFor="depositAmount">{t('common_areas.deposit_amount')}</label>
                 <input
-                  type="number"
+                  id="depositAmount" type="number"
                   min="0"
                   name="depositAmount"
                   value={form.depositAmount}
@@ -695,9 +695,9 @@ export default function CommonAreasModule() {
             </h4>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
               <div>
-                <label style={styles.label}>{t('common_areas.opening_time')}</label>
+                <label style={styles.label} htmlFor="openingTime">{t('common_areas.opening_time')}</label>
                 <input
-                  type="time"
+                  id="openingTime" type="time"
                   name="openingTime"
                   value={form.openingTime}
                   onChange={handleChange}
@@ -706,9 +706,9 @@ export default function CommonAreasModule() {
                 />
               </div>
               <div>
-                <label style={styles.label}>{t('common_areas.closing_time')}</label>
+                <label style={styles.label} htmlFor="closingTime">{t('common_areas.closing_time')}</label>
                 <input
-                  type="time"
+                  id="closingTime" type="time"
                   name="closingTime"
                   value={form.closingTime}
                   onChange={handleChange}
@@ -718,9 +718,9 @@ export default function CommonAreasModule() {
               </div>
             </div>
             <div style={{ marginTop: '12px' }}>
-              <label style={styles.label}>{t('common_areas.rules')}</label>
+              <label style={styles.label} htmlFor="rules">{t('common_areas.rules')}</label>
               <textarea
-                name="rules"
+                id="rules" name="rules"
                 value={form.rules}
                 onChange={handleChange}
                 disabled={readOnly}
@@ -731,9 +731,9 @@ export default function CommonAreasModule() {
 
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
             <div>
-              <label style={styles.label}>{t('common_areas.status')}</label>
+              <label style={styles.label} htmlFor="status">{t('common_areas.status')}</label>
               <select
-                name="status"
+                id="status" name="status"
                 value={form.status}
                 onChange={handleChange}
                 disabled={readOnly}
@@ -797,9 +797,9 @@ export default function CommonAreasModule() {
             </h4>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
               <div>
-                <label style={styles.label}>{t('common_areas.common_area')}</label>
+                <label style={styles.label} htmlFor="commonAreaId">{t('common_areas.common_area')}</label>
                 <select
-                  name="commonAreaId"
+                  id="commonAreaId" name="commonAreaId"
                   value={bookingForm.commonAreaId}
                   onChange={(event) => {
                     const area = areas.find((item) => item.id === event.target.value);
@@ -820,9 +820,9 @@ export default function CommonAreasModule() {
                 </select>
               </div>
               <div>
-                <label style={styles.label}>{t('common_areas.unit')}</label>
+                <label style={styles.label} htmlFor="unitId">{t('common_areas.unit')}</label>
                 <select
-                  name="unitId"
+                  id="unitId" name="unitId"
                   value={bookingForm.unitId}
                   onChange={(event) => setBookingForm((prev) => ({ ...prev, unitId: event.target.value }))}
                   style={styles.select}
@@ -836,9 +836,9 @@ export default function CommonAreasModule() {
                 </select>
               </div>
               <div>
-                <label style={styles.label}>{t('common_areas.booking_date')}</label>
+                <label style={styles.label} htmlFor="bookingDate">{t('common_areas.booking_date')}</label>
                 <input
-                  type="date"
+                  id="bookingDate" type="date"
                   name="bookingDate"
                   value={bookingForm.bookingDate}
                   onChange={(event) => setBookingForm((prev) => ({ ...prev, bookingDate: event.target.value }))}
@@ -846,9 +846,9 @@ export default function CommonAreasModule() {
                 />
               </div>
               <div>
-                <label style={styles.label}>{t('common_areas.start_time')}</label>
+                <label style={styles.label} htmlFor="startTime">{t('common_areas.start_time')}</label>
                 <input
-                  type="time"
+                  id="startTime" type="time"
                   name="startTime"
                   value={bookingForm.startTime}
                   onChange={(event) => setBookingForm((prev) => ({ ...prev, startTime: event.target.value }))}
@@ -856,9 +856,9 @@ export default function CommonAreasModule() {
                 />
               </div>
               <div>
-                <label style={styles.label}>{t('common_areas.end_time')}</label>
+                <label style={styles.label} htmlFor="endTime">{t('common_areas.end_time')}</label>
                 <input
-                  type="time"
+                  id="endTime" type="time"
                   name="endTime"
                   value={bookingForm.endTime}
                   onChange={(event) => setBookingForm((prev) => ({ ...prev, endTime: event.target.value }))}
@@ -866,9 +866,9 @@ export default function CommonAreasModule() {
                 />
               </div>
               <div>
-                <label style={styles.label}>{t('common_areas.guest_count')}</label>
+                <label style={styles.label} htmlFor="guestCount">{t('common_areas.guest_count')}</label>
                 <input
-                  type="number"
+                  id="guestCount" type="number"
                   min="1"
                   name="guestCount"
                   value={bookingForm.guestCount}
@@ -877,9 +877,9 @@ export default function CommonAreasModule() {
                 />
               </div>
               <div style={{ gridColumn: '1 / -1' }}>
-                <label style={styles.label}>{t('common_areas.purpose')}</label>
+                <label style={styles.label} htmlFor="purpose">{t('common_areas.purpose')}</label>
                 <input
-                  name="purpose"
+                  id="purpose" name="purpose"
                   value={bookingForm.purpose}
                   onChange={(event) => setBookingForm((prev) => ({ ...prev, purpose: event.target.value }))}
                   style={styles.input}
@@ -893,8 +893,9 @@ export default function CommonAreasModule() {
             ) : null}
             {isSuperadmin ? (
               <div style={{ marginTop: '12px' }}>
-                <label style={styles.label}>{t('common_areas.requester')}</label>
+                <label style={styles.label} htmlFor="requesterId">{t('common_areas.requester')}</label>
                 <select
+                  id="requesterId"
                   value={bookingForm.requesterId}
                   onChange={(event) => setBookingForm((prev) => ({ ...prev, requesterId: event.target.value }))}
                   style={styles.select}
