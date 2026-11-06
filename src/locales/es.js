@@ -26,6 +26,7 @@ export const es = {
     condominiums: 'Condominios',
     units: 'Unidades',
     common_areas: 'Espacios Comunes',
+    concierge: 'Conserjería y Accesos',
     maintenance: 'Mantenciones y Certificaciones',
     assemblies: 'Asambleas y Votaciones',
     expenses: 'Gastos Comunes',

@@ -1,0 +1,320 @@
+import React, { useState, useEffect, useMemo } from 'react';
+import { supabase } from '../../lib/supabase';
+import { styles } from '../../styles/theme';
+import { useAuth } from '../../context/AuthContext';
+import { useToast } from '../../context/ToastContext';
+import { useTranslation } from '../../context/I18nContext';
+
+const fmtCLP = (n) => new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP', maximumFractionDigits: 0 }).format(n || 0);
+const fmtTime = (iso) => iso ? new Date(iso).toLocaleString('es-ES', { hour: '2-digit', minute: '2-digit' }) : '—';
+const fmtDate = (iso) => iso ? new Date(iso).toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' }) : '—';
+
+export default function ConciergeModule() {
+  const { profile } = useAuth();
+  const { showSuccess, showError } = useToast();
+  const { t } = useTranslation();
+
+  const condominiumId = profile?.condominium_id;
+  const canManage = profile?.role === 'superadmin' || profile?.role === 'admin' || profile?.role === 'concierge';
+
+  const [tab, setTab] = useState('visitas');
+  const [visits, setVisits] = useState([]);
+  const [parcels, setParcels] = useState([]);
+  const [logs, setLogs] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  // Form visita
+  const [visitForm, setVisitForm] = useState({
+    unit_id: '', visitor_name: '', visitor_rut: '', vehicle_plate: '', parking_spot: '', notes: ''
+  });
+  const [savingVisit, setSavingVisit] = useState(false);
+
+  // Form paquete
+  const [pkgForm, setPkgForm] = useState({
+    unit_id: '', carrier: 'chilexpress', tracking_number: '', package_type: 'caja', pickup_pin: '', voucher_url: ''
+  });
+  const [savingPkg, setSavingPkg] = useState(false);
+
+  // Form logbook
+  const [logForm, setLogForm] = useState({
+    shift: 'morning', entry_type: 'rutina', title: '', description: ''
+  });
+  const [savingLog, setSavingLog] = useState(false);
+
+  useEffect(() => {
+    if (!selectedCondo) return;
+    loadVisits();
+    loadParcels();
+    loadLogbook();
+  }, [selectedCondo, tab]);
+
+  // Visitas
+  const loadVisits = async () => {
+    if (!selectedCondo) return;
+    setLoading(true);
+    const { data, error } = await supabase
+      .from('visitor_logs')
+      .select('id, unit_id, visitor_name, visitor_rut, vehicle_plate, parking_spot, entry_time, exit_time, registered_by, status, notes, units(unit_number)')
+      .eq('condominium_id', selectedCondo)
+      .order('created_at', { ascending: false });
+    if (error) showError(error.message); else setVisits(data || []);
+    setLoading(false);
+  };
+
+  // Paquetes
+  const loadParcels = async () => {
+    if (!selectedCondo) return;
+    setLoading(true);
+    const { data, error } = await supabase
+      .from('parcels')
+      .select('id, unit_id, carrier, tracking_number, package_type, pickup_pin, received_at, received_by, picked_up_at, picked_up_by_name, status, units(unit_number)')
+      .eq('condominium_id', selectedCondo)
+      .order('received_at', { ascending: false });
+    if (error) showError(error.message); else setParcels(data || []);
+    setLoading(false);
+  };
+
+  // Logbook
+  const loadLogbook = async () => {
+    if (!selectedCondo) return;
+    setLoading(true);
+    const { data, error } = await supabase
+      .from('concierge_logbook')
+      .select('id, shift, entry_type, title, description, status, created_at, updated_at, profiles(full_name)')
+      .eq('condominium_id', selectedCondo)
+      .order('created_at', { ascending: false });
+    if (error) showError(error.message); else setLogs(data || []);
+    setLoading(false);
+  };
+
+  const handleCreateVisit = async (e) => {
+    e.preventDefault();
+    if (!visitForm.unit_id || !visitForm.visitor_name.trim()) { showError('Unidad y nombre son obligatorios'); return; }
+    setSavingVisit(true);
+    const { error } = await supabase.from('visitor_logs').insert({
+      condominium_id: selectedCondo,
+      unit_id: visitForm.unit_id,
+      visitor_name: visitForm.visitor_name.trim(),
+      visitor_rut: visitForm.visitor_rut.trim() || null,
+      vehicle_plate: visitForm.vehicle_plate.trim() || null,
+      parking_spot: visitForm.parking_spot.trim() || null,
+      status: 'inside',
+      notes: visitForm.notes.trim() || null
+    });
+    setSavingVisit(false);
+    if (error) { showError(error.message); return; }
+    showSuccess('Visita registrada');
+    setVisitForm({ unit_id: '', visitor_name: '', visitor_rut: '', vehicle_plate: '', parking_spot: '', notes: '' });
+    loadVisits();
+  };
+
+  const handleCreateParcel = async (e) => {
+    e.preventDefault();
+    if (!pkgForm.unit_id || !pkgForm.tracking_number.trim()) { showError('Unidad y número de guía son obligatorios'); return; }
+    setSavingPkg(true);
+    const { error } = await supabase.from('parcels').insert({
+      condominium_id: selectedCondo,
+      unit_id: pkgForm.unit_id,
+      carrier: pkgForm.carrier,
+      tracking_number: pkgForm.tracking_number.trim(),
+      package_type: pkgForm.package_type,
+      pickup_pin: pkgForm.pickup_pin.trim(),
+      received_by: profile?.id
+    });
+    setSavingPkg(false);
+    if (error) { showError(error.message); return; }
+    showSuccess('Paquete registrado');
+    setPkgForm({ unit_id: '', carrier: 'chilexpress', tracking_number: '', package_type: 'caja', pickup_pin: '', voucher_url: '' });
+    loadParcels();
+  };
+
+  const handleCreateLog = async (e) => {
+    e.preventDefault();
+    if (!logForm.title.trim() || !logForm.description.trim()) { showError('Título y descripción son obligatorios'); return; }
+    setSavingLog(true);
+    const { error } = await supabase.from('concierge_logbook').insert({
+      condominium_id: selectedCondo,
+      shift: logForm.shift,
+      entry_type: logForm.entry_type,
+      title: logForm.title.trim(),
+      description: logForm.description.trim()
+    });
+    setSavingLog(false);
+    if (error) { showError(error.message); return; }
+    showSuccess('Novedad registrada');
+    setLogForm({ shift: 'morning', entry_type: 'rutina', title: '', description: '' });
+    loadLogbook();
+  };
+
+  const condosLoading = !selectedCondo && condominiums.length === 0;
+
+  return (
+    <div style={{ marginTop: '28px' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px', marginBottom: '14px', flexWrap: 'wrap' }}>
+        <div>
+          <h3 style={{ margin: '0 0 4px' }}>Conserjería y Accesos</h3>
+          <p style={{ margin: 0, color: 'var(--text-secondary)', fontSize: '13px' }}>Visitas, paquetes y bitácora de guardia</p>
+        </div>
+        <div style={{ fontSize: '12px', color: 'var(--text-dim)', padding: '4px 8px', borderRadius: 'var(--radius-sm)', background: 'rgba(255,255,255,0.05)' }}>
+          Conjunto: {selectedCondoName || 'Seleccionar…'}
+        </div>
+      </div>
+
+      <div style={{ display: 'flex', gap: '6px', marginBottom: '14px' }}>
+        <button style={tabStyle(tab === 'visitas')} onClick={() => setTab('visitas')}>Visitas</button>
+        <button style={tabStyle(tab === 'paquetes')} onClick={() => setTab('paquetes')}>Paquetes</button>
+        <button style={tabStyle(tab === 'libro')} onClick={() => setTab('libro')}>Novedades</button>
+      </div>
+
+      {loading && <p style={{ color: 'var(--text-dim)' }}>Cargando…</p>}
+
+      {tab === 'visitas' && (
+        <div>
+          {canManage && (
+            <form onSubmit={handleCreateVisit} style={{ ...styles.form, marginBottom: '16px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                <input placeholder="Unidad" value={visitForm.unit_id} onChange={e => setVisitForm({ ...visitForm, unit_id: e.target.value })} style={styles.input} required />
+                <input placeholder="Nombre visitante" value={visitForm.visitor_name} onChange={e => setVisitForm({ ...visitForm, visitor_name: e.target.value })} style={styles.input} required />
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '10px', marginTop: '8px' }}>
+                <input placeholder="Vehículo (opcional)" value={visitForm.vehicle_plate} onChange={e => setVisitForm({ ...visitForm, vehicle_plate: e.target.value })} style={styles.input} />
+                <input placeholder="RUT (opcional)" value={visitForm.visitor_rut} onChange={e => setVisitForm({ ...visitForm, visitor_rut: e.target.value })} style={styles.input} />
+                <input placeholder="Estacionamiento (opcional)" value={visitForm.parking_spot} onChange={e => setVisitForm({ ...visitForm, parking_spot: e.target.value })} style={styles.input} />
+              </div>
+              <div style={{ marginTop: '8px' }}>
+                <label style={styles.label}>Notas</label>
+                <textarea value={visitForm.notes} onChange={e => setVisitForm({ ...visitForm, notes: e.target.value })} style={{ ...styles.input, minHeight: '60px' }} />
+              </div>
+              <button type="submit" disabled={savingVisit} style={{ ...styles.button, marginTop: '10px' }}>{savingVisit ? 'Registrando…' : 'Registrar visita'}</button>
+            </form>
+          )}
+          <div style={styles.tableWrapper}>
+            <table style={{ ...styles.table, minWidth: '700px' }}>
+              <thead><tr style={styles.thRow}>
+                <th style={styles.th}>Unidad</th><th style={styles.th}>Visitante</th><th style={styles.th}>Vehículo</th><th style={styles.th}>Entrada</th><th style={styles.th}>Salida</th><th style={styles.th}>Estado</th>
+              </tr></thead>
+              <tbody>
+                {visits.length === 0 ? (
+                  <tr><td colSpan="6" style={{ ...styles.td, textAlign: 'center', color: 'var(--text-dim)', padding: '24px' }}>Sin visitas registradas.</td></tr>
+                ) : visits.map(v => (
+                  <tr key={v.id} style={styles.tr}>
+                    <td style={styles.td}>{v.units?.unit_number}</td>
+                    <td style={styles.td}>{v.visitor_name}</td>
+                    <td style={styles.td}>{v.vehicle_plate || '—'}</td>
+                    <td style={styles.td}>{v.entry_time ? fmtTime(v.entry_time) : '—'}</td>
+                    <td style={styles.td}>{v.exit_time ? fmtTime(v.exit_time) : '—'}</td>
+                    <td style={styles.td}>{v.status}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
+      {tab === 'paquetes' && (
+        <div>
+          {canManage && (
+            <form onSubmit={handleCreatePkg} style={{ ...styles.form, marginBottom: '16px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                <select value={pkgForm.unit_id} onChange={e => setPkgForm({ ...pkgForm, unit_id: e.target.value })} style={styles.select} required>
+                  <option value="">Selecciona unidad</option>
+                  {units.map(u => <option key={u.id} value={u.id}>{u.unit_number}</option>)}
+                </select>
+                <select value={pkgForm.carrier} onChange={e => setPkgForm({ ...pkgForm, carrier: e.target.value })} style={styles.select} required>
+                  <option value="chilexpress">Chilexpress</option>
+                  <option value="starken">Starken</option>
+                  <option value="blue_express">Blue Express</option>
+                  <option value="mercado_libre">Mercado Libre</option>
+                  <option value="correos_chile">Correos Chile</option>
+                  <option value="pedidos_ya">Pedidos Ya</option>
+                  <option value="otro">Otro</option>
+                </select>
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '10px', marginTop: '8px' }}>
+                <input placeholder="Nº guía/tracking" value={pkgForm.tracking_number} onChange={e => setPkgForm({ ...pkgForm, tracking_number: e.target.value })} style={styles.input} required />
+                <select value={pkgForm.package_type} onChange={e => setPkgForm({ ...pkgForm, package_type: e.target.value })} style={styles.select}>
+                  <option value="sobre">Sobre</option>
+                  <option value="caja">Caja</option>
+                  <option value="bulto_grande">Bulto grande</option>
+                </select>
+                <input placeholder="PIN de retiro" value={pkgForm.pickup_pin} onChange={e => setPkgForm({ ...pkgForm, pickup_pin: e.target.value })} style={styles.input} />
+              </div>
+              <button type="submit" disabled={savingPkg} style={{ ...styles.button, marginTop: '10px' }}>{savingPkg ? 'Registrando…' : 'Registrar paquete'}</button>
+            </form>
+          )}
+          <div style={styles.tableWrapper}>
+            <table style={{ ...styles.table, minWidth: '700px' }}>
+              <thead><tr style={styles.thRow}>
+                <th style={styles.th}>Unidad</th><th style={styles.th}>Transportista</th><th style={styles.th}>Guía</th><th style={styles.th}>PIN</th><th style={styles.th}>Estado</th>
+              </tr></thead>
+              <tbody>
+                {parcels.length === 0 ? (
+                  <tr><td colSpan="5" style={{ ...styles.td, textAlign: 'center', color: 'var(--text-dim)', padding: '24px' }}>Sin paquetes registrados.</td></tr>
+                ) : parcels.map(p => (
+                  <tr key={p.id} style={styles.tr}>
+                    <td style={styles.td}>{p.units?.unit_number}</td>
+                    <td style={styles.td}>{p.carrier}</td>
+                    <td style={styles.td}>{p.tracking_number}</td>
+                    <td style={styles.td}>{p.pickup_pin}</td>
+                    <td style={styles.td}>{p.status}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
+      {tab === 'libro' && (
+        <div>
+          {canManage && (
+            <form onSubmit={handleCreateLog} style={{ ...styles.form, marginBottom: '16px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                <select value={logForm.shift} onChange={e => setLogForm({ ...logForm, shift: e.target.value })} style={styles.select}>
+                  <option value="morning">Mañana</option>
+                  <option value="afternoon">Tarde</option>
+                  <option value="night">Noche</option>
+                </select>
+                <select value={logForm.entry_type} onChange={e => setLogForm({ ...logForm, entry_type: e.target.value })} style={styles.select}>
+                  <option value="rutina">Rutina</option>
+                  <option value="inspeccion_ronda">Inspección de ronda</option>
+                  <option value="ruidos_molestos">Ruidos molestos</option>
+                  <option value="visita_tecnica">Visita técnica</option>
+                </select>
+              </div>
+              <div style={{ marginTop: '8px' }}>
+                <label style={styles.label}>Título</label>
+                <input value={logForm.title} onChange={e => setLogForm({ ...logForm, title: e.target.value })} style={styles.input} required />
+              </div>
+              <div style={{ marginTop: '8px' }}>
+                <label style={styles.label}>Descripción</label>
+                <textarea value={logForm.description} onChange={e => setLogForm({ ...logForm, description: e.target.value })} style={{ ...styles.input, minHeight: '80px' }} required />
+              </div>
+              <button type="submit" disabled={savingLog} style={{ ...styles.button, marginTop: '10px' }}>{savingLog ? 'Registrando…' : 'Registrar novedad'}</button>
+            </form>
+          )}
+          <div style={styles.tableWrapper}>
+            <table style={{ ...styles.table, minWidth: '700px' }}>
+              <thead><tr style={styles.thRow}>
+                <th style={styles.th}>Turno</th><th style={styles.th}>Tipo</th><th style={styles.th}>Título</th><th style={styles.th}>Estado</th>
+              </tr></thead>
+              <tbody>
+                {logs.length === 0 ? (
+                  <tr><td colSpan="4" style={{ ...styles.td, textAlign: 'center', color: 'var(--text-dim)', padding: '24px' }}>Sin novedades registradas.</td></tr>
+                ) : logs.map(l => (
+                  <tr key={l.id} style={styles.tr}>
+                    <td style={styles.td}>{l.shift}</td>
+                    <td style={styles.td}>{l.entry_type}</td>
+                    <td style={styles.td}>{l.title}</td>
+                    <td style={styles.td}>{l.status}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}

@@ -26,6 +26,7 @@ export const en = {
     condominiums: 'Condominiums',
     units: 'Units',
     common_areas: 'Common Areas',
+    concierge: 'Concierge & Access',
     maintenance: 'Maintenance & Certifications',
     assemblies: 'Assemblies & Voting',
     expenses: 'Expenses & Finance',
