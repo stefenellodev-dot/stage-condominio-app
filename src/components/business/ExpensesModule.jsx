@@ -79,16 +79,17 @@ export default function ExpensesModule() {
       .eq('period_id', selectedPeriod)
       .is('deleted_at', null)
       .order('units(unit_number)');
-    if (!canManage) q = q.eq('owner_id', profile?.id);
+    if (!canManage && profile?.id) q = q.eq('owner_id', profile.id);
     const { data, error } = await q;
-    if (error) showError(error.message); else setBills(data || []);
-    setLoading(false);
+    if (error) { showError(error.message); return []; }
+    else { setBills(data || []); setLoading(false); return data || []; }
   };
 
-  const loadPayments = async () => {
+  const loadPayments = async (billsList) => {
+    const list = billsList || bills;
     if (!selectedPeriod) return;
     setLoading(true);
-    const billIds = bills.map(b => b.id);
+    const billIds = list.map(b => b.id);
     if (!billIds.length) { setPayments([]); setLoading(false); return; }
     const { data, error } = await supabase
       .from('bill_payments')
@@ -101,7 +102,7 @@ export default function ExpensesModule() {
 
   useEffect(() => { if (tab === 'egresos') loadExpenses(); }, [tab, selectedPeriod]);
   useEffect(() => { if (tab === 'colillas' && profile) loadBills(); }, [tab, selectedPeriod, profile]);
-  useEffect(() => { if (tab === 'pagos' && profile) { loadBills().then(loadPayments); } }, [tab, selectedPeriod, profile]);
+  useEffect(() => { if (tab === 'pagos' && profile) { loadBills().then(b => loadPayments(b)); } }, [tab, selectedPeriod, profile]);
 
   const handleCreateExpense = async (e) => {
     e.preventDefault();
@@ -142,7 +143,7 @@ export default function ExpensesModule() {
     if (error) { showError(error.message); return; }
     showSuccess('Pago registrado');
     setPayForm({ bill_id: '', amount: '', payment_method: 'transferencia', transaction_number: '', voucher_url: '' });
-    loadBills().then(loadPayments);
+    loadBills().then(b => loadPayments(b));
   };
 
   const period = periods.find(p => p.id === selectedPeriod);
