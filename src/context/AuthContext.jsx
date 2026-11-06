@@ -10,9 +10,7 @@ export function AuthProvider({ children }) {
   const [isPasswordRecovery, setIsPasswordRecovery] = useState(false);
 
   const fetchProfile = async (userId) => {
-    console.log('[AuthContext] fetchProfile start, userId:', userId);
     if (!userId) {
-      console.log('[AuthContext] fetchProfile: no userId, setting null');
       setProfile(null);
       return;
     }
@@ -24,11 +22,10 @@ export function AuthProvider({ children }) {
         .single();
 
       if (error) {
-        console.error('[AuthContext] fetchProfile error:', error.message, error.code);
+        console.error('[AuthContext] fetchProfile error', error);
         setProfile(null);
         return;
       }
-      console.log('[AuthContext] fetchProfile success, role:', data?.role);
       setProfile(data);
     } catch (err) {
       console.error('[AuthContext] fetchProfile unexpected:', err?.message || err);
