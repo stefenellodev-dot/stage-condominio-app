@@ -409,6 +409,42 @@ SELECT rls_tests.check(
   $q$INSERT INTO public.bill_payments (bill_id, unit_id, user_id, amount, payment_method) VALUES ('6beb3e6e-f241-43e3-93b8-ad687b3ddbc2', 'c6181dc3-caf9-436f-9dfb-593604f8bd9e', '92076747-aca1-442d-8c23-9bb6f1ee400f', 1000, 'transferencia')$q$);
 ROLLBACK;
 
+-- ===== 2.3 Asambleas y Votaciones (Ley 21.442) =====
+BEGIN;
+SELECT rls_tests.check(
+  '{"role":"authenticated","sub":"e64b00b9-8630-4f0b-98fa-ba18bf3c06fc"}',
+  '41 superadmin ve asambleas', 'rows', 1,
+  $q$SELECT count(*) FROM public.assemblies WHERE title = 'Asamblea Ordinaria Anual de Copropietarios 2026'$q$);
+ROLLBACK;
+
+BEGIN;
+SELECT rls_tests.check(
+  '{"role":"authenticated","sub":"f0750053-6996-420d-8f63-31c7ae18fa42"}',
+  '42 user ve mociones de la asamblea', 'rows', 2,
+  $q$SELECT count(*) FROM public.assembly_topics WHERE assembly_id = 'e7464898-ff58-40a4-94b9-4547a21a6be8'$q$);
+ROLLBACK;
+
+BEGIN;
+SELECT rls_tests.check(
+  '{"role":"authenticated","sub":"f0917457-5767-43e5-a190-79f0c5c5c8f3"}',
+  '43 user puede acreditarse como asistente de su unidad', 'affects', 1,
+  $q$INSERT INTO public.assembly_attendees (assembly_id, unit_id, user_id, attendee_type, aliquot_represented) VALUES ('e7464898-ff58-40a4-94b9-4547a21a6be8', '60b9f100-597a-4da8-b8ff-b0cd1e3f20ac', 'f0917457-5767-43e5-a190-79f0c5c5c8f3', 'owner', 0.71429)$q$);
+ROLLBACK;
+
+BEGIN;
+SELECT rls_tests.check(
+  '{"role":"authenticated","sub":"59bc5f3f-a825-43a9-92c5-f3b0c1ff20a0"}',
+  '44 user no puede votar sin estar acreditado', 'error', 0,
+  $q$INSERT INTO public.assembly_votes (topic_id, unit_id, user_id, vote, aliquot_weight) VALUES ('2ddb6334-0004-487b-ba99-126686b2efc6', '637a20e6-5aed-430f-bf2f-76a2b3988c48', '59bc5f3f-a825-43a9-92c5-f3b0c1ff20a0', 'in_favor', 0.71429)$q$);
+ROLLBACK;
+
+BEGIN;
+SELECT rls_tests.check(
+  '{"role":"authenticated","sub":"f0750053-6996-420d-8f63-31c7ae18fa42"}',
+  '45 user no puede votar dos veces en la misma moción', 'error', 0,
+  $q$INSERT INTO public.assembly_votes (topic_id, unit_id, user_id, vote, aliquot_weight) VALUES ('2ddb6334-0004-487b-ba99-126686b2efc6', 'c6181dc3-caf9-436f-9dfb-593604f8bd9e', 'f0750053-6996-420d-8f63-31c7ae18fa42', 'against', 0.71429)$q$);
+ROLLBACK;
+
 -- ===== 3. Limpieza de fixtures =====
 BEGIN;
 DELETE FROM public.units WHERE unit_number = 'ZZZ-01';
