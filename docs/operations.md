@@ -193,10 +193,11 @@ podman exec condo-sb-db pg_isready -U postgres
 
 Criterio establecido: **secretos de humano → Vaultwarden; secretos de máquina → GitHub Secrets / `authorized_keys` / env del servidor.**
 
-- Contenedor `vaultwarden` (podman rootless, compose en `~/stage-platform/core/vaultwarden/`, datos en `~/stage-platform/vaultwarden/` `volumes/` en `~/stage-platform/volumes/vaultwarden/data`).
-- Acceso: `http://100.126.211.117:8222` (solo Tailscale; HTTP hoy, `tailscale serve` para HTTPS si se desea).
+- Contenedor `vaultwarden` (podman rootless, compose en `~/stage-platform/core/vaultwarden/`, datos en `~/stage-platform/volumes/vaultwarden/data`).
+- Acceso: `https://piave.tailfbc159.ts.net` (HTTPS vía `tailscale serve --bg --https=443` → `100.126.211.117:8222`; la función `serve` se habilitó para el tailnet y exigirá sudo si se reconfigura). También responde HTTP solo en la IP de Tailscale, pero los clientes Bitwarden exigen HTTPS.
+- `DOMAIN=https://piave.tailfbc159.ts.net` fijado en el compose (necesario para websockets/adjuntos del cliente).
 - Imagen `vaultwarden/server:latest` (v1.37.5 al desplegar), `restart: unless-stopped`, healthcheck `/alive`.
-- `SIGNUPS_ALLOWED: 'true'` solo hasta terminar el registro de la cuenta propia — **cambiar a `'false'` y recrear después** (`podman compose up -d --force-recreate --always-recreate-deps vaultwarden`). Credencial de admin del panel (`ADMIN_TOKEN` argon2) opcional, off por defecto.
+- Cuenta registrada: `stefenello.dev@gmail.com` (única). `SIGNUPS_ALLOWED: 'false'` desde el 2026-11-06 — para registrar otra cuenta habría que habilitar temporalmente, recrear y deshabilitar. `ADMIN_TOKEN` (panel admin) off por defecto.
 - Backup: `~/stage-platform/bin/backup-vaultwarden.sh` (sqlite online vía `python3`, checksum, retención 7 días) + timer systemd user `vaultwarden-backup.timer` (03:00 diario). Off-host: la copia `sync-backup-offhost.sh` en la Mac sincroniza también `~/Backups/vaultwarden/`.
 - La bóveda guarda credenciales de persona de **todo lo administrado en piave** (stack Supabase, apps, cuentas GitHub/Tailscale, usuarios de prueba). No la consultan procesos ni CI.
 
