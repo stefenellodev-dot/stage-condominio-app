@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, Suspense } from 'react';
 import AppLayout from '../layout/AppLayout';
 import ProfileSection from './ProfileSection';
 import { businessModules } from '../../config/modules';
@@ -14,7 +14,9 @@ export default function Dashboard() {
 
   return (
     <AppLayout activeTab={activeTab} onSelectTab={setActiveTab}>
-      {BusinessComponent && <BusinessComponent />}
+      <Suspense fallback={<div style={{ padding: 24, color: 'var(--text-dim, #9aa0a6)' }}>Cargando módulo…</div>}>
+        {BusinessComponent && <BusinessComponent />}
+      </Suspense>
       {activeTab === 'profile' && <ProfileSection />}
     </AppLayout>
   );
