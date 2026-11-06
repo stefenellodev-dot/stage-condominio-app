@@ -177,7 +177,18 @@ podman exec condo-sb-db pg_isready -U postgres
 - `log_min_duration_statement = -1`; no hay slow query log.
 - Los logs usan journald y pueden contener correos/PII.
 
-### 4.3 Objetivo
+### 4.3 Alertas básicas (2026-11-06)
+
+- Scripts en piave: `~/stage-platform/bin/health-alerts.sh` (checks: containers core + app + backup reciente <26h + disco >85% + memoria >90% + vaultwarden + inbucket) y `~/stage-platform/bin/send-alert.sh` (email vía SMTP de `condo-sb-inbucket` a `alerts@condo.local`, que cae en el mailbox `alerts` de la UI `http://100.126.211.117:9100`).
+- Timer systemd user `health-alerts.timer`: `OnBootSec=2min` + `OnUnitActiveSec=10min`, `Persistent=true`. El primer disparo se verificó: salida "all checks OK", o alerta + email a Inbucket si hay falla.
+- El mailbox `alerts` es el único canal por ahora (Inbucket local, sin salida al exterior) — según preferencia actual. Si se quiere push al móvil, migrar a ntfy.sh (cambiar `send-alert.sh` a un POST HTTP) sin tocar el resto.
+
+### 4.4 Retención y redacción de logs (2026-11-06)
+
+- Journald en piave: `SystemMaxUse=500M`, `MaxRetentionSec=7day` en `/etc/systemd/journald.conf` (backup `.bak-YYYYMMDD-HHMMSS`); aplicado con `systemctl restart systemd-journald` y `journalctl --vacuum-time=7d --vacuum-size=500M` (454.8 MB pre-cap → cap 500 MB efectivo).
+- Podman rootless: `~/.config/containers/containers.conf` con `log_size_max = "10m"` para contenedores nuevos (los actuales son ~2.6 MB en total).
+- Auditoría de PII: 8 emails distintos en los logs de contenedores (auth/meta/storage). Retención por tamaño + vacío histórico es el compromiso elegido; redacción línea a línea queda como mejora futura.
+- Vaultwarden y auth siguen usando journald/podman logs para auditoría de eventos de login.
 
 - Healthcheck para PostgREST, GoTrue y Storage.
 - Alertas de 5xx, latencia, errores de auth, backup y espacio.
