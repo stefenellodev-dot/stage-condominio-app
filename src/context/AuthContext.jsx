@@ -10,21 +10,25 @@ export function AuthProvider({ children }) {
   const [isPasswordRecovery, setIsPasswordRecovery] = useState(false);
 
   const fetchProfile = async (userId) => {
+    console.log('[AuthContext] fetchProfile start, userId:', userId);
     if (!userId) {
+      console.log('[AuthContext] fetchProfile: no userId, setting null');
       setProfile(null);
       return;
     }
     try {
-      const result = await Promise.race([
-        supabase.from('profiles').select('*').eq('id', userId).single(),
-        new Promise((_, reject) => setTimeout(() => reject(new Error('fetchProfile timeout 10s')), 10000)),
-      ]);
-      const { data, error } = result;
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', userId)
+        .single();
+
       if (error) {
-        console.error('[AuthContext] fetchProfile error:', error.message, error.code, error.details);
+        console.error('[AuthContext] fetchProfile error:', error.message, error.code);
         setProfile(null);
         return;
       }
+      console.log('[AuthContext] fetchProfile success, role:', data?.role);
       setProfile(data);
     } catch (err) {
       console.error('[AuthContext] fetchProfile unexpected:', err?.message || err);
