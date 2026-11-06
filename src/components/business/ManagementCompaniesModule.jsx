@@ -39,7 +39,10 @@ const emptyForm = {
 const isValidEmail = (value) => !value || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 const isValidDate = (value) => !value || !Number.isNaN(Date.parse(value));
 
+import { useConfirm } from '../../hooks/useConfirm';
+
 export default function ManagementCompaniesModule() {
+  const { confirm, ConfirmDialogNode } = useConfirm();
   const { isSuperadmin, isAdmin } = useAuth();
   const { showSuccess, showError } = useToast();
   const { t } = useTranslation();
@@ -337,7 +340,7 @@ export default function ManagementCompaniesModule() {
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm(t('management_companies.delete_confirm'))) return;
+    if (!(await confirm(t('management_companies.delete_confirm')))) return;
 
     const { error } = await supabase
       .from('management_companies')
@@ -459,7 +462,7 @@ export default function ManagementCompaniesModule() {
   };
 
   const handleRemoveMember = async (memberId) => {
-    if (!window.confirm(t('management_companies.members_remove_confirm'))) return;
+    if (!(await confirm(t('management_companies.members_remove_confirm')))) return;
 
     const { error } = await supabase
       .from('management_company_members')
@@ -1314,6 +1317,7 @@ export default function ManagementCompaniesModule() {
           </div>
         </div>
       ) : null}
+      {ConfirmDialogNode}
     </div>
   );
 }

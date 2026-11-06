@@ -20,7 +20,10 @@ const emptyForm = {
 
 const isValidNumber = (value) => value === '' || !Number.isNaN(Number(value));
 
+import { useConfirm } from '../../hooks/useConfirm';
+
 export default function UnitsModule() {
+  const { confirm, ConfirmDialogNode } = useConfirm();
   const { isSuperadmin, isAdmin } = useAuth();
   const canManageUnits = isSuperadmin || isAdmin;
   const { showSuccess, showError } = useToast();
@@ -237,7 +240,7 @@ export default function UnitsModule() {
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm(t('units.delete_confirm'))) return;
+    if (!(await confirm(t('units.delete_confirm')))) return;
 
     const { error } = await supabase
       .from('units')
@@ -776,6 +779,7 @@ export default function UnitsModule() {
           </div>
         </div>
       ) : null}
+      {ConfirmDialogNode}
     </div>
   );
 }

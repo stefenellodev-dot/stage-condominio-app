@@ -34,7 +34,10 @@ const emptyForm = {
 const isValidEmail = (value) => !value || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 const isValidDate = (value) => !value || !Number.isNaN(Date.parse(value));
 
+import { useConfirm } from '../../hooks/useConfirm';
+
 export default function CondominiumsModule() {
+  const { confirm, ConfirmDialogNode } = useConfirm();
   const { isSuperadmin, isAdmin } = useAuth();
   const canManageCondominiums = isSuperadmin || isAdmin;
   const { showSuccess, showError } = useToast();
@@ -355,7 +358,7 @@ export default function CondominiumsModule() {
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm(t('condominiums.delete_confirm'))) return;
+    if (!(await confirm(t('condominiums.delete_confirm')))) return;
 
     const { error } = await supabase
       .from('condominiums')
@@ -1039,6 +1042,7 @@ export default function CondominiumsModule() {
           </div>
         </div>
       ) : null}
+      {ConfirmDialogNode}
     </div>
   );
 }

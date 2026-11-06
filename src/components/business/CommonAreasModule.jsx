@@ -22,7 +22,10 @@ const emptyForm = {
 
 const isValidNumber = (value) => value === '' || !Number.isNaN(Number(value));
 
+import { useConfirm } from '../../hooks/useConfirm';
+
 export default function CommonAreasModule() {
+  const { confirm, prompt, ConfirmDialogNode } = useConfirm();
   const { isSuperadmin, isAdmin, user } = useAuth();
   const canManageAreas = isSuperadmin || isAdmin;
   const canManageBookings = isSuperadmin || isAdmin;
@@ -308,7 +311,7 @@ export default function CommonAreasModule() {
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm(t('common_areas.delete_confirm'))) return;
+    if (!(await confirm(t('common_areas.delete_confirm'), { danger: true }))) return;
 
     const { error } = await supabase
       .from('common_areas')
@@ -453,8 +456,18 @@ export default function CommonAreasModule() {
   };
 
   const handleCancelBooking = async (booking) => {
-    const reason = window.prompt(t('common_areas.booking_cancel_reason_prompt')) || '';
-    await handleBookingStatus(booking, 'cancelled', reason);
+    const reason = await prompt(t('common_areas.booking_cancel_reason_prompt'));
+    await handleBookingStatus(booking, 'cancelled', reason || '');
+  };
+
+  const handleRejectBooking = async (booking) => {
+    const reason = await prompt(t('common_areas.booking_reject_reason'));
+    await handleBookingStatus(booking, 'rejected', reason || '');
+  };
+
+  const handleCancelBookingByManager = async (booking) => {
+    const reason = await prompt(t('common_areas.booking_cancel_reason'));
+    await handleBookingStatus(booking, 'cancelled', reason || '');
   };
 
   const filteredBookings = useMemo(() => {
@@ -1287,13 +1300,13 @@ export default function CommonAreasModule() {
                               <button onClick={() => handleBookingStatus(booking, 'confirmed')} style={styles.buttonAction}>
                                 {t('common_areas.booking_approve')}
                               </button>
-                              <button onClick={() => handleBookingStatus(booking, 'rejected', window.prompt(t('common_areas.booking_reject_reason')) || '')} style={styles.btnDelete}>
+                              <button onClick={() => handleRejectBooking(booking)} style={styles.btnDelete}>
                                 {t('common_areas.booking_reject')}
                               </button>
                             </>
                           ) : null}
                           {canManageBookings && booking.status === 'confirmed' ? (
-                            <button onClick={() => handleBookingStatus(booking, 'cancelled', window.prompt(t('common_areas.booking_cancel_reason')) || '')} style={styles.btnDelete}>
+                            <button onClick={() => handleCancelBookingByManager(booking)} style={styles.btnDelete}>
                               {t('common_areas.booking_cancel')}
                             </button>
                           ) : null}
@@ -1323,6 +1336,7 @@ export default function CommonAreasModule() {
           ) : null}
         </div>
       )}
+      {ConfirmDialogNode}
     </div>
   );
 }

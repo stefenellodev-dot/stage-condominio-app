@@ -28,6 +28,8 @@ const emptyForm = {
 
 const isValidEmail = (value) => !value || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 
+import { useConfirm } from '../../hooks/useConfirm';
+
 export default function UsersModule() {
   const { isSuperadmin, isAdmin, session } = useAuth();
   const canManageUsers = isSuperadmin || isAdmin;
@@ -217,8 +219,10 @@ export default function UsersModule() {
     setView('list');
   };
 
+  const { confirm, ConfirmDialogNode } = useConfirm();
+
   const handleDelete = async (id) => {
-    if (!window.confirm(t('users.delete_confirm'))) return;
+    if (!(await confirm(t('users.delete_confirm'), { danger: true }))) return;
 
     const { error } = await supabase
       .from('profiles')
@@ -922,6 +926,7 @@ export default function UsersModule() {
           </div>
         </div>
       ) : null}
+      {ConfirmDialogNode}
     </div>
   );
 }
