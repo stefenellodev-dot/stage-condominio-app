@@ -79,6 +79,22 @@ El `rsync` excluye `.env`, `.env.*`, `dist`, `docs`, `scripts`, `deploy`, `.vsco
 - No copiar credenciales de auditoría ni claves de servicio.
 - El healthcheck efectivo vive en el Quadlet, no en la imagen OCI.
 
+### 2.5 CI — acceso a la base de stage desde GitHub Actions
+
+El job `rls` de `.github/workflows/ci.yml` ejecuta la suite RLS (34 casos) contra `condo-sb-db` desde un runner de GitHub:
+
+1. El runner se une al tailnet como nodo **efímero** con la auth key `TS_AUTHKEY` (reusable, 90 días, expiración de nodo deshabilitada por efímera).
+2. Conexión SSH a `stefenello@100.126.211.117` usando la clave privada `RLS_SSH_KEY` (ed25519, `~/.ssh/rls_ci_ed25519` local).
+3. En piave, la línea correspondiente de `~/.ssh/authorized_keys` tiene **comando forzado** `podman exec -i condo-sb-db psql -U postgres -d postgres -v ON_ERROR_STOP=1` con `no-pty,no-port-forwarding,no-agent-forwarding,no-X11-forwarding`: la clave solo puede ejecutar psql, sin shell ni forwarding.
+4. El SQL de la suite viaja por stdin; cada caso corre en su propia transacción con `ROLLBACK`.
+
+Postgres **no** está expuesto en ningún puerto público ni de Tailscale (bitácora: se probó publicar `100.126.211.117:5432` en `docker-compose.yml` y podman 4.9.3 lo descartó silenciosamente; se revirtió).
+
+Mantenimiento:
+- **Renovar `TS_AUTHKEY` cada 90 días** (Consola Tailscale → Settings → Keys → Generate auth key; reutilizable + efímera), y actualizar el secreto de GitHub (`gh secret set TS_AUTHKEY < <archivo-copia> `).
+- Los secretos de GitHub en uso: `RLS_SSH_KEY`, `TS_AUTHKEY` (actualizados con `gh secret set`, nunca en texto plano en el repo).
+- Branch protection de `main` exige los checks `build` y `rls` (strict=false).
+
 ---
 
 ## 3. Respaldos
