@@ -26,6 +26,7 @@ export const es = {
     condominiums: 'Condominios',
     units: 'Unidades',
     common_areas: 'Espacios Comunes',
+    assemblies: 'Asambleas y Votaciones',
     expenses: 'Gastos Comunes',
   },
   roles: {

@@ -30,6 +30,13 @@ export const businessModules = [
     roles: ['superadmin', 'admin', 'user'],
   },
   {
+    id: 'assemblies',
+    labelKey: 'nav.assemblies',
+    icon: '🗳️',
+    component: lazy(() => import('../components/business/AssembliesModule')),
+    roles: ['superadmin', 'admin', 'user'],
+  },
+  {
     id: 'expenses',
     labelKey: 'nav.expenses',
     icon: '💰',
