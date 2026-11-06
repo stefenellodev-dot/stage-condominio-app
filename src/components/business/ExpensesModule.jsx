@@ -100,8 +100,8 @@ export default function ExpensesModule() {
   };
 
   useEffect(() => { if (tab === 'egresos') loadExpenses(); }, [tab, selectedPeriod]);
-  useEffect(() => { if (tab === 'colillas') loadBills(); }, [tab, selectedPeriod]);
-  useEffect(() => { if (tab === 'pagos') { loadBills().then(loadPayments); } }, [tab, selectedPeriod]);
+  useEffect(() => { if (tab === 'colillas' && profile) loadBills(); }, [tab, selectedPeriod, profile]);
+  useEffect(() => { if (tab === 'pagos' && profile) { loadBills().then(loadPayments); } }, [tab, selectedPeriod, profile]);
 
   const handleCreateExpense = async (e) => {
     e.preventDefault();

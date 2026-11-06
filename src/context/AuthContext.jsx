@@ -14,22 +14,27 @@ export function AuthProvider({ children }) {
       setProfile(null);
       return;
     }
-    try {
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('id', userId)
-        .single();
+    for (let attempt = 0; attempt < 3; attempt++) {
+      try {
+        const { data, error } = await supabase
+          .from('profiles')
+          .select('*')
+          .eq('id', userId)
+          .single();
 
-      if (error) {
-        console.error('[AuthContext] fetchProfile error', error);
-        setProfile(null);
+        if (error) {
+          console.error('[AuthContext] fetchProfile error (attempt ' + (attempt + 1) + ')', error.message);
+          if (attempt < 2) { await new Promise(r => setTimeout(r, 1000)); continue; }
+          setProfile(null);
+          return;
+        }
+        setProfile(data);
         return;
+      } catch (err) {
+        console.error('[AuthContext] fetchProfile unexpected (attempt ' + (attempt + 1) + ')', err?.message || err);
+        if (attempt < 2) { await new Promise(r => setTimeout(r, 1000)); continue; }
+        setProfile(null);
       }
-      setProfile(data);
-    } catch (err) {
-      console.error('[AuthContext] fetchProfile unexpected:', err?.message || err);
-      setProfile(null);
     }
   };
 
