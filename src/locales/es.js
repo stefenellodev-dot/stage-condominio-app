@@ -26,6 +26,7 @@ export const es = {
     condominiums: 'Condominios',
     units: 'Unidades',
     common_areas: 'Espacios Comunes',
+    expenses: 'Gastos Comunes',
   },
   roles: {
     superadmin: 'superadmin',
