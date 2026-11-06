@@ -51,6 +51,8 @@ export default function AssembliesModule() {
         .order('scheduled_date', { ascending: false });
       if (error) showError(error.message); else setAssemblies(data || []);
       setLoading(false);
+      // Auto-select first assembly if available
+      if (data && data.length) setSelectedAssembly(data[0].id);
     })();
   }, [selectedCondo]);
 
