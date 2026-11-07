@@ -7,13 +7,13 @@ import { useTranslation } from '../../context/I18nContext';
 
 const fmtTime = (iso) => iso ? new Date(iso).toLocaleString('es-ES', { hour: '2-digit', minute: '2-digit' }) : '—';
 
-export default function CondiergeModule() {
+export default function ConciergeModule() {
   const { user } = useAuth();
   const { showSuccess, showError } = useToast();
   const { t } = useTranslation();
 
-  const condominiumId = user?.user_metadata?.condominium_id || profile?.condominium_id;
-  const canManage = ['superadmin', 'admin', 'concierge'].includes(profile?.role || '');
+  const condominiumId = user?.user_metadata?.condominium_id;
+  const canManage = ['superadmin', 'admin', 'concierge'].includes(user?.role || '');
 
   const [tab, setTab] = useState('visitas');
   const [condominiums, setCondominiums] = useState([]);
@@ -38,48 +38,43 @@ export default function CondiergeModule() {
     })();
   }, []);
 
-  const loadVisits = async () => {
+  const loadViews = async () => {
     if (!selectedCondo) return;
     setLoading(true);
-    const { data, error } = await supabase
-      .from('visitor_logs')
-      .select('id, unit_id, visitor_name, visitor_rut, vehicle_plate, parking_spot, entry_time, registered_by, status, notes, units(unit_number)')
-      .eq('condominium_id', selectedCondo)
-      .is('deleted_at', null)
-      .order('created_at', { ascending: false });
-    if (error) { console.error('Error loading visits:', error); } else setVisits(data || []);
-    setLoading(false);
+    try {
+      const [visitsRes, parcelsRes, logbookRes] = await Promise.all([
+        supabase
+          .from('visitor_logs')
+          .select('id, unit_id, visitor_name, visitor_rut, vehicle_plate, parking_spot, entry_time, registered_by, status, notes, units(unit_number)')
+          .eq('condominium_id', selectedCondo)
+          .is('deleted_at', null)
+          .order('created_at', { ascending: false }),
+        supabase
+          .from('parcels')
+          .select('id, unit_id, carrier, tracking_number, package_type, pickup_pin, received_at, received_by, picked_up_at, picked_up_by_name, status, units(unit_number)')
+          .eq('condominium_id', selectedCondo)
+          .is('deleted_at', null)
+          .order('created_at', { ascending: false }),
+        supabase
+          .from('concierge_logbook')
+          .select('id, unit_id, owner_id, base_aliquot_amount, reserve_fund_amount, individual_charges_amount, previous_debt_amount, interest_amount, total_amount, paid_amount, balance, status, units(unit_number), periods(period_name, due_date)')
+          .eq('condominium_id', selectedCondo)
+          .is('deleted_at', null)
+          .order('created_at', { ascending: false }),
+      ]);
+      if (visitsRes.error) showError(visitsRes.error.message); else setVisits(visitsRes.data || []);
+      if (parcelsRes.error) showError(parcelsRes.error.message); else setParcels(parcelsRes.data || []);
+      if (logbookRes.error) showError(logbookRes.error.message); else setLogs(logbookRes.data || []);
+    } catch (err) {
+      showError(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const loadParcels = async () => {
-    if (!selectedCondo) return;
-    setLoading(true);
-    const { data, error } = await supabase
-      .from('parcels')
-      .select('id, unit_id, carrier, tracking_number, package_type, pickup_pin, received_at, received_by, picked_up_at, picked_up_by_name, status, units(unit_number)')
-      .eq('condominium_id', selectedCondo)
-      .is('deleted_at', null)
-      .order('created_at', { ascending: false });
-    if (error) { showError(error.message); } else setParcels(data || []);
-    setLoading(false);
-  };
-
-  const loadLogbook = async () => {
-    if (!selectedCondo) return;
-    setLoading(true);
-    const { data, error } = await supabase
-      .from('concierge_logbook')
-      .select('id, unit_id, owner_id, base_aliquot_amount, reserve_fund_amount, individual_charges_amount, previous_debt_amount, interest_amount, total_amount, paid_amount, balance, status, units(unit_number), periods(period_name, due_date)')
-      .eq('condominium_id', selectedCondo)
-      .is('deleted_at', null)
-      .order('created_at', { ascending: false });
-    if (error) showError(error.message); else setLogs(data || []);
-    setLoading(false);
-  };
-
-  useEffect(() => { if (tab === 'visitas') loadVisits(); }, [tab, selectedCondo]);
-  useEffect(() => { if (tab === 'paquetes') loadParcels(); }, [tab, selectedCondo]);
-  useEffect(() => { if (tab === 'libro') loadLogbook(); }, [tab, selectedCondo]);
+  useEffect(() => {
+    loadVisits();
+  }, [selectedCondo, tab]);
 
   const handleCreateVisit = async (e) => {
     e.preventDefault();
