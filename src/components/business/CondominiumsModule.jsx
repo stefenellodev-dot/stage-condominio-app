@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabase';
 import { styles } from '../../styles/theme';
 import { useAuth } from '../../context/AuthContext';
@@ -10,9 +10,11 @@ export default function CondominiumsModule() {
   const { showSuccess, showError } = useToast();
   const { t } = useTranslation();
 
+  const canManage = user?.role === 'superadmin' || user?.role === 'admin';
+
   const [condominiums, setCondominiums] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [formMode, setFormMode] = useState('list'); // 'list' | 'create' | 'edit'
+  const [formMode, setFormMode] = useState('list');
   const [formData, setFormData] = useState({
     id: '',
     name: '',
@@ -22,12 +24,11 @@ export default function CondominiumsModule() {
   });
   const [saving, setSaving] = useState(false);
 
-  // Load condominiums
   useEffect(() => {
     loadCondominiums();
   }, []);
 
-  const loadVisits = async () => {
+  const loadCondominiums = async () => {
     setLoading(true);
     const { data, error } = await supabase
       .from('condominiums')
@@ -61,7 +62,7 @@ export default function CondominiumsModule() {
       showSuccess(t('common.created_success'));
       setFormData({ id: '', name: '', rut: '', comuna: '', status: 'active' });
       setFormMode('list');
-      loadVisits();
+      loadCondominiums();
     }
   };
 
@@ -98,7 +99,7 @@ export default function CondominiumsModule() {
     } else {
       showSuccess(t('common.updated_success'));
       setFormMode('list');
-      loadVisits();
+      loadCondominiums();
     }
   };
 
@@ -114,7 +115,7 @@ export default function CondominiumsModule() {
       showError(error.message);
     } else {
       showSuccess(t('common.deleted_success'));
-      loadVisits();
+      loadCondominiums();
     }
   };
 
@@ -140,48 +141,47 @@ export default function CondominiumsModule() {
         )}
       </div>
 
-      <div style={styles.form}>
-        {formMode !== 'list' && (
-          <div style={{ ...styles.formSection, marginBottom: '16px' }}>
-            <h4 style={{ margin: '0 0 12px', color: 'var(--primary)' }}>
-              {formMode === 'create' ? t('condominiums.new_title') : t('condominiums.edit_title')}
-            </h4>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-              <div>
-                <label style={styles.label}>{t('condominiums.name')}</label>
-                <input
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  style={styles.input}
-                  required
-                />
-              </div>
-              <div>
-                <label style={styles.label}>{t('condominiums.rut')}</label>
-                <input
-                  type="text"
-                  name="rut"
-                  value={formData.rut}
-                  onChange={(e) => setVisitForm({ ...visitForm, rut: e.target.value })}
-                  style={styles.input}
-                  required
-                />
-              </div>
-              <div>
-                <label style={styles.label}>{t('condominiums.comuna')}</label>
-                <input
-                  type="text"
-                  name="comuna"
-                  value={formData.comuna}
-                  onChange={e => setFormData({ ...formData, comuna: e.target.value })}
-                  style={styles.input}
-                  required
-                />
-              </div>
-              <div>
-                <label style={styles.label}>{t('users.status')}</label>
+      {formMode !== 'list' && (
+        <div style={{ ...styles.formSection, marginBottom: '16px' }}>
+          <h4 style={{ margin: '0 0 12px', color: 'var(--primary)' }}>
+            {formMode === 'create' ? t('condominiums.new_title') : t('condominiums.edit_title')}
+          </h4>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+            <div>
+              <label style={styles.label}>{t('condominiums.name')}</label>
+              <input
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                style={styles.input}
+                required
+              />
+            </div>
+            <div>
+              <label style={styles.label}>{t('condominiums.rut')}</label>
+              <input
+                type="text"
+                name="rut"
+                value={formData.rut}
+                onChange={(e) => setFormData({ ...formData, rut: e.target.value })}
+                style={styles.input}
+                required
+              />
+            </div>
+            <div>
+              <label style={styles.label}>{t('condominiums.comuna')}</label>
+              <input
+                type="text"
+                name="comuna"
+                value={formData.comuna}
+                onChange={e => setFormData({ ...formData, comuna: e.target.value })}
+                style={styles.input}
+                required
+              />
+            </div>
+            <div>
+              <label style={styles.label}>{t('users.status')}</label>
                 <select name="status" value={formData.status} onChange={e => setFormData({ ...formData, status: e.target.value })} style={styles.input}>
                   <option value="active">{t('users.status_active')}</option>
                   <option value="inactive">{t('users.status_suspended')}</option>
