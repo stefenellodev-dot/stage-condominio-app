@@ -12,8 +12,8 @@ export default function CondiergeModule() {
   const { showSuccess, showError } = useToast();
   const { t } = useTranslation();
 
-  const condominiumId = profile?.condominium_id;
-  const canManage = profile?.role === 'superadmin' || profile?.role === 'admin' || profile?.role === 'concierge';
+  const condominiumId = user?.user_metadata?.condominium_id || profile?.condominium_id;
+  const canManage = ['superadmin', 'admin', 'concierge'].includes(profile?.role || '');
 
   const [tab, setTab] = useState('visitas');
   const [condominiums, setCondominiums] = useState([]);
@@ -47,11 +47,7 @@ export default function CondiergeModule() {
       .eq('condominium_id', selectedCondo)
       .is('deleted_at', null)
       .order('created_at', { ascending: false });
-    if (error) {
-      showError(error.message);
-    } else {
-      setVisits(data || []);
-    }
+    if (error) { console.error('Error loading visits:', error); } else setVisits(data || []);
     setLoading(false);
   };
 
@@ -64,14 +60,19 @@ export default function CondiergeModule() {
       .eq('condominium_id', selectedCondo)
       .is('deleted_at', null)
       .order('created_at', { ascending: false });
-    if (error) showError(error.message); else setParcels(data || []);
+    if (error) { showError(error.message); } else setParcels(data || []);
     setLoading(false);
   };
 
   const loadLogbook = async () => {
     if (!selectedCondo) return;
     setLoading(true);
-    const { data, error } = await supabase.from('concierge_logbook').select('id, unit_id, owner_id, base_aliquot_amount, reserve_fund_amount, individual_charges_amount, previous_debt_amount, interest_amount, total_amount, paid_amount, balance, status, units(unit_number), periods(period_name, due_date)').eq('condominium_id', selectedCondo).is('deleted_at', null).order('created_at', { ascending: false });
+    const { data, error } = await supabase
+      .from('concierge_logbook')
+      .select('id, unit_id, owner_id, base_aliquot_amount, reserve_fund_amount, individual_charges_amount, previous_debt_amount, interest_amount, total_amount, paid_amount, balance, status, units(unit_number), periods(period_name, due_date)')
+      .eq('condominium_id', selectedCondo)
+      .is('deleted_at', null)
+      .order('created_at', { ascending: false });
     if (error) showError(error.message); else setLogs(data || []);
     setLoading(false);
   };
@@ -112,7 +113,7 @@ export default function CondiergeModule() {
       package_type: pkgForm.package_type,
       pickup_pin: pkgForm.pickup_pin.trim() || null,
       voucher_url: pkgForm.voucher_url.trim() || null,
-      received_by: profile?.id,
+      received_by: user?.id,
     });
     setSavingPkg(false);
     if (error) { showError(error.message); return; }
