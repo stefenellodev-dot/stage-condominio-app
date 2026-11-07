@@ -8,12 +8,12 @@ import { useTranslation } from '../../context/I18nContext';
 const fmtTime = (iso) => iso ? new Date(iso).toLocaleString('es-ES', { hour: '2-digit', minute: '2-digit' }) : '—';
 
 export default function ConciergeModule() {
-  const { user } = useAuth();
+  const { user, profile } = useAuth();
   const { showSuccess, showError } = useToast();
   const { t } = useTranslation();
 
-  const condominiumId = user?.user_metadata?.condominium_id;
-  const canManage = ['superadmin', 'admin', 'concierge'].includes(user?.role || '');
+  const condominiumId = profile?.condominium_id;
+  const canManage = ['superadmin', 'admin', 'concierge'].includes(profile?.role || '');
 
   const [tab, setTab] = useState('visitas');
   const [condominiums, setCondominiums] = useState([]);
