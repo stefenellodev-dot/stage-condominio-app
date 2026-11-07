@@ -5,11 +5,10 @@ import { useAuth } from '../../context/AuthContext';
 import { useToast } from '../../context/ToastContext';
 import { useTranslation } from '../../context/I18nContext';
 
-const fmtCLP = (n) => new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP', maximumFractionDigits: 0 }).format(n || 0);
 const fmtTime = (iso) => iso ? new Date(iso).toLocaleString('es-ES', { hour: '2-digit', minute: '2-digit' }) : '—';
 
-export default function ConciergeModule() {
-  const { profile } = useAuth();
+export default function CondiergeModule() {
+  const { user } = useAuth();
   const { showSuccess, showError } = useToast();
   const { t } = useTranslation();
 
@@ -39,20 +38,32 @@ export default function ConciergeModule() {
     })();
   }, []);
 
-  useEffect(() => {
+  const loadVisits = async () => {
     if (!selectedCondo) return;
-    (async () => {
-      setLoading(true);
-      const { data } = await supabase.from('visitor_logs').select('id, unit_id, visitor_name, visitor_rut, vehicle_plate, parking_spot, entry_time, registered_by, status, notes, units(unit_number)').eq('condominium_id', selectedCondo).is('deleted_at', null).order('created_at', { ascending: false });
-      if (error) showError(error.message); else setVisits(data || []);
-      setLoading(false);
-    })();
-  }, [selectedCondo]);
+    setLoading(true);
+    const { data, error } = await supabase
+      .from('visitor_logs')
+      .select('id, unit_id, visitor_name, visitor_rut, vehicle_plate, parking_spot, entry_time, registered_by, status, notes, units(unit_number)')
+      .eq('condominium_id', selectedCondo)
+      .is('deleted_at', null)
+      .order('created_at', { ascending: false });
+    if (error) {
+      showError(error.message);
+    } else {
+      setVisits(data || []);
+    }
+    setLoading(false);
+  };
 
   const loadParcels = async () => {
     if (!selectedCondo) return;
     setLoading(true);
-    const { data, error } = await supabase.from('parcels').select('id, unit_id, carrier, tracking_number, package_type, pickup_pin, received_at, received_by, picked_up_at, picked_up_by_name, status, units(unit_number)').eq('condominium_id', selectedCondo).is('deleted_at', null).order('created_at', { ascending: false });
+    const { data, error } = await supabase
+      .from('parcels')
+      .select('id, unit_id, carrier, tracking_number, package_type, pickup_pin, received_at, received_by, picked_up_at, picked_up_by_name, status, units(unit_number)')
+      .eq('condominium_id', selectedCondo)
+      .is('deleted_at', null)
+      .order('created_at', { ascending: false });
     if (error) showError(error.message); else setParcels(data || []);
     setLoading(false);
   };
@@ -73,7 +84,15 @@ export default function ConciergeModule() {
     e.preventDefault();
     if (!visitForm.unit_id || !visitForm.visitor_name.trim()) { showError('Unidad y visitante son obligatorios'); return; }
     setSavingVisit(true);
-    const { error } = await supabase.from('visitor_logs').insert({ condominium_id: selectedCondo, unit_id: visitForm.unit_id, visitor_name: visitForm.visitor_name.trim(), visitor_rut: visitForm.visitor_rut.trim() || null, vehicle_plate: visitForm.vehicle_plate.trim() || null, parking_spot: visitForm.parking_spot.trim() || null, notes: visitForm.notes.trim() || null });
+    const { error } = await supabase.from('visitor_logs').insert({
+      condominium_id: selectedCondo,
+      unit_id: visitForm.unit_id,
+      visitor_name: visitForm.visitor_name.trim(),
+      visitor_rut: visitForm.visitor_rut.trim() || null,
+      vehicle_plate: visitForm.vehicle_plate.trim() || null,
+      parking_spot: visitForm.parking_spot.trim() || null,
+      notes: visitForm.notes.trim() || null,
+    });
     setSavingVisit(false);
     if (error) { showError(error.message); return; }
     showSuccess('Visita registrada');
@@ -85,7 +104,16 @@ export default function ConciergeModule() {
     e.preventDefault();
     if (!pkgForm.unit_id || !pkgForm.tracking_number.trim()) { showError('Unidad y número de guía son obligatorios'); return; }
     setSavingPkg(true);
-    const { error } = await supabase.from('parcels').insert({ condominium_id: selectedCondo, unit_id: pkgForm.unit_id, carrier: pkgForm.carrier, tracking_number: pkgForm.tracking_number.trim(), package_type: pkgForm.package_type, pickup_pin: pkgForm.pickup_pin.trim() || null, voucher_url: pkgForm.voucher_url.trim() || null, received_by: profile?.id });
+    const { error } = await supabase.from('parcels').insert({
+      condominium_id: selectedCondo,
+      unit_id: pkgForm.unit_id,
+      carrier: pkgForm.carrier,
+      tracking_number: pkgForm.tracking_number.trim(),
+      package_type: pkgForm.package_type,
+      pickup_pin: pkgForm.pickup_pin.trim() || null,
+      voucher_url: pkgForm.voucher_url.trim() || null,
+      received_by: profile?.id,
+    });
     setSavingPkg(false);
     if (error) { showError(error.message); return; }
     showSuccess('Paquete registrado');
@@ -97,7 +125,13 @@ export default function ConciergeModule() {
     e.preventDefault();
     if (!logForm.title.trim() || !logForm.description.trim()) { showError('Título y descripción son obligatorios'); return; }
     setSavingLog(true);
-    const { error } = await supabase.from('concierge_logbook').insert({ condominium_id: selectedCondo, shift: logForm.shift, entry_type: logForm.entry_type, title: logForm.title.trim(), description: logForm.description.trim() });
+    const { error } = await supabase.from('concierge_logbook').insert({
+      condominium_id: selectedCondo,
+      shift: logForm.shift,
+      entry_type: logForm.entry_type,
+      title: logForm.title.trim(),
+      description: logForm.description.trim(),
+    });
     setSavingLog(false);
     if (error) { showError(error.message); return; }
     showSuccess('Novedad registrada');
@@ -175,6 +209,7 @@ export default function ConciergeModule() {
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
                 <select value={pkgForm.unit_id} onChange={e => setPkgForm({ ...pkgForm, unit_id: e.target.value })} style={styles.select} required>
                   <option value="">Selecciona unidad</option>
+                  {condominiums.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
                 </select>
                 <input placeholder="Nº guía/tracking" value={pkgForm.tracking_number} onChange={e => setPkgForm({ ...pkgForm, tracking_number: e.target.value })} style={styles.input} required />
               </div>
