@@ -123,6 +123,7 @@ export default function ConciergeModule() {
     setSavingLog(true);
     const { error } = await supabase.from('concierge_logbook').insert({
       condominium_id: selectedCondo,
+      author_id: user?.id,
       shift: logForm.shift,
       entry_type: logForm.entry_type,
       title: logForm.title.trim(),
