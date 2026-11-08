@@ -24,7 +24,7 @@ export default function CondominiumsModule() {
     id: '',
     name: '',
     rut: '',
-    comuna: '',
+    commune: '',
     status: 'active',
   });
   const [saving, setSaving] = useState(false);
@@ -46,7 +46,7 @@ export default function CondominiumsModule() {
     setLoading(true);
     const { data, error } = await supabase
       .from('condominiums')
-      .select('id, name, rut, comuna, status, management_company_id')
+      .select('id, name, rut, commune, status, management_company_id')
       .eq('management_company_id', selectedCompany)
       .order('created_at', { ascending: false });
     if (error) {
@@ -68,7 +68,7 @@ export default function CondominiumsModule() {
     const { error } = await supabase.from('condominiums').insert({
       name: formData.name.trim(),
       rut: formData.rut.trim(),
-      comuna: formData.comuna.trim(),
+      commune: formData.commune.trim(),
       status: formData.status,
     });
     setSaving(false);
@@ -76,7 +76,7 @@ export default function CondominiumsModule() {
       showError(error.message);
     } else {
       showSuccess(t('common.created_success'));
-      setFormData({ id: '', name: '', rut: '', comuna: '', status: 'active' });
+      setFormData({ id: '', name: '', rut: '', commune: '', status: 'active' });
       setFormMode('list');
       loadCondominiums();
     }
@@ -87,7 +87,7 @@ export default function CondominiumsModule() {
       id: condo.id,
       name: condo.name || '',
       rut: condo.rut || '',
-      comuna: condo.comuna || '',
+      commune: condo.commune || '',
       status: condo.status || 'active',
     });
     setFormMode('edit');
@@ -105,7 +105,7 @@ export default function CondominiumsModule() {
       .update({
         name: formData.name.trim(),
         rut: formData.rut.trim(),
-        comuna: formData.comuna.trim(),
+        commune: formData.commune.trim(),
         status: formData.status,
       })
       .eq('id', formData.id);
@@ -136,7 +136,7 @@ export default function CondominiumsModule() {
   };
 
   const handleCancel = () => {
-    setFormData({ id: '', name: '', rut: '', comuna: '', status: 'active' });
+    setFormData({ id: '', name: '', rut: '', commune: '', status: 'active' });
     setFormMode('list');
   };
 
@@ -161,10 +161,10 @@ export default function CondominiumsModule() {
           )}
           {canManage && (
             <button style={{ ...styles.button, padding: '8px 16px', fontSize: '13px' }} onClick={() => {
-              setFormData({ id: '', name: '', rut: '', comuna: '', status: 'active' });
+              setFormData({ id: '', name: '', rut: '', commune: '', status: 'active' });
               setFormMode('create');
             }}>
-              {t('common.new_button')}
+              {t('condominiums.new_button')}
             </button>
           )}
         </div>
@@ -199,12 +199,12 @@ export default function CondominiumsModule() {
               />
             </div>
             <div>
-              <label style={styles.label}>{t('condominiums.comuna')}</label>
+              <label style={styles.label}>{t('condominiums.commune')}</label>
               <input
                 type="text"
-                name="comuna"
-                value={formData.comuna}
-                onChange={e => setFormData({ ...formData, comuna: e.target.value })}
+                name="commune"
+                value={formData.commune}
+                onChange={e => setFormData({ ...formData, commune: e.target.value })}
                 style={styles.input}
                 required
               />
@@ -233,7 +233,7 @@ export default function CondominiumsModule() {
               <tr style={styles.thRow}>
                 <th style={styles.th}>{t('condominiums.col_name')}</th>
                 <th style={styles.th}>{t('condominiums.col_rut')}</th>
-                <th style={styles.th}>{t('condominiums.col_comuna')}</th>
+                <th style={styles.th}>{t('condominiums.col_commune')}</th>
                 <th style={styles.th}>{t('condominiums.col_status')}</th>
                 <th style={styles.th}>{t('condominiums.col_actions')}</th>
               </tr>
@@ -255,7 +255,7 @@ export default function CondominiumsModule() {
                 <tr key={c.id} style={styles.tr}>
                   <td style={styles.td}>{c.name}</td>
                   <td style={styles.td}>{c.rut || '—'}</td>
-                  <td style={styles.td}>{c.comuna || '—'}</td>
+                  <td style={styles.td}>{c.commune || '—'}</td>
                   <td style={styles.td}>{c.status}</td>
                   <td style={styles.td}>
                     <div style={{ display: 'flex', gap: '6px', justifyContent: 'center', flexWrap: 'wrap' }}>
