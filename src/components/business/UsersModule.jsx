@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { supabase } from '../../lib/supabase';
 import { styles } from '../../styles/theme';
-import { useAuth } from '../../context/AuthContext';
+import { ROLES } from '../../constants/roles';
 import { useToast } from '../../context/ToastContext';
 import { useTranslation } from '../../context/I18nContext';
 import { formatRut, validateRut } from '../../lib/rut';
@@ -22,7 +22,7 @@ const emptyForm = {
   dept_unit: '',
   region: '',
   commune: '',
-  role: 'user',
+  role: ROLES.USER,
   status: 'active',
 };
 
@@ -143,7 +143,7 @@ export default function UsersModule() {
       dept_unit: user.dept_unit || '',
       region: user.region || '',
       commune: user.commune || '',
-      role: user.role || 'user',
+      role: user.role || ROLES.USER,
       status: user.status || 'active',
     });
     setView('form');
@@ -169,7 +169,7 @@ export default function UsersModule() {
       dept_unit: user.dept_unit || '',
       region: user.region || '',
       commune: user.commune || '',
-      role: user.role || 'user',
+      role: user.role || ROLES.USER,
       status: user.status || 'active',
     });
     setView('form');
@@ -198,7 +198,7 @@ export default function UsersModule() {
           dept_unit: profile.dept_unit || '',
           region: profile.region || '',
           commune: profile.commune || '',
-          role: profile.role || 'user',
+          role: profile.role || ROLES.USER,
           status: profile.status || 'active',
         });
       });
@@ -774,7 +774,7 @@ export default function UsersModule() {
                     </td>
 
                     <td style={styles.td}>
-                      {user.role === 'superadmin' ? (
+                      {user.role === ROLES.SUPERADMIN ? (
                         <span style={{
                           display: 'inline-flex',
                           alignItems: 'center',
@@ -791,7 +791,7 @@ export default function UsersModule() {
                         </span>
                       ) : (
                         <select
-                          value={user.role || 'user'}
+                          value={user.role || ROLES.USER}
                           onChange={async (e) => {
                             const newRole = e.target.value;
                             const { error } = await supabase
@@ -829,17 +829,17 @@ export default function UsersModule() {
                             showError(error.message);
                           }
                         }}
-                        disabled={user.id === session?.user?.id || user.role === 'superadmin'}
+                        disabled={user.id === session?.user?.id || user.role === ROLES.SUPERADMIN}
                         style={{
                           padding: '4px 8px',
                           borderRadius: 'var(--radius-sm)',
                           border: 'none',
-                          cursor: (user.id === session?.user?.id || user.role === 'superadmin') ? 'not-allowed' : 'pointer',
+                          cursor: (user.id === session?.user?.id || user.role === ROLES.SUPERADMIN) ? 'not-allowed' : 'pointer',
                           fontSize: '11px',
                           fontWeight: '700',
                           backgroundColor: (user.status || 'active') === 'active' ? 'var(--success-bg)' : 'var(--danger-bg)',
                           color: (user.status || 'active') === 'active' ? 'var(--success-text)' : 'var(--danger-text)',
-                          opacity: user.role === 'superadmin' ? 0.7 : 1
+                          opacity: user.role === ROLES.SUPERADMIN ? 0.7 : 1
                         }}
                       >
                         {(user.status || 'active').toUpperCase()}
@@ -862,7 +862,7 @@ export default function UsersModule() {
                             {t('common.edit')}
                           </button>
                         ) : null}
-                        {user.id !== session?.user?.id && user.role !== 'superadmin' ? (
+                        {user.id !== session?.user?.id && user.role !== ROLES.SUPERADMIN ? (
                           <button
                             onClick={() => handleDelete(user.id)}
                             style={styles.btnDelete}

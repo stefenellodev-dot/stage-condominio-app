@@ -1,67 +1,69 @@
 import { lazy } from 'react';
 
+import { ROLES } from '../constants/roles';
+
 export const businessModules = [
   {
     id: 'management_companies',
     labelKey: 'nav.management_companies',
     icon: '🏢',
     component: lazy(() => import('../components/business/ManagementCompaniesModule')),
-    roles: ['superadmin', 'admin'],
+    roles: [ROLES.SUPERADMIN, ROLES.ADMIN],
   },
   {
     id: 'condominiums',
     labelKey: 'nav.condominiums',
     icon: '🏗️',
     component: lazy(() => import('../components/business/CondominiumsModule')),
-    roles: ['superadmin', 'admin'],
+    roles: [ROLES.SUPERADMIN, ROLES.ADMIN],
   },
   {
     id: 'units',
     labelKey: 'nav.units',
     icon: '🚪',
     component: lazy(() => import('../components/business/UnitsModule')),
-    roles: ['superadmin', 'admin', 'user'],
+    roles: [ROLES.SUPERADMIN, ROLES.ADMIN, ROLES.USER],
   },
   {
     id: 'common_areas',
     labelKey: 'nav.common_areas',
     icon: '🏊',
     component: lazy(() => import('../components/business/CommonAreasModule')),
-    roles: ['superadmin', 'admin', 'user'],
+    roles: [ROLES.SUPERADMIN, ROLES.ADMIN, ROLES.USER],
   },
   {
     id: 'concierge',
     labelKey: 'nav.concierge',
     icon: '🧑‍💼',
     component: lazy(() => import('../components/business/ConciergeModule')),
-    roles: ['superadmin', 'admin', 'concierge'],
+    roles: [ROLES.SUPERADMIN, ROLES.ADMIN, ROLES.CONCIERGE],
   },
   {
     id: 'maintenance',
     labelKey: 'nav.maintenance',
     icon: '🔧',
     component: lazy(() => import('../components/business/MaintenanceModule')),
-    roles: ['superadmin', 'admin'],
+    roles: [ROLES.SUPERADMIN, ROLES.ADMIN],
   },
   {
     id: 'assemblies',
     labelKey: 'nav.assemblies',
     icon: '🗳️',
     component: lazy(() => import('../components/business/AssembliesModule')),
-    roles: ['superadmin', 'admin', 'user'],
+    roles: [ROLES.SUPERADMIN, ROLES.ADMIN, ROLES.USER],
   },
   {
     id: 'expenses',
     labelKey: 'nav.expenses',
     icon: '💰',
     component: lazy(() => import('../components/business/ExpensesModule')),
-    roles: ['superadmin', 'admin', 'user'],
+    roles: [ROLES.SUPERADMIN, ROLES.ADMIN, ROLES.USER],
   },
   {
     id: 'users',
     labelKey: 'nav.users_management',
     icon: '👥',
     component: lazy(() => import('../components/business/UsersModule')),
-    roles: ['superadmin', 'admin'],
+    roles: [ROLES.SUPERADMIN, ROLES.ADMIN],
   },
 ];

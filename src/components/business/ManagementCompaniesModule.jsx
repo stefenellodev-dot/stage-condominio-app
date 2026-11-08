@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { supabase } from '../../lib/supabase';
 import { styles } from '../../styles/theme';
-import { useAuth } from '../../context/AuthContext';
+import { ROLES } from '../../constants/roles';
 import { useToast } from '../../context/ToastContext';
 import { useTranslation } from '../../context/I18nContext';
 import { formatRut, validateRut } from '../../lib/rut';
@@ -406,7 +406,7 @@ export default function ManagementCompaniesModule() {
     const { data, error } = await supabase
       .from('profiles')
       .select('id, first_name, last_name, full_name, email, rut')
-      .eq('role', 'admin')
+      .eq('role', ROLES.ADMIN)
       .is('deleted_at', null)
       .order('email', { ascending: true });
 
@@ -442,7 +442,7 @@ export default function ManagementCompaniesModule() {
       .insert({
         management_company_id: selectedCompany.id,
         user_id: userId,
-        role: 'admin',
+        role: ROLES.ADMIN,
         status: 'active',
       });
     setMemberSaving(false);
