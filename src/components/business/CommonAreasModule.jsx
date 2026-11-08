@@ -164,6 +164,18 @@ export default function CommonAreasModule() {
   }, []);
 
   useEffect(() => {
+    if (companies.length > 0 && filterCompany === 'all') {
+      setFilterCompany(companies[0].id);
+    }
+  }, [companies]);
+
+  useEffect(() => {
+    if (condominiums.length > 0 && filterCondominium === 'all') {
+      setFilterCondominium(condominiums[0].id);
+    }
+  }, [condominiums]);
+
+  useEffect(() => {
     setPage(1);
   }, [searchTerm, filterStatus, filterType, filterCondominium, filterCompany]);
 
@@ -952,7 +964,6 @@ export default function CommonAreasModule() {
               onChange={e => setFilterCompany(e.target.value)}
               style={{ ...styles.select, minWidth: '220px' }}
             >
-              <option value="all">Todas las empresas</option>
               {companies.map(c => (
                 <option key={c.id} value={c.id}>{c.fantasy_name || c.legal_name}</option>
               ))}
@@ -964,7 +975,6 @@ export default function CommonAreasModule() {
               onChange={e => setFilterCondominium(e.target.value)}
               style={{ ...styles.select, minWidth: '240px' }}
             >
-              <option value="all">Todos los condominios</option>
               {condominiums.map(c => (
                 <option key={c.id} value={c.id}>{c.name}</option>
               ))}
