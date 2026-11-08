@@ -5,6 +5,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useToast } from '../../context/ToastContext';
 import { useTranslation } from '../../context/I18nContext';
 import { usePermissions } from '../../hooks/usePermissions';
+import { filterSensitiveFields } from '../../constants/fieldPermissions';
 
 export default function CondominiumsModule() {
   const { user, profile } = useAuth();
@@ -39,7 +40,8 @@ export default function CondominiumsModule() {
     if (error) {
       showError(error.message);
     } else {
-      setCondominiums(data || []);
+      const filtered = filterSensitiveFields(data || [], 'condominiums', profile?.role);
+      setCondominiums(filtered);
     }
     setLoading(false);
   };

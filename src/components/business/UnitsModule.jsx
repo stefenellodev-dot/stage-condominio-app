@@ -22,10 +22,11 @@ const isValidNumber = (value) => value === '' || !Number.isNaN(Number(value));
 
 import { useConfirm } from '../../hooks/useConfirm';
 import { usePermissions } from '../../hooks/usePermissions';
+import { filterSensitiveFields } from '../../constants/fieldPermissions';
 
 export default function UnitsModule() {
   const { confirm, ConfirmDialogNode } = useConfirm();
-  const { isSuperadmin, isAdmin } = useAuth();
+  const { isSuperadmin, isAdmin, profile } = useAuth();
   const { canCreate, canEdit } = usePermissions('units');
   const canManageUnits = canCreate || canEdit;
   const { showSuccess, showError } = useToast();
@@ -61,7 +62,8 @@ export default function UnitsModule() {
     if (error) {
       showError(error.message);
     } else {
-      setUnits(data || []);
+      const filtered = filterSensitiveFields(data || [], 'units', profile?.role);
+      setUnits(filtered);
     }
     setLoading(false);
   };
@@ -691,7 +693,7 @@ export default function UnitsModule() {
                     {unit.floor || '—'}
                   </td>
                   <td style={{ ...styles.td, textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: '12px' }}>
-                    {Number(unit.aliquot).toFixed(5)}%
+                    {unit.aliquot ? Number(unit.aliquot).toFixed(5) + '%' : '—'}
                   </td>
                   <td style={styles.td}>
                     {getOwnerName(unit.owner_id)}
