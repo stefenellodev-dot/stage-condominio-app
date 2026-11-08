@@ -186,12 +186,16 @@ export default function AppLayout({ activeTab, onSelectTab, children }) {
               <span style={
                 (profile?.role === 'superadmin' || isSuperadmin)
                   ? { ...styles.badgeAdmin, backgroundColor: "#7c3aed", color: "#ffffff" }
+                  : profile?.role === 'concierge'
+                  ? { ...styles.badgeAdmin, backgroundColor: "#059669", color: "#ffffff" }
                   : isAdmin
                   ? styles.badgeAdmin
                   : styles.badgeUser
               }>
                 {(profile?.role === 'superadmin' || isSuperadmin)
                   ? (t('roles.badge_superadmin') || "SUPERADMIN")
+                  : profile?.role === 'concierge'
+                  ? (t('roles.badge_concierge') || "CONSERJE")
                   : isAdmin
                   ? t('roles.badge_admin')
                   : t('roles.badge_user')}

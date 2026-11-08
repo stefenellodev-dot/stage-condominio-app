@@ -38,6 +38,7 @@ export const es = {
     user: 'user',
     badge_admin: 'ADMIN',
     badge_user: 'USER',
+    badge_concierge: 'CONSERJE',
   },
   home_overview: {
     title: 'Módulo Principal de la Aplicación',

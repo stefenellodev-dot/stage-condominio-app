@@ -38,6 +38,7 @@ export const en = {
     user: 'user',
     badge_admin: 'ADMIN',
     badge_user: 'USER',
+    badge_concierge: 'CONCIERGE',
   },
   home_overview: {
     title: 'Main Application Module',
