@@ -946,6 +946,32 @@ export default function CommonAreasModule() {
           </p>
         </div>
         <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+          {companies.length > 0 && (
+            <select
+              value={filterCompany}
+              onChange={e => setFilterCompany(e.target.value)}
+              style={{ ...styles.select, minWidth: '220px' }}
+            >
+              <option value="all">Todas las empresas</option>
+              {companies.map(c => (
+                <option key={c.id} value={c.id}>{c.fantasy_name || c.legal_name}</option>
+              ))}
+            </select>
+          )}
+          {condominiums.length > 0 && (
+            <select
+              value={filterCondominium}
+              onChange={e => setFilterCondominium(e.target.value)}
+              style={{ ...styles.select, minWidth: '240px' }}
+            >
+              <option value="all">Todos los condominios</option>
+              {condominiums.map(c => (
+                <option key={c.id} value={c.id}>{c.name}</option>
+              ))}
+            </select>
+          )}
+        </div>
+        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
           <button
             onClick={() => setActiveTab('catalog')}
             style={activeTab === 'catalog' ? styles.buttonAction : { ...styles.buttonAction, backgroundColor: 'var(--bg-surface)', color: 'var(--text-main)', border: '1px solid var(--border-subtle)' }}
