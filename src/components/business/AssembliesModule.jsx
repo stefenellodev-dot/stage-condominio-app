@@ -4,13 +4,15 @@ import { styles } from '../../styles/theme';
 import { useAuth } from '../../context/AuthContext';
 import { useToast } from '../../context/ToastContext';
 import { useTranslation } from '../../context/I18nContext';
+import { usePermissions } from '../../hooks/usePermissions';
 
 const ASSEMBLY_TYPES = ['ordinaria', 'extraordinaria_absoluta', 'extraordinaria_reforzada'];
 const MODALITIES = ['presencial', 'telemática', 'hybrid'];
 
 export default function AssembliesModule() {
   const { isSuperadmin, isAdmin, profile } = useAuth();
-  const canManage = isSuperadmin || isAdmin;
+  const { canCreate, canEdit } = usePermissions('assemblies');
+  const canManage = canCreate || canEdit;
   const { showSuccess, showError } = useToast();
   const { t } = useTranslation();
 

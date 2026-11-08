@@ -5,6 +5,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useToast } from '../../context/ToastContext';
 import { useTranslation } from '../../context/I18nContext';
 import { ROLES, ROLE_GROUPS } from '../../constants/roles';
+import { usePermissions } from '../../hooks/usePermissions';
 
 const fmtTime = (iso) => iso ? new Date(iso).toLocaleString('es-ES', { hour: '2-digit', minute: '2-digit' }) : '—';
 
@@ -12,9 +13,10 @@ export default function ConciergeModule() {
   const { user, profile } = useAuth();
   const { showSuccess, showError } = useToast();
   const { t } = useTranslation();
+  const { can } = usePermissions('concierge');
 
   const condominiumId = profile?.condominium_id;
-  const canManage = ROLE_GROUPS.MANAGEMENT_ROLES.includes(profile?.role);
+  const canManage = can('create_visit') || can('create_parcel') || can('create_log');
 
   const [tab, setTab] = useState('visitas');
   const [condominiums, setCondominiums] = useState([]);

@@ -4,14 +4,15 @@ import { styles } from '../../styles/theme';
 import { useAuth } from '../../context/AuthContext';
 import { useToast } from '../../context/ToastContext';
 import { useTranslation } from '../../context/I18nContext';
-import { ROLES } from '../../constants/roles';
+import { usePermissions } from '../../hooks/usePermissions';
 
 export default function CondominiumsModule() {
   const { user, profile } = useAuth();
   const { showSuccess, showError } = useToast();
   const { t } = useTranslation();
+  const { canCreate, canEdit, canDelete } = usePermissions('condominiums');
 
-  const canManage = profile?.role === ROLES.SUPERADMIN || profile?.role === ROLES.ADMIN;
+  const canManage = canCreate || canEdit;
 
   const [condominiums, setCondominiums] = useState([]);
   const [loading, setLoading] = useState(false);

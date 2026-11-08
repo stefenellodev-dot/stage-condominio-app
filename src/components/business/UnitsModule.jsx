@@ -21,11 +21,13 @@ const emptyForm = {
 const isValidNumber = (value) => value === '' || !Number.isNaN(Number(value));
 
 import { useConfirm } from '../../hooks/useConfirm';
+import { usePermissions } from '../../hooks/usePermissions';
 
 export default function UnitsModule() {
   const { confirm, ConfirmDialogNode } = useConfirm();
   const { isSuperadmin, isAdmin } = useAuth();
-  const canManageUnits = isSuperadmin || isAdmin;
+  const { canCreate, canEdit } = usePermissions('units');
+  const canManageUnits = canCreate || canEdit;
   const { showSuccess, showError } = useToast();
   const { t } = useTranslation();
 

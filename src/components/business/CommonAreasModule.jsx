@@ -23,12 +23,14 @@ const emptyForm = {
 const isValidNumber = (value) => value === '' || !Number.isNaN(Number(value));
 
 import { useConfirm } from '../../hooks/useConfirm';
+import { usePermissions } from '../../hooks/usePermissions';
 
 export default function CommonAreasModule() {
   const { confirm, prompt, ConfirmDialogNode } = useConfirm();
   const { isSuperadmin, isAdmin, user } = useAuth();
-  const canManageAreas = isSuperadmin || isAdmin;
-  const canManageBookings = isSuperadmin || isAdmin;
+  const { canCreate, canEdit } = usePermissions('common_areas');
+  const canManageAreas = canCreate || canEdit;
+  const canManageBookings = canCreate || canEdit;
   const canCreateBooking = !isAdmin;
   const { showSuccess, showError } = useToast();
   const { t } = useTranslation();

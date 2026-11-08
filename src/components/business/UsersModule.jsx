@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { supabase } from '../../lib/supabase';
 import { styles } from '../../styles/theme';
 import { ROLES } from '../../constants/roles';
+import { useAuth } from '../../context/AuthContext';
 import { useToast } from '../../context/ToastContext';
 import { useTranslation } from '../../context/I18nContext';
 import { formatRut, validateRut } from '../../lib/rut';
@@ -29,10 +30,12 @@ const emptyForm = {
 const isValidEmail = (value) => !value || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 
 import { useConfirm } from '../../hooks/useConfirm';
+import { usePermissions } from '../../hooks/usePermissions';
 
 export default function UsersModule() {
   const { isSuperadmin, isAdmin, session } = useAuth();
-  const canManageUsers = isSuperadmin || isAdmin;
+  const { canCreate, canEdit } = usePermissions('users');
+  const canManageUsers = canCreate || canEdit;
   const { showSuccess, showError } = useToast();
   const { t } = useTranslation();
 

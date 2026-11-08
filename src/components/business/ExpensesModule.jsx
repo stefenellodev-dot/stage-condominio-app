@@ -5,6 +5,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useToast } from '../../context/ToastContext';
 import { useTranslation } from '../../context/I18nContext';
 import { useConfirm } from '../../hooks/useConfirm';
+import { usePermissions } from '../../hooks/usePermissions';
 
 const CATEGORIES = ['administracion', 'mantencion', 'reparacion', 'uso_consumo', 'extraordinario'];
 
@@ -12,7 +13,8 @@ const fmtCLP = (n) => new Intl.NumberFormat('es-CL', { style: 'currency', curren
 
 export default function ExpensesModule() {
   const { isSuperadmin, isAdmin, profile } = useAuth();
-  const canManage = isSuperadmin || isAdmin;
+  const { canCreate, canEdit } = usePermissions('expenses');
+  const canManage = canCreate || canEdit;
   const { showSuccess, showError } = useToast();
   const { t } = useTranslation();
   const { confirm, ConfirmDialogNode } = useConfirm();

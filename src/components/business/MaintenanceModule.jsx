@@ -4,6 +4,7 @@ import { styles } from '../../styles/theme';
 import { useAuth } from '../../context/AuthContext';
 import { useToast } from '../../context/ToastContext';
 import { useTranslation } from '../../context/I18nContext';
+import { usePermissions } from '../../hooks/usePermissions';
 
 const CATEGORIES = ['transporte_vertical', 'gas_calderas', 'red_humeda_seca', 'sala_bombas', 'grupo_electrogeno', 'portones_accesos', 'seguridad_cctv'];
 const CRITICALITY = ['critica', 'alta', 'media', 'baja'];
@@ -20,7 +21,8 @@ const statusColor = (s) => s === 'active' ? 'var(--success-text)' : s === 'warni
 
 export default function MaintenanceModule() {
   const { isSuperadmin, isAdmin } = useAuth();
-  const canManage = isSuperadmin || isAdmin;
+  const { canCreate, canEdit } = usePermissions('maintenance');
+  const canManage = canCreate || canEdit;
   const { showSuccess, showError } = useToast();
   const { t } = useTranslation();
 
