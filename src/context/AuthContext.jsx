@@ -26,6 +26,7 @@ export function AuthProvider({ children }) {
               'apikey': import.meta.env.VITE_SUPABASE_ANON_KEY,
               'Authorization': `Bearer ${token}`,
               'Accept': 'application/vnd.pgrst.object+json',
+              'Cache-Control': 'no-cache',
             },
           }
         );
@@ -38,6 +39,7 @@ export function AuthProvider({ children }) {
         const data = await res.json();
         const profile = Array.isArray(data) ? data[0] : data;
         if (!profile) { setProfile(null); return; }
+        console.log('[AuthContext] Profile loaded:', profile.role, profile.email);
         setProfile(profile);
         return;
       } catch (err) {
