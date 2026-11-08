@@ -1042,41 +1042,7 @@ export default function CommonAreasModule() {
         </select>
       </div>
 
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: isSuperadmin ? '1fr 1fr' : '1fr',
-          gap: '10px',
-          marginBottom: '14px',
-        }}
-      >
-        <select
-          value={filterCondominium}
-          onChange={(event) => setFilterCondominium(event.target.value)}
-          style={styles.select}
-        >
-          <option value="all">{t('common_areas.all_condominiums')}</option>
-          {condominiums.map((condominium) => (
-            <option key={condominium.id} value={condominium.id}>
-              {condominium.name}
-            </option>
-          ))}
-        </select>
-        {isSuperadmin ? (
-          <select
-            value={filterCompany}
-            onChange={(event) => setFilterCompany(event.target.value)}
-            style={styles.select}
-          >
-            <option value="all">{t('common_areas.all_companies')}</option>
-            {companies.map((company) => (
-              <option key={company.id} value={company.id}>
-                {company.legal_name}
-              </option>
-            ))}
-          </select>
-        ) : null}
-      </div>
+      {/* Selectores de empresa y condominio movidos al header */}
 
       <div style={styles.tableWrapper}>
         <table style={{ ...styles.table, tableLayout: 'fixed', minWidth: '1080px' }}>
