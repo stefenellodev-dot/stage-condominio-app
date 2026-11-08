@@ -36,8 +36,8 @@ export const es = {
     badge_superadmin: 'SUPERADMIN',
     admin: 'admin',
     user: 'user',
-    badge_admin: 'ADMIN',
-    badge_user: 'USER',
+    badge_admin: 'ADMINISTRADOR',
+    badge_user: 'USUARIO',
     badge_concierge: 'CONSERJE',
   },
   home_overview: {
