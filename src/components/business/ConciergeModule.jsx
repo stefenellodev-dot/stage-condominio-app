@@ -73,7 +73,7 @@ export default function ConciergeModule() {
   };
 
   useEffect(() => {
-    loadVisits();
+    loadViews();
   }, [selectedCondo, tab]);
 
   const handleCreateVisit = async (e) => {
@@ -93,7 +93,7 @@ export default function ConciergeModule() {
     if (error) { showError(error.message); return; }
     showSuccess('Visita registrada');
     setVisitForm({ unit_id: '', visitor_name: '', visitor_rut: '', vehicle_plate: '', parking_spot: '', notes: '' });
-    loadVisits();
+    loadViews();
   };
 
   const handleCreateParcel = async (e) => {
@@ -114,7 +114,7 @@ export default function ConciergeModule() {
     if (error) { showError(error.message); return; }
     showSuccess('Paquete registrado');
     setPkgForm({ unit_id: '', carrier: 'chilexpress', tracking_number: '', package_type: 'caja', pickup_pin: '', voucher_url: '' });
-    loadParcels();
+    loadViews();
   };
 
   const handleCreateLog = async (e) => {
@@ -132,7 +132,7 @@ export default function ConciergeModule() {
     if (error) { showError(error.message); return; }
     showSuccess('Novedad registrada');
     setLogForm({ shift: 'morning', entry_type: 'rutina', title: '', description: '' });
-    loadLogbook();
+    loadViews();
   };
 
   const tabStyle = (active) => ({ padding: '8px 16px', border: 'none', cursor: 'pointer', fontSize: '13px', fontWeight: 600, background: active ? 'var(--primary)' : 'transparent', color: active ? '#fff' : 'var(--text-secondary)', borderRadius: 'var(--radius-md)' });
