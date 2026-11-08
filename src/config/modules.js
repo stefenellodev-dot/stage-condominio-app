@@ -29,7 +29,7 @@ export const businessModules = [
     labelKey: 'nav.common_areas',
     icon: '🏊',
     component: lazy(() => import('../components/business/CommonAreasModule')),
-    roles: [ROLES.SUPERADMIN, ROLES.ADMIN, ROLES.USER],
+    roles: [ROLES.SUPERADMIN, ROLES.ADMIN, ROLES.USER, ROLES.CONCIERGE],
   },
   {
     id: 'concierge',
@@ -43,7 +43,7 @@ export const businessModules = [
     labelKey: 'nav.maintenance',
     icon: '🔧',
     component: lazy(() => import('../components/business/MaintenanceModule')),
-    roles: [ROLES.SUPERADMIN, ROLES.ADMIN],
+    roles: [ROLES.SUPERADMIN, ROLES.ADMIN, ROLES.CONCIERGE, ROLES.USER],
   },
   {
     id: 'assemblies',

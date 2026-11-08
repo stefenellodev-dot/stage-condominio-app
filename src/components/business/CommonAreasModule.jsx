@@ -27,10 +27,10 @@ import { usePermissions } from '../../hooks/usePermissions';
 
 export default function CommonAreasModule() {
   const { confirm, prompt, ConfirmDialogNode } = useConfirm();
-  const { isSuperadmin, isAdmin, user } = useAuth();
+  const { isSuperadmin, isAdmin, isConcierge, user } = useAuth();
   const { canCreate, canEdit } = usePermissions('common_areas');
   const canManageAreas = canCreate || canEdit;
-  const canManageBookings = canCreate || canEdit;
+  const canManageBookings = isSuperadmin || isAdmin || isConcierge;
   const canCreateBooking = !isAdmin;
   const { showSuccess, showError } = useToast();
   const { t } = useTranslation();
