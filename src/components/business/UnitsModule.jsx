@@ -98,9 +98,26 @@ export default function UnitsModule() {
   };
 
   useEffect(() => {
+    (async () => {
+      const { data: companiesData } = await supabase.from('management_companies').select('id,legal_name,fantasy_name').is('deleted_at', null).order('legal_name');
+      setCompanies(companiesData || []);
+      if (companiesData && companiesData.length && filterCompany === 'all') setFilterCompany(companiesData[0].id);
+    })();
+  }, []);
+
+  useEffect(() => {
+    if (filterCompany === 'all') return;
+    (async () => {
+      const { data } = await supabase.from('condominiums').select('id, name, management_company_id').eq('management_company_id', filterCompany).is('deleted_at', null).order('name', { ascending: true });
+      if (data) {
+        setCondominiums(data);
+        if (data.length && filterCondominium === 'all') setFilterCondominium(data[0].id);
+      }
+    })();
+  }, [filterCompany]);
+
+  useEffect(() => {
     loadUnits();
-    loadCondominiums();
-    loadCompanies();
     loadOwners();
   }, []);
 
@@ -553,11 +570,39 @@ export default function UnitsModule() {
             {t('units.subtitle')}
           </p>
         </div>
-        {canManageUnits ? (
-          <button onClick={handleNew} style={styles.buttonAction}>
-            {t('units.new_button')}
-          </button>
-        ) : null}
+        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+          {companies.length > 0 && (
+            <select
+              value={filterCompany}
+              onChange={(event) => setFilterCompany(event.target.value)}
+              style={{ ...styles.select, minWidth: '220px' }}
+            >
+              {companies.map((company) => (
+                <option key={company.id} value={company.id}>
+                  {company.legal_name}
+                </option>
+              ))}
+            </select>
+          )}
+          {condominiums.length > 0 && (
+            <select
+              value={filterCondominium}
+              onChange={(event) => setFilterCondominium(event.target.value)}
+              style={{ ...styles.select, minWidth: '240px' }}
+            >
+              {condominiums.map((condominium) => (
+                <option key={condominium.id} value={condominium.id}>
+                  {condominium.name}
+                </option>
+              ))}
+            </select>
+          )}
+          {canManageUnits ? (
+            <button onClick={handleNew} style={styles.buttonAction}>
+              {t('units.new_button')}
+            </button>
+          ) : null}
+        </div>
       </div>
 
       <div
@@ -597,41 +642,7 @@ export default function UnitsModule() {
         </select>
       </div>
 
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: isSuperadmin ? '1fr 1fr' : '1fr',
-          gap: '10px',
-          marginBottom: '14px',
-        }}
-      >
-        <select
-          value={filterCondominium}
-          onChange={(event) => setFilterCondominium(event.target.value)}
-          style={styles.select}
-        >
-          <option value="all">{t('units.all_condominiums')}</option>
-          {condominiums.map((condominium) => (
-            <option key={condominium.id} value={condominium.id}>
-              {condominium.name}
-            </option>
-          ))}
-        </select>
-        {isSuperadmin ? (
-          <select
-            value={filterCompany}
-            onChange={(event) => setFilterCompany(event.target.value)}
-            style={styles.select}
-          >
-            <option value="all">{t('units.all_companies')}</option>
-            {companies.map((company) => (
-              <option key={company.id} value={company.id}>
-                {company.legal_name}
-              </option>
-            ))}
-          </select>
-        ) : null}
-      </div>
+      {/* Selectores de empresa y condominio movidos al header */}
 
       <div style={styles.tableWrapper}>
         <table style={{ ...styles.table, tableLayout: 'fixed', minWidth: '1080px' }}>
