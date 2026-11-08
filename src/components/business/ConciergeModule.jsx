@@ -201,7 +201,7 @@ export default function ConciergeModule() {
       {tab === 'paquetes' && (
         <div>
           {canManage && (
-            <form onSubmit={handleCreatePkg} style={{ ...styles.form, marginBottom: '16px' }}>
+            <form onSubmit={handleCreateParcel} style={{ ...styles.form, marginBottom: '16px' }}>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
                 <select value={pkgForm.unit_id} onChange={e => setPkgForm({ ...pkgForm, unit_id: e.target.value })} style={styles.select} required>
                   <option value="">Selecciona unidad</option>
