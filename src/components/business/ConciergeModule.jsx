@@ -145,6 +145,17 @@ export default function ConciergeModule() {
           <h3 style={{ margin: '0 0 4px' }}>Conserjería y Accesos</h3>
           <p style={{ margin: 0, color: 'var(--text-secondary)', fontSize: '13px' }}>Visitas, paquetes y bitácora de guardia.</p>
         </div>
+        {condominiums.length > 0 && (
+          <select
+            value={selectedCondo}
+            onChange={e => setSelectedCondo(e.target.value)}
+            style={{ ...styles.select, minWidth: '240px' }}
+          >
+            {condominiums.map(c => (
+              <option key={c.id} value={c.id}>{c.name}</option>
+            ))}
+          </select>
+        )}
       </div>
 
       <div style={{ display: 'flex', gap: '6px', marginBottom: '14px', flexWrap: 'wrap' }}>
