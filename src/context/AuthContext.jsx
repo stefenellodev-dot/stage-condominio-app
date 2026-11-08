@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
+import { ROLES } from '../constants/roles';
 
 const AuthContext = createContext(null);
 
@@ -98,8 +99,11 @@ export function AuthProvider({ children }) {
     session,
     user: session?.user || null,
     profile,
-    isSuperadmin: profile?.role === 'superadmin',
-    isAdmin: profile?.role === 'admin' || profile?.role === 'superadmin',
+    isSuperadmin: profile?.role === ROLES.SUPERADMIN,
+    isAdmin: profile?.role === ROLES.ADMIN || profile?.role === ROLES.SUPERADMIN,
+    isConcierge: profile?.role === ROLES.CONCIERGE,
+    hasRole: (role) => profile?.role === role,
+    hasAnyRole: (roles) => Array.isArray(roles) && roles.includes(profile?.role),
     isPasswordRecovery,
     loading,
     setIsPasswordRecovery,

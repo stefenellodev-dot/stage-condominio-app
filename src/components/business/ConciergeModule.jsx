@@ -4,6 +4,7 @@ import { styles } from '../../styles/theme';
 import { useAuth } from '../../context/AuthContext';
 import { useToast } from '../../context/ToastContext';
 import { useTranslation } from '../../context/I18nContext';
+import { ROLES, ROLE_GROUPS } from '../../constants/roles';
 
 const fmtTime = (iso) => iso ? new Date(iso).toLocaleString('es-ES', { hour: '2-digit', minute: '2-digit' }) : '—';
 
@@ -13,7 +14,7 @@ export default function ConciergeModule() {
   const { t } = useTranslation();
 
   const condominiumId = profile?.condominium_id;
-  const canManage = ['superadmin', 'admin', 'concierge'].includes(profile?.role || '');
+  const canManage = ROLE_GROUPS.MANAGEMENT_ROLES.includes(profile?.role);
 
   const [tab, setTab] = useState('visitas');
   const [condominiums, setCondominiums] = useState([]);

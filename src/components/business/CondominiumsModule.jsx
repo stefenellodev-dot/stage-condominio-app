@@ -4,13 +4,14 @@ import { styles } from '../../styles/theme';
 import { useAuth } from '../../context/AuthContext';
 import { useToast } from '../../context/ToastContext';
 import { useTranslation } from '../../context/I18nContext';
+import { ROLES } from '../../constants/roles';
 
 export default function CondominiumsModule() {
   const { user } = useAuth();
   const { showSuccess, showError } = useToast();
   const { t } = useTranslation();
 
-  const canManage = user?.role === 'superadmin' || user?.role === 'admin';
+  const canManage = user?.role === ROLES.SUPERADMIN || user?.role === ROLES.ADMIN;
 
   const [condominiums, setCondominiums] = useState([]);
   const [loading, setLoading] = useState(false);

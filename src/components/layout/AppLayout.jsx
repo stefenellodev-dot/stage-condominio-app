@@ -5,13 +5,14 @@ import { styles } from '../../styles/theme';
 import { supabase } from '../../lib/supabase';
 import { appConfig } from '../../config/appConfig';
 import { businessModules } from '../../config/modules';
+import { ROLES } from '../../constants/roles';
 
 export default function AppLayout({ activeTab, onSelectTab, children }) {
   const { profile, isAdmin, isSuperadmin, signOut } = useAuth();
   const [avatarUrl, setAvatarUrl] = useState('');
   const { lang, toggleLang, t } = useTranslation();
 
-  const userRole = profile?.role || 'user';
+  const userRole = profile?.role || ROLES.USER;
 
   // Filtrado de módulos según el rol del usuario autenticado
   const availableModules = businessModules.filter(
