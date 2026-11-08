@@ -311,8 +311,8 @@ export default function MaintenanceModule() {
                     <td style={styles.td}>{c.certifying_company_name}</td>
                     <td style={styles.td}>{c.inspection_date}</td>
                     <td style={styles.td}>{c.expiration_date}</td>
-                    <td style={styles.td} style={{ color: sealColor(c.seal_result) }}>{c.seal_result}</td>
-                    <td style={styles.td} style={{ color: statusColor(c.status), fontWeight: 700 }}>{c.status}</td>
+                    <td style={{ ...styles.td, color: sealColor(c.seal_result) }}>{c.seal_result}</td>
+                    <td style={{ ...styles.td, color: statusColor(c.status), fontWeight: 700 }}>{c.status}</td>
                   </tr>
                 ))}
               </tbody>

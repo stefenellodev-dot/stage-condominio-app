@@ -251,7 +251,6 @@ export default function CondominiumsModule() {
             </tbody>
           </table>
         </div>
-      )}
     </div>
   );
 }
