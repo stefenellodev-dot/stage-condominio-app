@@ -17,6 +17,8 @@ export default function AssembliesModule() {
   const { t } = useTranslation();
 
   const [tab, setTab] = useState('asambleas');
+  const [companies, setCompanies] = useState([]);
+  const [selectedCompany, setSelectedCompany] = useState('');
   const [condominiums, setCondominiums] = useState([]);
   const [selectedCondo, setSelectedCondo] = useState('');
   const [assemblies, setAssemblies] = useState([]);
@@ -35,11 +37,20 @@ export default function AssembliesModule() {
 
   useEffect(() => {
     (async () => {
-      const { data } = await supabase.from('condominiums').select('id,name').is('deleted_at', null).order('name');
+      const { data: companiesData } = await supabase.from('management_companies').select('id,legal_name,fantasy_name').is('deleted_at', null).order('legal_name');
+      setCompanies(companiesData || []);
+      if (companiesData && companiesData.length) setSelectedCompany(companiesData[0].id);
+    })();
+  }, []);
+
+  useEffect(() => {
+    if (!selectedCompany) return;
+    (async () => {
+      const { data } = await supabase.from('condominiums').select('id,name,management_company_id').eq('management_company_id', selectedCompany).is('deleted_at', null).order('name');
       setCondominiums(data || []);
       if (data && data.length) setSelectedCondo(data[0].id);
     })();
-  }, []);
+  }, [selectedCompany]);
 
   useEffect(() => {
     if (!selectedCondo) return;
@@ -139,12 +150,33 @@ export default function AssembliesModule() {
           <h3 style={{ margin: '0 0 4px' }}>Asambleas y Votaciones</h3>
           <p style={{ margin: 0, color: 'var(--text-secondary)', fontSize: '13px' }}>Convocatoria, quórum, votación y actas (Ley 21.442).</p>
         </div>
+        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+          {companies.length > 0 && (
+            <select
+              value={selectedCompany}
+              onChange={e => setSelectedCompany(e.target.value)}
+              style={{ ...styles.select, minWidth: '220px' }}
+            >
+              {companies.map(c => (
+                <option key={c.id} value={c.id}>{c.fantasy_name || c.legal_name}</option>
+              ))}
+            </select>
+          )}
+          {condominiums.length > 0 && (
+            <select
+              value={selectedCondo}
+              onChange={e => setSelectedCondo(e.target.value)}
+              style={{ ...styles.select, minWidth: '240px' }}
+            >
+              {condominiums.map(c => (
+                <option key={c.id} value={c.id}>{c.name}</option>
+              ))}
+            </select>
+          )}
+        </div>
       </div>
 
       <div style={{ display: 'flex', gap: '8px', marginBottom: '14px', flexWrap: 'wrap' }}>
-        <select value={selectedCondo} onChange={e => setSelectedCondo(e.target.value)} style={styles.select}>
-          {condominiums.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
-        </select>
         <select value={selectedAssembly} onChange={e => setSelectedAssembly(e.target.value)} style={styles.select}>
           <option value="">Selecciona asamblea</option>
           {assemblies.map(a => <option key={a.id} value={a.id}>{a.title} ({a.status})</option>)}
