@@ -50,19 +50,16 @@ export default function ConciergeModule() {
           .from('visitor_logs')
           .select('id, unit_id, visitor_name, visitor_rut, vehicle_plate, parking_spot, entry_time, registered_by, status, notes, units(unit_number)')
           .eq('condominium_id', selectedCondo)
-          .is('deleted_at', null)
           .order('created_at', { ascending: false }),
         supabase
           .from('parcels')
           .select('id, unit_id, carrier, tracking_number, package_type, pickup_pin, received_at, received_by, picked_up_at, picked_up_by_name, status, units(unit_number)')
           .eq('condominium_id', selectedCondo)
-          .is('deleted_at', null)
           .order('created_at', { ascending: false }),
         supabase
           .from('concierge_logbook')
-          .select('id, unit_id, owner_id, base_aliquot_amount, reserve_fund_amount, individual_charges_amount, previous_debt_amount, interest_amount, total_amount, paid_amount, balance, status, units(unit_number), periods(period_name, due_date)')
+          .select('id, shift, entry_type, title, description, author_id, status, created_at, updated_at')
           .eq('condominium_id', selectedCondo)
-          .is('deleted_at', null)
           .order('created_at', { ascending: false }),
       ]);
       if (visitsRes.error) showError(visitsRes.error.message); else setVisits(visitsRes.data || []);
