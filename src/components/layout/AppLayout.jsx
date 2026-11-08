@@ -16,7 +16,7 @@ export default function AppLayout({ activeTab, onSelectTab, children }) {
 
   // Filtrado de módulos según el rol del usuario autenticado
   const availableModules = businessModules.filter(
-    (mod) => !mod.roles || userRole === 'superadmin' || mod.roles.includes(userRole)
+    (mod) => !mod.roles || userRole === ROLES.SUPERADMIN || mod.roles.includes(userRole)
   );
 
   useEffect(() => {
@@ -185,17 +185,17 @@ export default function AppLayout({ activeTab, onSelectTab, children }) {
                 {profile?.first_name ? `${profile.first_name} ${profile.last_name || ''}` : profile?.full_name || 'Usuario'}
               </div>
               <span style={
-                (profile?.role === 'superadmin' || isSuperadmin)
+                (profile?.role === ROLES.SUPERADMIN || isSuperadmin)
                   ? { ...styles.badgeAdmin, backgroundColor: "#7c3aed", color: "#ffffff" }
-                  : profile?.role === 'concierge'
+                  : profile?.role === ROLES.CONCIERGE
                   ? { ...styles.badgeAdmin, backgroundColor: "#059669", color: "#ffffff" }
                   : isAdmin
                   ? styles.badgeAdmin
                   : styles.badgeUser
               }>
-                {(profile?.role === 'superadmin' || isSuperadmin)
+                {(profile?.role === ROLES.SUPERADMIN || isSuperadmin)
                   ? (t('roles.badge_superadmin') || "SUPERADMIN")
-                  : profile?.role === 'concierge'
+                  : profile?.role === ROLES.CONCIERGE
                   ? (t('roles.badge_concierge') || "CONSERJE")
                   : isAdmin
                   ? t('roles.badge_admin')

@@ -7,11 +7,11 @@ import { useTranslation } from '../../context/I18nContext';
 import { ROLES } from '../../constants/roles';
 
 export default function CondominiumsModule() {
-  const { user } = useAuth();
+  const { user, profile } = useAuth();
   const { showSuccess, showError } = useToast();
   const { t } = useTranslation();
 
-  const canManage = user?.role === ROLES.SUPERADMIN || user?.role === ROLES.ADMIN;
+  const canManage = profile?.role === ROLES.SUPERADMIN || profile?.role === ROLES.ADMIN;
 
   const [condominiums, setCondominiums] = useState([]);
   const [loading, setLoading] = useState(false);

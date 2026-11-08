@@ -3,6 +3,7 @@ import { supabase } from '../../lib/supabase';
 import { styles } from '../../styles/theme';
 import { ROLES } from '../../constants/roles';
 import { useToast } from '../../context/ToastContext';
+import { useAuth } from '../../context/AuthContext';
 import { useTranslation } from '../../context/I18nContext';
 import { formatRut, validateRut } from '../../lib/rut';
 
