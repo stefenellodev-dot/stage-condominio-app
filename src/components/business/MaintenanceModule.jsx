@@ -27,6 +27,8 @@ export default function MaintenanceModule() {
   const { t } = useTranslation();
 
   const [tab, setTab] = useState('activos');
+  const [companies, setCompanies] = useState([]);
+  const [selectedCompany, setSelectedCompany] = useState('');
   const [condominiums, setCondominiums] = useState([]);
   const [selectedCondo, setSelectedCondo] = useState('');
   const [assets, setAssets] = useState([]);
@@ -48,11 +50,20 @@ export default function MaintenanceModule() {
 
   useEffect(() => {
     (async () => {
-      const { data } = await supabase.from('condominiums').select('id,name').is('deleted_at', null).order('name');
+      const { data: companiesData } = await supabase.from('management_companies').select('id,legal_name,fantasy_name').is('deleted_at', null).order('legal_name');
+      setCompanies(companiesData || []);
+      if (companiesData && companiesData.length) setSelectedCompany(companiesData[0].id);
+    })();
+  }, []);
+
+  useEffect(() => {
+    if (!selectedCompany) return;
+    (async () => {
+      const { data } = await supabase.from('condominiums').select('id,name,management_company_id').eq('management_company_id', selectedCompany).is('deleted_at', null).order('name');
       setCondominiums(data || []);
       if (data && data.length) setSelectedCondo(data[0].id);
     })();
-  }, []);
+  }, [selectedCompany]);
 
   const loadAssets = async () => {
     if (!selectedCondo) return;
@@ -189,17 +200,35 @@ export default function MaintenanceModule() {
           <h3 style={{ margin: '0 0 4px' }}>Mantenciones y Certificaciones</h3>
           <p style={{ margin: 0, color: 'var(--text-secondary)', fontSize: '13px' }}>Equipamiento crítico, sellos oficiales y bitácora técnica (Ley 21.442).</p>
         </div>
-        {alertCerts.length > 0 && (
-          <span style={{ padding: '6px 12px', borderRadius: 'var(--radius-md)', background: 'var(--danger-bg)', color: 'var(--danger-text)', fontSize: '12px', fontWeight: 700 }}>
-            ⚠️ {alertCerts.length} certificación(es) por vencer o vencida(s)
-          </span>
-        )}
-      </div>
-
-      <div style={{ marginBottom: '14px' }}>
-        <select value={selectedCondo} onChange={e => setSelectedCondo(e.target.value)} style={styles.select}>
-          {condominiums.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
-        </select>
+        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', alignItems: 'center' }}>
+          {alertCerts.length > 0 && (
+            <span style={{ padding: '6px 12px', borderRadius: 'var(--radius-md)', background: 'var(--danger-bg)', color: 'var(--danger-text)', fontSize: '12px', fontWeight: 700 }}>
+              ⚠️ {alertCerts.length} certificación(es) por vencer o vencida(s)
+            </span>
+          )}
+          {companies.length > 0 && (
+            <select
+              value={selectedCompany}
+              onChange={e => setSelectedCompany(e.target.value)}
+              style={{ ...styles.select, minWidth: '220px' }}
+            >
+              {companies.map(c => (
+                <option key={c.id} value={c.id}>{c.fantasy_name || c.legal_name}</option>
+              ))}
+            </select>
+          )}
+          {condominiums.length > 0 && (
+            <select
+              value={selectedCondo}
+              onChange={e => setSelectedCondo(e.target.value)}
+              style={{ ...styles.select, minWidth: '240px' }}
+            >
+              {condominiums.map(c => (
+                <option key={c.id} value={c.id}>{c.name}</option>
+              ))}
+            </select>
+          )}
+        </div>
       </div>
 
       <div style={{ display: 'flex', gap: '6px', marginBottom: '14px' }}>
