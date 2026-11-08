@@ -16,6 +16,8 @@ export default function CondominiumsModule() {
   const canManage = canCreate || canEdit;
 
   const [condominiums, setCondominiums] = useState([]);
+  const [companies, setCompanies] = useState([]);
+  const [selectedCompany, setSelectedCompany] = useState('');
   const [loading, setLoading] = useState(false);
   const [formMode, setFormMode] = useState('list');
   const [formData, setFormData] = useState({
@@ -28,14 +30,24 @@ export default function CondominiumsModule() {
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
-    loadCondominiums();
+    (async () => {
+      const { data: companiesData } = await supabase.from('management_companies').select('id,legal_name,fantasy_name').is('deleted_at', null).order('legal_name');
+      setCompanies(companiesData || []);
+      if (companiesData && companiesData.length) setSelectedCompany(companiesData[0].id);
+    })();
   }, []);
+
+  useEffect(() => {
+    if (!selectedCompany) return;
+    loadCondominiums();
+  }, [selectedCompany]);
 
   const loadCondominiums = async () => {
     setLoading(true);
     const { data, error } = await supabase
       .from('condominiums')
-      .select('id, name, rut, comuna, status')
+      .select('id, name, rut, comuna, status, management_company_id')
+      .eq('management_company_id', selectedCompany)
       .order('created_at', { ascending: false });
     if (error) {
       showError(error.message);
@@ -135,14 +147,27 @@ export default function CondominiumsModule() {
           <h3 style={{ margin: '0 0 4px' }}>{t('condominiums.title')}</h3>
           <p style={{ margin: 0, color: 'var(--text-secondary)', fontSize: '13px' }}>{t('condominiums.subtitle')}</p>
         </div>
-        {canManage && (
-          <button style={{ ...styles.button, padding: '8px 16px', fontSize: '13px' }} onClick={() => {
-            setFormData({ id: '', name: '', rut: '', comuna: '', status: 'active' });
-            setFormMode('create');
-          }}>
-            {t('common.new_button')}
-          </button>
-        )}
+        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+          {companies.length > 0 && (
+            <select
+              value={selectedCompany}
+              onChange={e => setSelectedCompany(e.target.value)}
+              style={{ ...styles.select, minWidth: '220px' }}
+            >
+              {companies.map(c => (
+                <option key={c.id} value={c.id}>{c.fantasy_name || c.legal_name}</option>
+              ))}
+            </select>
+          )}
+          {canManage && (
+            <button style={{ ...styles.button, padding: '8px 16px', fontSize: '13px' }} onClick={() => {
+              setFormData({ id: '', name: '', rut: '', comuna: '', status: 'active' });
+              setFormMode('create');
+            }}>
+              {t('common.new_button')}
+            </button>
+          )}
+        </div>
       </div>
 
       {formMode !== 'list' && (
