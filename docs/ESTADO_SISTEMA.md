@@ -1,5 +1,5 @@
 # Estado del Sistema: Mac (Código) vs Piave (Despliegue e Infraestructura)
-**Fecha de levantamiento:** 2026-11-09 14:41:57
+**Fecha de levantamiento:** 2026-11-09 14:50:22
 **Servidor Remoto (Infraestructura y Producción):** piave (100.126.211.117)
 **Host Local (Desarrollo):** dstefene1-mac
 
@@ -8,9 +8,9 @@
 ## 1. Servidor Físico Piave (Host y Recursos)
 - **HOSTNAME:** `piave`
 - **KERNEL:** `6.8.0-139-generic`
-- **UPTIME:** `up 6 weeks, 6 days, 59 minutes`
-- **DISK_USAGE:** `56G/232G (26% en uso)`
-- **RAM_USAGE:** `2826MB / 7829MB (36.1%)`
+- **UPTIME:** `up 6 weeks, 6 days, 1 hour, 8 minutes`
+- **DISK_USAGE:** `57G/232G (26% en uso)`
+- **RAM_USAGE:** `2856MB / 7829MB (36.5%)`
 - **PODMAN_VER:** `podman version 4.9.3`
 
 # Verificar buckets de storage
@@ -27,7 +27,7 @@ done
 echo "" >> ""
 - **Base de Datos:** `postgres`
 - **Tamaño en Disco:** `15 MB`
-- **Conexiones Activas:** `8`
+- **Conexiones Activas:** `7`
 
 ---
 
@@ -37,10 +37,10 @@ echo "" >> ""
 | :--- | :--- |
 | **Contenedor Web** | `stage-stage-condominio-app` |
 | **Estado del Contenedor** | `running` |
-| **Último Inicio / Reinicio** | `2026-11-09 17:41:30.539029382 +0000 UTC` |
+| **Último Inicio / Reinicio** | `2026-11-09 17:49:55.822456368 +0000 UTC` |
 | **Veces Reiniciado (Crash count)** | `0` |
 | **Directorio Servido (Web Root)** | `/app/dist` |
-| **Fecha de Compilación en Piave** | `2026-11-09 17:39:31.000000000 +0000` |
+| **Fecha de Compilación en Piave** | `2026-11-09 17:47:38.000000000 +0000` |
 | **Título HTML Desplegado** | `<title>Sistema de Administración de Condominios</title>` |
 | **Respuesta HTTP Puerto :3002** | `200` |
 | **Servidor Web Interno** | `` |
@@ -144,7 +144,7 @@ echo "" >> ""
 | `stage-new` | `Up 42 hours` | Up 42 hours | `0.0.0.0:3005->3000/tcp` |
 | `concierge-test2` | `Up 42 hours` | Up 42 hours | `0.0.0.0:3006->3000/tcp` |
 | `stage-stage-condominio-app` | `Up 30 seconds (starting)
-10.89.3.130` | Up 30 seconds (starting) | `127.0.0.1:3002->3000/tcp, 100.126.211.117:3002->3000/tcp` |
+10.89.3.131` | Up 30 seconds (starting) | `127.0.0.1:3002->3000/tcp, 100.126.211.117:3002->3000/tcp` |
 
 ---
 
@@ -170,7 +170,7 @@ echo "" >> ""
 ## 6. Código Local en Mac
 - **Ruta:** `/Users/stefenello/development/stage-condominio-app`
 - **Branch Git:** `main`
-- **Último Commit:** `241dc26 - fix(announcements): handle regular users without company/condo in profile (2026-11-09 14:36:57 -0300)`
+- **Último Commit:** `638ef0d - fix(announcements): hide empty company/condo selectors for regular users (2026-11-09 14:45:23 -0300)`
 - **Archivos Pendientes de Commit:**
 ```text
 
@@ -181,9 +181,9 @@ echo "" >> ""
 ## 7. Errores Detectados en Logs de Contenedores en Piave
 ```text
 ---LOG_ERROR:svc-kong---
-10.89.1.44 - - [09/Nov/2026:17:42:17 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "b04be31ec25b977a2e9abc35b3a2dd5b"
-10.89.1.44 - - [09/Nov/2026:17:42:33 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "f433266d29c5c01c16ceb16d190ce054"
-10.89.1.44 - - [09/Nov/2026:17:42:48 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "4dd586115b541d75de4cb918467c7870"
+10.89.1.44 - - [09/Nov/2026:17:50:34 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "0f4dcf08ea986921ced6fc2394372c2f"
+10.89.1.44 - - [09/Nov/2026:17:50:50 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "86ab4f0000c71b38878d8a05cfcd1e36"
+10.89.1.44 - - [09/Nov/2026:17:51:05 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "86b27e627a61aa055fc3d742d6af926d"
 ---LOG_ERROR:svc-auth---
 {"component":"api","error":"400: Could not parse request body as JSON: unexpected end of JSON input","level":"info","method":"POST","msg":"400: Could not parse request body as JSON: unexpected end of JSON input","path":"/token","referer":"https://www.ecomunity.cl","remote_addr":"10.89.1.46","request_id":"6fd6746c-de67-4330-a5d4-8089d4519f5f","time":"2026-11-07T00:31:12Z"}
 {"component":"api","duration":43057563,"error_code":"bad_json","level":"info","method":"POST","msg":"request completed","path":"/token","referer":"https://www.ecomunity.cl","remote_addr":"10.89.1.46","request_id":"6fd6746c-de67-4330-a5d4-8089d4519f5f","status":400,"time":"2026-11-07T00:31:12Z"}
@@ -194,6 +194,6 @@ echo "" >> ""
 ---LOG_ERROR:condo-sb-db---
 10.89.3.77 2026-11-09 17:34:00.528 UTC [234313] postgres@postgres ERROR:  invalid input syntax for type uuid: "all"
 ---LOG_ERROR:condo-sb-auth---
-{"component":"api","error":"invalid_grant: Invalid Refresh Token: Refresh Token Not Found","level":"info","method":"POST","msg":"invalid_grant: Invalid Refresh Token: Refresh Token Not Found","path":"/token","referer":"http://100.126.211.117:3002/","remote_addr":"10.89.3.115","request_id":"5d33ecdb-0b38-4294-a7aa-cec7aa6eb22f","time":"2026-11-09T14:04:17Z"}
 {"component":"api","error":"invalid_grant: Invalid login credentials","level":"info","method":"POST","msg":"invalid_grant: Invalid login credentials","path":"/token","referer":"http://100.126.211.117:3002/","remote_addr":"10.89.3.115","request_id":"45313300-36d9-41d5-bb6a-ea8d8ec06c90","time":"2026-11-09T17:35:08Z"}
+{"component":"api","error":"invalid_grant: Invalid login credentials","level":"info","method":"POST","msg":"invalid_grant: Invalid login credentials","path":"/token","referer":"http://100.126.211.117:3002/","remote_addr":"10.89.3.115","request_id":"55e75dd7-130a-410e-a0e4-a395373ae15e","time":"2026-11-09T17:44:02Z"}
 ```
