@@ -1,5 +1,5 @@
 # Especificación de Arquitectura de Datos y Seguridad (Ley N° 21.442)
-**Última actualización confirmada en servidor Piave:** 2026-11-06 15:08:35
+**Última actualización confirmada en servidor Piave:** 2026-11-09 09:15:53
 
 ---
 
