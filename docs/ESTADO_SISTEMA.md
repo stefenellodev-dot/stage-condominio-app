@@ -1,5 +1,5 @@
 # Estado del Sistema: Mac (Código) vs Piave (Despliegue e Infraestructura)
-**Fecha de levantamiento:** 2026-11-09 15:46:53
+**Fecha de levantamiento:** 2026-11-09 15:59:29
 **Servidor Remoto (Infraestructura y Producción):** piave (100.126.211.117)
 **Host Local (Desarrollo):** dstefene1-mac
 
@@ -8,9 +8,9 @@
 ## 1. Servidor Físico Piave (Host y Recursos)
 - **HOSTNAME:** `piave`
 - **KERNEL:** `6.8.0-139-generic`
-- **UPTIME:** `up 6 weeks, 6 days, 2 hours, 4 minutes`
+- **UPTIME:** `up 6 weeks, 6 days, 2 hours, 17 minutes`
 - **DISK_USAGE:** `57G/232G (26% en uso)`
-- **RAM_USAGE:** `2836MB / 7829MB (36.2%)`
+- **RAM_USAGE:** `2801MB / 7829MB (35.8%)`
 - **PODMAN_VER:** `podman version 4.9.3`
 
 # Verificar buckets de storage
@@ -37,10 +37,10 @@ echo "" >> ""
 | :--- | :--- |
 | **Contenedor Web** | `stage-stage-condominio-app` |
 | **Estado del Contenedor** | `running` |
-| **Último Inicio / Reinicio** | `2026-11-09 18:46:26.31357219 +0000 UTC` |
+| **Último Inicio / Reinicio** | `2026-11-09 18:59:02.040872166 +0000 UTC` |
 | **Veces Reiniciado (Crash count)** | `0` |
 | **Directorio Servido (Web Root)** | `/app/dist` |
-| **Fecha de Compilación en Piave** | `2026-11-09 18:43:51.000000000 +0000` |
+| **Fecha de Compilación en Piave** | `2026-11-09 18:56:33.000000000 +0000` |
 | **Título HTML Desplegado** | `<title>Sistema de Administración de Condominios</title>` |
 | **Respuesta HTTP Puerto :3002** | `200` |
 | **Servidor Web Interno** | `` |
@@ -144,7 +144,7 @@ echo "" >> ""
 | `stage-new` | `Up 43 hours` | Up 43 hours | `0.0.0.0:3005->3000/tcp` |
 | `concierge-test2` | `Up 43 hours` | Up 43 hours | `0.0.0.0:3006->3000/tcp` |
 | `stage-stage-condominio-app` | `Up 30 seconds (starting)
-10.89.3.132` | Up 30 seconds (starting) | `127.0.0.1:3002->3000/tcp, 100.126.211.117:3002->3000/tcp` |
+10.89.3.133` | Up 30 seconds (starting) | `127.0.0.1:3002->3000/tcp, 100.126.211.117:3002->3000/tcp` |
 
 ---
 
@@ -170,7 +170,7 @@ echo "" >> ""
 ## 6. Código Local en Mac
 - **Ruta:** `/Users/stefenello/development/stage-condominio-app`
 - **Branch Git:** `main`
-- **Último Commit:** `6023bf0 - fix(announcements): use maybeSingle to avoid 406 on RLS-blocked queries (2026-11-09 15:41:52 -0300)`
+- **Último Commit:** `c54de82 - fix(announcements): wait for profile before loading condos (2026-11-09 15:54:29 -0300)`
 - **Archivos Pendientes de Commit:**
 ```text
 
@@ -181,9 +181,9 @@ echo "" >> ""
 ## 7. Errores Detectados en Logs de Contenedores en Piave
 ```text
 ---LOG_ERROR:svc-kong---
-10.89.1.44 - - [09/Nov/2026:18:47:17 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "2572b16b0fe5e643fba2e909f4b7541b"
-10.89.1.44 - - [09/Nov/2026:18:47:32 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "120ce07d43be3a3182e7ac3274c4d73e"
-10.89.1.44 - - [09/Nov/2026:18:47:47 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "95ec007908ecd26f4bb49d3903a1144b"
+10.89.1.44 - - [09/Nov/2026:19:00:03 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=1&select=created_at HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "c392e73b67be913a061e32293841ce21"
+10.89.1.44 - - [09/Nov/2026:19:00:05 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "bd02237d73295d4dca1d0d1ae93d6974"
+10.89.1.44 - - [09/Nov/2026:19:00:20 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "0988fc001122e11695bbc12eba42193b"
 ---LOG_ERROR:svc-auth---
 {"component":"api","error":"400: Could not parse request body as JSON: unexpected end of JSON input","level":"info","method":"POST","msg":"400: Could not parse request body as JSON: unexpected end of JSON input","path":"/token","referer":"https://www.ecomunity.cl","remote_addr":"10.89.1.46","request_id":"6fd6746c-de67-4330-a5d4-8089d4519f5f","time":"2026-11-07T00:31:12Z"}
 {"component":"api","duration":43057563,"error_code":"bad_json","level":"info","method":"POST","msg":"request completed","path":"/token","referer":"https://www.ecomunity.cl","remote_addr":"10.89.1.46","request_id":"6fd6746c-de67-4330-a5d4-8089d4519f5f","status":400,"time":"2026-11-07T00:31:12Z"}
@@ -192,12 +192,15 @@ echo "" >> ""
 {"level":"warn","module":"rest","proto":"WebSocket","remote":"10.89.3.19:47558","error":"websocket: close 1006 (abnormal closure): unexpected EOF","time":"2026-11-09T02:42:57Z","message":"Socket error"}
 {"level":"warn","module":"rest","proto":"WebSocket","remote":"10.89.3.19:42256","error":"websocket: close 1006 (abnormal closure): unexpected EOF","time":"2026-11-09T15:32:54Z","message":"Socket error"}
 ---LOG_ERROR:condo-sb-db---
-10.89.3.77 2026-11-09 17:34:00.528 UTC [234313] postgres@postgres ERROR:  invalid input syntax for type uuid: "all"
-10.89.3.77 2026-11-09 18:39:39.872 UTC [237231] postgres@postgres ERROR:  invalid input syntax for type uuid: "all"
+10.89.3.77 2026-11-09 18:52:45.099 UTC [237787] postgres@postgres ERROR:  invalid input syntax for type uuid: "all"
+10.89.3.77 2026-11-09 18:52:52.440 UTC [237787] postgres@postgres ERROR:  invalid input syntax for type uuid: "all"
+10.89.3.77 2026-11-09 18:54:15.158 UTC [237883] postgres@postgres ERROR:  invalid input syntax for type uuid: "all"
 ---LOG_ERROR:condo-sb-auth---
 {"component":"api","error":"invalid_grant: Invalid login credentials","level":"info","method":"POST","msg":"invalid_grant: Invalid login credentials","path":"/token","referer":"http://100.126.211.117:3002/","remote_addr":"10.89.3.115","request_id":"a2e691fe-176f-4b03-b36b-737ffeecc681","time":"2026-11-09T18:40:09Z"}
 {"component":"api","error":"invalid_grant: Invalid login credentials","level":"info","method":"POST","msg":"invalid_grant: Invalid login credentials","path":"/token","referer":"http://100.126.211.117:3002/","remote_addr":"10.89.3.115","request_id":"4efa9c4b-485c-4a29-91df-6d25802f2f33","time":"2026-11-09T18:40:19Z"}
 {"component":"api","error":"invalid_grant: Invalid login credentials","level":"info","method":"POST","msg":"invalid_grant: Invalid login credentials","path":"/token","referer":"http://100.126.211.117:3002/","remote_addr":"10.89.3.115","request_id":"27982f4a-c08c-4186-bee7-97968a89ddb7","time":"2026-11-09T18:41:02Z"}
 ---LOG_ERROR:fin-engine-agent-pedro---
 2026-11-09 18:42:23,325 ERROR yfinance: Failed to get ticker 'PFE' reason: Failed to perform, curl: (28) Connection timed out after 10007 milliseconds. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+---LOG_ERROR:fin-engine-watchdog---
+Error: no container with name or ID "fin-engine-watchdog" found: no such container
 ```
