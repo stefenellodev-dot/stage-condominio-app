@@ -1,4 +1,5 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
+import { useIsMobile } from '../../hooks/useMediaQuery';
 
 export default function ConfirmDialog({ open, title, message, promptLabel, confirmLabel, cancelLabel, danger, onConfirm, onCancel }) {
   const [value, setValue] = useState('');
@@ -26,6 +27,8 @@ export default function ConfirmDialog({ open, title, message, promptLabel, confi
     return () => { clearTimeout(t); document.removeEventListener('keydown', handleKey); };
   }, [open, promptLabel, onCancel]);
 
+  const isMobile = useIsMobile();
+
   if (!open) return null;
 
   const handleConfirm = () => onConfirm(promptLabel ? value : true);
@@ -40,8 +43,8 @@ export default function ConfirmDialog({ open, title, message, promptLabel, confi
       style={{
         position: 'fixed', inset: 0, zIndex: 10000,
         background: 'rgba(0,0,0,0.55)',
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        padding: '16px',
+        display: 'flex', alignItems: isMobile ? 'flex-end' : 'center', justifyContent: 'center',
+        padding: isMobile ? '0' : '16px',
       }}
     >
       <div
@@ -49,13 +52,18 @@ export default function ConfirmDialog({ open, title, message, promptLabel, confi
         style={{
           background: 'var(--bg-card, #1a1f2e)',
           color: 'var(--text, #e6e6e6)',
-          borderRadius: '12px',
+          borderRadius: isMobile ? '16px 16px 0 0' : '12px',
           padding: '20px',
           width: '100%',
-          maxWidth: '440px',
+          maxWidth: isMobile ? '100%' : '440px',
+          maxHeight: isMobile ? '85vh' : 'none',
+          overflowY: isMobile ? 'auto' : 'visible',
           boxShadow: '0 10px 40px rgba(0,0,0,0.4)',
         }}
       >
+        {isMobile && (
+          <div style={{ width: '36px', height: '4px', backgroundColor: 'var(--border-subtle, #cbd5e1)', borderRadius: '2px', margin: '8px auto 12px' }} />
+        )}
         {title && <h3 style={{ margin: '0 0 8px', fontSize: '16px' }}>{title}</h3>}
         {message && <p style={{ margin: '0 0 16px', fontSize: '14px', color: 'var(--text-dim, #9aa0a6)' }}>{message}</p>}
         {promptLabel && (

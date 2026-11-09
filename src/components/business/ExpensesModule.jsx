@@ -7,6 +7,7 @@ import { useTranslation } from '../../context/I18nContext';
 import { useConfirm } from '../../hooks/useConfirm';
 import { usePermissions } from '../../hooks/usePermissions';
 import { storageService } from '../../services/storageService';
+import Modal from '../ui/Modal';
 import { billPdfService } from '../../services/billPdfService';
 import { ExpenseBillDocument } from '../expenses/ExpenseBillDocument';
 
@@ -392,32 +393,19 @@ export default function ExpensesModule() {
 
       {ConfirmDialogNode}
 
-      {viewingBill && (
-        <div style={{
-          position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
-          backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 1000,
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          overflow: 'auto', padding: '20px',
-        }}>
-          <div style={{
-            backgroundColor: 'var(--bg-card)', borderRadius: '8px',
-            maxWidth: '850px', width: '100%', maxHeight: '90vh',
-            overflow: 'auto', padding: '20px', position: 'relative',
-          }}>
-            <button
-              onClick={() => setViewingBill(null)}
-              style={{
-                position: 'absolute', top: '12px', right: '12px',
-                background: 'transparent', border: 'none', fontSize: '20px',
-                cursor: 'pointer', color: 'var(--text-secondary)',
-              }}
-            >
-              ✕
-            </button>
-            <ExpenseBillDocument billData={viewingBill} />
-          </div>
-        </div>
-      )}
+      <Modal open={!!viewingBill} onClose={() => setViewingBill(null)} maxWidth="850px">
+        <button
+          onClick={() => setViewingBill(null)}
+          style={{
+            position: 'absolute', top: '12px', right: '12px',
+            background: 'transparent', border: 'none', fontSize: '20px',
+            cursor: 'pointer', color: 'var(--text-secondary)',
+          }}
+        >
+          ✕
+        </button>
+        <ExpenseBillDocument billData={viewingBill} />
+      </Modal>
     </div>
   );
 }
