@@ -27,6 +27,7 @@ export default function ConciergeModule() {
   const [selectedCondo, setSelectedCondo] = useState('');
   const [visits, setVisits] = useState([]);
   const [parcels, setParcels] = useState([]);
+  const [units, setUnits] = useState([]);
   const [logs, setLogs] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -53,6 +54,12 @@ export default function ConciergeModule() {
       if (data && data.length) setSelectedCondo(data[0].id);
     })();
   }, [selectedCompany]);
+
+  const loadUnits = async () => {
+    if (!selectedCondo) return;
+    const { data } = await supabase.from('units').select('id, unit_number, condominium_id').eq('condominium_id', selectedCondo).is('deleted_at', null).order('unit_number');
+    setUnits(data || []);
+  };
 
   const loadViews = async () => {
     if (!selectedCondo) return;
@@ -86,6 +93,7 @@ export default function ConciergeModule() {
   };
 
   useEffect(() => {
+    loadUnits();
     loadViews();
   }, [selectedCondo, tab]);
 
@@ -197,7 +205,10 @@ export default function ConciergeModule() {
           {canManage && (
             <form onSubmit={handleCreateVisit} style={{ ...styles.form, marginBottom: '16px' }}>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
-                <input placeholder="Unidad" value={visitForm.unit_id} onChange={e => setVisitForm({ ...visitForm, unit_id: e.target.value })} style={styles.input} required />
+                <select value={visitForm.unit_id} onChange={e => setVisitForm({ ...visitForm, unit_id: e.target.value })} style={styles.select} required>
+                  <option value="">Selecciona unidad</option>
+                  {units.map(u => <option key={u.id} value={u.id}>{u.unit_number}</option>)}
+                </select>
                 <input placeholder="Visitante" value={visitForm.visitor_name} onChange={e => setVisitForm({ ...visitForm, visitor_name: e.target.value })} style={styles.input} required />
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginTop: '8px' }}>
@@ -265,7 +276,7 @@ export default function ConciergeModule() {
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
                 <select value={pkgForm.unit_id} onChange={e => setPkgForm({ ...pkgForm, unit_id: e.target.value })} style={styles.select} required>
                   <option value="">Selecciona unidad</option>
-                  {condominiums.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+                  {units.map(u => <option key={u.id} value={u.id}>{u.unit_number}</option>)}
                 </select>
                 <input placeholder="Nº guía/tracking" value={pkgForm.tracking_number} onChange={e => setPkgForm({ ...pkgForm, tracking_number: e.target.value })} style={styles.input} required />
               </div>
