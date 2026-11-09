@@ -55,6 +55,7 @@ export default function UsersModule() {
   const [selectedCompany, setSelectedCompany] = useState('');
   const [condominiums, setCondominiums] = useState([]);
   const [selectedCondo, setSelectedCondo] = useState('');
+  const [units, setUnits] = useState([]);
 
   const perPage = 8;
 
@@ -74,8 +75,18 @@ export default function UsersModule() {
     setLoading(false);
   };
 
+  const loadUnits = async () => {
+    const { data, error } = await supabase
+      .from('units')
+      .select('id, owner_id, condominium_id')
+      .is('deleted_at', null);
+
+    if (!error && data) setUnits(data);
+  };
+
   useEffect(() => {
     loadUsers();
+    loadUnits();
   }, []);
 
   useEffect(() => {
@@ -386,9 +397,18 @@ export default function UsersModule() {
       const matchesRole = filterRole === 'all' || user.role === filterRole;
       const matchesStatus = filterStatus === 'all' || (user.status || 'active') === filterStatus;
 
-      return matchesSearch && matchesRole && matchesStatus;
+      // Filter by selected condominium: show users who own a unit in this condominium
+      const matchesCondo = !selectedCondo || selectedCondo === '' ||
+        user.condominium_id === selectedCondo ||
+        units.some(u => u.owner_id === user.id && u.condominium_id === selectedCondo);
+
+      // Filter by selected company: show users who own a unit in a condominium of this company
+      const matchesCompany = !selectedCompany || selectedCompany === '' ||
+        condominiums.some(c => c.management_company_id === selectedCompany && (user.condominium_id === c.id || units.some(u => u.owner_id === user.id && u.condominium_id === c.id)));
+
+      return matchesSearch && matchesRole && matchesStatus && matchesCondo && matchesCompany;
     });
-  }, [users, searchTerm, filterRole, filterStatus]);
+  }, [users, units, searchTerm, filterRole, filterStatus, selectedCondo, selectedCompany, condominiums]);
 
   const totalPages = Math.max(1, Math.ceil(filteredUsers.length / perPage));
   const paginatedUsers = filteredUsers.slice(
@@ -725,6 +745,7 @@ export default function UsersModule() {
           <option value="all">{t('users.all_roles')}</option>
           <option value="user">{t('users.only_users')}</option>
           <option value="admin">{t('users.only_admins')}</option>
+          <option value="concierge">concierge</option>
           {isSuperadmin ? <option value="superadmin">superadmin</option> : null}
         </select>
         <select
