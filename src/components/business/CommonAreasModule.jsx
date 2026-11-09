@@ -24,8 +24,10 @@ const isValidNumber = (value) => value === '' || !Number.isNaN(Number(value));
 
 import { useConfirm } from '../../hooks/useConfirm';
 import { usePermissions } from '../../hooks/usePermissions';
+import { useIsMobile } from '../../hooks/useMediaQuery';
 
 export default function CommonAreasModule() {
+  const isMobile = useIsMobile();
   const { confirm, prompt, ConfirmDialogNode } = useConfirm();
   const { isSuperadmin, isAdmin, isConcierge, user } = useAuth();
   const { canCreate, canEdit } = usePermissions('common_areas');

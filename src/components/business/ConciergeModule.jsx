@@ -6,10 +6,12 @@ import { useToast } from '../../context/ToastContext';
 import { useTranslation } from '../../context/I18nContext';
 import { ROLES, ROLE_GROUPS } from '../../constants/roles';
 import { usePermissions } from '../../hooks/usePermissions';
+import { useIsMobile } from '../../hooks/useMediaQuery';
 
 const fmtTime = (iso) => iso ? new Date(iso).toLocaleString('es-ES', { hour: '2-digit', minute: '2-digit' }) : '—';
 
 export default function ConciergeModule() {
+  const isMobile = useIsMobile();
   const { user, profile } = useAuth();
   const { showSuccess, showError } = useToast();
   const { t } = useTranslation();
@@ -210,6 +212,27 @@ export default function ConciergeModule() {
               <button type="submit" disabled={savingVisit} style={{ ...styles.button, marginTop: '10px' }}>{savingVisit ? 'Registrando…' : 'Registrar visita'}</button>
             </form>
           )}
+          {isMobile ? (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              {visits.length === 0 ? (
+                <div style={{ textAlign: 'center', color: 'var(--text-dim)', padding: '24px' }}>Sin visitas registradas.</div>
+              ) : visits.map(v => (
+                <div key={v.id} style={{ backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)', padding: '14px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                    <strong style={{ fontSize: '15px' }}>Unidad {v.units?.unit_number}</strong>
+                    <span style={{ fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', color: 'var(--text-secondary)' }}>{v.status}</span>
+                  </div>
+                  <div style={{ fontSize: '13px', color: 'var(--text-secondary)', marginBottom: '4px' }}>{v.visitor_name}</div>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6px', fontSize: '12px', color: 'var(--text-dim)', marginTop: '6px' }}>
+                    <div>🚗 {v.vehicle_plate || '—'}</div>
+                    <div>🪪 {v.visitor_rut || '—'}</div>
+                    <div>🕐 {v.entry_time ? fmtTime(v.entry_time) : '—'}</div>
+                    <div>🅿️ {v.parking_spot || '—'}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
           <div style={styles.tableWrapper}>
             <table style={{ ...styles.table, minWidth: '700px' }}>
               <thead><tr style={styles.thRow}>
@@ -231,6 +254,7 @@ export default function ConciergeModule() {
               </tbody>
             </table>
           </div>
+          )}
         </div>
       )}
 
@@ -260,6 +284,32 @@ export default function ConciergeModule() {
               <button type="submit" disabled={savingPkg} style={{ ...styles.button, marginTop: '10px' }}>{savingPkg ? 'Registrando…' : 'Registrar paquete'}</button>
             </form>
           )}
+          {isMobile ? (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              {parcels.length === 0 ? (
+                <div style={{ textAlign: 'center', color: 'var(--text-dim)', padding: '24px' }}>Sin paquetes registrados.</div>
+              ) : parcels.map(p => (
+                <div key={p.id} style={{ backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)', padding: '14px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                    <strong style={{ fontSize: '15px' }}>Unidad {p.units?.unit_number}</strong>
+                    <span style={{ fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', color: 'var(--text-secondary)' }}>{p.status}</span>
+                  </div>
+                  <div style={{ fontSize: '13px', color: 'var(--text-secondary)', marginBottom: '4px' }}>{p.carrier}</div>
+                  <div style={{ fontSize: '12px', color: 'var(--text-dim)', marginBottom: '8px' }}>Guía: {p.tracking_number}</div>
+                  <div style={{
+                    backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border-subtle)',
+                    borderRadius: 'var(--radius-md)', padding: '10px', textAlign: 'center', marginBottom: '10px',
+                  }}>
+                    <div style={{ fontSize: '11px', color: 'var(--text-dim)', marginBottom: '2px' }}>PIN de retiro</div>
+                    <div style={{ fontSize: '22px', fontWeight: '800', letterSpacing: '4px', fontFamily: 'var(--font-mono)' }}>{p.pickup_pin}</div>
+                  </div>
+                  <button style={{ width: '100%', padding: '10px', borderRadius: '6px', border: 'none', backgroundColor: 'var(--primary)', color: '#fff', fontWeight: '700', cursor: 'pointer' }}>
+                    Entregar paquete
+                  </button>
+                </div>
+              ))}
+            </div>
+          ) : (
           <div style={styles.tableWrapper}>
             <table style={{ ...styles.table, minWidth: '700px' }}>
               <thead><tr style={styles.thRow}>
@@ -280,6 +330,7 @@ export default function ConciergeModule() {
               </tbody>
             </table>
           </div>
+          )}
         </div>
       )}
 

@@ -6,6 +6,7 @@ import { useToast } from '../../context/ToastContext';
 import { useTranslation } from '../../context/I18nContext';
 import { useConfirm } from '../../hooks/useConfirm';
 import { usePermissions } from '../../hooks/usePermissions';
+import { useIsMobile } from '../../hooks/useMediaQuery';
 import { storageService } from '../../services/storageService';
 import Modal from '../ui/Modal';
 import { billPdfService } from '../../services/billPdfService';
@@ -16,6 +17,7 @@ const CATEGORIES = ['administracion', 'mantencion', 'reparacion', 'uso_consumo',
 const fmtCLP = (n) => new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP', maximumFractionDigits: 0 }).format(n || 0);
 
 export default function ExpensesModule() {
+  const isMobile = useIsMobile();
   const { isSuperadmin, isAdmin, profile } = useAuth();
   const { canCreate, canEdit } = usePermissions('expenses');
   const canManage = canCreate || canEdit;
@@ -292,6 +294,33 @@ export default function ExpensesModule() {
 
       {tab === 'colillas' && (
         <div>
+          {isMobile ? (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              {bills.length === 0 ? (
+                <div style={{ textAlign: 'center', color: 'var(--text-dim)', padding: '24px' }}>Sin colillas para este periodo.</div>
+              ) : bills.map(b => (
+                <div key={b.id} style={{ backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)', padding: '14px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                    <strong style={{ fontSize: '15px' }}>Unidad {b.units?.unit_number}</strong>
+                    <span style={{ fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', color: b.status === 'paid' ? 'var(--success-text)' : 'var(--warning-text)' }}>{b.status}</span>
+                  </div>
+                  <div style={{ fontSize: '22px', fontWeight: '800', marginBottom: '8px' }}>{fmtCLP(b.total_amount)}</div>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6px', fontSize: '12px', color: 'var(--text-dim)', marginBottom: '10px' }}>
+                    <div>Ordinario: {fmtCLP(b.base_aliquot_amount)}</div>
+                    <div>Fondo reserva: {fmtCLP(b.reserve_fund_amount)}</div>
+                    <div>Cargos: {fmtCLP(b.individual_charges_amount)}</div>
+                    <div>Pagado: {fmtCLP(b.paid_amount)}</div>
+                    <div>Saldo: {fmtCLP(b.balance)}</div>
+                  </div>
+                  <div style={{ display: 'flex', gap: '8px' }}>
+                    <button onClick={() => setViewingBill(b)} style={{ flex: 1, padding: '10px', borderRadius: '6px', border: 'none', backgroundColor: 'var(--primary)', color: '#fff', fontWeight: '700', cursor: 'pointer' }}>
+                      Ver Colilla
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
           <div style={styles.tableWrapper}>
             <table style={{ ...styles.table, minWidth: '800px' }}>
               <thead><tr style={styles.thRow}>
@@ -323,6 +352,7 @@ export default function ExpensesModule() {
               </tbody>
             </table>
           </div>
+          )}
         </div>
       )}
 
