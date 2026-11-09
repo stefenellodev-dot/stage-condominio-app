@@ -48,8 +48,8 @@ export default function CommonAreasModule() {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
   const [filterType, setFilterType] = useState('all');
-  const [filterCondominium, setFilterCondominium] = useState('all');
-  const [filterCompany, setFilterCompany] = useState('all');
+  const [selectedCondo, setSelectedCondo] = useState('all');
+  const [selectedCompany, setSelectedCompany] = useState('all');
   const [page, setPage] = useState(1);
   const [bookings, setBookings] = useState([]);
   const [bookingsLoading, setBookingsLoading] = useState(true);
@@ -155,29 +155,32 @@ export default function CommonAreasModule() {
   };
 
   useEffect(() => {
+    (async () => {
+      const { data: companiesData } = await supabase.from('management_companies').select('id,legal_name,fantasy_name').is('deleted_at', null).order('legal_name');
+      setCompanies(companiesData || []);
+      if (companiesData && companiesData.length) setSelectedCompany(companiesData[0].id);
+    })();
+  }, []);
+
+  useEffect(() => {
+    if (!selectedCompany) return;
+    (async () => {
+      const { data } = await supabase.from('condominiums').select('id, name, management_company_id').eq('management_company_id', selectedCompany).is('deleted_at', null).order('name', { ascending: true });
+      setCondominiums(data || []);
+      if (data && data.length) setSelectedCondo(data[0].id);
+    })();
+  }, [selectedCompany]);
+
+  useEffect(() => {
     loadAreas();
-    loadCondominiums();
-    loadCompanies();
     loadUnits();
     loadBookings();
     if (isSuperadmin) loadProfiles();
   }, []);
 
   useEffect(() => {
-    if (companies.length > 0 && filterCompany === 'all') {
-      setFilterCompany(companies[0].id);
-    }
-  }, [companies]);
-
-  useEffect(() => {
-    if (condominiums.length > 0 && filterCondominium === 'all') {
-      setFilterCondominium(condominiums[0].id);
-    }
-  }, [condominiums]);
-
-  useEffect(() => {
     setPage(1);
-  }, [searchTerm, filterStatus, filterType, filterCondominium, filterCompany]);
+  }, [searchTerm, filterStatus, filterType, selectedCondo, selectedCompany]);
 
   useEffect(() => {
     setBookingPage(1);
@@ -531,15 +534,15 @@ export default function CommonAreasModule() {
         filterType === 'all' || area.area_type === filterType;
 
       const matchesCondominium =
-        filterCondominium === 'all' || area.condominium_id === filterCondominium;
+        !selectedCondo || selectedCondo === '' || area.condominium_id === selectedCondo;
 
       const matchesCompany =
-        filterCompany === 'all' ||
-        condominiums.find((condominium) => condominium.id === area.condominium_id)?.management_company_id === filterCompany;
+        !selectedCompany || selectedCompany === '' ||
+        condominiums.find((condominium) => condominium.id === area.condominium_id)?.management_company_id === selectedCompany;
 
       return matchesSearch && matchesStatus && matchesType && matchesCondominium && matchesCompany;
     });
-  }, [areas, condominiums, companies, searchTerm, filterStatus, filterType, filterCondominium, filterCompany]);
+  }, [areas, condominiums, companies, searchTerm, filterStatus, filterType, selectedCondo, selectedCompany]);
 
   const totalPages = Math.max(1, Math.ceil(filteredAreas.length / perPage));
   const paginatedAreas = filteredAreas.slice(
@@ -549,7 +552,7 @@ export default function CommonAreasModule() {
 
   useEffect(() => {
     setPage(1);
-  }, [searchTerm, filterStatus, filterType, filterCondominium, filterCompany]);
+  }, [searchTerm, filterStatus, filterType, selectedCondo, selectedCompany]);
 
   if (view === 'form') {
     return (
@@ -960,8 +963,8 @@ export default function CommonAreasModule() {
         <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
           {companies.length > 0 && (
             <select
-              value={filterCompany}
-              onChange={e => setFilterCompany(e.target.value)}
+              value={selectedCompany}
+              onChange={e => setSelectedCompany(e.target.value)}
               style={{ ...styles.select, minWidth: '220px' }}
             >
               {companies.map(c => (
@@ -971,8 +974,8 @@ export default function CommonAreasModule() {
           )}
           {condominiums.length > 0 && (
             <select
-              value={filterCondominium}
-              onChange={e => setFilterCondominium(e.target.value)}
+              value={selectedCondo}
+              onChange={e => setSelectedCondo(e.target.value)}
               style={{ ...styles.select, minWidth: '240px' }}
             >
               {condominiums.map(c => (
