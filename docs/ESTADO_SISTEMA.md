@@ -1,5 +1,5 @@
 # Estado del Sistema: Mac (Código) vs Piave (Despliegue e Infraestructura)
-**Fecha de levantamiento:** 2026-11-09 12:26:14
+**Fecha de levantamiento:** 2026-11-09 14:41:57
 **Servidor Remoto (Infraestructura y Producción):** piave (100.126.211.117)
 **Host Local (Desarrollo):** dstefene1-mac
 
@@ -8,9 +8,9 @@
 ## 1. Servidor Físico Piave (Host y Recursos)
 - **HOSTNAME:** `piave`
 - **KERNEL:** `6.8.0-139-generic`
-- **UPTIME:** `up 6 weeks, 5 days, 22 hours, 44 minutes`
+- **UPTIME:** `up 6 weeks, 6 days, 59 minutes`
 - **DISK_USAGE:** `56G/232G (26% en uso)`
-- **RAM_USAGE:** `2817MB / 7829MB (36.0%)`
+- **RAM_USAGE:** `2826MB / 7829MB (36.1%)`
 - **PODMAN_VER:** `podman version 4.9.3`
 
 # Verificar buckets de storage
@@ -27,7 +27,7 @@ done
 echo "" >> ""
 - **Base de Datos:** `postgres`
 - **Tamaño en Disco:** `15 MB`
-- **Conexiones Activas:** `7`
+- **Conexiones Activas:** `8`
 
 ---
 
@@ -37,10 +37,10 @@ echo "" >> ""
 | :--- | :--- |
 | **Contenedor Web** | `stage-stage-condominio-app` |
 | **Estado del Contenedor** | `running` |
-| **Último Inicio / Reinicio** | `2026-11-09 15:25:47.153531106 +0000 UTC` |
+| **Último Inicio / Reinicio** | `2026-11-09 17:41:30.539029382 +0000 UTC` |
 | **Veces Reiniciado (Crash count)** | `0` |
 | **Directorio Servido (Web Root)** | `/app/dist` |
-| **Fecha de Compilación en Piave** | `2026-11-09 15:25:05.000000000 +0000` |
+| **Fecha de Compilación en Piave** | `2026-11-09 17:39:31.000000000 +0000` |
 | **Título HTML Desplegado** | `<title>Sistema de Administración de Condominios</title>` |
 | **Respuesta HTTP Puerto :3002** | `200` |
 | **Servidor Web Interno** | `` |
@@ -77,7 +77,7 @@ echo "" >> ""
 10.89.2.37` | Up 5 weeks | `127.0.0.1:18080->8080/tcp, 100.126.211.117:18080->8080/tcp` |
 | `svc-rest` | `Up 5 weeks
 10.89.1.15` | Up 5 weeks | `` |
-| `rollback-test-db` | `Up 4 weeks` | Up 4 weeks | `` |
+| `rollback-test-db` | `Up 5 weeks` | Up 5 weeks | `` |
 | `svc-push` | `Up 4 weeks
 10.89.1.26` | Up 4 weeks | `` |
 | `stage-demo-app` | `Up 6 days
@@ -118,8 +118,8 @@ echo "" >> ""
 10.89.3.116` | Up 6 days | `127.0.0.1:3001->3000/tcp, 100.126.211.117:3001->3000/tcp` |
 | `condo-sb-inbucket` | `Up 3 days
 10.89.3.19` | Up 3 days | `100.126.211.117:9100->9000/tcp` |
-| `condo-sb-kong` | `Up 45 hours (healthy)
-10.89.3.115` | Up 45 hours (healthy) | `100.126.211.117:8200->8000/tcp` |
+| `condo-sb-kong` | `Up 47 hours (healthy)
+10.89.3.115` | Up 47 hours (healthy) | `100.126.211.117:8200->8000/tcp` |
 | `vaultwarden` | `Up 3 days (unhealthy)
 10.89.4.4` | Up 3 days (unhealthy) | `100.126.211.117:8222->80/tcp` |
 | `condo-sb-db` | `Up 3 days (healthy)
@@ -128,8 +128,8 @@ echo "" >> ""
 10.89.3.6` | Up 3 days | `127.0.0.1:8280->3000/tcp` |
 | `condo-sb-rest` | `Up 2 days
 10.89.3.77` | Up 2 days | `` |
-| `condo-sb-auth` | `Up 45 hours
-10.89.3.114` | Up 45 hours | `` |
+| `condo-sb-auth` | `Up 47 hours
+10.89.3.114` | Up 47 hours | `` |
 | `condo-sb-storage` | `Up 3 days
 10.89.3.9` | Up 3 days | `` |
 | `condo-sb-meta` | `Up 3 days
@@ -140,11 +140,11 @@ echo "" >> ""
 10.89.0.42` | Up 2 days | `` |
 | `fin-engine-agent-pedro` | `Up 2 days
 10.89.0.43` | Up 2 days | `` |
-| `concierge-test` | `Up 40 hours` | Up 40 hours | `0.0.0.0:3003->3000/tcp` |
-| `stage-new` | `Up 40 hours` | Up 40 hours | `0.0.0.0:3005->3000/tcp` |
-| `concierge-test2` | `Up 39 hours` | Up 39 hours | `0.0.0.0:3006->3000/tcp` |
+| `concierge-test` | `Up 42 hours` | Up 42 hours | `0.0.0.0:3003->3000/tcp` |
+| `stage-new` | `Up 42 hours` | Up 42 hours | `0.0.0.0:3005->3000/tcp` |
+| `concierge-test2` | `Up 42 hours` | Up 42 hours | `0.0.0.0:3006->3000/tcp` |
 | `stage-stage-condominio-app` | `Up 30 seconds (starting)
-10.89.3.129` | Up 30 seconds (starting) | `127.0.0.1:3002->3000/tcp, 100.126.211.117:3002->3000/tcp` |
+10.89.3.130` | Up 30 seconds (starting) | `127.0.0.1:3002->3000/tcp, 100.126.211.117:3002->3000/tcp` |
 
 ---
 
@@ -170,7 +170,7 @@ echo "" >> ""
 ## 6. Código Local en Mac
 - **Ruta:** `/Users/stefenello/development/stage-condominio-app`
 - **Branch Git:** `main`
-- **Último Commit:** `9289bed - feat(announcements): standardize company/condo selectors + load test data (2026-11-09 12:23:04 -0300)`
+- **Último Commit:** `241dc26 - fix(announcements): handle regular users without company/condo in profile (2026-11-09 14:36:57 -0300)`
 - **Archivos Pendientes de Commit:**
 ```text
 
@@ -181,21 +181,19 @@ echo "" >> ""
 ## 7. Errores Detectados en Logs de Contenedores en Piave
 ```text
 ---LOG_ERROR:svc-kong---
-10.89.1.44 - - [09/Nov/2026:15:26:33 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "50bcc303ddca9970163ba82f20a88535"
-10.89.1.44 - - [09/Nov/2026:15:26:48 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "f09fb27a53daba6f1027ca38eb47e72a"
-10.89.1.44 - - [09/Nov/2026:15:27:03 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "75eac06c4c29a8171add7742d86d9964"
+10.89.1.44 - - [09/Nov/2026:17:42:17 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "b04be31ec25b977a2e9abc35b3a2dd5b"
+10.89.1.44 - - [09/Nov/2026:17:42:33 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "f433266d29c5c01c16ceb16d190ce054"
+10.89.1.44 - - [09/Nov/2026:17:42:48 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "4dd586115b541d75de4cb918467c7870"
 ---LOG_ERROR:svc-auth---
 {"component":"api","error":"400: Could not parse request body as JSON: unexpected end of JSON input","level":"info","method":"POST","msg":"400: Could not parse request body as JSON: unexpected end of JSON input","path":"/token","referer":"https://www.ecomunity.cl","remote_addr":"10.89.1.46","request_id":"6fd6746c-de67-4330-a5d4-8089d4519f5f","time":"2026-11-07T00:31:12Z"}
 {"component":"api","duration":43057563,"error_code":"bad_json","level":"info","method":"POST","msg":"request completed","path":"/token","referer":"https://www.ecomunity.cl","remote_addr":"10.89.1.46","request_id":"6fd6746c-de67-4330-a5d4-8089d4519f5f","status":400,"time":"2026-11-07T00:31:12Z"}
 ---LOG_ERROR:condo-sb-inbucket---
-{"level":"warn","module":"rest","proto":"WebSocket","remote":"10.89.3.19:46948","error":"websocket: close 1006 (abnormal closure): unexpected EOF","time":"2026-11-08T00:38:35Z","message":"Socket error"}
 {"level":"warn","module":"rest","proto":"WebSocket","remote":"10.89.3.19:48648","error":"websocket: close 1006 (abnormal closure): unexpected EOF","time":"2026-11-08T14:25:54Z","message":"Socket error"}
 {"level":"warn","module":"rest","proto":"WebSocket","remote":"10.89.3.19:47558","error":"websocket: close 1006 (abnormal closure): unexpected EOF","time":"2026-11-09T02:42:57Z","message":"Socket error"}
+{"level":"warn","module":"rest","proto":"WebSocket","remote":"10.89.3.19:42256","error":"websocket: close 1006 (abnormal closure): unexpected EOF","time":"2026-11-09T15:32:54Z","message":"Socket error"}
 ---LOG_ERROR:condo-sb-db---
-10.89.3.77 2026-11-09 14:03:29.816 UTC [225012] postgres@postgres ERROR:  column unit_expense_bills.condominium_id does not exist at character 190
-10.89.3.77 2026-11-09 14:03:33.378 UTC [225001] postgres@postgres ERROR:  column unit_expense_bills.condominium_id does not exist at character 190
-10.89.3.77 2026-11-09 14:11:52.953 UTC [225392] postgres@postgres ERROR:  column unit_expense_bills.condominium_id does not exist at character 190
+10.89.3.77 2026-11-09 17:34:00.528 UTC [234313] postgres@postgres ERROR:  invalid input syntax for type uuid: "all"
 ---LOG_ERROR:condo-sb-auth---
-{"component":"api","error":"invalid_grant: Invalid login credentials","level":"info","method":"POST","msg":"invalid_grant: Invalid login credentials","path":"/token","referer":"http://100.126.211.117:3002/","remote_addr":"10.89.3.115","request_id":"e8aa53da-cb5b-4ba5-a306-783659dd12a9","time":"2026-11-09T13:36:08Z"}
 {"component":"api","error":"invalid_grant: Invalid Refresh Token: Refresh Token Not Found","level":"info","method":"POST","msg":"invalid_grant: Invalid Refresh Token: Refresh Token Not Found","path":"/token","referer":"http://100.126.211.117:3002/","remote_addr":"10.89.3.115","request_id":"5d33ecdb-0b38-4294-a7aa-cec7aa6eb22f","time":"2026-11-09T14:04:17Z"}
+{"component":"api","error":"invalid_grant: Invalid login credentials","level":"info","method":"POST","msg":"invalid_grant: Invalid login credentials","path":"/token","referer":"http://100.126.211.117:3002/","remote_addr":"10.89.3.115","request_id":"45313300-36d9-41d5-bb6a-ea8d8ec06c90","time":"2026-11-09T17:35:08Z"}
 ```
