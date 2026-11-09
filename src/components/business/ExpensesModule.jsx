@@ -7,6 +7,8 @@ import { useTranslation } from '../../context/I18nContext';
 import { useConfirm } from '../../hooks/useConfirm';
 import { usePermissions } from '../../hooks/usePermissions';
 import { storageService } from '../../services/storageService';
+import { billPdfService } from '../../services/billPdfService';
+import { ExpenseBillDocument } from '../expenses/ExpenseBillDocument';
 
 const CATEGORIES = ['administracion', 'mantencion', 'reparacion', 'uso_consumo', 'extraordinario'];
 
@@ -31,6 +33,7 @@ export default function ExpensesModule() {
   const [bills, setBills] = useState([]);
   const [payments, setPayments] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [viewingBill, setViewingBill] = useState(null);
 
   // Form egreso
   const [expForm, setExpForm] = useState({ category: 'administracion', description: '', supplier_name: '', supplier_rut: '', invoice_number: '', amount: '' });
@@ -291,11 +294,11 @@ export default function ExpensesModule() {
           <div style={styles.tableWrapper}>
             <table style={{ ...styles.table, minWidth: '800px' }}>
               <thead><tr style={styles.thRow}>
-                <th style={styles.th}>Unidad</th><th style={styles.th}>Ordinario</th><th style={styles.th}>Fondo reserva</th><th style={styles.th}>Cargos individuales</th><th style={styles.th}>Total</th><th style={styles.th}>Pagado</th><th style={styles.th}>Saldo</th><th style={styles.th}>Estado</th>
+                <th style={styles.th}>Unidad</th><th style={styles.th}>Ordinario</th><th style={styles.th}>Fondo reserva</th><th style={styles.th}>Cargos individuales</th><th style={styles.th}>Total</th><th style={styles.th}>Pagado</th><th style={styles.th}>Saldo</th><th style={styles.th}>Estado</th><th style={styles.th}>Colilla</th>
               </tr></thead>
               <tbody>
                 {bills.length === 0 ? (
-                  <tr><td colSpan="8" style={{ ...styles.td, textAlign: 'center', color: 'var(--text-dim)', padding: '24px' }}>Sin colillas para este periodo.</td></tr>
+                  <tr><td colSpan="9" style={{ ...styles.td, textAlign: 'center', color: 'var(--text-dim)', padding: '24px' }}>Sin colillas para este periodo.</td></tr>
                 ) : bills.map(b => (
                   <tr key={b.id} style={styles.tr}>
                     <td style={styles.td}>{b.units?.unit_number}</td>
@@ -306,6 +309,14 @@ export default function ExpensesModule() {
                     <td style={styles.td}>{fmtCLP(b.paid_amount)}</td>
                     <td style={styles.td}>{fmtCLP(b.balance)}</td>
                     <td style={styles.td}>{b.status}</td>
+                    <td style={styles.td}>
+                      <button
+                        onClick={() => setViewingBill(b)}
+                        style={styles.buttonAction}
+                      >
+                        Ver
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -380,6 +391,33 @@ export default function ExpensesModule() {
       )}
 
       {ConfirmDialogNode}
+
+      {viewingBill && (
+        <div style={{
+          position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+          backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 1000,
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          overflow: 'auto', padding: '20px',
+        }}>
+          <div style={{
+            backgroundColor: 'var(--bg-card)', borderRadius: '8px',
+            maxWidth: '850px', width: '100%', maxHeight: '90vh',
+            overflow: 'auto', padding: '20px', position: 'relative',
+          }}>
+            <button
+              onClick={() => setViewingBill(null)}
+              style={{
+                position: 'absolute', top: '12px', right: '12px',
+                background: 'transparent', border: 'none', fontSize: '20px',
+                cursor: 'pointer', color: 'var(--text-secondary)',
+              }}
+            >
+              ✕
+            </button>
+            <ExpenseBillDocument billData={viewingBill} />
+          </div>
+        </div>
+      )}
     </div>
   );
 }
