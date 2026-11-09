@@ -6,10 +6,12 @@ import { supabase } from '../../lib/supabase';
 import { appConfig } from '../../config/appConfig';
 import { businessModules } from '../../config/modules';
 import { ROLES } from '../../constants/roles';
+import { useIsMobile } from '../../hooks/useMediaQuery';
 
 export default function AppLayout({ activeTab, onSelectTab, children }) {
   const { profile, isAdmin, isSuperadmin, signOut } = useAuth();
   const [avatarUrl, setAvatarUrl] = useState('');
+  const isMobile = useIsMobile();
   const { lang, toggleLang, t } = useTranslation();
 
   const userRole = profile?.role || ROLES.USER;
@@ -79,6 +81,7 @@ export default function AppLayout({ activeTab, onSelectTab, children }) {
         Saltar al contenido principal
       </a>
       {/* SIDEBAR */}
+      {!isMobile && (
       <aside style={{
         width: '260px',
         backgroundColor: 'var(--bg-card)',
@@ -243,6 +246,7 @@ export default function AppLayout({ activeTab, onSelectTab, children }) {
           </button>
         </div>
       </aside>
+      )}
 
       {/* ÁREA CENTRAL */}
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
@@ -276,12 +280,56 @@ export default function AppLayout({ activeTab, onSelectTab, children }) {
           </div>
         </header>
 
-        <main id="main-content" style={{ padding: '28px', flex: 1, overflowY: 'auto' }}>
+        <main id="main-content" style={{ padding: '28px', flex: 1, overflowY: 'auto', paddingBottom: isMobile ? '76px' : '28px' }}>
           <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
             {children}
           </div>
         </main>
       </div>
+
+      {/* BOTTOM NAV (MOBILE) */}
+      {isMobile && (
+        <nav style={{
+          position: 'fixed', bottom: 0, left: 0, right: 0,
+          height: '64px', backgroundColor: 'var(--bg-card)',
+          borderTop: '1px solid var(--border-subtle)',
+          display: 'flex', justifyContent: 'space-around',
+          alignItems: 'center', zIndex: 1000, padding: '0 8px',
+        }}>
+          <button onClick={() => onSelectTab('home')} style={{
+            flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center',
+            gap: '2px', background: 'transparent', border: 'none', cursor: 'pointer',
+            color: activeTab === 'home' ? 'var(--primary)' : 'var(--text-secondary)',
+            fontSize: '10px', fontWeight: activeTab === 'home' ? '700' : '500',
+            padding: '6px 4px',
+          }}>
+            <span style={{ fontSize: '20px' }}>🏠</span>
+            Inicio
+          </button>
+          {availableModules.slice(0, 3).map((mod) => (
+            <button key={mod.id} onClick={() => onSelectTab(mod.id)} style={{
+              flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center',
+              gap: '2px', background: 'transparent', border: 'none', cursor: 'pointer',
+              color: activeTab === mod.id ? 'var(--primary)' : 'var(--text-secondary)',
+              fontSize: '10px', fontWeight: activeTab === mod.id ? '700' : '500',
+              padding: '6px 4px',
+            }}>
+              <span style={{ fontSize: '20px' }}>{mod.icon}</span>
+              {mod.labelKey ? t(mod.labelKey) : mod.label}
+            </button>
+          ))}
+          <button onClick={() => onSelectTab('profile')} style={{
+            flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center',
+            gap: '2px', background: 'transparent', border: 'none', cursor: 'pointer',
+            color: activeTab === 'profile' ? 'var(--primary)' : 'var(--text-secondary)',
+            fontSize: '10px', fontWeight: activeTab === 'profile' ? '700' : '500',
+            padding: '6px 4px',
+          }}>
+            <span style={{ fontSize: '20px' }}>👤</span>
+            Perfil
+          </button>
+        </nav>
+      )}
     </div>
   );
 }

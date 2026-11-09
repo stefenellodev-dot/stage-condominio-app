@@ -1,8 +1,93 @@
 import React from 'react';
+import { useIsMobile } from '../../hooks/useMediaQuery';
 import { storageService } from '../../services/storageService';
 
 export function ExpenseBillDocument({ billData }) {
   if (!billData) return null;
+
+  const isMobile = useIsMobile();
+
+  if (isMobile) {
+    const { units, profiles, expense_periods } = billData;
+    const condo = units?.condominiums;
+    const formatCLP = (val) => `$${Number(val || 0).toLocaleString('es-CL')}`;
+    const [showDetail, setShowDetail] = React.useState(false);
+    return (
+      <div style={{
+        background: 'var(--bg-card)', borderRadius: 'var(--radius-lg)',
+        padding: '20px', color: 'var(--text-main)',
+      }}>
+        <div style={{ textAlign: 'center', marginBottom: '16px' }}>
+          <div style={{ fontSize: '13px', color: 'var(--text-secondary)', marginBottom: '4px' }}>
+            {condo?.name} — {expense_periods?.period_name}
+          </div>
+          <div style={{ fontSize: '32px', fontWeight: '800', color: billData.balance > 0 ? 'var(--danger-text)' : 'var(--success-text)' }}>
+            {formatCLP(billData.balance)}
+          </div>
+          <div style={{ fontSize: '12px', color: 'var(--text-dim)', marginTop: '4px' }}>
+            Saldo pendiente
+          </div>
+        </div>
+        <div style={{
+          display: 'flex', justifyContent: 'space-between', padding: '10px 0',
+          borderBottom: '1px solid var(--border-subtle)', fontSize: '13px',
+        }}>
+          <span style={{ color: 'var(--text-secondary)' }}>Vencimiento</span>
+          <span style={{ fontWeight: '600', color: 'var(--danger-text)' }}>{expense_periods?.due_date}</span>
+        </div>
+        <div style={{
+          display: 'flex', justifyContent: 'space-between', padding: '10px 0',
+          borderBottom: '1px solid var(--border-subtle)', fontSize: '13px',
+        }}>
+          <span style={{ color: 'var(--text-secondary)' }}>Estado</span>
+          <span style={{ fontWeight: '600', textTransform: 'uppercase' }}>{billData.status}</span>
+        </div>
+        <button
+          onClick={() => setShowDetail(!showDetail)}
+          style={{
+            width: '100%', padding: '10px', marginTop: '12px',
+            background: 'var(--bg-surface)', border: '1px solid var(--border-subtle)',
+            borderRadius: 'var(--radius-md)', color: 'var(--text-main)',
+            cursor: 'pointer', fontSize: '13px', fontWeight: '600',
+          }}
+        >
+          {showDetail ? '▲ Ocultar desglose' : '▼ Ver desglose'}
+        </button>
+        {showDetail && (
+          <div style={{ marginTop: '12px', fontSize: '13px' }}>
+            {[
+              ['Gasto común ordinario', billData.base_aliquot_amount],
+              ['Fondo de reserva', billData.reserve_fund_amount],
+              ['Cargos particulares', billData.individual_charges_amount],
+              ['Deuda anterior', billData.previous_debt_amount],
+              ['Intereses por mora', billData.interest_amount],
+              ['Total a pagar', billData.total_amount],
+            ].map(([label, val]) => (
+              <div key={label} style={{
+                display: 'flex', justifyContent: 'space-between', padding: '6px 0',
+                borderBottom: '1px solid var(--border-subtle)',
+              }}>
+                <span style={{ color: 'var(--text-secondary)' }}>{label}</span>
+                <span style={{ fontWeight: '600' }}>{formatCLP(val)}</span>
+              </div>
+            ))}
+          </div>
+        )}
+        <div style={{ display: 'flex', gap: '8px', marginTop: '16px' }}>
+          <button
+            onClick={() => window.print()}
+            style={{
+              flex: 1, padding: '12px', background: 'var(--primary)',
+              color: '#fff', border: 'none', borderRadius: 'var(--radius-md)',
+              cursor: 'pointer', fontWeight: '700', fontSize: '14px',
+            }}
+          >
+            Descargar PDF
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   const { units, profiles, expense_periods } = billData;
   const condo = units?.condominiums;
