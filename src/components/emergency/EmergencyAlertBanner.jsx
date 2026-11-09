@@ -22,18 +22,9 @@ export function EmergencyAlertBanner({ condominiumId, userRole, userId }) {
 
     fetchActiveAlert();
 
-    const channel = supabase
-      .channel('emergency-alerts')
-      .on(
-        'postgres_changes',
-        { event: '*', schema: 'public', table: 'emergency_broadcasts', filter: `condominium_id=eq.${condominiumId}` },
-        () => fetchActiveAlert()
-      )
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(channel);
-    };
+    // Polling cada 30s (realtime no disponible en este entorno)
+    const interval = setInterval(fetchActiveAlert, 30000);
+    return () => clearInterval(interval);
   }, [condominiumId]);
 
   if (!activeAlert) return null;
