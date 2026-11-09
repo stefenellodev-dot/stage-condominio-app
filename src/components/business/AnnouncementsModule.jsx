@@ -26,6 +26,7 @@ export default function AnnouncementsModule() {
   const canBroadcast = isAdmin || isSuperadmin || profile?.role === ROLES.CONCIERGE;
 
   useEffect(() => {
+    if (!profile) return;
     (async () => {
       // For admin/superadmin: load companies. For regular users: load their condo directly.
       const isPrivileged = isAdmin || isSuperadmin || profile?.role === ROLES.CONCIERGE;
