@@ -57,7 +57,7 @@ export default function HomeModule() {
     const condoId = profile?.condominium_id;
     if (!condoId) { setKpis({}); return; }
     const [bills, certs, expenses] = await Promise.all([
-      supabase.from('unit_expense_bills').select('id, status, balance', { count: 'exact' }).eq('condominium_id', condoId).is('deleted_at', null),
+      supabase.from('unit_expense_bills').select('id, status, balance, units!inner(condominium_id)', { count: 'exact' }).eq('units.condominium_id', condoId).is('deleted_at', null),
       supabase.from('official_certifications').select('id, status', { count: 'exact' }).eq('condominium_id', condoId).is('deleted_at', null),
       supabase.from('expenses').select('amount', { count: 'exact' }).eq('condominium_id', condoId).is('deleted_at', null),
     ]);
