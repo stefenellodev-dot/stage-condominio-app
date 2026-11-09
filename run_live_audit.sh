@@ -213,7 +213,18 @@ cat << EOF > "$FILE_ESTADO"
 ## 1. Servidor Físico Piave (Host y Recursos)
 $(sed -n '/===SECTION_HOST_METRICS===/,/===SECTION_CONTAINERS===/p' "$TMP_REMOTE" | grep -v '===' | awk -F'|' '{print "- **" $1 ":** `" $2 "`"}')
 
-### 1.1 Base de Datos Central (\`condo-sb-db\`)
+# Verificar buckets de storage
+echo "### 1.2 Storage Buckets (condo-sb-storage)" >> "$TMPFILE"
+echo "" >> "$TMPFILE"
+for bucket in colillas comprobantes-pago certificaciones evidencias-infracciones actas-asambleas; do
+  count=$(podman exec -i condo-sb-db psql -U postgres -d postgres -t -A -c "SELECT COUNT(*) FROM storage.buckets WHERE id = '$bucket';" 2>/dev/null | tr -d ' ')
+  if [ "$count" = "1" ]; then
+    echo "- Bucket \`$bucket\`: ✅ registrado" >> "$TMPFILE"
+  else
+    echo "- Bucket \`$bucket\`: ❌ no encontrado" >> "$TMPFILE"
+  fi
+done
+echo "" >> "$TMPFILE"
 $(sed -n '/===SECTION_DB_METRICS===/,/===SECTION_TABLES_ROW_COUNTS===/p' "$TMP_REMOTE" | grep -v '===' | awk -F'|' '{print "- **Base de Datos:** `" $1 "`\n- **Tamaño en Disco:** `" $2 "`\n- **Conexiones Activas:** `" $3 "`"}')
 
 ---
