@@ -160,12 +160,31 @@ export default function CommonAreasModule() {
     (async () => {
       const { data: companiesData } = await supabase.from('management_companies').select('id,legal_name,fantasy_name').is('deleted_at', null).order('legal_name');
       setCompanies(companiesData || []);
-      if (companiesData && companiesData.length) setSelectedCompany(companiesData[0].id);
+      if (companiesData && companiesData.length) {
+        setSelectedCompany(companiesData[0].id);
+      } else {
+        // Regular user: load their condo directly
+        const { user: u } = await supabase.auth.getUser();
+        let condoId = null;
+        const { data: profile } = await supabase.from('profiles').select('condominium_id').eq('id', u?.user?.id).maybeSingle();
+        if (profile?.condominium_id) condoId = profile.condominium_id;
+        if (!condoId) {
+          const { data: units } = await supabase.from('units').select('condominium_id').eq('owner_id', u?.user?.id).limit(1);
+          if (units && units.length) condoId = units[0].condominium_id;
+        }
+        if (condoId) {
+          const { data: condo } = await supabase.from('condominiums').select('id, name, management_company_id').eq('id', condoId).is('deleted_at', null).maybeSingle();
+          if (condo) {
+            setCondominiums([condo]);
+            setSelectedCondo(condo.id);
+          }
+        }
+      }
     })();
   }, []);
 
   useEffect(() => {
-    if (!selectedCompany) return;
+    if (!selectedCompany || selectedCompany === 'all') return;
     (async () => {
       const { data } = await supabase.from('condominiums').select('id, name, management_company_id').eq('management_company_id', selectedCompany).is('deleted_at', null).order('name', { ascending: true });
       setCondominiums(data || []);
