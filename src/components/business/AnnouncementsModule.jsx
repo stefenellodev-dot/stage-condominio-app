@@ -28,14 +28,16 @@ export default function AnnouncementsModule() {
   useEffect(() => {
     if (!profile) return;
     (async () => {
-      // For admin/superadmin: load companies. For regular users: load their condo directly.
       const isPrivileged = isAdmin || isSuperadmin || profile?.role === ROLES.CONCIERGE;
       if (isPrivileged) {
         const { data } = await supabase.from('management_companies').select('id, legal_name, fantasy_name').is('deleted_at', null).order('legal_name');
         setCompanies(data || []);
         if (data && data.length) setSelectedCompany(data[0].id);
+      }
+      // Load condos: privileged via company, regular via units
+      if (isPrivileged) {
+        // will be loaded by selectedCompany effect
       } else {
-        // Regular user: find their condominium via units or profile
         let condoId = profile?.condominium_id;
         if (!condoId) {
           const { data: units } = await supabase.from('units').select('condominium_id').eq('owner_id', profile.id).limit(1);
@@ -46,31 +48,20 @@ export default function AnnouncementsModule() {
           if (condo) {
             setCondos([condo]);
             setSelectedCondo(condo.id);
-            // Try to set company
-            if (condo.management_company_id) {
-              const { data: comp } = await supabase.from('management_companies').select('id, legal_name, fantasy_name').eq('id', condo.management_company_id).maybeSingle();
-              if (comp) { setCompanies([comp]); setSelectedCompany(comp.id); }
-            }
           }
         }
       }
     })();
-  }, []);
-
-  useEffect(() => {
-    if (!selectedCompany || (isAdmin || isSuperadmin || profile?.role === ROLES.CONCIERGE)) return;
-    // Already handled above for regular users
-  }, [selectedCompany]);
+  }, [profile]);
 
   useEffect(() => {
     if (!selectedCompany) return;
-    if (isAdmin || isSuperadmin || profile?.role === ROLES.CONCIERGE) {
-      (async () => {
-        const { data } = await supabase.from('condominiums').select('id, name, rut, management_company_id').eq('management_company_id', selectedCompany).is('deleted_at', null).order('name');
-        setCondos(data || []);
-        if (data && data.length && !selectedCondo) setSelectedCondo(data[0].id);
-      })();
-    }
+    if (!(isAdmin || isSuperadmin || profile?.role === ROLES.CONCIERGE)) return;
+    (async () => {
+      const { data } = await supabase.from('condominiums').select('id, name, rut, management_company_id').eq('management_company_id', selectedCompany).is('deleted_at', null).order('name');
+      setCondos(data || []);
+      if (data && data.length && !selectedCondo) setSelectedCondo(data[0].id);
+    })();
   }, [selectedCompany]);
 
   useEffect(() => {
