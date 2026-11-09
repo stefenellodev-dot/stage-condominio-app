@@ -159,12 +159,19 @@ export default function AnnouncementsModule() {
   return (
     <div>
       <div style={{ display: 'flex', gap: '12px', marginBottom: '16px', flexWrap: 'wrap', alignItems: 'center' }}>
-        <select value={selectedCompany} onChange={e => setSelectedCompany(e.target.value)} style={styles.select}>
-          {companies.map(c => <option key={c.id} value={c.id}>{c.fantasy_name || c.legal_name}</option>)}
-        </select>
-        <select value={selectedCondo} onChange={e => setSelectedCondo(e.target.value)} style={styles.select}>
-          {condos.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
-        </select>
+        {companies.length > 1 && (
+          <select value={selectedCompany} onChange={e => setSelectedCompany(e.target.value)} style={styles.select}>
+            {companies.map(c => <option key={c.id} value={c.id}>{c.fantasy_name || c.legal_name}</option>)}
+          </select>
+        )}
+        {condos.length > 1 && (
+          <select value={selectedCondo} onChange={e => setSelectedCondo(e.target.value)} style={styles.select}>
+            {condos.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+          </select>
+        )}
+        {condos.length === 1 && (
+          <span style={{ fontSize: '14px', fontWeight: '600', color: 'var(--text-main)' }}>{condos[0].name}</span>
+        )}
         <div style={{ display: 'flex', gap: '8px' }}>
           <button onClick={() => setTab('circulares')} style={{ ...styles.buttonAction, backgroundColor: tab === 'circulares' ? 'var(--primary)' : 'var(--bg-surface)', color: tab === 'circulares' ? '#fff' : 'var(--text-main)' }}>📢 Circulares</button>
           <button onClick={() => setTab('emergencia')} style={{ ...styles.buttonAction, backgroundColor: tab === 'emergencia' ? 'var(--primary)' : 'var(--bg-surface)', color: tab === 'emergencia' ? '#fff' : 'var(--text-main)' }}>🚨 Plan de Emergencia</button>
