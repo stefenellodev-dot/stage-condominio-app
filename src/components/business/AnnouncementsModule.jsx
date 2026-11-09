@@ -41,13 +41,13 @@ export default function AnnouncementsModule() {
           if (units && units.length) condoId = units[0].condominium_id;
         }
         if (condoId) {
-          const { data: condo } = await supabase.from('condominiums').select('id, name, rut, management_company_id').eq('id', condoId).is('deleted_at', null).single();
+          const { data: condo } = await supabase.from('condominiums').select('id, name, rut, management_company_id').eq('id', condoId).is('deleted_at', null).maybeSingle();
           if (condo) {
             setCondos([condo]);
             setSelectedCondo(condo.id);
             // Try to set company
             if (condo.management_company_id) {
-              const { data: comp } = await supabase.from('management_companies').select('id, legal_name, fantasy_name').eq('id', condo.management_company_id).single();
+              const { data: comp } = await supabase.from('management_companies').select('id, legal_name, fantasy_name').eq('id', condo.management_company_id).maybeSingle();
               if (comp) { setCompanies([comp]); setSelectedCompany(comp.id); }
             }
           }
