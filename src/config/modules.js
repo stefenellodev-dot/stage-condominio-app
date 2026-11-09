@@ -60,6 +60,13 @@ export const businessModules = [
     roles: [ROLES.SUPERADMIN, ROLES.ADMIN, ROLES.USER],
   },
   {
+    id: 'security_staff',
+    labelKey: 'nav.security_staff',
+    icon: '🛡️',
+    component: lazy(() => import('../components/security/SecurityStaffModule')),
+    roles: [ROLES.SUPERADMIN, ROLES.ADMIN, ROLES.CONCIERGE],
+  },
+  {
     id: 'announcements',
     labelKey: 'nav.announcements',
     icon: '📢',

@@ -30,6 +30,7 @@ export const en = {
     maintenance: 'Maintenance & Certifications',
     assemblies: 'Assemblies & Voting',
     expenses: 'Expenses & Finance',
+    security_staff: 'Security & OS-10',
     announcements: 'Community & Emergencies',
   },
   roles: {
