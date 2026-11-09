@@ -9,6 +9,8 @@ export default function AnnouncementsModule() {
   const { profile, isAdmin, isSuperadmin } = useAuth();
   const isMobile = useIsMobile();
   const [tab, setTab] = useState('circulares');
+  const [companies, setCompanies] = useState([]);
+  const [selectedCompany, setSelectedCompany] = useState('');
   const [condos, setCondos] = useState([]);
   const [selectedCondo, setSelectedCondo] = useState('');
   const [announcements, setAnnouncements] = useState([]);
@@ -24,8 +26,21 @@ export default function AnnouncementsModule() {
   const canBroadcast = isAdmin || isSuperadmin || profile?.role === ROLES.CONCIERGE;
 
   useEffect(() => {
-    loadCondos();
+    (async () => {
+      const { data } = await supabase.from('management_companies').select('id, legal_name, fantasy_name').is('deleted_at', null).order('legal_name');
+      setCompanies(data || []);
+      if (data && data.length) setSelectedCompany(data[0].id);
+    })();
   }, []);
+
+  useEffect(() => {
+    if (!selectedCompany) return;
+    (async () => {
+      const { data } = await supabase.from('condominiums').select('id, name, rut, management_company_id').eq('management_company_id', selectedCompany).is('deleted_at', null).order('name');
+      setCondos(data || []);
+      if (data && data.length) setSelectedCondo(data[0].id);
+    })();
+  }, [selectedCompany]);
 
   useEffect(() => {
     if (selectedCondo) {
@@ -34,11 +49,7 @@ export default function AnnouncementsModule() {
     }
   }, [selectedCondo]);
 
-  const loadCondos = async () => {
-    const { data } = await supabase.from('condominiums').select('id, name').order('name');
-    setCondos(data || []);
-    if (data && data.length > 0) setSelectedCondo(data[0].id);
-  };
+  const loadCondos = async () => {};
 
   const loadAnnouncements = async () => {
     setLoading(true);
@@ -118,6 +129,9 @@ export default function AnnouncementsModule() {
   return (
     <div>
       <div style={{ display: 'flex', gap: '12px', marginBottom: '16px', flexWrap: 'wrap', alignItems: 'center' }}>
+        <select value={selectedCompany} onChange={e => setSelectedCompany(e.target.value)} style={styles.select}>
+          {companies.map(c => <option key={c.id} value={c.id}>{c.fantasy_name || c.legal_name}</option>)}
+        </select>
         <select value={selectedCondo} onChange={e => setSelectedCondo(e.target.value)} style={styles.select}>
           {condos.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
         </select>
