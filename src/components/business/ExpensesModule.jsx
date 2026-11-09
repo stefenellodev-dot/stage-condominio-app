@@ -6,6 +6,7 @@ import { useToast } from '../../context/ToastContext';
 import { useTranslation } from '../../context/I18nContext';
 import { useConfirm } from '../../hooks/useConfirm';
 import { usePermissions } from '../../hooks/usePermissions';
+import { storageService } from '../../services/storageService';
 
 const CATEGORIES = ['administracion', 'mantencion', 'reparacion', 'uso_consumo', 'extraordinario'];
 
@@ -37,6 +38,7 @@ export default function ExpensesModule() {
 
   // Form pago
   const [payForm, setPayForm] = useState({ bill_id: '', amount: '', payment_method: 'transferencia', transaction_number: '', voucher_url: '' });
+  const [payFile, setPayFile] = useState(null);
   const [savingPay, setSavingPay] = useState(false);
 
   useEffect(() => {
@@ -143,6 +145,23 @@ export default function ExpensesModule() {
     if (!payForm.bill_id || !payForm.amount) { showError('Selecciona una colilla y un monto'); return; }
     setSavingPay(true);
     const bill = bills.find(b => b.id === payForm.bill_id);
+
+    let voucherPath = payForm.voucher_url.trim() || null;
+    if (payFile) {
+      try {
+        voucherPath = await storageService.uploadPaymentVoucher({
+          condominiumId: selectedCondo,
+          periodId: selectedPeriod,
+          unitId: bill?.unit_id,
+          file: payFile,
+        });
+      } catch (err) {
+        setSavingPay(false);
+        showError(err.message || 'Error al subir el comprobante.');
+        return;
+      }
+    }
+
     const { error } = await supabase.from('bill_payments').insert({
       bill_id: payForm.bill_id,
       unit_id: bill?.unit_id,
@@ -150,12 +169,13 @@ export default function ExpensesModule() {
       amount: parseInt(payForm.amount, 10),
       payment_method: payForm.payment_method,
       transaction_number: payForm.transaction_number.trim() || null,
-      voucher_url: payForm.voucher_url.trim() || null,
+      voucher_url: voucherPath,
     });
     setSavingPay(false);
     if (error) { showError(error.message); return; }
     showSuccess('Pago registrado');
     setPayForm({ bill_id: '', amount: '', payment_method: 'transferencia', transaction_number: '', voucher_url: '' });
+    setPayFile(null);
     loadBills().then(b => loadPayments(b));
   };
 
@@ -313,7 +333,7 @@ export default function ExpensesModule() {
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginTop: '8px' }}>
                 <input placeholder="Nº operación" value={payForm.transaction_number} onChange={e => setPayForm({ ...payForm, transaction_number: e.target.value })} style={styles.input} />
-                <input placeholder="URL comprobante" value={payForm.voucher_url} onChange={e => setPayForm({ ...payForm, voucher_url: e.target.value })} style={styles.input} />
+                <input type="file" accept=".jpg,.jpeg,.png,.pdf" onChange={e => setPayFile(e.target.files[0])} style={styles.input} />
               </div>
               <button type="submit" disabled={savingPay} style={{ ...styles.button, marginTop: '10px' }}>{savingPay ? 'Guardando…' : 'Registrar pago'}</button>
             </form>
@@ -321,11 +341,11 @@ export default function ExpensesModule() {
           <div style={styles.tableWrapper}>
             <table style={{ ...styles.table, minWidth: '700px' }}>
               <thead><tr style={styles.thRow}>
-                <th style={styles.th}>Unidad</th><th style={styles.th}>Monto</th><th style={styles.th}>Método</th><th style={styles.th}>Nº operación</th><th style={styles.th}>Fecha</th><th style={styles.th}>Estado</th>
+                <th style={styles.th}>Unidad</th><th style={styles.th}>Monto</th><th style={styles.th}>Método</th><th style={styles.th}>Nº operación</th><th style={styles.th}>Fecha</th><th style={styles.th}>Estado</th><th style={styles.th}>Comprobante</th>
               </tr></thead>
               <tbody>
                 {payments.length === 0 ? (
-                  <tr><td colSpan="6" style={{ ...styles.td, textAlign: 'center', color: 'var(--text-dim)', padding: '24px' }}>Sin pagos registrados.</td></tr>
+                  <tr><td colSpan="7" style={{ ...styles.td, textAlign: 'center', color: 'var(--text-dim)', padding: '24px' }}>Sin pagos registrados.</td></tr>
                 ) : payments.map(p => (
                   <tr key={p.id} style={styles.tr}>
                     <td style={styles.td}>{p.unit_expense_bills?.units?.unit_number}</td>
@@ -334,6 +354,23 @@ export default function ExpensesModule() {
                     <td style={styles.td}>{p.transaction_number || '—'}</td>
                     <td style={styles.td}>{p.payment_date}</td>
                     <td style={styles.td}>{p.status}</td>
+                    <td style={styles.td}>
+                      {p.voucher_url ? (
+                        <button
+                          onClick={async () => {
+                            try {
+                              const url = await storageService.getSignedDownloadUrl('comprobantes-pago', p.voucher_url);
+                              window.open(url, '_blank');
+                            } catch (err) {
+                              showError(err.message);
+                            }
+                          }}
+                          style={styles.buttonAction}
+                        >
+                          Ver
+                        </button>
+                      ) : '—'}
+                    </td>
                   </tr>
                 ))}
               </tbody>

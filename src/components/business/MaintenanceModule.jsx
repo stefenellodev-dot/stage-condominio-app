@@ -5,6 +5,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useToast } from '../../context/ToastContext';
 import { useTranslation } from '../../context/I18nContext';
 import { usePermissions } from '../../hooks/usePermissions';
+import { storageService } from '../../services/storageService';
 
 const CATEGORIES = ['transporte_vertical', 'gas_calderas', 'red_humeda_seca', 'sala_bombas', 'grupo_electrogeno', 'portones_accesos', 'seguridad_cctv'];
 const CRITICALITY = ['critica', 'alta', 'media', 'baja'];
@@ -42,6 +43,7 @@ export default function MaintenanceModule() {
 
   // Form certificación
   const [certForm, setCertForm] = useState({ asset_id: '', certification_type: 'sello_minvu_ascensores', certificate_number: '', issuing_entity: '', certifying_company_name: '', certifying_company_rut: '', inspector_name: '', inspection_date: '', expiration_date: '', seal_result: 'verde_aprobado', observations: '', document_url: '' });
+  const [certFile, setCertFile] = useState(null);
   const [savingCert, setSavingCert] = useState(false);
 
   // Form bitácora
@@ -135,6 +137,24 @@ export default function MaintenanceModule() {
     e.preventDefault();
     if (!certForm.certificate_number.trim() || !certForm.inspection_date || !certForm.expiration_date) { showError('Folio, fecha de inspección y vencimiento son obligatorios'); return; }
     setSavingCert(true);
+
+    let documentPath = certForm.document_url.trim() || null;
+    if (certFile) {
+      try {
+        documentPath = await storageService.uploadTechnicalCertification({
+          condominiumId: selectedCondo,
+          assetId: certForm.asset_id || 'general',
+          certType: certForm.certification_type,
+          folio: certForm.certificate_number.trim(),
+          file: certFile,
+        });
+      } catch (err) {
+        setSavingCert(false);
+        showError(err.message || 'Error al subir el documento.');
+        return;
+      }
+    }
+
     const { error } = await supabase.from('official_certifications').insert({
       condominium_id: selectedCondo,
       asset_id: certForm.asset_id || null,
@@ -148,12 +168,13 @@ export default function MaintenanceModule() {
       expiration_date: certForm.expiration_date,
       seal_result: certForm.seal_result,
       observations: certForm.observations.trim() || null,
-      document_url: certForm.document_url.trim() || null,
+      document_url: documentPath,
     });
     setSavingCert(false);
     if (error) { showError(error.message); return; }
     showSuccess('Certificación registrada');
     setCertForm({ asset_id: '', certification_type: 'sello_minvu_ascensores', certificate_number: '', issuing_entity: '', certifying_company_name: '', certifying_company_rut: '', inspector_name: '', inspection_date: '', expiration_date: '', seal_result: 'verde_aprobado', observations: '', document_url: '' });
+    setCertFile(null);
     loadCerts();
   };
 
@@ -320,17 +341,21 @@ export default function MaintenanceModule() {
               <div style={{ marginTop: '8px' }}>
                 <input placeholder="Observaciones" value={certForm.observations} onChange={e => setCertForm({ ...certForm, observations: e.target.value })} style={styles.input} />
               </div>
+              <div style={{ marginTop: '8px' }}>
+                <label style={styles.label}>Documento (PDF, JPG, PNG)</label>
+                <input type="file" accept=".pdf,.jpg,.jpeg,.png" onChange={e => setCertFile(e.target.files[0])} style={styles.input} />
+              </div>
               <button type="submit" disabled={savingCert} style={{ ...styles.button, marginTop: '10px' }}>{savingCert ? 'Guardando…' : 'Registrar certificación'}</button>
             </form>
           )}
           <div style={styles.tableWrapper}>
             <table style={{ ...styles.table, minWidth: '900px' }}>
               <thead><tr style={styles.thRow}>
-                <th style={styles.th}>Activo</th><th style={styles.th}>Tipo</th><th style={styles.th}>Folio</th><th style={styles.th}>Entidad</th><th style={styles.th}>Empresa certificadora</th><th style={styles.th}>Inspección</th><th style={styles.th}>Vencimiento</th><th style={styles.th}>Sello</th><th style={styles.th}>Estado</th>
+                <th style={styles.th}>Activo</th><th style={styles.th}>Tipo</th><th style={styles.th}>Folio</th><th style={styles.th}>Entidad</th><th style={styles.th}>Empresa certificadora</th><th style={styles.th}>Inspección</th><th style={styles.th}>Vencimiento</th><th style={styles.th}>Sello</th><th style={styles.th}>Estado</th><th style={styles.th}>Doc</th>
               </tr></thead>
               <tbody>
                 {certs.length === 0 ? (
-                  <tr><td colSpan="9" style={{ ...styles.td, textAlign: 'center', color: 'var(--text-dim)', padding: '24px' }}>Sin certificaciones registradas.</td></tr>
+                  <tr><td colSpan="10" style={{ ...styles.td, textAlign: 'center', color: 'var(--text-dim)', padding: '24px' }}>Sin certificaciones registradas.</td></tr>
                 ) : certs.map(c => (
                   <tr key={c.id} style={styles.tr}>
                     <td style={styles.td}>{c.equipment_assets?.name || '—'}</td>
@@ -342,6 +367,23 @@ export default function MaintenanceModule() {
                     <td style={styles.td}>{c.expiration_date}</td>
                     <td style={{ ...styles.td, color: sealColor(c.seal_result) }}>{c.seal_result}</td>
                     <td style={{ ...styles.td, color: statusColor(c.status), fontWeight: 700 }}>{c.status}</td>
+                    <td style={styles.td}>
+                      {c.document_url ? (
+                        <button
+                          onClick={async () => {
+                            try {
+                              const url = await storageService.getSignedDownloadUrl('certificaciones', c.document_url);
+                              window.open(url, '_blank');
+                            } catch (err) {
+                              showError(err.message);
+                            }
+                          }}
+                          style={styles.buttonAction}
+                        >
+                          Ver doc
+                        </button>
+                      ) : '—'}
+                    </td>
                   </tr>
                 ))}
               </tbody>

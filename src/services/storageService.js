@@ -178,5 +178,3 @@ export const storageService = {
     return true;
   },
 };
-EOF
-echo "Created storageService.js"
