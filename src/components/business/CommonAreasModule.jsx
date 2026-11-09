@@ -164,13 +164,15 @@ export default function CommonAreasModule() {
         setSelectedCompany(companiesData[0].id);
       } else {
         // Regular user: load their condo directly
-        const { user: u } = await supabase.auth.getUser();
+        const uid = user?.id;
         let condoId = null;
-        const { data: profile } = await supabase.from('profiles').select('condominium_id').eq('id', u?.user?.id).maybeSingle();
-        if (profile?.condominium_id) condoId = profile.condominium_id;
-        if (!condoId) {
-          const { data: units } = await supabase.from('units').select('condominium_id').eq('owner_id', u?.user?.id).limit(1);
-          if (units && units.length) condoId = units[0].condominium_id;
+        if (uid) {
+          const { data: profile } = await supabase.from('profiles').select('condominium_id').eq('id', uid).maybeSingle();
+          if (profile?.condominium_id) condoId = profile.condominium_id;
+          if (!condoId) {
+            const { data: units } = await supabase.from('units').select('condominium_id').eq('owner_id', uid).limit(1);
+            if (units && units.length) condoId = units[0].condominium_id;
+          }
         }
         if (condoId) {
           const { data: condo } = await supabase.from('condominiums').select('id, name, management_company_id').eq('id', condoId).is('deleted_at', null).maybeSingle();
