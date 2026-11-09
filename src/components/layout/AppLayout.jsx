@@ -330,6 +330,16 @@ export default function AppLayout({ activeTab, onSelectTab, children }) {
             <span style={{ fontSize: '20px' }}>👤</span>
             Perfil
           </button>
+          <button onClick={signOut} style={{
+            flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center',
+            gap: '2px', background: 'transparent', border: 'none', cursor: 'pointer',
+            color: 'var(--danger-text)',
+            fontSize: '10px', fontWeight: '500',
+            padding: '6px 4px',
+          }}>
+            <span style={{ fontSize: '20px' }}>⎋</span>
+            Salir
+          </button>
         </nav>
       )}
     </div>
