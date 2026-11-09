@@ -30,6 +30,7 @@ export const en = {
     maintenance: 'Maintenance & Certifications',
     assemblies: 'Assemblies & Voting',
     expenses: 'Expenses & Finance',
+    announcements: 'Community & Emergencies',
   },
   roles: {
     superadmin: 'superadmin',

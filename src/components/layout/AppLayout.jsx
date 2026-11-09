@@ -5,6 +5,7 @@ import { styles } from '../../styles/theme';
 import { supabase } from '../../lib/supabase';
 import { appConfig } from '../../config/appConfig';
 import { businessModules } from '../../config/modules';
+import { EmergencyAlertBanner } from '../emergency/EmergencyAlertBanner';
 import { ROLES } from '../../constants/roles';
 import { useIsMobile } from '../../hooks/useMediaQuery';
 
@@ -280,6 +281,7 @@ export default function AppLayout({ activeTab, onSelectTab, children }) {
           </div>
         </header>
 
+        <EmergencyAlertBanner condominiumId={profile?.condominium_id} userRole={profile?.role} userId={profile?.id} />
         <main id="main-content" style={{ padding: '28px', flex: 1, overflowY: 'auto', paddingBottom: isMobile ? '76px' : '28px' }}>
           <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
             {children}

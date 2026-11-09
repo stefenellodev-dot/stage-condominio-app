@@ -30,6 +30,7 @@ export const es = {
     maintenance: 'Mantenciones y Certificaciones',
     assemblies: 'Asambleas y Votaciones',
     expenses: 'Gastos Comunes',
+    announcements: 'Comunidad y Emergencias',
   },
   roles: {
     superadmin: 'superadmin',

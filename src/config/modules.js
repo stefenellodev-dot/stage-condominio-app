@@ -60,6 +60,13 @@ export const businessModules = [
     roles: [ROLES.SUPERADMIN, ROLES.ADMIN, ROLES.USER],
   },
   {
+    id: 'announcements',
+    labelKey: 'nav.announcements',
+    icon: '📢',
+    component: lazy(() => import('../components/business/AnnouncementsModule')),
+    roles: [ROLES.SUPERADMIN, ROLES.ADMIN, ROLES.CONCIERGE, ROLES.USER],
+  },
+  {
     id: 'users',
     labelKey: 'nav.users_management',
     icon: '👥',
