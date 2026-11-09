@@ -1,5 +1,5 @@
 # Estado del Sistema: Mac (Código) vs Piave (Despliegue e Infraestructura)
-**Fecha de levantamiento:** 2026-11-09 19:52:09
+**Fecha de levantamiento:** 2026-11-09 20:03:26
 **Servidor Remoto (Infraestructura y Producción):** piave (100.126.211.117)
 **Host Local (Desarrollo):** dstefene1-mac
 
@@ -8,9 +8,9 @@
 ## 1. Servidor Físico Piave (Host y Recursos)
 - **HOSTNAME:** `piave`
 - **KERNEL:** `6.8.0-139-generic`
-- **UPTIME:** `up 6 weeks, 6 days, 6 hours, 10 minutes`
+- **UPTIME:** `up 6 weeks, 6 days, 6 hours, 21 minutes`
 - **DISK_USAGE:** `58G/232G (27% en uso)`
-- **RAM_USAGE:** `2772MB / 7829MB (35.4%)`
+- **RAM_USAGE:** `2784MB / 7829MB (35.6%)`
 - **PODMAN_VER:** `podman version 4.9.3`
 
 # Verificar buckets de storage
@@ -140,11 +140,11 @@ echo "" >> ""
 10.89.0.42` | Up 2 days | `` |
 | `fin-engine-agent-pedro` | `Up 2 days
 10.89.0.43` | Up 2 days | `` |
-| `concierge-test` | `Up 47 hours` | Up 47 hours | `0.0.0.0:3003->3000/tcp` |
+| `concierge-test` | `Up 2 days` | Up 2 days | `0.0.0.0:3003->3000/tcp` |
 | `stage-new` | `Up 47 hours` | Up 47 hours | `0.0.0.0:3005->3000/tcp` |
 | `concierge-test2` | `Up 47 hours` | Up 47 hours | `0.0.0.0:3006->3000/tcp` |
-| `stage-stage-condominio-app` | `Up 31 seconds (starting)
-10.89.3.137` | Up 31 seconds (starting) | `127.0.0.1:3002->3000/tcp, 100.126.211.117:3002->3000/tcp` |
+| `stage-stage-condominio-app` | `Up 11 minutes (healthy)
+10.89.3.137` | Up 11 minutes (healthy) | `127.0.0.1:3002->3000/tcp, 100.126.211.117:3002->3000/tcp` |
 
 ---
 
@@ -170,7 +170,7 @@ echo "" >> ""
 ## 6. Código Local en Mac
 - **Ruta:** `/Users/stefenello/development/stage-condominio-app`
 - **Branch Git:** `main`
-- **Último Commit:** `e0f9f98 - fix(common_areas): use auth user id instead of supabase.auth.getUser() (2026-11-09 19:47:08 -0300)`
+- **Último Commit:** `6e9d8c1 - docs: live audit after auth user id fix (2026-11-09 19:53:45 -0300)`
 - **Archivos Pendientes de Commit:**
 ```text
 
@@ -181,9 +181,9 @@ echo "" >> ""
 ## 7. Errores Detectados en Logs de Contenedores en Piave
 ```text
 ---LOG_ERROR:svc-kong---
-10.89.1.44 - - [09/Nov/2026:22:52:25 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "afaaaa08d228f176eb47063ca400b843"
-10.89.1.44 - - [09/Nov/2026:22:52:41 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "f0ab1e267da80116f8579d3411c9820c"
-10.89.1.44 - - [09/Nov/2026:22:52:56 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "fb18b139a281b73b7c6e735d2a6d1122"
+10.89.1.44 - - [09/Nov/2026:23:03:57 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=1&select=created_at HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "2affea11cc23bd015b38022f04f6cc6d"
+10.89.1.44 - - [09/Nov/2026:23:03:58 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "ca791354b3a7a44e75a08b6a6d93e430"
+10.89.1.44 - - [09/Nov/2026:23:04:13 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "090be87fcf8959644a01ae0aee4e942f"
 ---LOG_ERROR:condo-sb-inbucket---
 {"level":"warn","module":"rest","proto":"WebSocket","remote":"10.89.3.19:47558","error":"websocket: close 1006 (abnormal closure): unexpected EOF","time":"2026-11-09T02:42:57Z","message":"Socket error"}
 {"level":"warn","module":"rest","proto":"WebSocket","remote":"10.89.3.19:42256","error":"websocket: close 1006 (abnormal closure): unexpected EOF","time":"2026-11-09T15:32:54Z","message":"Socket error"}
