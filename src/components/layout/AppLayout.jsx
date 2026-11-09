@@ -118,6 +118,12 @@ export default function AppLayout({ activeTab, onSelectTab, children }) {
           <nav style={{ padding: '12px 10px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
             {/* ZONA 1: APLICACIÓN / NEGOCIO */}
             <div style={sectionHeaderStyle}>{t('nav.app_section')}</div>
+            <button
+              onClick={() => onSelectTab('home')}
+              style={navItemStyle(activeTab === 'home')}
+            >
+              <span>🏠</span> Inicio
+            </button>
             {availableModules.map((mod) => (
               <button
                 key={mod.id}
