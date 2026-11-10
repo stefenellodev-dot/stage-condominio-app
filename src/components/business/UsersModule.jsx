@@ -93,7 +93,7 @@ export default function UsersModule() {
     (async () => {
       const { data: companiesData } = await supabase.from('management_companies').select('id,legal_name,fantasy_name').is('deleted_at', null).order('legal_name');
       setCompanies(companiesData || []);
-      if (companiesData && companiesData.length) setSelectedCompany(companiesData[0].id);
+      // Default to '' (show all users) so unassigned users are visible
     })();
   }, []);
 
@@ -102,7 +102,6 @@ export default function UsersModule() {
     (async () => {
       const { data } = await supabase.from('condominiums').select('id,name,management_company_id').eq('management_company_id', selectedCompany).is('deleted_at', null).order('name');
       setCondominiums(data || []);
-      if (data && data.length) setSelectedCondo(data[0].id);
     })();
   }, [selectedCompany]);
 
@@ -707,6 +706,7 @@ export default function UsersModule() {
               onChange={e => setSelectedCompany(e.target.value)}
               style={{ ...styles.select, minWidth: '220px' }}
             >
+              <option value="">Todos (sin filtro)</option>
               {companies.map(c => (
                 <option key={c.id} value={c.id}>{c.fantasy_name || c.legal_name}</option>
               ))}
@@ -718,6 +718,7 @@ export default function UsersModule() {
               onChange={e => setSelectedCondo(e.target.value)}
               style={{ ...styles.select, minWidth: '240px' }}
             >
+              <option value="">Todos (sin filtro)</option>
               {condominiums.map(c => (
                 <option key={c.id} value={c.id}>{c.name}</option>
               ))}
