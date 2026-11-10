@@ -1,5 +1,5 @@
 # Estado del Sistema: Mac (Código) vs Piave (Despliegue e Infraestructura)
-**Fecha de levantamiento:** 2026-11-10 15:29:26
+**Fecha de levantamiento:** 2026-11-10 16:10:14
 **Servidor Remoto (Infraestructura y Producción):** piave (100.126.211.117)
 **Host Local (Desarrollo):** dstefene1-mac
 
@@ -8,9 +8,9 @@
 ## 1. Servidor Físico Piave (Host y Recursos)
 - **HOSTNAME:** `piave`
 - **KERNEL:** `6.8.0-139-generic`
-- **UPTIME:** `up 7 weeks, 1 hour, 47 minutes`
+- **UPTIME:** `up 7 weeks, 2 hours, 28 minutes`
 - **DISK_USAGE:** `58G/232G (27% en uso)`
-- **RAM_USAGE:** `2921MB / 7829MB (37.3%)`
+- **RAM_USAGE:** `2943MB / 7829MB (37.6%)`
 - **PODMAN_VER:** `podman version 4.9.3`
 
 # Verificar buckets de storage
@@ -27,7 +27,7 @@ done
 echo "" >> ""
 - **Base de Datos:** `postgres`
 - **Tamaño en Disco:** `16 MB`
-- **Conexiones Activas:** `6`
+- **Conexiones Activas:** `7`
 
 ---
 
@@ -37,10 +37,10 @@ echo "" >> ""
 | :--- | :--- |
 | **Contenedor Web** | `stage-stage-condominio-app` |
 | **Estado del Contenedor** | `running` |
-| **Último Inicio / Reinicio** | `2026-11-10 18:29:26.423997345 +0000 UTC` |
+| **Último Inicio / Reinicio** | `2026-11-10 19:10:13.995294027 +0000 UTC` |
 | **Veces Reiniciado (Crash count)** | `0` |
 | **Directorio Servido (Web Root)** | `/app/dist` |
-| **Fecha de Compilación en Piave** | `2026-11-10 18:29:05.000000000 +0000` |
+| **Fecha de Compilación en Piave** | `2026-11-10 19:09:53.000000000 +0000` |
 | **Título HTML Desplegado** | `<title>Sistema de Administración de Condominios</title>` |
 | **Respuesta HTTP Puerto :3002** | `200` |
 | **Servidor Web Interno** | `` |
@@ -122,26 +122,26 @@ echo "" >> ""
 | `stage-new` | `Up 2 days` | Up 2 days | `0.0.0.0:3005->3000/tcp` |
 | `concierge-test2` | `Up 2 days` | Up 2 days | `0.0.0.0:3006->3000/tcp` |
 | `stage-condominio-app-v2` | `Created` | Created | `100.126.211.117:3002->3000/tcp` |
-| `condo-sb-db` | `Up 16 hours (healthy)
-10.89.5.2` | Up 16 hours (healthy) | `` |
-| `condo-sb-studio` | `Up 16 hours
-10.89.5.3` | Up 16 hours | `127.0.0.1:8280->3000/tcp` |
-| `condo-sb-inbucket` | `Up 16 hours
-10.89.5.5` | Up 16 hours | `100.126.211.117:9100->9000/tcp` |
-| `condo-sb-rest` | `Up 5 hours
-10.89.5.24` | Up 5 hours | `` |
-| `condo-sb-auth` | `Up 16 hours
-10.89.5.7` | Up 16 hours | `` |
-| `condo-sb-storage` | `Up 16 hours
-10.89.5.8` | Up 16 hours | `` |
-| `condo-sb-meta` | `Up 16 hours
-10.89.5.9` | Up 16 hours | `` |
+| `condo-sb-db` | `Up 17 hours (healthy)
+10.89.5.2` | Up 17 hours (healthy) | `` |
+| `condo-sb-studio` | `Up 17 hours
+10.89.5.3` | Up 17 hours | `127.0.0.1:8280->3000/tcp` |
+| `condo-sb-inbucket` | `Up 17 hours
+10.89.5.5` | Up 17 hours | `100.126.211.117:9100->9000/tcp` |
+| `condo-sb-rest` | `Up 6 hours
+10.89.5.24` | Up 6 hours | `` |
+| `condo-sb-auth` | `Up 17 hours
+10.89.5.7` | Up 17 hours | `` |
+| `condo-sb-storage` | `Up 17 hours
+10.89.5.8` | Up 17 hours | `` |
+| `condo-sb-meta` | `Up 17 hours
+10.89.5.9` | Up 17 hours | `` |
 | `condo-sb-kong` | `Up 5 hours (healthy)
 10.89.5.34` | Up 5 hours (healthy) | `100.126.211.117:8200->8000/tcp` |
-| `vaultwarden` | `Up 53 minutes (healthy)
-10.89.4.5` | Up 53 minutes (healthy) | `100.126.211.117:8222->80/tcp` |
-| `stage-stage-condominio-app` | `Up 3 seconds (starting)
-10.89.5.58` | Up 3 seconds (starting) | `127.0.0.1:3002->3000/tcp, 100.126.211.117:3002->3000/tcp` |
+| `vaultwarden` | `Up 2 hours (healthy)
+10.89.4.5` | Up 2 hours (healthy) | `100.126.211.117:8222->80/tcp` |
+| `stage-stage-condominio-app` | `Up 4 seconds (starting)
+10.89.5.60` | Up 4 seconds (starting) | `100.126.211.117:3002->3000/tcp, 127.0.0.1:3002->3000/tcp` |
 
 ---
 
@@ -167,7 +167,7 @@ echo "" >> ""
 ## 6. Código Local en Mac
 - **Ruta:** `/Users/stefenello/development/stage-condominio-app`
 - **Branch Git:** `main`
-- **Último Commit:** `2d3de0f - fix(profile): allow users to save profile + fix avatar upload button (2026-11-10 15:28:59 -0300)`
+- **Último Commit:** `81b771b - fix(users): add 'Todos' filter option to show unassigned users (2026-11-10 16:09:48 -0300)`
 - **Archivos Pendientes de Commit:**
 ```text
 
@@ -181,9 +181,9 @@ echo "" >> ""
 poll error getaddrinfo EAI_AGAIN svc-db
 poll error getaddrinfo EAI_AGAIN svc-db
 ---LOG_ERROR:svc-kong---
-10.89.1.44 - - [10/Nov/2026:18:29:56 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "62050833890f6a16aa0cf165e462c750"
-10.89.1.44 - - [10/Nov/2026:18:30:12 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "68ed962fbe2e1e2efbd7c47b6a1ac024"
-10.89.1.44 - - [10/Nov/2026:18:30:27 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "cacbd23bd807a11eaf1e966d9a9b4306"
+10.89.1.44 - - [10/Nov/2026:19:10:37 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "58e240118ba2ca791dad9a73ba12390c"
+10.89.1.44 - - [10/Nov/2026:19:10:53 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "7405ef458600c019df2da25efe477e14"
+10.89.1.44 - - [10/Nov/2026:19:11:08 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "7b17df0b87f9b42a740d716492fbf175"
 ---LOG_ERROR:stage-sb-db---
 [local] 2026-11-10 02:04:16.307 UTC [436250] postgres@postgres ERROR:  relation "public.condominiums" does not exist at character 60
 [local] 2026-11-10 02:04:57.450 UTC [436286] postgres@postgres ERROR:  relation "public.condominiums" does not exist at character 22
@@ -202,6 +202,4 @@ poll error getaddrinfo EAI_AGAIN svc-db
 ---LOG_ERROR:condo-sb-auth---
 {"component":"api","error":"invalid_grant: Invalid login credentials","level":"info","method":"POST","msg":"invalid_grant: Invalid login credentials","path":"/token","referer":"http://100.126.211.117:3002","remote_addr":"204.119.24.225","request_id":"deb69f10-8abd-4c8e-bc3f-a366215082e4","time":"2026-11-10T18:23:43Z"}
 {"component":"api","error":"invalid_grant: Invalid login credentials","level":"info","method":"POST","msg":"invalid_grant: Invalid login credentials","path":"/token","referer":"http://100.126.211.117:3002","remote_addr":"204.119.24.225","request_id":"7c15be80-189f-4e99-9325-be3d0df0f7b3","time":"2026-11-10T18:24:16Z"}
----LOG_ERROR:fin-engine-watchdog---
-Error: no container with name or ID "fin-engine-watchdog" found: no such container
 ```
