@@ -268,3 +268,4 @@ export function LegalCollectionModule({ condominiumId }) {
     </div>
   );
 }
+export default LegalCollectionModule;
