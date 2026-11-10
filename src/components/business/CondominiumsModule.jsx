@@ -59,7 +59,7 @@ export default function CondominiumsModule() {
     setLoading(true);
     const { data, error } = await supabase
       .from('condominiums')
-      .select('id, name, rut, sii_property_role, type, destination, total_units, street, street_number, commune, region, bank_name, account_type, account_number, reserve_fund_percentage, status, management_company_id')
+      .select('id, name, rut, sii_property_role, type, destination, total_units, dom_certificate_number, dom_approval_date, street, street_number, commune, region, region_id, commune_id, bank_name, account_type, account_number, reserve_fund_percentage, concierge_phone, administration_email, status, management_company_id')
       .eq('management_company_id', selectedCompany)
       .is('deleted_at', null)
       .order('name');
