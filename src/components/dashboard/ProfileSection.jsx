@@ -120,15 +120,10 @@ export default function ProfileSection() {
       return;
     }
 
-    const { data: signedData } = await supabase.storage
-      .from('avatars')
-      .createSignedUrl(filePath, 900);
-
-    const finalUrl = signedData?.signedUrl || filePath;
-
+    // Store only the path, not the signed URL (avoids expiration issues)
     const { error: updateProfileError } = await supabase
       .from('profiles')
-      .update({ avatar_url: finalUrl })
+      .update({ avatar_url: filePath })
       .eq('id', session.user.id);
 
     setUploadingAvatar(false);
