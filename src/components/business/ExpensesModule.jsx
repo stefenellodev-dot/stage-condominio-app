@@ -8,6 +8,8 @@ import { useConfirm } from '../../hooks/useConfirm';
 import { usePermissions } from '../../hooks/usePermissions';
 import { useIsMobile } from '../../hooks/useMediaQuery';
 import { storageService } from '../../services/storageService';
+import { paymentGatewayService } from '../../services/paymentGatewayService';
+import { PaymentGatewayModal } from '../payments/PaymentGatewayModal';
 import { PeriodCloseModal } from '../expenses/PeriodCloseModal';
 import Modal from '../ui/Modal';
 import { billPdfService } from '../../services/billPdfService';
@@ -46,6 +48,9 @@ export default function ExpensesModule() {
   // Form pago
   const [payForm, setPayForm] = useState({ bill_id: '', amount: '', payment_method: 'transferencia', transaction_number: '', voucher_url: '' });
   const [payFile, setPayFile] = useState(null);
+  const [gatewayTx, setGatewayTx] = useState(null);
+  const [isGatewayOpen, setIsGatewayOpen] = useState(false);
+  const [startingPayment, setStartingPayment] = useState(false);
   const [isCloseModalOpen, setIsCloseModalOpen] = useState(false);
   const [savingPay, setSavingPay] = useState(false);
 
@@ -204,6 +209,19 @@ export default function ExpensesModule() {
     loadBills().then(b => loadPayments(b));
   };
 
+  const handleStartOnlinePayment = async (billId) => {
+    try {
+      setStartingPayment(true);
+      const tx = await paymentGatewayService.initiatePayment(billId);
+      setGatewayTx(tx);
+      setIsGatewayOpen(true);
+    } catch (err) {
+      showError(err.message || 'Error al conectar con la pasarela de pagos.');
+    } finally {
+      setStartingPayment(false);
+    }
+  };
+
   const handleReconcile = async (paymentId, action) => {
     let reason = null;
     if (action === 'reject') {
@@ -357,6 +375,11 @@ export default function ExpensesModule() {
                     <button onClick={() => setViewingBill(b)} style={{ flex: 1, padding: '10px', borderRadius: '6px', border: 'none', backgroundColor: 'var(--primary)', color: '#fff', fontWeight: '700', cursor: 'pointer' }}>
                       Ver Colilla
                     </button>
+                    {b.balance > 0 && (
+                      <button onClick={() => handleStartOnlinePayment(b.id)} disabled={startingPayment} style={{ flex: 1, padding: '10px', borderRadius: '6px', border: 'none', backgroundColor: '#0284c7', color: '#fff', fontWeight: '700', cursor: startingPayment ? 'not-allowed' : 'pointer' }}>
+                        {startingPayment ? 'Conectando...' : '💳 Pagar en Línea'}
+                      </button>
+                    )}
                   </div>
                 </div>
               ))}
@@ -504,6 +527,15 @@ export default function ExpensesModule() {
         adminId={profile?.id}
         onSuccess={() => {
           loadExpenses();
+          loadBills().then(b => loadPayments(b));
+        }}
+      />
+
+      <PaymentGatewayModal
+        isOpen={isGatewayOpen}
+        onClose={() => setIsGatewayOpen(false)}
+        transactionData={gatewayTx}
+        onSuccess={() => {
           loadBills().then(b => loadPayments(b));
         }}
       />
