@@ -8,6 +8,7 @@ import { ROLES, ROLE_GROUPS } from '../../constants/roles';
 import { usePermissions } from '../../hooks/usePermissions';
 import { useIsMobile } from '../../hooks/useMediaQuery';
 import { ShiftHandoverModal } from '../concierge/ShiftHandoverModal';
+console.log('ConciergeModule loaded');
 
 const fmtTime = (iso) => iso ? new Date(iso).toLocaleString('es-ES', { hour: '2-digit', minute: '2-digit' }) : '—';
 

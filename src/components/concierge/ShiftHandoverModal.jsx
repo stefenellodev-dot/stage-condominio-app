@@ -84,7 +84,7 @@ export function ShiftHandoverModal({ isOpen, onClose, condominiumId, onSuccess }
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="🔄 Acta de Relevo y Entrega de Turno">
+    <Modal open={isOpen} onClose={onClose} title="🔄 Acta de Relevo y Entrega de Turno">
       {errorMsg && (
         <div style={{ backgroundColor: '#fef2f2', color: '#b91c1c', padding: '10px', borderRadius: '6px', fontSize: '13px', marginBottom: '12px' }}>
           {errorMsg}
