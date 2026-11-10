@@ -218,9 +218,10 @@ export default function ProfileSection() {
             cursor: uploadingAvatar ? 'not-allowed' : 'pointer',
             fontSize: '12px',
             padding: '6px 12px'
-          }} htmlFor="firstName">
+          }} htmlFor="avatarInput">
             {uploadingAvatar ? t('profile.uploading') : t('profile.change_photo')}
             <input
+              id="avatarInput"
               type="file"
               accept="image/png, image/jpeg, image/webp"
               onChange={handleAvatarUpload}
