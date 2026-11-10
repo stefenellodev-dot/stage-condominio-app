@@ -113,10 +113,16 @@ export default function UsersModule() {
           if (!avatarPath) {
             return [user.id, ''];
           }
-          if (avatarPath.startsWith('http')) {
-            return [user.id, avatarPath];
+          // Extract path from expired signed URLs
+          let path = avatarPath;
+          if (avatarPath.includes('/storage/v1/object/sign/avatars/')) {
+            const match = avatarPath.match(/avatars\/(.+?)\?/);
+            if (match) path = match[1];
           }
-          const { data } = await supabase.storage.from('avatars').createSignedUrl(avatarPath, 3600);
+          if (path.startsWith('http')) {
+            return [user.id, path];
+          }
+          const { data } = await supabase.storage.from('avatars').createSignedUrl(path, 3600);
           return [user.id, data?.signedUrl || ''];
         })
       );
