@@ -1,5 +1,5 @@
 # Estado del Sistema: Mac (Código) vs Piave (Despliegue e Infraestructura)
-**Fecha de levantamiento:** 2026-11-10 09:54:22
+**Fecha de levantamiento:** 2026-11-10 10:21:20
 **Servidor Remoto (Infraestructura y Producción):** piave (100.126.211.117)
 **Host Local (Desarrollo):** dstefene1-mac
 
@@ -8,9 +8,9 @@
 ## 1. Servidor Físico Piave (Host y Recursos)
 - **HOSTNAME:** `piave`
 - **KERNEL:** `6.8.0-139-generic`
-- **UPTIME:** `up 6 weeks, 6 days, 20 hours, 12 minutes`
+- **UPTIME:** `up 6 weeks, 6 days, 20 hours, 39 minutes`
 - **DISK_USAGE:** `58G/232G (27% en uso)`
-- **RAM_USAGE:** `2969MB / 7829MB (37.9%)`
+- **RAM_USAGE:** `3009MB / 7829MB (38.4%)`
 - **PODMAN_VER:** `podman version 4.9.3`
 
 # Verificar buckets de storage
@@ -124,24 +124,24 @@ echo "" >> ""
 | `stage-new` | `Up 2 days` | Up 2 days | `0.0.0.0:3005->3000/tcp` |
 | `concierge-test2` | `Up 2 days` | Up 2 days | `0.0.0.0:3006->3000/tcp` |
 | `stage-condominio-app-v2` | `Created` | Created | `100.126.211.117:3002->3000/tcp` |
-| `condo-sb-db` | `Up 10 hours (healthy)
-10.89.5.2` | Up 10 hours (healthy) | `` |
-| `condo-sb-studio` | `Up 10 hours
-10.89.5.3` | Up 10 hours | `127.0.0.1:8280->3000/tcp` |
-| `condo-sb-kong` | `Up 10 hours (healthy)
-10.89.5.4` | Up 10 hours (healthy) | `100.126.211.117:8200->8000/tcp` |
-| `condo-sb-inbucket` | `Up 10 hours
-10.89.5.5` | Up 10 hours | `100.126.211.117:9100->9000/tcp` |
-| `condo-sb-rest` | `Up 10 hours
-10.89.5.6` | Up 10 hours | `` |
-| `condo-sb-auth` | `Up 10 hours
-10.89.5.7` | Up 10 hours | `` |
-| `condo-sb-storage` | `Up 10 hours
-10.89.5.8` | Up 10 hours | `` |
-| `condo-sb-meta` | `Up 10 hours
-10.89.5.9` | Up 10 hours | `` |
-| `stage-stage-condominio-app` | `Up 3 seconds (starting)
-10.89.5.20` | Up 3 seconds (starting) | `100.126.211.117:3002->3000/tcp, 127.0.0.1:3002->3000/tcp` |
+| `condo-sb-db` | `Up 11 hours (healthy)
+10.89.5.2` | Up 11 hours (healthy) | `` |
+| `condo-sb-studio` | `Up 11 hours
+10.89.5.3` | Up 11 hours | `127.0.0.1:8280->3000/tcp` |
+| `condo-sb-kong` | `Up About a minute (healthy)
+10.89.5.25` | Up About a minute (healthy) | `100.126.211.117:8200->8000/tcp` |
+| `condo-sb-inbucket` | `Up 11 hours
+10.89.5.5` | Up 11 hours | `100.126.211.117:9100->9000/tcp` |
+| `condo-sb-rest` | `Up 2 minutes
+10.89.5.24` | Up 2 minutes | `` |
+| `condo-sb-auth` | `Up 11 hours
+10.89.5.7` | Up 11 hours | `` |
+| `condo-sb-storage` | `Up 11 hours
+10.89.5.8` | Up 11 hours | `` |
+| `condo-sb-meta` | `Up 11 hours
+10.89.5.9` | Up 11 hours | `` |
+| `stage-stage-condominio-app` | `Up 27 minutes (healthy)
+10.89.5.20` | Up 27 minutes (healthy) | `100.126.211.117:3002->3000/tcp, 127.0.0.1:3002->3000/tcp` |
 
 ---
 
@@ -167,7 +167,7 @@ echo "" >> ""
 ## 6. Código Local en Mac
 - **Ruta:** `/Users/stefenello/development/stage-condominio-app`
 - **Branch Git:** `main`
-- **Último Commit:** `b76eead - feat(legal): add PDF generation with QR code for JPL certificates and cutoff notices (2026-11-10 09:53:59 -0300)`
+- **Último Commit:** `34a9f18 - docs: live audit after PDF QR generation deployment (2026-11-10 09:55:42 -0300)`
 - **Archivos Pendientes de Commit:**
 ```text
 
@@ -181,9 +181,9 @@ echo "" >> ""
 poll error getaddrinfo EAI_AGAIN svc-db
 poll error getaddrinfo EAI_AGAIN svc-db
 ---LOG_ERROR:svc-kong---
-10.89.1.44 - - [10/Nov/2026:12:54:39 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "e04206532d76775a2031df457c17da1f"
-10.89.1.44 - - [10/Nov/2026:12:54:54 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "ca36f85a1061383fe498fa6975555969"
-10.89.1.44 - - [10/Nov/2026:12:55:09 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "3a03275d9941b724bcd49f4aa7a58b28"
+10.89.1.44 - - [10/Nov/2026:13:21:31 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "64c488142963a6604a800b2407085252"
+10.89.1.44 - - [10/Nov/2026:13:21:46 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "5ef7320ff9ab560c12501644146e2f26"
+10.89.1.44 - - [10/Nov/2026:13:22:01 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "bbd77519c6f329508e834a4a02aaa97f"
 ---LOG_ERROR:stage-sb-db---
 [local] 2026-11-10 02:04:16.307 UTC [436250] postgres@postgres ERROR:  relation "public.condominiums" does not exist at character 60
 [local] 2026-11-10 02:04:57.450 UTC [436286] postgres@postgres ERROR:  relation "public.condominiums" does not exist at character 22
@@ -192,9 +192,12 @@ poll error getaddrinfo EAI_AGAIN svc-db
 {"component":"api","error":"invalid_grant: Invalid login credentials","level":"info","method":"POST","msg":"invalid_grant: Invalid login credentials","path":"/token","referer":"http://100.126.211.117:3002/","remote_addr":"10.89.3.92","request_id":"324e0edc-adbc-49f4-a399-a6cf7adb0ae4","time":"2026-11-10T02:01:48Z"}
 {"component":"api","error":"invalid_grant: Invalid login credentials","level":"info","method":"POST","msg":"invalid_grant: Invalid login credentials","path":"/token","referer":"http://100.126.211.117:3002/","remote_addr":"10.89.3.92","request_id":"f36091de-056a-4623-8258-64904ff048fb","time":"2026-11-10T02:03:29Z"}
 ---LOG_ERROR:condo-sb-db---
-[local] 2026-11-10 12:35:56.054 UTC [28011] postgres@postgres ERROR:  null value in column "unit_id" of relation "unit_expense_bills" violates not-null constraint
+10.89.5.24 2026-11-10 13:20:21.448 UTC [30710] postgres@postgres ERROR:  function digest(text, unknown) does not exist at character 18
+10.89.5.24 2026-11-10 13:20:47.579 UTC [30735] postgres@postgres ERROR:  function digest(text, text) does not exist at character 18
+10.89.5.24 2026-11-10 13:20:50.782 UTC [30735] postgres@postgres ERROR:  function digest(text, text) does not exist at character 18
 ---LOG_ERROR:condo-sb-inbucket---
 {"level":"warn","module":"rest","proto":"WebSocket","remote":"10.89.5.5:54848","error":"websocket: close 1006 (abnormal closure): unexpected EOF","time":"2026-11-10T12:48:43Z","message":"Socket error"}
+{"level":"warn","module":"rest","proto":"WebSocket","remote":"10.89.5.5:33450","error":"websocket: close 1006 (abnormal closure): unexpected EOF","time":"2026-11-10T13:09:21Z","message":"Socket error"}
 ---LOG_ERROR:condo-sb-auth---
 {"component":"api","error":"error finding user: failed to connect to `host=condo-sb-db user=supabase_auth_admin database=postgres`: hostname resolving error (lookup condo-sb-db on 10.89.5.1:53: dial udp 10.89.5.1:53: i/o timeout)","level":"error","method":"POST","msg":"500: Database error querying schema","path":"/token","referer":"http://100.126.211.117:3002","remote_addr":"10.89.5.4","request_id":"66b5b284-e090-4d31-8a4e-7bfa16204f39","time":"2026-11-10T02:26:21Z"}
 {"component":"api","error":"context deadline exceeded","level":"error","method":"POST","msg":"504: Processing this request timed out, please retry after a moment.","path":"/token","referer":"http://100.126.211.117:3002","remote_addr":"10.89.5.4","request_id":"66b5b284-e090-4d31-8a4e-7bfa16204f39","time":"2026-11-10T02:26:21Z"}
