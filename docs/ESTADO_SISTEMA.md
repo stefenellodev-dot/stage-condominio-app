@@ -1,5 +1,5 @@
 # Estado del Sistema: Mac (Código) vs Piave (Despliegue e Infraestructura)
-**Fecha de levantamiento:** 2026-11-10 10:45:54
+**Fecha de levantamiento:** 2026-11-10 11:31:01
 **Servidor Remoto (Infraestructura y Producción):** piave (100.126.211.117)
 **Host Local (Desarrollo):** dstefene1-mac
 
@@ -8,9 +8,9 @@
 ## 1. Servidor Físico Piave (Host y Recursos)
 - **HOSTNAME:** `piave`
 - **KERNEL:** `6.8.0-139-generic`
-- **UPTIME:** `up 6 weeks, 6 days, 21 hours, 3 minutes`
+- **UPTIME:** `up 6 weeks, 6 days, 21 hours, 48 minutes`
 - **DISK_USAGE:** `58G/232G (27% en uso)`
-- **RAM_USAGE:** `2923MB / 7829MB (37.3%)`
+- **RAM_USAGE:** `3071MB / 7829MB (39.2%)`
 - **PODMAN_VER:** `podman version 4.9.3`
 
 # Verificar buckets de storage
@@ -37,10 +37,10 @@ echo "" >> ""
 | :--- | :--- |
 | **Contenedor Web** | `stage-stage-condominio-app` |
 | **Estado del Contenedor** | `running` |
-| **Último Inicio / Reinicio** | `2026-11-10 13:31:54.378474776 +0000 UTC` |
+| **Último Inicio / Reinicio** | `2026-11-10 14:30:58.468487063 +0000 UTC` |
 | **Veces Reiniciado (Crash count)** | `0` |
 | **Directorio Servido (Web Root)** | `/app/dist` |
-| **Fecha de Compilación en Piave** | `2026-11-10 13:24:05.000000000 +0000` |
+| **Fecha de Compilación en Piave** | `2026-11-10 14:30:15.000000000 +0000` |
 | **Título HTML Desplegado** | `<title>Sistema de Administración de Condominios</title>` |
 | **Respuesta HTTP Puerto :3002** | `200` |
 | **Servidor Web Interno** | `` |
@@ -124,24 +124,24 @@ echo "" >> ""
 | `stage-new` | `Up 2 days` | Up 2 days | `0.0.0.0:3005->3000/tcp` |
 | `concierge-test2` | `Up 2 days` | Up 2 days | `0.0.0.0:3006->3000/tcp` |
 | `stage-condominio-app-v2` | `Created` | Created | `100.126.211.117:3002->3000/tcp` |
-| `condo-sb-db` | `Up 11 hours (healthy)
-10.89.5.2` | Up 11 hours (healthy) | `` |
-| `condo-sb-studio` | `Up 11 hours
-10.89.5.3` | Up 11 hours | `127.0.0.1:8280->3000/tcp` |
-| `condo-sb-inbucket` | `Up 11 hours
-10.89.5.5` | Up 11 hours | `100.126.211.117:9100->9000/tcp` |
-| `condo-sb-rest` | `Up 27 minutes
-10.89.5.24` | Up 27 minutes | `` |
-| `condo-sb-auth` | `Up 11 hours
-10.89.5.7` | Up 11 hours | `` |
-| `condo-sb-storage` | `Up 11 hours
-10.89.5.8` | Up 11 hours | `` |
-| `condo-sb-meta` | `Up 11 hours
-10.89.5.9` | Up 11 hours | `` |
-| `stage-stage-condominio-app` | `Up 14 minutes (healthy)
-10.89.5.31` | Up 14 minutes (healthy) | `127.0.0.1:3002->3000/tcp, 100.126.211.117:3002->3000/tcp` |
-| `condo-sb-kong` | `Up 39 seconds (healthy)
-10.89.5.34` | Up 39 seconds (healthy) | `100.126.211.117:8200->8000/tcp` |
+| `condo-sb-db` | `Up 12 hours (healthy)
+10.89.5.2` | Up 12 hours (healthy) | `` |
+| `condo-sb-studio` | `Up 12 hours
+10.89.5.3` | Up 12 hours | `127.0.0.1:8280->3000/tcp` |
+| `condo-sb-inbucket` | `Up 12 hours
+10.89.5.5` | Up 12 hours | `100.126.211.117:9100->9000/tcp` |
+| `condo-sb-rest` | `Up About an hour
+10.89.5.24` | Up About an hour | `` |
+| `condo-sb-auth` | `Up 12 hours
+10.89.5.7` | Up 12 hours | `` |
+| `condo-sb-storage` | `Up 12 hours
+10.89.5.8` | Up 12 hours | `` |
+| `condo-sb-meta` | `Up 12 hours
+10.89.5.9` | Up 12 hours | `` |
+| `condo-sb-kong` | `Up 45 minutes (healthy)
+10.89.5.34` | Up 45 minutes (healthy) | `100.126.211.117:8200->8000/tcp` |
+| `stage-stage-condominio-app` | `Up 6 seconds (starting)
+10.89.5.38` | Up 6 seconds (starting) | `127.0.0.1:3002->3000/tcp, 100.126.211.117:3002->3000/tcp` |
 
 ---
 
@@ -167,7 +167,7 @@ echo "" >> ""
 ## 6. Código Local en Mac
 - **Ruta:** `/Users/stefenello/development/stage-condominio-app`
 - **Branch Git:** `main`
-- **Último Commit:** `a64dd09 - docs: live audit after CSP volume mount fix (2026-11-10 10:33:40 -0300)`
+- **Último Commit:** `1e604c9 - feat(dashboard): role-based dashboards (Concierge, Resident, Admin, SuperAdmin) (2026-11-10 11:30:29 -0300)`
 - **Archivos Pendientes de Commit:**
 ```text
 
@@ -180,10 +180,16 @@ echo "" >> ""
 ---LOG_ERROR:svc-push---
 poll error getaddrinfo EAI_AGAIN svc-db
 poll error getaddrinfo EAI_AGAIN svc-db
+---LOG_ERROR:fin-engine-notifier---
+2026-11-10 14:30:02,988 ERROR notifier.channels: Error sending email: Connection unexpectedly closed
+---LOG_ERROR:fin-engine-brain---
+2026-11-10 14:18:30,901 ERROR yfinance: $CHK: possibly delisted; no price data found  (period=6mo) (Yahoo error = "No data found, symbol may be delisted")
+2026-11-10 14:18:35,401 ERROR yfinance: $CHK: possibly delisted; no price data found  (period=6mo) (Yahoo error = "No data found, symbol may be delisted")
+2026-11-10 14:18:40,703 ERROR yfinance: $CHK: possibly delisted; no price data found  (period=6mo) (Yahoo error = "No data found, symbol may be delisted")
 ---LOG_ERROR:svc-kong---
-10.89.1.44 - - [10/Nov/2026:13:46:08 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "ebe8cc3a4138da748355d44ea349df4f"
-10.89.1.44 - - [10/Nov/2026:13:46:23 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "7deb881c9cf02a1bc8b7dd7312c9937d"
-10.89.1.44 - - [10/Nov/2026:13:46:38 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "286e8a3d79bb4b5d213616455c5e2207"
+10.89.1.44 - - [10/Nov/2026:14:31:20 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "2d5f4b647ce59026af588261923e4931"
+10.89.1.44 - - [10/Nov/2026:14:31:35 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "f193747615c254023aeb6c7a2a79b904"
+10.89.1.44 - - [10/Nov/2026:14:31:51 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "b431417102733465b0622a7819d8c943"
 ---LOG_ERROR:stage-sb-db---
 [local] 2026-11-10 02:04:16.307 UTC [436250] postgres@postgres ERROR:  relation "public.condominiums" does not exist at character 60
 [local] 2026-11-10 02:04:57.450 UTC [436286] postgres@postgres ERROR:  relation "public.condominiums" does not exist at character 22
@@ -198,6 +204,7 @@ poll error getaddrinfo EAI_AGAIN svc-db
 ---LOG_ERROR:condo-sb-inbucket---
 {"level":"warn","module":"rest","proto":"WebSocket","remote":"10.89.5.5:54848","error":"websocket: close 1006 (abnormal closure): unexpected EOF","time":"2026-11-10T12:48:43Z","message":"Socket error"}
 {"level":"warn","module":"rest","proto":"WebSocket","remote":"10.89.5.5:33450","error":"websocket: close 1006 (abnormal closure): unexpected EOF","time":"2026-11-10T13:09:21Z","message":"Socket error"}
+{"level":"warn","module":"rest","proto":"WebSocket","remote":"10.89.5.5:44092","error":"websocket: close 1006 (abnormal closure): unexpected EOF","time":"2026-11-10T14:12:50Z","message":"Socket error"}
 ---LOG_ERROR:condo-sb-auth---
 {"component":"api","error":"error finding user: failed to connect to `host=condo-sb-db user=supabase_auth_admin database=postgres`: hostname resolving error (lookup condo-sb-db on 10.89.5.1:53: dial udp 10.89.5.1:53: i/o timeout)","level":"error","method":"POST","msg":"500: Database error querying schema","path":"/token","referer":"http://100.126.211.117:3002","remote_addr":"10.89.5.4","request_id":"66b5b284-e090-4d31-8a4e-7bfa16204f39","time":"2026-11-10T02:26:21Z"}
 {"component":"api","error":"context deadline exceeded","level":"error","method":"POST","msg":"504: Processing this request timed out, please retry after a moment.","path":"/token","referer":"http://100.126.211.117:3002","remote_addr":"10.89.5.4","request_id":"66b5b284-e090-4d31-8a4e-7bfa16204f39","time":"2026-11-10T02:26:21Z"}
