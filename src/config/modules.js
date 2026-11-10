@@ -35,7 +35,7 @@ export const businessModules = [
     id: 'concierge',
     labelKey: 'nav.concierge',
     icon: '🧑‍💼',
-    component: lazy(() => import('../components/business/ConciergeModule')),
+    component: lazy(() => import('../components/business/concierge/ConciergeModule')),
     roles: [ROLES.SUPERADMIN, ROLES.ADMIN, ROLES.CONCIERGE],
   },
   {
@@ -56,7 +56,7 @@ export const businessModules = [
     id: 'expenses',
     labelKey: 'nav.expenses',
     icon: '💰',
-    component: lazy(() => import('../components/business/ExpensesModule')),
+    component: lazy(() => import('../components/business/expenses/ExpensesModule')),
     roles: [ROLES.SUPERADMIN, ROLES.ADMIN, ROLES.USER],
   },
   {
