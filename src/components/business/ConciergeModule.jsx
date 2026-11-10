@@ -7,7 +7,6 @@ import { useTranslation } from '../../context/I18nContext';
 import { ROLES, ROLE_GROUPS } from '../../constants/roles';
 import { usePermissions } from '../../hooks/usePermissions';
 import { useIsMobile } from '../../hooks/useMediaQuery';
-import { ShiftHandoverModal } from '../concierge/ShiftHandoverModal';
 console.log('ConciergeModule loaded');
 
 const fmtTime = (iso) => iso ? new Date(iso).toLocaleString('es-ES', { hour: '2-digit', minute: '2-digit' }) : '—';
@@ -32,6 +31,10 @@ export default function ConciergeModule() {
   const [units, setUnits] = useState([]);
   const [logs, setLogs] = useState([]);
   const [handovers, setHandovers] = useState([]);
+  const [staffList, setStaffList] = useState([]);
+  const [handoverForm, setHandoverForm] = useState({ outgoing: '', incoming: '', shiftTime: 'afternoon_to_night', pendingTasks: '', cashBalance: 0, observations: '' });
+  const [handoverChecklist, setHandoverChecklist] = useState({ radios_portatiles: true, llaves_maestras_completas: true, citofonia_operativa: true, camaras_cctv_sin_fallas: true, porton_vehicular_operativo: true });
+  const [savingHandover, setSavingHandover] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const [visitForm, setVisitForm] = useState({ unit_id: '', visitor_name: '', visitor_rut: '', vehicle_plate: '', parking_spot: '', notes: '' });
@@ -58,6 +61,15 @@ export default function ConciergeModule() {
       if (data && data.length) setSelectedCondo(data[0].id);
     })();
   }, [selectedCompany]);
+
+  const loadStaff = async () => {
+    if (!selectedCondo) return;
+    const { data } = await supabase.from('security_staff_records').select('id, full_name, job_title').eq('condominium_id', selectedCondo).eq('status', 'active').order('full_name');
+    setStaffList(data || []);
+    if (data && data.length > 0) {
+      setHandoverForm(prev => ({ ...prev, outgoing: data[0].id, incoming: data[1]?.id || data[0].id }));
+    }
+  };
 
   const loadUnits = async () => {
     if (!selectedCondo) return;
@@ -105,6 +117,7 @@ export default function ConciergeModule() {
 
   useEffect(() => {
     loadUnits();
+    loadStaff();
     loadViews();
   }, [selectedCondo, tab]);
 
@@ -165,6 +178,36 @@ export default function ConciergeModule() {
     if (error) { showError(error.message); return; }
     showSuccess('Novedad registrada');
     setLogForm({ shift: 'morning', entry_type: 'rutina', title: '', description: '' });
+    loadViews();
+  };
+
+  const handleCreateHandover = async (e) => {
+    e.preventDefault();
+    if (!handoverForm.outgoing || !handoverForm.incoming) { showError('Debe seleccionar conserje saliente y entrante'); return; }
+    if (handoverForm.outgoing === handoverForm.incoming) { showError('El conserje saliente y entrante no pueden ser la misma persona'); return; }
+    if (!handoverForm.pendingTasks.trim()) { showError('Las tareas pendientes son obligatorias'); return; }
+    setSavingHandover(true);
+    const { error } = await supabase.from('shift_handovers').insert({
+      condominium_id: selectedCondo,
+      outgoing_staff_id: handoverForm.outgoing,
+      incoming_staff_id: handoverForm.incoming,
+      shift_time: handoverForm.shiftTime,
+      equipment_checklist: {
+        radios_portatiles: handoverChecklist.radios_portatiles ? 'operativas' : 'con_fallas',
+        llaves_maestras_completas: handoverChecklist.llaves_maestras_completas,
+        citofonia_operativa: handoverChecklist.citofonia_operativa,
+        camaras_cctv_sin_fallas: handoverChecklist.camaras_cctv_sin_fallas,
+        porton_vehicular_operativo: handoverChecklist.porton_vehicular_operativo
+      },
+      pending_tasks_summary: handoverForm.pendingTasks.trim(),
+      cash_box_balance: Number(handoverForm.cashBalance) || 0,
+      observations: handoverForm.observations.trim() || null
+    });
+    setSavingHandover(false);
+    if (error) { showError(error.message); return; }
+    showSuccess('Relevo registrado');
+    setHandoverForm({ outgoing: staffList[0]?.id || '', incoming: staffList[1]?.id || staffList[0]?.id || '', shiftTime: 'afternoon_to_night', pendingTasks: '', cashBalance: 0, observations: '' });
+    setHandoverChecklist({ radios_portatiles: true, llaves_maestras_completas: true, citofonia_operativa: true, camaras_cctv_sin_fallas: true, porton_vehicular_operativo: true });
     loadViews();
   };
 
@@ -426,9 +469,61 @@ export default function ConciergeModule() {
       {tab === 'relevos' && (
         <div>
           {canManage && (
-            <div style={{ display: 'flex', gap: '8px', marginBottom: '16px', flexWrap: 'wrap' }}>
-              <button onClick={() => setShowHandover(true)} style={{ ...styles.button, backgroundColor: '#059669' }}>+ Registrar Relevo de Turno</button>
-            </div>
+            <form onSubmit={handleCreateHandover} style={{ ...styles.form, marginBottom: '16px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                <div>
+                  <label style={styles.label}>Conserje Saliente</label>
+                  <select value={handoverForm.outgoing} onChange={e => setHandoverForm({ ...handoverForm, outgoing: e.target.value })} style={styles.select} required>
+                    <option value="">Selecciona</option>
+                    {staffList.map(s => <option key={s.id} value={s.id}>{s.full_name} ({s.job_title?.replace('_', ' ')})</option>)}
+                  </select>
+                </div>
+                <div>
+                  <label style={styles.label}>Conserje Entrante</label>
+                  <select value={handoverForm.incoming} onChange={e => setHandoverForm({ ...handoverForm, incoming: e.target.value })} style={styles.select} required>
+                    <option value="">Selecciona</option>
+                    {staffList.map(s => <option key={s.id} value={s.id}>{s.full_name} ({s.job_title?.replace('_', ' ')})</option>)}
+                  </select>
+                </div>
+              </div>
+              <div style={{ marginTop: '8px' }}>
+                <label style={styles.label}>Horario de Relevo</label>
+                <select value={handoverForm.shiftTime} onChange={e => setHandoverForm({ ...handoverForm, shiftTime: e.target.value })} style={styles.select}>
+                  <option value="morning_to_afternoon">Mañana ➔ Tarde (07:00 a 15:00)</option>
+                  <option value="afternoon_to_night">Tarde ➔ Noche (15:00 a 23:00)</option>
+                  <option value="night_to_morning">Noche ➔ Mañana (23:00 a 07:00)</option>
+                </select>
+              </div>
+              <div style={{ marginTop: '8px' }}>
+                <label style={styles.label}>Checklist de Operatividad</label>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6px', fontSize: '12px', marginTop: '4px' }}>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer' }}>
+                    <input type="checkbox" checked={handoverChecklist.radios_portatiles} onChange={() => setHandoverChecklist(p => ({...p, radios_portatiles: !p.radios_portatiles}))} /> Radios portátiles
+                  </label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer' }}>
+                    <input type="checkbox" checked={handoverChecklist.llaves_maestras_completas} onChange={() => setHandoverChecklist(p => ({...p, llaves_maestras_completas: !p.llaves_maestras_completas}))} /> Llavero maestro
+                  </label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer' }}>
+                    <input type="checkbox" checked={handoverChecklist.citofonia_operativa} onChange={() => setHandoverChecklist(p => ({...p, citofonia_operativa: !p.citofonia_operativa}))} /> Citofonía
+                  </label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer' }}>
+                    <input type="checkbox" checked={handoverChecklist.camaras_cctv_sin_fallas} onChange={() => setHandoverChecklist(p => ({...p, camaras_cctv_sin_fallas: !p.camaras_cctv_sin_fallas}))} /> CCTV / Cámaras
+                  </label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer', gridColumn: 'span 2' }}>
+                    <input type="checkbox" checked={handoverChecklist.porton_vehicular_operativo} onChange={() => setHandoverChecklist(p => ({...p, porton_vehicular_operativo: !p.porton_vehicular_operativo}))} /> Portón vehicular
+                  </label>
+                </div>
+              </div>
+              <div style={{ marginTop: '8px' }}>
+                <label style={styles.label}>Tareas y Novedades Pendientes</label>
+                <textarea value={handoverForm.pendingTasks} onChange={e => setHandoverForm({ ...handoverForm, pendingTasks: e.target.value })} style={{ ...styles.input, minHeight: '80px' }} required />
+              </div>
+              <div style={{ marginTop: '8px' }}>
+                <label style={styles.label}>Observaciones</label>
+                <textarea value={handoverForm.observations} onChange={e => setHandoverForm({ ...handoverForm, observations: e.target.value })} style={{ ...styles.input, minHeight: '60px' }} />
+              </div>
+              <button type="submit" disabled={savingHandover} style={{ ...styles.button, marginTop: '10px' }}>{savingHandover ? 'Registrando…' : 'Firmar y Registrar Relevo'}</button>
+            </form>
           )}
           {handovers.length === 0 ? (
             <div style={{ textAlign: 'center', color: 'var(--text-dim)', padding: '24px' }}>Sin relevos registrados.</div>
@@ -451,13 +546,6 @@ export default function ConciergeModule() {
           )}
         </div>
       )}
-
-      <ShiftHandoverModal
-        isOpen={showHandover}
-        onClose={() => setShowHandover(false)}
-        condominiumId={selectedCondo}
-        onSuccess={() => { loadViews(); }}
-      />
     </div>
   );
 }
