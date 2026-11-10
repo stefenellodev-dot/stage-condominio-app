@@ -110,10 +110,13 @@ export default function UsersModule() {
       const entries = await Promise.all(
         users.map(async (user) => {
           const avatarPath = user.avatar_url || '';
-          if (!avatarPath || avatarPath.startsWith('http')) {
+          if (!avatarPath) {
+            return [user.id, ''];
+          }
+          if (avatarPath.startsWith('http')) {
             return [user.id, avatarPath];
           }
-          const { data } = await supabase.storage.from('avatars').createSignedUrl(avatarPath, 900);
+          const { data } = await supabase.storage.from('avatars').createSignedUrl(avatarPath, 3600);
           return [user.id, data?.signedUrl || ''];
         })
       );
@@ -880,7 +883,9 @@ export default function UsersModule() {
                           style={{ ...styles.select, width: '100%' }}
                         >
                           <option value="user">user</option>
-                          {isSuperadmin ? <option value="admin">admin</option> : null}
+                          <option value="concierge">concierge</option>
+                          <option value="admin">admin</option>
+                          {isSuperadmin ? <option value="superadmin">superadmin</option> : null}
                         </select>
                       )}
                     </td>
