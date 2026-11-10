@@ -22,7 +22,7 @@ export default function CondominiumsModule() {
   const [saving, setSaving] = useState(false);
   const [formMode, setFormMode] = useState('list');
   const [formData, setFormData] = useState({
-    id: '', management_company_id: '', name: '', rut: '', sii_property_role: '', type: 'residencial',
+    id: '', management_company_id: '', name: '', rut: '', sii_property_role: '', type: 'tipo_a',
     destination: '', total_units: '', dom_certificate_number: '', dom_approval_date: '',
     reserve_fund_percentage: '5', street: '', street_number: '', region_id: '', commune_id: '',
     region: '', commune: '', bank_name: '', account_type: '', account_number: '',
@@ -114,7 +114,7 @@ export default function CondominiumsModule() {
     setSaving(false);
     if (error) { showError(error.message); return; }
     showSuccess('Condominio creado exitosamente');
-    setFormData({ id: '', management_company_id: '', name: '', rut: '', sii_property_role: '', type: 'residencial', destination: '', total_units: '', dom_certificate_number: '', dom_approval_date: '', reserve_fund_percentage: '5', street: '', street_number: '', region_id: '', commune_id: '', region: '', commune: '', bank_name: '', account_type: '', account_number: '', concierge_phone: '', administration_email: '', status: 'active' });
+    setFormData({ id: '', management_company_id: '', name: '', rut: '', sii_property_role: '', type: 'tipo_a', destination: '', total_units: '', dom_certificate_number: '', dom_approval_date: '', reserve_fund_percentage: '5', street: '', street_number: '', region_id: '', commune_id: '', region: '', commune: '', bank_name: '', account_type: '', account_number: '', concierge_phone: '', administration_email: '', status: 'active' });
     setFormMode('list');
     loadCondominiums();
   };
@@ -193,7 +193,7 @@ export default function CondominiumsModule() {
   };
 
   const handleCancel = () => {
-    setFormData({ id: '', management_company_id: '', name: '', rut: '', sii_property_role: '', type: 'residencial', destination: '', total_units: '', dom_certificate_number: '', dom_approval_date: '', reserve_fund_percentage: '5', street: '', street_number: '', region_id: '', commune_id: '', region: '', commune: '', bank_name: '', account_type: '', account_number: '', concierge_phone: '', administration_email: '', status: 'active' });
+    setFormData({ id: '', management_company_id: '', name: '', rut: '', sii_property_role: '', type: 'tipo_a', destination: '', total_units: '', dom_certificate_number: '', dom_approval_date: '', reserve_fund_percentage: '5', street: '', street_number: '', region_id: '', commune_id: '', region: '', commune: '', bank_name: '', account_type: '', account_number: '', concierge_phone: '', administration_email: '', status: 'active' });
     setFormMode('list');
   };
 
@@ -224,7 +224,7 @@ export default function CondominiumsModule() {
               <div><label style={styles.label}>Nombre del condominio *</label><input type="text" name="name" value={formData.name} onChange={handleChange} style={styles.input} required /></div>
               <div><label style={styles.label}>RUT del condominio *</label><input type="text" name="rut" value={formData.rut} onChange={handleChange} style={styles.input} required /></div>
               <div><label style={styles.label}>Rol Matriz SII</label><input type="text" name="sii_property_role" value={formData.sii_property_role} onChange={handleChange} style={styles.input} placeholder="Ej: 1234-5" /></div>
-              <div><label style={styles.label}>Tipo</label><select name="type" value={formData.type} onChange={handleChange} style={styles.select}><option value="residencial">Residencial</option><option value="comercial">Comercial</option><option value="mixto">Mixto</option></select></div>
+              <div><label style={styles.label}>Tipo</label><select name="type" value={formData.type} onChange={handleChange} style={styles.select}><option value="tipo_a">Tipo A</option><option value="tipo_b">Tipo B</option></select></div>
               <div><label style={styles.label}>Destino</label><select name="destination" value={formData.destination} onChange={handleChange} style={styles.select}><option value="">Seleccionar</option><option value="habitacional">Habitacional</option><option value="comercial">Comercial</option><option value="mixto">Mixto</option></select></div>
               <div><label style={styles.label}>Total de unidades</label><input type="number" name="total_units" value={formData.total_units} onChange={handleChange} style={styles.input} /></div>
               <div><label style={styles.label}>N° Certificado DOM</label><input type="text" name="dom_certificate_number" value={formData.dom_certificate_number} onChange={handleChange} style={styles.input} /></div>
