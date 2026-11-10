@@ -107,25 +107,29 @@ export default function UsersModule() {
 
   useEffect(() => {
     const loadAvatarUrls = async () => {
-      const entries = await Promise.all(
-        users.map(async (user) => {
-          const avatarPath = user.avatar_url || '';
-          if (!avatarPath) {
-            return [user.id, ''];
-          }
-          // Extract path from expired signed URLs
-          let path = avatarPath;
-          if (avatarPath.includes('/storage/v1/object/sign/avatars/')) {
-            const match = avatarPath.match(/avatars\/(.+?)\?/);
-            if (match) path = match[1];
-          }
-          if (path.startsWith('http')) {
-            return [user.id, path];
-          }
+      const entries = [];
+      for (const user of users) {
+        const avatarPath = user.avatar_url || '';
+        if (!avatarPath) {
+          entries.push([user.id, '']);
+          continue;
+        }
+        let path = avatarPath;
+        if (avatarPath.includes('/storage/v1/object/sign/avatars/')) {
+          const match = avatarPath.match(/avatars\/(.+?)\?/);
+          if (match) path = match[1];
+        }
+        if (path.startsWith('http')) {
+          entries.push([user.id, path]);
+          continue;
+        }
+        try {
           const { data } = await supabase.storage.from('avatars').createSignedUrl(path, 3600);
-          return [user.id, data?.signedUrl || ''];
-        })
-      );
+          entries.push([user.id, data?.signedUrl || '']);
+        } catch (e) {
+          entries.push([user.id, '']);
+        }
+      }
       setAvatarUrls(Object.fromEntries(entries));
     };
     loadAvatarUrls();
