@@ -20,7 +20,7 @@ const emptyForm = {
   birth_date: '',
   street: '',
   street_number: '',
-  dept_unit: '',
+  dept_or_unit: '',
   region: '',
   commune: '',
   role: ROLES.USER,
@@ -174,7 +174,7 @@ export default function UsersModule() {
       birth_date: user.birth_date || '',
       street: user.street || '',
       street_number: user.street_number || '',
-      dept_unit: user.dept_unit || '',
+      dept_or_unit: user.dept_or_unit || '',
       region: user.region || '',
       commune: user.commune || '',
       role: user.role || ROLES.USER,
@@ -200,7 +200,7 @@ export default function UsersModule() {
       birth_date: user.birth_date || '',
       street: user.street || '',
       street_number: user.street_number || '',
-      dept_unit: user.dept_unit || '',
+      dept_or_unit: user.dept_or_unit || '',
       region: user.region || '',
       commune: user.commune || '',
       role: user.role || ROLES.USER,
@@ -229,7 +229,7 @@ export default function UsersModule() {
           birth_date: profile.birth_date || '',
           street: profile.street || '',
           street_number: profile.street_number || '',
-          dept_unit: profile.dept_unit || '',
+          dept_or_unit: profile.dept_or_unit || '',
           region: profile.region || '',
           commune: profile.commune || '',
           role: profile.role || ROLES.USER,
@@ -287,7 +287,7 @@ export default function UsersModule() {
         birth_date: form.birth_date || null,
         street: form.street.trim(),
         street_number: form.street_number.trim(),
-        dept_unit: form.dept_unit.trim(),
+        dept_or_unit: form.dept_or_unit.trim(),
         region: form.region.trim(),
         commune: form.commune.trim(),
         role: isSuperadmin ? form.role : undefined,
@@ -343,7 +343,7 @@ export default function UsersModule() {
             birth_date: form.birth_date || null,
             street: form.street.trim(),
             street_number: form.street_number.trim(),
-            dept_unit: form.dept_unit.trim(),
+            dept_or_unit: form.dept_or_unit.trim(),
             region: form.region.trim(),
             commune: form.commune.trim(),
             role: form.role,
@@ -592,10 +592,10 @@ export default function UsersModule() {
                 />
               </div>
               <div>
-                <label style={styles.label} htmlFor="dept_unit">{t('users.dept_unit')}</label>
+                <label style={styles.label} htmlFor="dept_or_unit">{t('users.dept_or_unit')}</label>
                 <input
-                  id="dept_unit" name="dept_unit"
-                  value={form.dept_unit}
+                  id="dept_or_unit" name="dept_or_unit"
+                  value={form.dept_or_unit}
                   onChange={handleChange}
                   disabled={readOnly}
                   style={styles.input}
@@ -641,6 +641,7 @@ export default function UsersModule() {
                   style={{ ...styles.select, width: '100%' }}
                 >
                   <option value="user">user</option>
+                  <option value="concierge">concierge</option>
                   <option value="admin">admin</option>
                   {isSuperadmin ? <option value="superadmin">superadmin</option> : null}
                 </select>
