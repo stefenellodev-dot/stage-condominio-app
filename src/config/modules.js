@@ -28,7 +28,7 @@ export const businessModules = [
     id: 'common_areas',
     labelKey: 'nav.common_areas',
     icon: '🏊',
-    component: lazy(() => import('../components/business/CommonAreasModule')),
+    component: lazy(() => import('../components/business/common_areas/CommonAreasModule')),
     roles: [ROLES.SUPERADMIN, ROLES.ADMIN, ROLES.USER, ROLES.CONCIERGE],
   },
   {
@@ -42,7 +42,7 @@ export const businessModules = [
     id: 'maintenance',
     labelKey: 'nav.maintenance',
     icon: '🔧',
-    component: lazy(() => import('../components/business/MaintenanceModule')),
+    component: lazy(() => import('../components/business/maintenance/MaintenanceModule')),
     roles: [ROLES.SUPERADMIN, ROLES.ADMIN, ROLES.CONCIERGE, ROLES.USER],
   },
   {
