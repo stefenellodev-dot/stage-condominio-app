@@ -1,5 +1,5 @@
 # Estado del Sistema: Mac (Código) vs Piave (Despliegue e Infraestructura)
-**Fecha de levantamiento:** 2026-11-10 11:31:01
+**Fecha de levantamiento:** 2026-11-10 11:43:19
 **Servidor Remoto (Infraestructura y Producción):** piave (100.126.211.117)
 **Host Local (Desarrollo):** dstefene1-mac
 
@@ -8,9 +8,9 @@
 ## 1. Servidor Físico Piave (Host y Recursos)
 - **HOSTNAME:** `piave`
 - **KERNEL:** `6.8.0-139-generic`
-- **UPTIME:** `up 6 weeks, 6 days, 21 hours, 48 minutes`
+- **UPTIME:** `up 6 weeks, 6 days, 22 hours, 1 minute`
 - **DISK_USAGE:** `58G/232G (27% en uso)`
-- **RAM_USAGE:** `3071MB / 7829MB (39.2%)`
+- **RAM_USAGE:** `3040MB / 7829MB (38.8%)`
 - **PODMAN_VER:** `podman version 4.9.3`
 
 # Verificar buckets de storage
@@ -37,10 +37,10 @@ echo "" >> ""
 | :--- | :--- |
 | **Contenedor Web** | `stage-stage-condominio-app` |
 | **Estado del Contenedor** | `running` |
-| **Último Inicio / Reinicio** | `2026-11-10 14:30:58.468487063 +0000 UTC` |
+| **Último Inicio / Reinicio** | `2026-11-10 14:41:58.772458299 +0000 UTC` |
 | **Veces Reiniciado (Crash count)** | `0` |
 | **Directorio Servido (Web Root)** | `/app/dist` |
-| **Fecha de Compilación en Piave** | `2026-11-10 14:30:15.000000000 +0000` |
+| **Fecha de Compilación en Piave** | `2026-11-10 14:40:04.000000000 +0000` |
 | **Título HTML Desplegado** | `<title>Sistema de Administración de Condominios</title>` |
 | **Respuesta HTTP Puerto :3002** | `200` |
 | **Servidor Web Interno** | `` |
@@ -138,10 +138,10 @@ echo "" >> ""
 10.89.5.8` | Up 12 hours | `` |
 | `condo-sb-meta` | `Up 12 hours
 10.89.5.9` | Up 12 hours | `` |
-| `condo-sb-kong` | `Up 45 minutes (healthy)
-10.89.5.34` | Up 45 minutes (healthy) | `100.126.211.117:8200->8000/tcp` |
-| `stage-stage-condominio-app` | `Up 6 seconds (starting)
-10.89.5.38` | Up 6 seconds (starting) | `127.0.0.1:3002->3000/tcp, 100.126.211.117:3002->3000/tcp` |
+| `condo-sb-kong` | `Up 58 minutes (healthy)
+10.89.5.34` | Up 58 minutes (healthy) | `100.126.211.117:8200->8000/tcp` |
+| `stage-stage-condominio-app` | `Up About a minute (healthy)
+10.89.5.42` | Up About a minute (healthy) | `127.0.0.1:3002->3000/tcp, 100.126.211.117:3002->3000/tcp` |
 
 ---
 
@@ -167,7 +167,7 @@ echo "" >> ""
 ## 6. Código Local en Mac
 - **Ruta:** `/Users/stefenello/development/stage-condominio-app`
 - **Branch Git:** `main`
-- **Último Commit:** `1e604c9 - feat(dashboard): role-based dashboards (Concierge, Resident, Admin, SuperAdmin) (2026-11-10 11:30:29 -0300)`
+- **Último Commit:** `c15a349 - fix(legal): add default export to LegalCollectionModule (2026-11-10 11:40:05 -0300)`
 - **Archivos Pendientes de Commit:**
 ```text
 
@@ -182,14 +182,10 @@ poll error getaddrinfo EAI_AGAIN svc-db
 poll error getaddrinfo EAI_AGAIN svc-db
 ---LOG_ERROR:fin-engine-notifier---
 2026-11-10 14:30:02,988 ERROR notifier.channels: Error sending email: Connection unexpectedly closed
----LOG_ERROR:fin-engine-brain---
-2026-11-10 14:18:30,901 ERROR yfinance: $CHK: possibly delisted; no price data found  (period=6mo) (Yahoo error = "No data found, symbol may be delisted")
-2026-11-10 14:18:35,401 ERROR yfinance: $CHK: possibly delisted; no price data found  (period=6mo) (Yahoo error = "No data found, symbol may be delisted")
-2026-11-10 14:18:40,703 ERROR yfinance: $CHK: possibly delisted; no price data found  (period=6mo) (Yahoo error = "No data found, symbol may be delisted")
 ---LOG_ERROR:svc-kong---
-10.89.1.44 - - [10/Nov/2026:14:31:20 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "2d5f4b647ce59026af588261923e4931"
-10.89.1.44 - - [10/Nov/2026:14:31:35 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "f193747615c254023aeb6c7a2a79b904"
-10.89.1.44 - - [10/Nov/2026:14:31:51 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "b431417102733465b0622a7819d8c943"
+10.89.1.44 - - [10/Nov/2026:14:43:39 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "cc26090c08d84d480373720b59adb660"
+10.89.1.44 - - [10/Nov/2026:14:43:54 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "f015b51f3630583dce5b8307101df81d"
+10.89.1.44 - - [10/Nov/2026:14:44:09 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "d0886a2eb1c06749c3522466f5af5f48"
 ---LOG_ERROR:stage-sb-db---
 [local] 2026-11-10 02:04:16.307 UTC [436250] postgres@postgres ERROR:  relation "public.condominiums" does not exist at character 60
 [local] 2026-11-10 02:04:57.450 UTC [436286] postgres@postgres ERROR:  relation "public.condominiums" does not exist at character 22
@@ -198,7 +194,6 @@ poll error getaddrinfo EAI_AGAIN svc-db
 {"component":"api","error":"invalid_grant: Invalid login credentials","level":"info","method":"POST","msg":"invalid_grant: Invalid login credentials","path":"/token","referer":"http://100.126.211.117:3002/","remote_addr":"10.89.3.92","request_id":"f36091de-056a-4623-8258-64904ff048fb","time":"2026-11-10T02:03:29Z"}
 {"component":"api","error":"invalid_grant: Invalid login credentials","level":"info","method":"POST","msg":"invalid_grant: Invalid login credentials","path":"/token","referer":"http://100.126.211.117:3002/","remote_addr":"10.89.3.92","request_id":"3698211f-a562-4037-b099-d98587b1b47d","time":"2026-11-10T13:25:09Z"}
 ---LOG_ERROR:condo-sb-db---
-10.89.5.24 2026-11-10 13:20:21.448 UTC [30710] postgres@postgres ERROR:  function digest(text, unknown) does not exist at character 18
 10.89.5.24 2026-11-10 13:20:47.579 UTC [30735] postgres@postgres ERROR:  function digest(text, text) does not exist at character 18
 10.89.5.24 2026-11-10 13:20:50.782 UTC [30735] postgres@postgres ERROR:  function digest(text, text) does not exist at character 18
 ---LOG_ERROR:condo-sb-inbucket---
