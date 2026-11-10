@@ -1,5 +1,5 @@
 # Estado del Sistema: Mac (Código) vs Piave (Despliegue e Infraestructura)
-**Fecha de levantamiento:** 2026-11-10 09:24:52
+**Fecha de levantamiento:** 2026-11-10 09:34:09
 **Servidor Remoto (Infraestructura y Producción):** piave (100.126.211.117)
 **Host Local (Desarrollo):** dstefene1-mac
 
@@ -8,9 +8,9 @@
 ## 1. Servidor Físico Piave (Host y Recursos)
 - **HOSTNAME:** `piave`
 - **KERNEL:** `6.8.0-139-generic`
-- **UPTIME:** `up 6 weeks, 6 days, 19 hours, 42 minutes`
+- **UPTIME:** `up 6 weeks, 6 days, 19 hours, 52 minutes`
 - **DISK_USAGE:** `58G/232G (27% en uso)`
-- **RAM_USAGE:** `2966MB / 7829MB (37.9%)`
+- **RAM_USAGE:** `2982MB / 7829MB (38.1%)`
 - **PODMAN_VER:** `podman version 4.9.3`
 
 # Verificar buckets de storage
@@ -37,7 +37,7 @@ echo "" >> ""
 | :--- | :--- |
 | **Contenedor Web** | `stage-stage-condominio-app` |
 | **Estado del Contenedor** | `running` |
-| **Último Inicio / Reinicio** | `2026-11-10 12:18:47.916368869 +0000 UTC` |
+| **Último Inicio / Reinicio** | `2026-11-10 12:34:10.82145938 +0000 UTC` |
 | **Veces Reiniciado (Crash count)** | `0` |
 | **Directorio Servido (Web Root)** | `/app/dist` |
 | **Fecha de Compilación en Piave** | `2026-11-10 00:07:09.000000000 +0000` |
@@ -140,8 +140,8 @@ echo "" >> ""
 10.89.5.8` | Up 10 hours | `` |
 | `condo-sb-meta` | `Up 10 hours
 10.89.5.9` | Up 10 hours | `` |
-| `stage-stage-condominio-app` | `Up 6 minutes (healthy)
-10.89.5.16` | Up 6 minutes (healthy) | `127.0.0.1:3002->3000/tcp, 100.126.211.117:3002->3000/tcp` |
+| `stage-stage-condominio-app` | `Up 2 seconds (starting)
+10.89.5.18` | Up 2 seconds (starting) | `127.0.0.1:3002->3000/tcp, 100.126.211.117:3002->3000/tcp` |
 
 ---
 
@@ -167,7 +167,7 @@ echo "" >> ""
 ## 6. Código Local en Mac
 - **Ruta:** `/Users/stefenello/development/stage-condominio-app`
 - **Branch Git:** `main`
-- **Último Commit:** `d01ca30 - docs: live audit after payment gateway deployment (2026-11-10 09:20:11 -0300)`
+- **Último Commit:** `3a52775 - feat(legal): legal collection module with cutoff, JPL certificate, accountability (2026-11-10 09:33:47 -0300)`
 - **Archivos Pendientes de Commit:**
 ```text
 
@@ -181,9 +181,9 @@ echo "" >> ""
 poll error getaddrinfo EAI_AGAIN svc-db
 poll error getaddrinfo EAI_AGAIN svc-db
 ---LOG_ERROR:svc-kong---
-10.89.1.44 - - [10/Nov/2026:12:25:01 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "e8de8434bca91733412d55235e724e1f"
-10.89.1.44 - - [10/Nov/2026:12:25:16 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "ba55cf46da25c856f3db410604e80757"
-10.89.1.44 - - [10/Nov/2026:12:25:31 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "11cee334bb20506f9cf94244c22a012c"
+10.89.1.44 - - [10/Nov/2026:12:34:18 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "5e909241fab9191ea75fb70bc876bd45"
+10.89.1.44 - - [10/Nov/2026:12:34:33 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "d96d541ca2049520e28ceb36ba52da4b"
+10.89.1.44 - - [10/Nov/2026:12:34:48 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "bbcf464f4ce142214147b04baee2c657"
 ---LOG_ERROR:stage-sb-db---
 [local] 2026-11-10 02:04:16.307 UTC [436250] postgres@postgres ERROR:  relation "public.condominiums" does not exist at character 60
 [local] 2026-11-10 02:04:57.450 UTC [436286] postgres@postgres ERROR:  relation "public.condominiums" does not exist at character 22
@@ -191,8 +191,6 @@ poll error getaddrinfo EAI_AGAIN svc-db
 {"component":"api","error":"invalid_grant: Invalid login credentials","level":"info","method":"POST","msg":"invalid_grant: Invalid login credentials","path":"/token","referer":"http://100.126.211.117:3001","remote_addr":"10.89.3.92","request_id":"dac9e49d-1250-4a21-b938-b6089785c6d3","time":"2026-11-10T02:01:32Z"}
 {"component":"api","error":"invalid_grant: Invalid login credentials","level":"info","method":"POST","msg":"invalid_grant: Invalid login credentials","path":"/token","referer":"http://100.126.211.117:3002/","remote_addr":"10.89.3.92","request_id":"324e0edc-adbc-49f4-a399-a6cf7adb0ae4","time":"2026-11-10T02:01:48Z"}
 {"component":"api","error":"invalid_grant: Invalid login credentials","level":"info","method":"POST","msg":"invalid_grant: Invalid login credentials","path":"/token","referer":"http://100.126.211.117:3002/","remote_addr":"10.89.3.92","request_id":"f36091de-056a-4623-8258-64904ff048fb","time":"2026-11-10T02:03:29Z"}
----LOG_ERROR:condo-sb-db---
-[local] 2026-11-10 12:20:52.124 UTC [27080] postgres@postgres ERROR:  null value in column "user_id" of relation "bill_payments" violates not-null constraint
 ---LOG_ERROR:condo-sb-auth---
 {"component":"api","error":"error finding user: failed to connect to `host=condo-sb-db user=supabase_auth_admin database=postgres`: hostname resolving error (lookup condo-sb-db on 10.89.5.1:53: dial udp 10.89.5.1:53: i/o timeout)","level":"error","method":"POST","msg":"500: Database error querying schema","path":"/token","referer":"http://100.126.211.117:3002","remote_addr":"10.89.5.4","request_id":"66b5b284-e090-4d31-8a4e-7bfa16204f39","time":"2026-11-10T02:26:21Z"}
 {"component":"api","error":"context deadline exceeded","level":"error","method":"POST","msg":"504: Processing this request timed out, please retry after a moment.","path":"/token","referer":"http://100.126.211.117:3002","remote_addr":"10.89.5.4","request_id":"66b5b284-e090-4d31-8a4e-7bfa16204f39","time":"2026-11-10T02:26:21Z"}
