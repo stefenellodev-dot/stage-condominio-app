@@ -1,5 +1,5 @@
 # Estado del Sistema: Mac (Código) vs Piave (Despliegue e Infraestructura)
-**Fecha de levantamiento:** 2026-11-10 08:54:00
+**Fecha de levantamiento:** 2026-11-10 08:59:20
 **Servidor Remoto (Infraestructura y Producción):** piave (100.126.211.117)
 **Host Local (Desarrollo):** dstefene1-mac
 
@@ -8,9 +8,9 @@
 ## 1. Servidor Físico Piave (Host y Recursos)
 - **HOSTNAME:** `piave`
 - **KERNEL:** `6.8.0-139-generic`
-- **UPTIME:** `up 6 weeks, 6 days, 19 hours, 11 minutes`
+- **UPTIME:** `up 6 weeks, 6 days, 19 hours, 17 minutes`
 - **DISK_USAGE:** `58G/232G (27% en uso)`
-- **RAM_USAGE:** `3029MB / 7829MB (38.7%)`
+- **RAM_USAGE:** `2910MB / 7829MB (37.2%)`
 - **PODMAN_VER:** `podman version 4.9.3`
 
 # Verificar buckets de storage
@@ -124,22 +124,24 @@ echo "" >> ""
 | `stage-new` | `Up 2 days` | Up 2 days | `0.0.0.0:3005->3000/tcp` |
 | `concierge-test2` | `Up 2 days` | Up 2 days | `0.0.0.0:3006->3000/tcp` |
 | `stage-condominio-app-v2` | `Created` | Created | `100.126.211.117:3002->3000/tcp` |
-| `condo-sb-db` | `Up 9 hours (healthy)
-10.89.5.2` | Up 9 hours (healthy) | `` |
-| `condo-sb-studio` | `Up 9 hours
-10.89.5.3` | Up 9 hours | `127.0.0.1:8280->3000/tcp` |
-| `condo-sb-kong` | `Up 9 hours (healthy)
-10.89.5.4` | Up 9 hours (healthy) | `100.126.211.117:8200->8000/tcp` |
-| `condo-sb-inbucket` | `Up 9 hours
-10.89.5.5` | Up 9 hours | `100.126.211.117:9100->9000/tcp` |
-| `condo-sb-rest` | `Up 9 hours
-10.89.5.6` | Up 9 hours | `` |
-| `condo-sb-auth` | `Up 9 hours
-10.89.5.7` | Up 9 hours | `` |
-| `condo-sb-storage` | `Up 9 hours
-10.89.5.8` | Up 9 hours | `` |
-| `condo-sb-meta` | `Up 9 hours
-10.89.5.9` | Up 9 hours | `` |
+| `condo-sb-db` | `Up 10 hours (healthy)
+10.89.5.2` | Up 10 hours (healthy) | `` |
+| `condo-sb-studio` | `Up 10 hours
+10.89.5.3` | Up 10 hours | `127.0.0.1:8280->3000/tcp` |
+| `condo-sb-kong` | `Up 10 hours (healthy)
+10.89.5.4` | Up 10 hours (healthy) | `100.126.211.117:8200->8000/tcp` |
+| `condo-sb-inbucket` | `Up 10 hours
+10.89.5.5` | Up 10 hours | `100.126.211.117:9100->9000/tcp` |
+| `condo-sb-rest` | `Up 10 hours
+10.89.5.6` | Up 10 hours | `` |
+| `condo-sb-auth` | `Up 10 hours
+10.89.5.7` | Up 10 hours | `` |
+| `condo-sb-storage` | `Up 10 hours
+10.89.5.8` | Up 10 hours | `` |
+| `condo-sb-meta` | `Up 10 hours
+10.89.5.9` | Up 10 hours | `` |
+| `stage-stage-condominio-app` | `Up 5 minutes (healthy)
+10.89.5.14` | Up 5 minutes (healthy) | `127.0.0.1:3002->3000/tcp, 100.126.211.117:3002->3000/tcp` |
 
 ---
 
@@ -165,7 +167,7 @@ echo "" >> ""
 ## 6. Código Local en Mac
 - **Ruta:** `/Users/stefenello/development/stage-condominio-app`
 - **Branch Git:** `main`
-- **Último Commit:** `2fcc545 - feat(expenses): add PeriodCloseModal for monthly closing and proration (2026-11-10 08:53:38 -0300)`
+- **Último Commit:** `a054e13 - docs: live audit after period close modal (2026-11-10 08:55:23 -0300)`
 - **Archivos Pendientes de Commit:**
 ```text
 
@@ -179,9 +181,9 @@ echo "" >> ""
 poll error getaddrinfo EAI_AGAIN svc-db
 poll error getaddrinfo EAI_AGAIN svc-db
 ---LOG_ERROR:svc-kong---
-10.89.1.44 - - [10/Nov/2026:11:54:22 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "8a11c4570a1aef7e8c50c72435fe3e15"
-10.89.1.44 - - [10/Nov/2026:11:54:37 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "907bcb45dff15d4c3bd38434aff8e077"
-10.89.1.44 - - [10/Nov/2026:11:54:52 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "45e4ef2a417e055f7ca96732e390624a"
+10.89.1.44 - - [10/Nov/2026:11:59:39 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "35ec1e7fae23376675262e306e10fc08"
+10.89.1.44 - - [10/Nov/2026:11:59:54 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "a9386001d055a86cf0498930f11ddd44"
+10.89.1.44 - - [10/Nov/2026:12:00:09 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "b345283345aa8a4d90ed9c2fac467528"
 ---LOG_ERROR:stage-sb-db---
 [local] 2026-11-10 02:04:16.307 UTC [436250] postgres@postgres ERROR:  relation "public.condominiums" does not exist at character 60
 [local] 2026-11-10 02:04:57.450 UTC [436286] postgres@postgres ERROR:  relation "public.condominiums" does not exist at character 22
@@ -190,7 +192,8 @@ poll error getaddrinfo EAI_AGAIN svc-db
 {"component":"api","error":"invalid_grant: Invalid login credentials","level":"info","method":"POST","msg":"invalid_grant: Invalid login credentials","path":"/token","referer":"http://100.126.211.117:3002/","remote_addr":"10.89.3.92","request_id":"324e0edc-adbc-49f4-a399-a6cf7adb0ae4","time":"2026-11-10T02:01:48Z"}
 {"component":"api","error":"invalid_grant: Invalid login credentials","level":"info","method":"POST","msg":"invalid_grant: Invalid login credentials","path":"/token","referer":"http://100.126.211.117:3002/","remote_addr":"10.89.3.92","request_id":"f36091de-056a-4623-8258-64904ff048fb","time":"2026-11-10T02:03:29Z"}
 ---LOG_ERROR:condo-sb-db---
-[local] 2026-11-10 02:25:18.603 UTC [34] postgres@postgres FATAL:  the database system is starting up
+[local] 2026-11-10 11:58:29.037 UTC [25377] postgres@postgres ERROR:  No es posible emitir un período sin gastos operacionales registrados (Total: $0).
+[local] 2026-11-10 11:58:46.772 UTC [25396] postgres@postgres ERROR:  No es posible emitir un período sin gastos operacionales registrados (Total: $0).
 ---LOG_ERROR:condo-sb-inbucket---
 {"level":"info","module":"lua","phase":"startup","path":"inbucket.lua","time":"2026-11-10T02:25:25Z","message":"Lua script file not found (this is not an error)"}
 ---LOG_ERROR:condo-sb-auth---
