@@ -8,6 +8,7 @@ import { useConfirm } from '../../hooks/useConfirm';
 import { usePermissions } from '../../hooks/usePermissions';
 import { useIsMobile } from '../../hooks/useMediaQuery';
 import { storageService } from '../../services/storageService';
+import { PeriodCloseModal } from '../expenses/PeriodCloseModal';
 import Modal from '../ui/Modal';
 import { billPdfService } from '../../services/billPdfService';
 import { ExpenseBillDocument } from '../expenses/ExpenseBillDocument';
@@ -45,6 +46,7 @@ export default function ExpensesModule() {
   // Form pago
   const [payForm, setPayForm] = useState({ bill_id: '', amount: '', payment_method: 'transferencia', transaction_number: '', voucher_url: '' });
   const [payFile, setPayFile] = useState(null);
+  const [isCloseModalOpen, setIsCloseModalOpen] = useState(false);
   const [savingPay, setSavingPay] = useState(false);
 
   useEffect(() => {
@@ -261,10 +263,15 @@ export default function ExpensesModule() {
         </div>
       </div>
 
-      <div style={{ display: 'flex', gap: '8px', marginBottom: '14px', flexWrap: 'wrap' }}>
+      <div style={{ display: 'flex', gap: '8px', marginBottom: '14px', flexWrap: 'wrap', alignItems: 'center' }}>
         <select value={selectedPeriod} onChange={e => setSelectedPeriod(e.target.value)} style={styles.select}>
           {periods.map(p => <option key={p.id} value={p.id}>{p.period_name} ({p.status})</option>)}
         </select>
+        {canManage && selectedPeriod && period?.status !== 'issued' && (
+          <button onClick={() => setIsCloseModalOpen(true)} style={{ ...styles.button, backgroundColor: '#059669', fontSize: '12.5px', padding: '8px 16px' }}>
+            ⚙️ Cierre y Prorrateo Masivo
+          </button>
+        )}
       </div>
 
       {period && (
@@ -488,6 +495,18 @@ export default function ExpensesModule() {
         </button>
         <ExpenseBillDocument billData={viewingBill} />
       </Modal>
+
+      <PeriodCloseModal
+        isOpen={isCloseModalOpen}
+        onClose={() => setIsCloseModalOpen(false)}
+        period={period}
+        condominiumId={selectedCondo}
+        adminId={profile?.id}
+        onSuccess={() => {
+          loadExpenses();
+          loadBills().then(b => loadPayments(b));
+        }}
+      />
     </div>
   );
 }
