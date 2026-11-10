@@ -21,7 +21,7 @@ export const businessModules = [
     id: 'units',
     labelKey: 'nav.units',
     icon: '🚪',
-    component: lazy(() => import('../components/business/UnitsModule')),
+    component: lazy(() => import('../components/business/units/UnitsModule')),
     roles: [ROLES.SUPERADMIN, ROLES.ADMIN, ROLES.USER],
   },
   {
@@ -49,7 +49,7 @@ export const businessModules = [
     id: 'assemblies',
     labelKey: 'nav.assemblies',
     icon: '🗳️',
-    component: lazy(() => import('../components/business/AssembliesModule')),
+    component: lazy(() => import('../components/business/assemblies/AssembliesModule')),
     roles: [ROLES.SUPERADMIN, ROLES.ADMIN, ROLES.USER],
   },
   {
@@ -77,7 +77,7 @@ export const businessModules = [
     id: 'announcements',
     labelKey: 'nav.announcements',
     icon: '📢',
-    component: lazy(() => import('../components/business/AnnouncementsModule')),
+    component: lazy(() => import('../components/business/announcements/AnnouncementsModule')),
     roles: [ROLES.SUPERADMIN, ROLES.ADMIN, ROLES.CONCIERGE, ROLES.USER],
   },
   {
