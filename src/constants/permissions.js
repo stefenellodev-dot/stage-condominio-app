@@ -76,6 +76,25 @@ export const PERMISSIONS = {
     reconcile: [SUPERADMIN, ADMIN],
     suspend_services: [SUPERADMIN, ADMIN],
   },
+  security_staff: {
+    create: [SUPERADMIN, ADMIN],
+    edit: [SUPERADMIN, ADMIN],
+    delete: [SUPERADMIN, ADMIN],
+    view: [SUPERADMIN, ADMIN, CONCIERGE, USER],
+  },
+  legal_collection: {
+    issue_cutoff: [SUPERADMIN, ADMIN],
+    generate_jpl_certificate: [SUPERADMIN, ADMIN],
+    view_accountability: [SUPERADMIN, ADMIN],
+    view: [SUPERADMIN, ADMIN],
+  },
+  announcements: {
+    create_announcement: [SUPERADMIN, ADMIN],
+    broadcast_emergency: [SUPERADMIN, ADMIN, CONCIERGE],
+    view_announcements: [SUPERADMIN, ADMIN, CONCIERGE, USER],
+    view_emergency_plan: [SUPERADMIN, ADMIN, CONCIERGE, USER],
+    acknowledge: [USER],
+  },
   users: {
     create: [SUPERADMIN, ADMIN],
     edit: [SUPERADMIN, ADMIN],
