@@ -1,5 +1,5 @@
 # Estado del Sistema: Mac (Código) vs Piave (Despliegue e Infraestructura)
-**Fecha de levantamiento:** 2026-11-10 16:10:14
+**Fecha de levantamiento:** 2026-11-10 16:19:19
 **Servidor Remoto (Infraestructura y Producción):** piave (100.126.211.117)
 **Host Local (Desarrollo):** dstefene1-mac
 
@@ -8,9 +8,9 @@
 ## 1. Servidor Físico Piave (Host y Recursos)
 - **HOSTNAME:** `piave`
 - **KERNEL:** `6.8.0-139-generic`
-- **UPTIME:** `up 7 weeks, 2 hours, 28 minutes`
+- **UPTIME:** `up 7 weeks, 2 hours, 37 minutes`
 - **DISK_USAGE:** `58G/232G (27% en uso)`
-- **RAM_USAGE:** `2943MB / 7829MB (37.6%)`
+- **RAM_USAGE:** `2928MB / 7829MB (37.4%)`
 - **PODMAN_VER:** `podman version 4.9.3`
 
 # Verificar buckets de storage
@@ -27,7 +27,7 @@ done
 echo "" >> ""
 - **Base de Datos:** `postgres`
 - **Tamaño en Disco:** `16 MB`
-- **Conexiones Activas:** `7`
+- **Conexiones Activas:** `6`
 
 ---
 
@@ -37,10 +37,10 @@ echo "" >> ""
 | :--- | :--- |
 | **Contenedor Web** | `stage-stage-condominio-app` |
 | **Estado del Contenedor** | `running` |
-| **Último Inicio / Reinicio** | `2026-11-10 19:10:13.995294027 +0000 UTC` |
+| **Último Inicio / Reinicio** | `2026-11-10 19:19:16.654870336 +0000 UTC` |
 | **Veces Reiniciado (Crash count)** | `0` |
 | **Directorio Servido (Web Root)** | `/app/dist` |
-| **Fecha de Compilación en Piave** | `2026-11-10 19:09:53.000000000 +0000` |
+| **Fecha de Compilación en Piave** | `2026-11-10 19:18:56.000000000 +0000` |
 | **Título HTML Desplegado** | `<title>Sistema de Administración de Condominios</title>` |
 | **Respuesta HTTP Puerto :3002** | `200` |
 | **Servidor Web Interno** | `` |
@@ -136,12 +136,12 @@ echo "" >> ""
 10.89.5.8` | Up 17 hours | `` |
 | `condo-sb-meta` | `Up 17 hours
 10.89.5.9` | Up 17 hours | `` |
-| `condo-sb-kong` | `Up 5 hours (healthy)
-10.89.5.34` | Up 5 hours (healthy) | `100.126.211.117:8200->8000/tcp` |
+| `condo-sb-kong` | `Up 6 hours (healthy)
+10.89.5.34` | Up 6 hours (healthy) | `100.126.211.117:8200->8000/tcp` |
 | `vaultwarden` | `Up 2 hours (healthy)
 10.89.4.5` | Up 2 hours (healthy) | `100.126.211.117:8222->80/tcp` |
-| `stage-stage-condominio-app` | `Up 4 seconds (starting)
-10.89.5.60` | Up 4 seconds (starting) | `100.126.211.117:3002->3000/tcp, 127.0.0.1:3002->3000/tcp` |
+| `stage-stage-condominio-app` | `Up 5 seconds (starting)
+10.89.5.62` | Up 5 seconds (starting) | `127.0.0.1:3002->3000/tcp, 100.126.211.117:3002->3000/tcp` |
 
 ---
 
@@ -167,7 +167,7 @@ echo "" >> ""
 ## 6. Código Local en Mac
 - **Ruta:** `/Users/stefenello/development/stage-condominio-app`
 - **Branch Git:** `main`
-- **Último Commit:** `81b771b - fix(users): add 'Todos' filter option to show unassigned users (2026-11-10 16:09:48 -0300)`
+- **Último Commit:** `a8f93b4 - fix(users): fix dept_unit column name + add concierge role to selector (2026-11-10 16:18:50 -0300)`
 - **Archivos Pendientes de Commit:**
 ```text
 
@@ -181,9 +181,9 @@ echo "" >> ""
 poll error getaddrinfo EAI_AGAIN svc-db
 poll error getaddrinfo EAI_AGAIN svc-db
 ---LOG_ERROR:svc-kong---
-10.89.1.44 - - [10/Nov/2026:19:10:37 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "58e240118ba2ca791dad9a73ba12390c"
-10.89.1.44 - - [10/Nov/2026:19:10:53 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "7405ef458600c019df2da25efe477e14"
-10.89.1.44 - - [10/Nov/2026:19:11:08 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "7b17df0b87f9b42a740d716492fbf175"
+10.89.1.44 - - [10/Nov/2026:19:19:40 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "d75a512287733a6c43791a5f5535fb24"
+10.89.1.44 - - [10/Nov/2026:19:19:55 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "b97611515761b07ee89a3009e17a6a0b"
+10.89.1.44 - - [10/Nov/2026:19:20:10 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "688cd2654d1b9048c3ae297fca3e6e56"
 ---LOG_ERROR:stage-sb-db---
 [local] 2026-11-10 02:04:16.307 UTC [436250] postgres@postgres ERROR:  relation "public.condominiums" does not exist at character 60
 [local] 2026-11-10 02:04:57.450 UTC [436286] postgres@postgres ERROR:  relation "public.condominiums" does not exist at character 22
@@ -202,4 +202,7 @@ poll error getaddrinfo EAI_AGAIN svc-db
 ---LOG_ERROR:condo-sb-auth---
 {"component":"api","error":"invalid_grant: Invalid login credentials","level":"info","method":"POST","msg":"invalid_grant: Invalid login credentials","path":"/token","referer":"http://100.126.211.117:3002","remote_addr":"204.119.24.225","request_id":"deb69f10-8abd-4c8e-bc3f-a366215082e4","time":"2026-11-10T18:23:43Z"}
 {"component":"api","error":"invalid_grant: Invalid login credentials","level":"info","method":"POST","msg":"invalid_grant: Invalid login credentials","path":"/token","referer":"http://100.126.211.117:3002","remote_addr":"204.119.24.225","request_id":"7c15be80-189f-4e99-9325-be3d0df0f7b3","time":"2026-11-10T18:24:16Z"}
+---LOG_ERROR:condo-sb-storage---
+{"level":40,"time":"2026-11-10T19:15:32.812Z","pid":1,"hostname":"9da06a17fc8f","region":"not-specified","reqId":"req-10","tenantId":"default","project":"default","reqId":"req-10","type":"request","req":{"region":"not-specified","traceId":"req-10","method":"GET","url":"/object/sign/avatars/f57fb39b-d83c-4af5-bcce-05c33e1bf09d/avatar_1794336367418.jpg?token=redacted","headers":{"host":"condo-sb-storage:5000","x_forwarded_proto":"http","x_forwarded_host":"api.ecomunity.cl","x_forwarded_port":"8000","x_real_ip":"10.89.5.34","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36","accept":"image/jxl,image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8","cf_connecting_ip":"204.119.24.225","cf_ipcountry":"CL","cf_ray":"a58762f0b8905129-MIA","if_modified_since":"Tue, 10 Nov 2026 18:46:08 GMT","if_none_match":"01974500bc101277cb5e26bbbdcbe420","referer":"https://www.ecomunity.cl/"},"hostname":"condo-sb-storage:5000","remoteAddress":"10.89.5.34","remotePort":39644},"res":{"statusCode":400,"headers":{"content_type":"application/json; charset=utf-8","content_length":"65"}},"responseTime":8.517848014831543,"error":{"raw":"{\"metadata\":{},\"code\":\"InvalidJWT\",\"httpStatusCode\":400,\"userStatusCode\":400}","name":"Error","message":"jwt expired","stack":"Error: jwt expired\n    at Object.InvalidJWT (/app/dist/internal/errors/codes.js:110:22)\n    at Object.<anonymous> (/app/dist/http/routes/object/getSignedObject.js:77:36)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"},"resources":["/avatars/f57fb39b-d83c-4af5-bcce-05c33e1bf09d/avatar_1794336367418.jpg"],"operation":"storage.object.get_signed","msg":"default | GET | 400 | 10.89.5.34 | req-10 | /object/sign/avatars/f57fb39b-d83c-4af5-bcce-05c33e1bf09d/avatar_1794336367418.jpg?token=redacted | Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36"}
+{"level":40,"time":"2026-11-10T19:16:30.040Z","pid":1,"hostname":"9da06a17fc8f","region":"not-specified","reqId":"req-15","tenantId":"default","project":"default","reqId":"req-15","type":"request","req":{"region":"not-specified","traceId":"req-15","method":"GET","url":"/object/sign/avatars/f57fb39b-d83c-4af5-bcce-05c33e1bf09d/avatar_1794336367418.jpg?token=redacted","headers":{"host":"condo-sb-storage:5000","x_forwarded_proto":"http","x_forwarded_host":"api.ecomunity.cl","x_forwarded_port":"8000","x_real_ip":"10.89.5.34","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36","accept":"image/jxl,image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8","cf_connecting_ip":"204.119.24.225","cf_ipcountry":"CL","cf_ray":"a58764578928b3e0-MIA","referer":"https://www.ecomunity.cl/"},"hostname":"condo-sb-storage:5000","remoteAddress":"10.89.5.34","remotePort":42394},"res":{"statusCode":400,"headers":{"content_type":"application/json; charset=utf-8","content_length":"65"}},"responseTime":6.213520050048828,"error":{"raw":"{\"metadata\":{},\"code\":\"InvalidJWT\",\"httpStatusCode\":400,\"userStatusCode\":400}","name":"Error","message":"jwt expired","stack":"Error: jwt expired\n    at Object.InvalidJWT (/app/dist/internal/errors/codes.js:110:22)\n    at Object.<anonymous> (/app/dist/http/routes/object/getSignedObject.js:77:36)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"},"resources":["/avatars/f57fb39b-d83c-4af5-bcce-05c33e1bf09d/avatar_1794336367418.jpg"],"operation":"storage.object.get_signed","msg":"default | GET | 400 | 10.89.5.34 | req-15 | /object/sign/avatars/f57fb39b-d83c-4af5-bcce-05c33e1bf09d/avatar_1794336367418.jpg?token=redacted | Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36"}
 ```
