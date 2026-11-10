@@ -207,6 +207,7 @@ export default function ConciergeModule() {
         <button style={tabStyle(tab === 'visitas')} onClick={() => setTab('visitas')}>Visitas</button>
         <button style={tabStyle(tab === 'paquetes')} onClick={() => setTab('paquetes')}>Paquetes</button>
         <button style={tabStyle(tab === 'libro')} onClick={() => setTab('libro')}>Bitácora</button>
+        <button style={tabStyle(tab === 'relevos')} onClick={() => setTab('relevos')}>Relevos</button>
       </div>
 
       {loading && <p style={{ color: 'var(--text-dim)' }}>Cargando…</p>}
@@ -358,11 +359,6 @@ export default function ConciergeModule() {
 
       {tab === 'libro' && (
         <div>
-          {canManage && (
-            <div style={{ display: 'flex', gap: '8px', marginBottom: '16px', flexWrap: 'wrap' }}>
-              <button onClick={() => setShowHandover(true)} style={{ ...styles.button, backgroundColor: '#059669' }}>+ Registrar Relevo de Turno</button>
-            </div>
-          )}
           {handovers.length > 0 && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '16px' }}>
               {handovers.map(h => (
@@ -427,6 +423,35 @@ export default function ConciergeModule() {
           </div>
         </div>
       )}
+      {tab === 'relevos' && (
+        <div>
+          {canManage && (
+            <div style={{ display: 'flex', gap: '8px', marginBottom: '16px', flexWrap: 'wrap' }}>
+              <button onClick={() => setShowHandover(true)} style={{ ...styles.button, backgroundColor: '#059669' }}>+ Registrar Relevo de Turno</button>
+            </div>
+          )}
+          {handovers.length === 0 ? (
+            <div style={{ textAlign: 'center', color: 'var(--text-dim)', padding: '24px' }}>Sin relevos registrados.</div>
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              {handovers.map(h => (
+                <div key={h.id} style={{ backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)', padding: '14px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px', flexWrap: 'wrap', gap: '4px' }}>
+                    <strong style={{ fontSize: '13px', color: 'var(--text-main)' }}>Relevo: {h.shift_time?.replace(/_/g, ' ').toUpperCase()}</strong>
+                    <span style={{ fontSize: '11px', color: 'var(--text-dim)' }}>{new Date(h.handover_timestamp).toLocaleString('es-CL')}</span>
+                  </div>
+                  <div style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>
+                    Saliente: <strong>{h.outgoing?.full_name}</strong> ➔ Entrante: <strong>{h.incoming?.full_name}</strong>
+                  </div>
+                  {h.pending_tasks_summary && <div style={{ fontSize: '12px', color: 'var(--text-dim)', marginTop: '4px' }}>Pendientes: {h.pending_tasks_summary}</div>}
+                  {h.observations && <div style={{ fontSize: '12px', color: 'var(--text-dim)', marginTop: '2px' }}><em>{h.observations}</em></div>}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
       <ShiftHandoverModal
         isOpen={showHandover}
         onClose={() => setShowHandover(false)}
