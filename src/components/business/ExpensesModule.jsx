@@ -51,7 +51,24 @@ export default function ExpensesModule() {
     (async () => {
       const { data: companiesData } = await supabase.from('management_companies').select('id,legal_name,fantasy_name').is('deleted_at', null).order('legal_name');
       setCompanies(companiesData || []);
-      if (companiesData && companiesData.length) setSelectedCompany(companiesData[0].id);
+      if (companiesData && companiesData.length) {
+        setSelectedCompany(companiesData[0].id);
+      } else {
+        // Regular user: load their condo directly
+        const uid = profile?.id;
+        let condoId = profile?.condominium_id;
+        if (!condoId && uid) {
+          const { data: units } = await supabase.from('units').select('condominium_id').eq('owner_id', uid).limit(1);
+          if (units && units.length) condoId = units[0].condominium_id;
+        }
+        if (condoId) {
+          const { data: condo } = await supabase.from('condominiums').select('id,name,rut,management_company_id').eq('id', condoId).is('deleted_at', null).maybeSingle();
+          if (condo) {
+            setCondominiums([condo]);
+            setSelectedCondo(condo.id);
+          }
+        }
+      }
     })();
   }, []);
 
