@@ -1,7 +1,7 @@
 import React, { useState, Suspense } from 'react';
 import AppLayout from '../layout/AppLayout';
 import ProfileSection from './ProfileSection';
-import HomeModule from '../home/HomeModule';
+import { Home } from '../../pages/Home';
 import { businessModules } from '../../config/modules';
 import { useAuth } from '../../context/AuthContext';
 
@@ -21,7 +21,7 @@ export default function Dashboard() {
   return (
     <AppLayout activeTab={activeTab} onSelectTab={handleSelectTab}>
       <Suspense fallback={<div style={{ padding: 24, color: 'var(--text-dim, #9aa0a6)' }}>Cargando módulo…</div>}>
-        {activeTab === 'home' && <HomeModule key={homeKey} />}
+        {activeTab === 'home' && <Home key={homeKey} onNavigate={handleSelectTab} />}
         {BusinessComponent && activeTab !== 'home' && <BusinessComponent />}
       </Suspense>
       {activeTab === 'profile' && <ProfileSection />}
