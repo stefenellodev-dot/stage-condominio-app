@@ -202,6 +202,23 @@ export default function ExpensesModule() {
     loadBills().then(b => loadPayments(b));
   };
 
+  const handleReconcile = async (paymentId, action) => {
+    let reason = null;
+    if (action === 'reject') {
+      reason = prompt('Motivo del rechazo:');
+      if (reason === null) return;
+    }
+    const { error } = await supabase.rpc('reconcile_bill_payment', {
+      p_payment_id: paymentId,
+      p_admin_id: profile.id,
+      p_action: action,
+      p_rejection_reason: reason,
+    });
+    if (error) { showError(error.message); return; }
+    showSuccess(action === 'verify' ? 'Pago conciliado exitosamente' : 'Pago rechazado');
+    loadBills().then(b => loadPayments(b));
+  };
+
   const period = periods.find(p => p.id === selectedPeriod);
 
   const tabStyle = (active) => ({
@@ -400,11 +417,11 @@ export default function ExpensesModule() {
           <div style={styles.tableWrapper}>
             <table style={{ ...styles.table, minWidth: '700px' }}>
               <thead><tr style={styles.thRow}>
-                <th style={styles.th}>Unidad</th><th style={styles.th}>Monto</th><th style={styles.th}>Método</th><th style={styles.th}>Nº operación</th><th style={styles.th}>Fecha</th><th style={styles.th}>Estado</th><th style={styles.th}>Comprobante</th>
+                <th style={styles.th}>Unidad</th><th style={styles.th}>Monto</th><th style={styles.th}>Método</th><th style={styles.th}>Nº operación</th><th style={styles.th}>Fecha</th><th style={styles.th}>Estado</th><th style={styles.th}>Comprobante</th><th style={styles.th}>Acciones</th>
               </tr></thead>
               <tbody>
                 {payments.length === 0 ? (
-                  <tr><td colSpan="7" style={{ ...styles.td, textAlign: 'center', color: 'var(--text-dim)', padding: '24px' }}>Sin pagos registrados.</td></tr>
+                  <tr><td colSpan="8" style={{ ...styles.td, textAlign: 'center', color: 'var(--text-dim)', padding: '24px' }}>Sin pagos registrados.</td></tr>
                 ) : payments.map(p => (
                   <tr key={p.id} style={styles.tr}>
                     <td style={styles.td}>{p.unit_expense_bills?.units?.unit_number}</td>
@@ -428,6 +445,24 @@ export default function ExpensesModule() {
                         >
                           Ver
                         </button>
+                      ) : '—'}
+                    </td>
+                    <td style={styles.td}>
+                      {canManage && p.status === 'pending_review' ? (
+                        <div style={{ display: 'flex', gap: '6px' }}>
+                          <button
+                            onClick={() => handleReconcile(p.id, 'verify')}
+                            style={{ ...styles.buttonAction, backgroundColor: 'var(--success)', color: '#fff' }}
+                          >
+                            ✓ Aprobar
+                          </button>
+                          <button
+                            onClick={() => handleReconcile(p.id, 'reject')}
+                            style={{ ...styles.buttonAction, backgroundColor: 'var(--danger)', color: '#fff' }}
+                          >
+                            ✕ Rechazar
+                          </button>
+                        </div>
                       ) : '—'}
                     </td>
                   </tr>
