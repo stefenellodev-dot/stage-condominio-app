@@ -246,7 +246,7 @@ export default function ProfileSection() {
               value={formData.firstName}
               onChange={handleChange}
               required
-              disabled={!isAdmin}
+              disabled={false}
               style={styles.input}
             />
           </div>
@@ -257,7 +257,7 @@ export default function ProfileSection() {
               name="secondName"
               value={formData.secondName}
               onChange={handleChange}
-              disabled={!isAdmin}
+              disabled={false}
               style={styles.input}
             />
           </div>
@@ -269,7 +269,7 @@ export default function ProfileSection() {
               value={formData.lastName}
               onChange={handleChange}
               required
-              disabled={!isAdmin}
+              disabled={false}
               style={styles.input}
             />
           </div>
@@ -280,7 +280,7 @@ export default function ProfileSection() {
               name="secondLastName"
               value={formData.secondLastName}
               onChange={handleChange}
-              disabled={!isAdmin}
+              disabled={false}
               style={styles.input}
             />
           </div>
@@ -295,7 +295,7 @@ export default function ProfileSection() {
               placeholder="12.345.678-5"
               value={formData.rut}
               onChange={handleChange}
-              disabled={!isAdmin}
+              disabled={false}
               style={styles.input}
             />
           </div>
@@ -317,7 +317,7 @@ export default function ProfileSection() {
               name="birthDate"
               value={formData.birthDate}
               onChange={handleChange}
-              disabled={!isAdmin}
+              disabled={false}
               style={styles.input}
             />
           </div>
@@ -333,7 +333,7 @@ export default function ProfileSection() {
               name="street"
               value={formData.street}
               onChange={handleChange}
-              disabled={!isAdmin}
+              disabled={false}
               style={styles.input}
             />
           </div>
@@ -344,7 +344,7 @@ export default function ProfileSection() {
               name="streetNumber"
               value={formData.streetNumber}
               onChange={handleChange}
-              disabled={!isAdmin}
+              disabled={false}
               style={styles.input}
             />
           </div>
@@ -355,7 +355,7 @@ export default function ProfileSection() {
               name="deptOrUnit"
               value={formData.deptOrUnit}
               onChange={handleChange}
-              disabled={!isAdmin}
+              disabled={false}
               style={styles.input}
             />
           </div>
@@ -368,7 +368,7 @@ export default function ProfileSection() {
               id="regionId" name="regionId"
               value={formData.regionId}
               onChange={handleChange}
-              disabled={!isAdmin}
+              disabled={false}
               style={styles.select}
             >
               <option value="">{t('profile.select_region')}</option>
@@ -386,7 +386,7 @@ export default function ProfileSection() {
               id="communeId" name="communeId"
               value={formData.communeId}
               onChange={handleChange}
-              disabled={!isAdmin || !formData.regionId}
+              disabled={!formData.regionId}
               style={styles.select}
             >
               <option value="">{t('profile.select_commune')}</option>
