@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../context/AuthContext';
+import { documentPdfService } from '../../services/documentPdfService';
 import { useIsMobile } from '../../hooks/useMediaQuery';
 
 export function LegalCollectionModule({ condominiumId }) {
@@ -122,9 +123,14 @@ export function LegalCollectionModule({ condominiumId }) {
                        <span style={{ color: '#64748b', fontSize: '11.5px' }}>Deuda regular</span>}
                     </td>
                     <td style={{ padding: '10px 14px', textAlign: 'center' }}>
-                      {u.is_cutoff_eligible && u.active_cutoff_status !== 'notified' && (
-                        <button disabled={actionLoading} onClick={() => handleIssueCutoff(u)} style={{ padding: '6px 12px', backgroundColor: '#dc2626', color: '#fff', border: 'none', borderRadius: '6px', fontSize: '11.5px', fontWeight: '700', cursor: 'pointer' }}>⚡ Apercibir Corte</button>
-                      )}
+                      <div style={{ display: 'flex', gap: '4px', justifyContent: 'center', flexWrap: 'wrap' }}>
+                        {u.is_cutoff_eligible && u.active_cutoff_status !== 'notified' && (
+                          <button disabled={actionLoading} onClick={() => handleIssueCutoff(u)} style={{ padding: '6px 12px', backgroundColor: '#dc2626', color: '#fff', border: 'none', borderRadius: '6px', fontSize: '11.5px', fontWeight: '700', cursor: 'pointer' }}>⚡ Apercibir Corte</button>
+                        )}
+                        {u.active_cutoff_status === 'notified' && (
+                          <button onClick={() => documentPdfService.downloadCutoffNoticePdf({ condo_name: u.condo_name, unit_number: u.unit_number, total_debt: u.total_debt, unpaid_periods_count: u.unpaid_periods_count, notice_folio: 'NOT-CORTE-' + u.unit_number, deadline_date: u.active_cutoff_deadline || '5 días desde notificación', service_type: 'energia_electrica' })} style={{ padding: '6px 10px', backgroundColor: '#0f172a', color: '#fff', border: 'none', borderRadius: '6px', fontSize: '11.5px', fontWeight: '700', cursor: 'pointer' }}>📥 Carta PDF (QR)</button>
+                        )}
+                      </div>
                     </td>
                   </tr>
                 ))}
@@ -181,6 +187,7 @@ export function LegalCollectionModule({ condominiumId }) {
                 <div><div style={{ borderTop: '1px solid #000', paddingTop: '6px', fontWeight: 'bold' }}>V°B° Presidente Comité</div><div>{certData.committee_president_name}</div></div>
               </div>
               <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', marginTop: '24px' }}>
+                <button onClick={() => documentPdfService.downloadJplCertificatePdf(certData)} style={{ padding: '8px 16px', backgroundColor: '#0284c7', color: '#fff', border: 'none', borderRadius: '6px', fontWeight: '700', fontSize: '12px', cursor: 'pointer' }}>📥 Descargar PDF (QR)</button>
                 <button onClick={() => window.print()} style={{ padding: '8px 16px', background: '#0f172a', color: '#fff', border: 'none', borderRadius: '6px', cursor: 'pointer' }}>🖨️ Imprimir / Guardar PDF</button>
                 <button onClick={() => setCertData(null)} style={{ padding: '8px 16px', border: '1px solid #ccc', background: '#fff', borderRadius: '6px', cursor: 'pointer' }}>Volver al Listado</button>
               </div>

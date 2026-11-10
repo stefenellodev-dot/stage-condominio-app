@@ -9,6 +9,7 @@ import VerifyOtpForm from './components/auth/VerifyOtpForm';
 import ForgotForm from './components/auth/ForgotForm';
 import ResetForm from './components/auth/ResetForm';
 import Dashboard from './components/dashboard/Dashboard';
+import { PublicVerifyDocument } from './pages/PublicVerifyDocument';
 
 function MainApp() {
   const { session, loading, isPasswordRecovery, setIsPasswordRecovery } = useAuth();
@@ -87,6 +88,15 @@ function MainApp() {
 }
 
 export default function App() {
+  if (window.location.pathname === '/verify') {
+    return (
+      <ToastProvider>
+        <I18nProvider>
+          <PublicVerifyDocument />
+        </I18nProvider>
+      </ToastProvider>
+    );
+  }
   return (
     <ToastProvider>
       <I18nProvider>
