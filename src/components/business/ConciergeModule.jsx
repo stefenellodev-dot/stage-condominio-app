@@ -7,6 +7,7 @@ import { useTranslation } from '../../context/I18nContext';
 import { ROLES, ROLE_GROUPS } from '../../constants/roles';
 import { usePermissions } from '../../hooks/usePermissions';
 import { useIsMobile } from '../../hooks/useMediaQuery';
+import { ShiftHandoverModal } from '../concierge/ShiftHandoverModal';
 
 const fmtTime = (iso) => iso ? new Date(iso).toLocaleString('es-ES', { hour: '2-digit', minute: '2-digit' }) : '—';
 
@@ -29,6 +30,7 @@ export default function ConciergeModule() {
   const [parcels, setParcels] = useState([]);
   const [units, setUnits] = useState([]);
   const [logs, setLogs] = useState([]);
+  const [handovers, setHandovers] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const [visitForm, setVisitForm] = useState({ unit_id: '', visitor_name: '', visitor_rut: '', vehicle_plate: '', parking_spot: '', notes: '' });
@@ -36,6 +38,7 @@ export default function ConciergeModule() {
   const [pkgForm, setPkgForm] = useState({ unit_id: '', carrier: 'chilexpress', tracking_number: '', package_type: 'caja', pickup_pin: '', voucher_url: '' });
   const [savingPkg, setSavingPkg] = useState(false);
   const [logForm, setLogForm] = useState({ shift: 'morning', entry_type: 'rutina', title: '', description: '' });
+  const [showHandover, setShowHandover] = useState(false);
   const [savingLog, setSavingLog] = useState(false);
 
   useEffect(() => {
@@ -65,7 +68,7 @@ export default function ConciergeModule() {
     if (!selectedCondo) return;
     setLoading(true);
     try {
-      const [visitsRes, parcelsRes, logbookRes] = await Promise.all([
+      const [visitsRes, parcelsRes, logbookRes, handoversRes] = await Promise.all([
         supabase
           .from('visitor_logs')
           .select('id, unit_id, visitor_name, visitor_rut, vehicle_plate, parking_spot, entry_time, registered_by, status, notes, units(unit_number)')
@@ -81,10 +84,17 @@ export default function ConciergeModule() {
           .select('id, shift, entry_type, title, description, author_id, status, created_at, updated_at')
           .eq('condominium_id', selectedCondo)
           .order('created_at', { ascending: false }),
+        supabase
+          .from('shift_handovers')
+          .select('id, shift_time, handover_timestamp, pending_tasks_summary, observations, outgoing:outgoing_staff_id(full_name, job_title), incoming:incoming_staff_id(full_name, job_title)')
+          .eq('condominium_id', selectedCondo)
+          .order('handover_timestamp', { ascending: false })
+          .limit(10),
       ]);
       if (visitsRes.error) showError(visitsRes.error.message); else setVisits(visitsRes.data || []);
       if (parcelsRes.error) showError(parcelsRes.error.message); else setParcels(parcelsRes.data || []);
       if (logbookRes.error) showError(logbookRes.error.message); else setLogs(logbookRes.data || []);
+      if (handoversRes.error) showError(handoversRes.error.message); else setHandovers(handoversRes.data || []);
     } catch (err) {
       showError(err.message);
     } finally {
@@ -348,6 +358,27 @@ export default function ConciergeModule() {
       {tab === 'libro' && (
         <div>
           {canManage && (
+            <div style={{ display: 'flex', gap: '8px', marginBottom: '16px', flexWrap: 'wrap' }}>
+              <button onClick={() => setShowHandover(true)} style={{ ...styles.button, backgroundColor: '#059669' }}>+ Registrar Relevo de Turno</button>
+            </div>
+          )}
+          {handovers.length > 0 && (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '16px' }}>
+              {handovers.map(h => (
+                <div key={h.id} style={{ backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)', padding: '12px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px', flexWrap: 'wrap', gap: '4px' }}>
+                    <strong style={{ fontSize: '13px', color: 'var(--text-main)' }}>Relevo: {h.shift_time?.replace(/_/g, ' ').toUpperCase()}</strong>
+                    <span style={{ fontSize: '11px', color: 'var(--text-dim)' }}>{new Date(h.handover_timestamp).toLocaleString('es-CL')}</span>
+                  </div>
+                  <div style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>
+                    Saliente: <strong>{h.outgoing?.full_name}</strong> ➔ Entrante: <strong>{h.incoming?.full_name}</strong>
+                  </div>
+                  {h.pending_tasks_summary && <div style={{ fontSize: '12px', color: 'var(--text-dim)', marginTop: '4px' }}>Pendientes: {h.pending_tasks_summary}</div>}
+                </div>
+              ))}
+            </div>
+          )}
+          {canManage && (
             <form onSubmit={handleCreateLog} style={{ ...styles.form, marginBottom: '16px' }}>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
                 <select value={logForm.shift} onChange={e => setLogForm({ ...logForm, shift: e.target.value })} style={styles.select}>
@@ -395,6 +426,12 @@ export default function ConciergeModule() {
           </div>
         </div>
       )}
+      <ShiftHandoverModal
+        isOpen={showHandover}
+        onClose={() => setShowHandover(false)}
+        condominiumId={selectedCondo}
+        onSuccess={() => { loadViews(); }}
+      />
     </div>
   );
 }
