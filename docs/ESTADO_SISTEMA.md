@@ -1,5 +1,5 @@
 # Estado del Sistema: Mac (Código) vs Piave (Despliegue e Infraestructura)
-**Fecha de levantamiento:** 2026-11-10 14:02:30
+**Fecha de levantamiento:** 2026-11-10 14:36:29
 **Servidor Remoto (Infraestructura y Producción):** piave (100.126.211.117)
 **Host Local (Desarrollo):** dstefene1-mac
 
@@ -8,9 +8,9 @@
 ## 1. Servidor Físico Piave (Host y Recursos)
 - **HOSTNAME:** `piave`
 - **KERNEL:** `6.8.0-139-generic`
-- **UPTIME:** `up 7 weeks, 20 minutes`
+- **UPTIME:** `up 7 weeks, 54 minutes`
 - **DISK_USAGE:** `58G/232G (27% en uso)`
-- **RAM_USAGE:** `3074MB / 7829MB (39.3%)`
+- **RAM_USAGE:** `2947MB / 7829MB (37.6%)`
 - **PODMAN_VER:** `podman version 4.9.3`
 
 # Verificar buckets de storage
@@ -112,8 +112,6 @@ echo "" >> ""
 10.89.3.96` | Up 7 days | `` |
 | `stage-sb-meta` | `Up 7 days
 10.89.3.97` | Up 7 days | `` |
-| `vaultwarden` | `Up 4 days (unhealthy)
-10.89.4.4` | Up 4 days (unhealthy) | `100.126.211.117:8222->80/tcp` |
 | `fin-engine-agent-pablo` | `Up 3 days
 10.89.0.41` | Up 3 days | `` |
 | `fin-engine-agent-marcos` | `Up 3 days
@@ -138,10 +136,12 @@ echo "" >> ""
 10.89.5.8` | Up 15 hours | `` |
 | `condo-sb-meta` | `Up 15 hours
 10.89.5.9` | Up 15 hours | `` |
-| `condo-sb-kong` | `Up 3 hours (healthy)
-10.89.5.34` | Up 3 hours (healthy) | `100.126.211.117:8200->8000/tcp` |
-| `stage-stage-condominio-app` | `Up 4 minutes (healthy)
-10.89.5.52` | Up 4 minutes (healthy) | `127.0.0.1:3002->3000/tcp, 100.126.211.117:3002->3000/tcp` |
+| `condo-sb-kong` | `Up 4 hours (healthy)
+10.89.5.34` | Up 4 hours (healthy) | `100.126.211.117:8200->8000/tcp` |
+| `stage-stage-condominio-app` | `Up 38 minutes (healthy)
+10.89.5.52` | Up 38 minutes (healthy) | `127.0.0.1:3002->3000/tcp, 100.126.211.117:3002->3000/tcp` |
+| `vaultwarden` | `Up 21 seconds (healthy)
+10.89.4.5` | Up 21 seconds (healthy) | `100.126.211.117:8222->80/tcp` |
 
 ---
 
@@ -167,7 +167,7 @@ echo "" >> ""
 ## 6. Código Local en Mac
 - **Ruta:** `/Users/stefenello/development/stage-condominio-app`
 - **Branch Git:** `main`
-- **Último Commit:** `dd85877 - feat(refactor): role-based announcements, assemblies, units views (Etapa 3) (2026-11-10 13:56:11 -0300)`
+- **Último Commit:** `02b1bca - docs: live audit after etapa 3 refactor (2026-11-10 14:03:56 -0300)`
 - **Archivos Pendientes de Commit:**
 ```text
 
@@ -181,9 +181,9 @@ echo "" >> ""
 poll error getaddrinfo EAI_AGAIN svc-db
 poll error getaddrinfo EAI_AGAIN svc-db
 ---LOG_ERROR:svc-kong---
-10.89.1.44 - - [10/Nov/2026:17:02:47 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "3fba105a3845f61b98a6545ee816c477"
-10.89.1.44 - - [10/Nov/2026:17:03:03 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "904f850fbfbda5114d6ecf5cc65e3d21"
-10.89.1.44 - - [10/Nov/2026:17:03:18 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "c1da1d09b423a74e1a46240fa581682d"
+10.89.1.44 - - [10/Nov/2026:17:36:57 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "b8d70b34e0433872ee06bf4480bdf04a"
+10.89.1.44 - - [10/Nov/2026:17:37:12 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "2e5f645f9407b147316ce81ed2240420"
+10.89.1.44 - - [10/Nov/2026:17:37:27 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "a6c2ae1198062813e3102f0454638507"
 ---LOG_ERROR:stage-sb-db---
 [local] 2026-11-10 02:04:16.307 UTC [436250] postgres@postgres ERROR:  relation "public.condominiums" does not exist at character 60
 [local] 2026-11-10 02:04:57.450 UTC [436286] postgres@postgres ERROR:  relation "public.condominiums" does not exist at character 22
@@ -191,10 +191,13 @@ poll error getaddrinfo EAI_AGAIN svc-db
 {"component":"api","error":"invalid_grant: Invalid login credentials","level":"info","method":"POST","msg":"invalid_grant: Invalid login credentials","path":"/token","referer":"http://100.126.211.117:3002/","remote_addr":"10.89.3.92","request_id":"324e0edc-adbc-49f4-a399-a6cf7adb0ae4","time":"2026-11-10T02:01:48Z"}
 {"component":"api","error":"invalid_grant: Invalid login credentials","level":"info","method":"POST","msg":"invalid_grant: Invalid login credentials","path":"/token","referer":"http://100.126.211.117:3002/","remote_addr":"10.89.3.92","request_id":"f36091de-056a-4623-8258-64904ff048fb","time":"2026-11-10T02:03:29Z"}
 {"component":"api","error":"invalid_grant: Invalid login credentials","level":"info","method":"POST","msg":"invalid_grant: Invalid login credentials","path":"/token","referer":"http://100.126.211.117:3002/","remote_addr":"10.89.3.92","request_id":"3698211f-a562-4037-b099-d98587b1b47d","time":"2026-11-10T13:25:09Z"}
+---LOG_ERROR:condo-sb-db---
+10.89.5.24 2026-11-10 17:30:00.454 UTC [45659] postgres@postgres ERROR:  column condominiums_1.address does not exist at character 188
+10.89.5.24 2026-11-10 17:30:41.344 UTC [45659] postgres@postgres ERROR:  column assemblies.first_call_at does not exist at character 144
 ---LOG_ERROR:condo-sb-inbucket---
-{"level":"warn","module":"rest","proto":"WebSocket","remote":"10.89.5.5:33450","error":"websocket: close 1006 (abnormal closure): unexpected EOF","time":"2026-11-10T13:09:21Z","message":"Socket error"}
 {"level":"warn","module":"rest","proto":"WebSocket","remote":"10.89.5.5:44092","error":"websocket: close 1006 (abnormal closure): unexpected EOF","time":"2026-11-10T14:12:50Z","message":"Socket error"}
 {"level":"warn","module":"rest","proto":"WebSocket","remote":"10.89.5.5:59688","error":"websocket: close 1006 (abnormal closure): unexpected EOF","time":"2026-11-10T15:32:10Z","message":"Socket error"}
+{"level":"warn","module":"rest","proto":"WebSocket","remote":"10.89.5.5:37752","error":"websocket: close 1006 (abnormal closure): unexpected EOF","time":"2026-11-10T17:20:51Z","message":"Socket error"}
 ---LOG_ERROR:condo-sb-auth---
 {"component":"api","error":"invalid_grant: Invalid login credentials","level":"info","method":"POST","msg":"invalid_grant: Invalid login credentials","path":"/token","referer":"http://100.126.211.117:3002/","remote_addr":"204.119.24.225","request_id":"74eb638d-05fe-480a-b735-23e36ce6ae81","time":"2026-11-10T16:35:06Z"}
 {"component":"api","error":"invalid_grant: Invalid login credentials","level":"info","method":"POST","msg":"invalid_grant: Invalid login credentials","path":"/token","referer":"http://100.126.211.117:3002/","remote_addr":"204.119.24.225","request_id":"e447999d-7ba4-4e25-84a4-9b50633a7a05","time":"2026-11-10T16:35:07Z"}
