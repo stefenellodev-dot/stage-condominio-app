@@ -1,5 +1,5 @@
 # Estado del Sistema: Mac (Código) vs Piave (Despliegue e Infraestructura)
-**Fecha de levantamiento:** 2026-11-09 22:08:10
+**Fecha de levantamiento:** 2026-11-09 22:10:44
 **Servidor Remoto (Infraestructura y Producción):** piave (100.126.211.117)
 **Host Local (Desarrollo):** dstefene1-mac
 
@@ -8,9 +8,9 @@
 ## 1. Servidor Físico Piave (Host y Recursos)
 - **HOSTNAME:** `piave`
 - **KERNEL:** `6.8.0-139-generic`
-- **UPTIME:** `up 6 weeks, 6 days, 8 hours, 26 minutes`
+- **UPTIME:** `up 6 weeks, 6 days, 8 hours, 28 minutes`
 - **DISK_USAGE:** `59G/232G (27% en uso)`
-- **RAM_USAGE:** `2673MB / 7829MB (34.1%)`
+- **RAM_USAGE:** `2678MB / 7829MB (34.2%)`
 - **PODMAN_VER:** `podman version 4.9.3`
 
 # Verificar buckets de storage
@@ -27,7 +27,7 @@ done
 echo "" >> ""
 - **Base de Datos:** `postgres`
 - **Tamaño en Disco:** `15 MB`
-- **Conexiones Activas:** `7`
+- **Conexiones Activas:** `8`
 
 ---
 
@@ -144,8 +144,8 @@ echo "" >> ""
 | `stage-new` | `Up 2 days` | Up 2 days | `0.0.0.0:3005->3000/tcp` |
 | `concierge-test2` | `Up 2 days` | Up 2 days | `0.0.0.0:3006->3000/tcp` |
 | `stage-condominio-app-v2` | `Created` | Created | `100.126.211.117:3002->3000/tcp` |
-| `stage-stage-condominio-app` | `Up 33 seconds
-10.89.3.147` | Up 33 seconds | `127.0.0.1:3002->3000/tcp, 100.126.211.117:3002->3000/tcp` |
+| `stage-stage-condominio-app` | `Up 3 minutes
+10.89.3.147` | Up 3 minutes | `127.0.0.1:3002->3000/tcp, 100.126.211.117:3002->3000/tcp` |
 
 ---
 
@@ -171,7 +171,7 @@ echo "" >> ""
 ## 6. Código Local en Mac
 - **Ruta:** `/Users/stefenello/development/stage-condominio-app`
 - **Branch Git:** `main`
-- **Último Commit:** `de2ef34 - feat(expenses): add payment reconciliation (approve/reject) with RPC (2026-11-09 22:07:19 -0300)`
+- **Último Commit:** `d7d3dbb - docs: live audit after payment reconciliation (2026-11-09 22:09:47 -0300)`
 - **Archivos Pendientes de Commit:**
 ```text
 
@@ -182,13 +182,13 @@ echo "" >> ""
 ## 7. Errores Detectados en Logs de Contenedores en Piave
 ```text
 ---LOG_ERROR:svc-kong---
-10.89.1.44 - - [10/Nov/2026:01:08:27 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "8981ec3a45310c61cb93536b5496135b"
-10.89.1.44 - - [10/Nov/2026:01:08:42 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "d8da7c7188c53c4d3388967dad2d2031"
-10.89.1.44 - - [10/Nov/2026:01:08:57 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "c9c6ee1c16413373b189f8593aa60f1c"
+10.89.1.44 - - [10/Nov/2026:01:10:58 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "1318563c0705fd1b214feb6255f4bb63"
+10.89.1.44 - - [10/Nov/2026:01:11:13 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "66b8b04d49057d4cb2d7986616f41522"
+10.89.1.44 - - [10/Nov/2026:01:11:28 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "be6d0c60bd923836567b917f714b0d3b"
 ---LOG_ERROR:condo-sb-inbucket---
 {"level":"error","module":"web","path":"/api/v1/mailbox/@test.com","error":"missing terminating ':' in route specification","time":"2026-11-10T00:13:12Z","message":"Error handling request"}
 {"level":"error","module":"web","path":"/api/v1/mailbox/@test.com","error":"missing terminating ':' in route specification","time":"2026-11-10T00:13:13Z","message":"Error handling request"}
 {"level":"error","module":"web","path":"/api/v1/mailbox/@test.com","error":"missing terminating ':' in route specification","time":"2026-11-10T00:13:13Z","message":"Error handling request"}
 ---LOG_ERROR:condo-sb-db---
-[local] 2026-11-09 23:33:43.648 UTC [250772] postgres@postgres ERROR:  trigger functions can only be called as triggers
+[local] 2026-11-10 01:10:20.518 UTC [256689] postgres@postgres ERROR:  column "verified_at" of relation "bill_payments" does not exist at character 100
 ```
