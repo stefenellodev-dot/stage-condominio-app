@@ -31,6 +31,7 @@ export const en = {
     assemblies: 'Assemblies & Voting',
     expenses: 'Expenses & Finance',
     security_staff: 'Security & OS-10',
+    legal_collection: 'Legal Collection & Accountability',
     announcements: 'Community & Emergencies',
   },
   roles: {

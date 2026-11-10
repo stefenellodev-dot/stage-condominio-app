@@ -67,6 +67,13 @@ export const businessModules = [
     roles: [ROLES.SUPERADMIN, ROLES.ADMIN, ROLES.CONCIERGE],
   },
   {
+    id: 'legal_collection',
+    labelKey: 'nav.legal_collection',
+    icon: '⚖️',
+    component: lazy(() => import('../components/legal/LegalCollectionModule')),
+    roles: [ROLES.SUPERADMIN, ROLES.ADMIN],
+  },
+  {
     id: 'announcements',
     labelKey: 'nav.announcements',
     icon: '📢',

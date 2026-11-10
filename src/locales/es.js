@@ -31,6 +31,7 @@ export const es = {
     assemblies: 'Asambleas y Votaciones',
     expenses: 'Gastos Comunes',
     security_staff: 'Seguridad y OS-10',
+    legal_collection: 'Cobranza y Rendición Legal',
     announcements: 'Comunidad y Emergencias',
   },
   roles: {
