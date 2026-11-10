@@ -1,5 +1,5 @@
 # Estado del Sistema: Mac (Código) vs Piave (Despliegue e Infraestructura)
-**Fecha de levantamiento:** 2026-11-10 13:39:11
+**Fecha de levantamiento:** 2026-11-10 14:02:30
 **Servidor Remoto (Infraestructura y Producción):** piave (100.126.211.117)
 **Host Local (Desarrollo):** dstefene1-mac
 
@@ -8,9 +8,9 @@
 ## 1. Servidor Físico Piave (Host y Recursos)
 - **HOSTNAME:** `piave`
 - **KERNEL:** `6.8.0-139-generic`
-- **UPTIME:** `up 6 weeks, 6 days, 23 hours, 57 minutes`
+- **UPTIME:** `up 7 weeks, 20 minutes`
 - **DISK_USAGE:** `58G/232G (27% en uso)`
-- **RAM_USAGE:** `3057MB / 7829MB (39.0%)`
+- **RAM_USAGE:** `3074MB / 7829MB (39.3%)`
 - **PODMAN_VER:** `podman version 4.9.3`
 
 # Verificar buckets de storage
@@ -27,7 +27,7 @@ done
 echo "" >> ""
 - **Base de Datos:** `postgres`
 - **Tamaño en Disco:** `16 MB`
-- **Conexiones Activas:** `8`
+- **Conexiones Activas:** `6`
 
 ---
 
@@ -37,10 +37,10 @@ echo "" >> ""
 | :--- | :--- |
 | **Contenedor Web** | `stage-stage-condominio-app` |
 | **Estado del Contenedor** | `running` |
-| **Último Inicio / Reinicio** | `2026-11-10 16:39:11.919532043 +0000 UTC` |
+| **Último Inicio / Reinicio** | `2026-11-10 16:57:38.462446471 +0000 UTC` |
 | **Veces Reiniciado (Crash count)** | `0` |
 | **Directorio Servido (Web Root)** | `/app/dist` |
-| **Fecha de Compilación en Piave** | `2026-11-10 16:38:50.000000000 +0000` |
+| **Fecha de Compilación en Piave** | `2026-11-10 16:57:18.000000000 +0000` |
 | **Título HTML Desplegado** | `<title>Sistema de Administración de Condominios</title>` |
 | **Respuesta HTTP Puerto :3002** | `200` |
 | **Servidor Web Interno** | `` |
@@ -124,24 +124,24 @@ echo "" >> ""
 | `stage-new` | `Up 2 days` | Up 2 days | `0.0.0.0:3005->3000/tcp` |
 | `concierge-test2` | `Up 2 days` | Up 2 days | `0.0.0.0:3006->3000/tcp` |
 | `stage-condominio-app-v2` | `Created` | Created | `100.126.211.117:3002->3000/tcp` |
-| `condo-sb-db` | `Up 14 hours (healthy)
-10.89.5.2` | Up 14 hours (healthy) | `` |
-| `condo-sb-studio` | `Up 14 hours
-10.89.5.3` | Up 14 hours | `127.0.0.1:8280->3000/tcp` |
-| `condo-sb-inbucket` | `Up 14 hours
-10.89.5.5` | Up 14 hours | `100.126.211.117:9100->9000/tcp` |
-| `condo-sb-rest` | `Up 3 hours
-10.89.5.24` | Up 3 hours | `` |
-| `condo-sb-auth` | `Up 14 hours
-10.89.5.7` | Up 14 hours | `` |
-| `condo-sb-storage` | `Up 14 hours
-10.89.5.8` | Up 14 hours | `` |
-| `condo-sb-meta` | `Up 14 hours
-10.89.5.9` | Up 14 hours | `` |
+| `condo-sb-db` | `Up 15 hours (healthy)
+10.89.5.2` | Up 15 hours (healthy) | `` |
+| `condo-sb-studio` | `Up 15 hours
+10.89.5.3` | Up 15 hours | `127.0.0.1:8280->3000/tcp` |
+| `condo-sb-inbucket` | `Up 15 hours
+10.89.5.5` | Up 15 hours | `100.126.211.117:9100->9000/tcp` |
+| `condo-sb-rest` | `Up 4 hours
+10.89.5.24` | Up 4 hours | `` |
+| `condo-sb-auth` | `Up 15 hours
+10.89.5.7` | Up 15 hours | `` |
+| `condo-sb-storage` | `Up 15 hours
+10.89.5.8` | Up 15 hours | `` |
+| `condo-sb-meta` | `Up 15 hours
+10.89.5.9` | Up 15 hours | `` |
 | `condo-sb-kong` | `Up 3 hours (healthy)
 10.89.5.34` | Up 3 hours (healthy) | `100.126.211.117:8200->8000/tcp` |
-| `stage-stage-condominio-app` | `Up 3 seconds (starting)
-10.89.5.50` | Up 3 seconds (starting) | `127.0.0.1:3002->3000/tcp, 100.126.211.117:3002->3000/tcp` |
+| `stage-stage-condominio-app` | `Up 4 minutes (healthy)
+10.89.5.52` | Up 4 minutes (healthy) | `127.0.0.1:3002->3000/tcp, 100.126.211.117:3002->3000/tcp` |
 
 ---
 
@@ -167,7 +167,7 @@ echo "" >> ""
 ## 6. Código Local en Mac
 - **Ruta:** `/Users/stefenello/development/stage-condominio-app`
 - **Branch Git:** `main`
-- **Último Commit:** `b1ff5a7 - feat(refactor): role-based common_areas and maintenance views with orchestrators (2026-11-10 13:38:45 -0300)`
+- **Último Commit:** `dd85877 - feat(refactor): role-based announcements, assemblies, units views (Etapa 3) (2026-11-10 13:56:11 -0300)`
 - **Archivos Pendientes de Commit:**
 ```text
 
@@ -181,9 +181,9 @@ echo "" >> ""
 poll error getaddrinfo EAI_AGAIN svc-db
 poll error getaddrinfo EAI_AGAIN svc-db
 ---LOG_ERROR:svc-kong---
-10.89.1.44 - - [10/Nov/2026:16:39:40 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "baa4562eca46c1123e60fb280b19780d"
-10.89.1.44 - - [10/Nov/2026:16:39:55 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "1ca8be00c252bc5025e6fa3e7e18815e"
-10.89.1.44 - - [10/Nov/2026:16:40:11 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "8f789d0c4b083512a722d1746a75b26c"
+10.89.1.44 - - [10/Nov/2026:17:02:47 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "3fba105a3845f61b98a6545ee816c477"
+10.89.1.44 - - [10/Nov/2026:17:03:03 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "904f850fbfbda5114d6ecf5cc65e3d21"
+10.89.1.44 - - [10/Nov/2026:17:03:18 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "c1da1d09b423a74e1a46240fa581682d"
 ---LOG_ERROR:stage-sb-db---
 [local] 2026-11-10 02:04:16.307 UTC [436250] postgres@postgres ERROR:  relation "public.condominiums" does not exist at character 60
 [local] 2026-11-10 02:04:57.450 UTC [436286] postgres@postgres ERROR:  relation "public.condominiums" does not exist at character 22
