@@ -20,6 +20,7 @@ export default function CondominiumsModule() {
   const [communes, setCommunes] = useState([]);
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [readOnly, setReadOnly] = useState(false);
   const [formMode, setFormMode] = useState('list');
   const [formData, setFormData] = useState({
     id: '', management_company_id: '', name: '', rut: '', sii_property_role: '', type: 'tipo_a',
@@ -119,7 +120,38 @@ export default function CondominiumsModule() {
     loadCondominiums();
   };
 
+  const handleView = (condo) => {
+    setFormData({
+      id: condo.id,
+      management_company_id: condo.management_company_id || selectedCompany,
+      name: condo.name || '',
+      rut: condo.rut || '',
+      sii_property_role: condo.sii_property_role || '',
+      type: condo.type || 'tipo_a',
+      destination: condo.destination || '',
+      total_units: condo.total_units ? String(condo.total_units) : '',
+      dom_certificate_number: condo.dom_certificate_number || '',
+      dom_approval_date: condo.dom_approval_date || '',
+      reserve_fund_percentage: condo.reserve_fund_percentage ? String(condo.reserve_fund_percentage) : '5',
+      street: condo.street || '',
+      street_number: condo.street_number || '',
+      region_id: condo.region_id ? String(condo.region_id) : '',
+      commune_id: condo.commune_id ? String(condo.commune_id) : '',
+      region: condo.region || '',
+      commune: condo.commune || '',
+      bank_name: condo.bank_name || '',
+      account_type: condo.account_type || '',
+      account_number: condo.account_number || '',
+      concierge_phone: condo.concierge_phone || '',
+      administration_email: condo.administration_email || '',
+      status: condo.status || 'active',
+    });
+    setReadOnly(true);
+    setFormMode('edit');
+  };
+
   const handleEdit = (condo) => {
+    setReadOnly(false);
     setFormData({
       id: condo.id,
       management_company_id: condo.management_company_id || selectedCompany,
@@ -193,6 +225,7 @@ export default function CondominiumsModule() {
   };
 
   const handleCancel = () => {
+    setReadOnly(false);
     setFormData({ id: '', management_company_id: '', name: '', rut: '', sii_property_role: '', type: 'tipo_a', destination: '', total_units: '', dom_certificate_number: '', dom_approval_date: '', reserve_fund_percentage: '5', street: '', street_number: '', region_id: '', commune_id: '', region: '', commune: '', bank_name: '', account_type: '', account_number: '', concierge_phone: '', administration_email: '', status: 'active' });
     setFormMode('list');
   };
@@ -218,7 +251,7 @@ export default function CondominiumsModule() {
 
       {formMode !== 'list' && (
         <div style={{ ...styles.formSection, marginBottom: '16px' }}>
-          <h4 style={{ margin: '0 0 12px', color: 'var(--primary)' }}>{formMode === 'create' ? 'Nuevo condominio' : 'Editar condominio'}</h4>
+          <h4 style={{ margin: '0 0 12px', color: 'var(--primary)' }}>{readOnly ? 'Ver condominio' : formMode === 'create' ? 'Nuevo condominio' : 'Editar condominio'}</h4>
           <form onSubmit={formMode === 'create' ? handleCreate : handleUpdate} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
               <div><label style={styles.label}>Nombre del condominio *</label><input type="text" name="name" value={formData.name} onChange={handleChange} style={styles.input} required /></div>
@@ -258,7 +291,7 @@ export default function CondominiumsModule() {
               <div><label style={styles.label}>N° de cuenta</label><input type="text" name="account_number" value={formData.account_number} onChange={handleChange} style={styles.input} /></div>
             </div>
             <div style={{ marginTop: '12px', display: 'flex', gap: '8px' }}>
-              <button type="submit" disabled={saving} style={{ ...styles.button, padding: '8px 16px' }}>{saving ? 'Guardando...' : formMode === 'create' ? 'Crear' : 'Actualizar'}</button>
+              {!readOnly && <button type="submit" disabled={saving} style={{ ...styles.button, padding: '8px 16px' }}>{saving ? 'Guardando...' : formMode === 'create' ? 'Crear' : 'Actualizar'}</button>}
               <button type="button" onClick={handleCancel} style={{ ...styles.button, backgroundColor: 'var(--danger-bg)', color: 'var(--danger-text)', marginTop: '0' }}>Cancelar</button>
             </div>
           </form>
@@ -295,6 +328,7 @@ export default function CondominiumsModule() {
                 <td style={styles.td}>{c.status}</td>
                 <td style={styles.td}>
                   <div style={{ display: 'flex', gap: '6px', justifyContent: 'center', flexWrap: 'wrap' }}>
+                    <button onClick={() => handleView(c)} style={{ ...styles.buttonAction, padding: '4px 8px', fontSize: '12px' }}>Ver</button>
                     {canManage && <button onClick={() => handleEdit(c)} style={{ ...styles.buttonAction, padding: '4px 8px', fontSize: '12px' }}>Editar</button>}
                     {canManage && <button onClick={() => handleDelete(c.id)} style={{ ...styles.buttonAction, padding: '4px 8px', fontSize: '12px', backgroundColor: 'var(--danger-bg)', color: 'var(--danger-text)' }}>Desactivar</button>}
                   </div>
