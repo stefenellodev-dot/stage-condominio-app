@@ -1,5 +1,5 @@
 # Estado del Sistema: Mac (Código) vs Piave (Despliegue e Infraestructura)
-**Fecha de levantamiento:** 2026-11-09 21:09:57
+**Fecha de levantamiento:** 2026-11-09 21:42:51
 **Servidor Remoto (Infraestructura y Producción):** piave (100.126.211.117)
 **Host Local (Desarrollo):** dstefene1-mac
 
@@ -8,9 +8,9 @@
 ## 1. Servidor Físico Piave (Host y Recursos)
 - **HOSTNAME:** `piave`
 - **KERNEL:** `6.8.0-139-generic`
-- **UPTIME:** `up 6 weeks, 6 days, 7 hours, 27 minutes`
+- **UPTIME:** `up 6 weeks, 6 days, 8 hours, 0 minutes`
 - **DISK_USAGE:** `59G/232G (27% en uso)`
-- **RAM_USAGE:** `2689MB / 7829MB (34.3%)`
+- **RAM_USAGE:** `2692MB / 7829MB (34.4%)`
 - **PODMAN_VER:** `podman version 4.9.3`
 
 # Verificar buckets de storage
@@ -27,7 +27,7 @@ done
 echo "" >> ""
 - **Base de Datos:** `postgres`
 - **Tamaño en Disco:** `15 MB`
-- **Conexiones Activas:** `7`
+- **Conexiones Activas:** `8`
 
 ---
 
@@ -37,10 +37,10 @@ echo "" >> ""
 | :--- | :--- |
 | **Contenedor Web** | `stage-stage-condominio-app` |
 | **Estado del Contenedor** | `running` |
-| **Último Inicio / Reinicio** | `2026-11-10 00:09:30.235742714 +0000 UTC` |
+| **Último Inicio / Reinicio** | `2026-11-10 00:42:29.46474782 +0000 UTC` |
 | **Veces Reiniciado (Crash count)** | `0` |
 | **Directorio Servido (Web Root)** | `/app/dist` |
-| **Fecha de Compilación en Piave** | `2026-11-10 00:07:09.000000000 +0000` |
+| **Fecha de Compilación en Piave** | `2026-11-10 00:42:11.000000000 +0000` |
 | **Título HTML Desplegado** | `<title>Sistema de Administración de Condominios</title>` |
 | **Respuesta HTTP Puerto :3002** | `200` |
 | **Servidor Web Interno** | `` |
@@ -84,20 +84,20 @@ echo "" >> ""
 10.89.3.24` | Up 7 days | `127.0.0.1:3000->3000/tcp, 100.126.211.117:3000->3000/tcp` |
 | `fin-engine-redis` | `Up 7 days
 10.89.0.83` | Up 7 days | `` |
-| `fin-engine-notifier` | `Up 6 days
-10.89.0.98` | Up 6 days | `` |
-| `fin-engine-brain` | `Up 6 days
-10.89.0.100` | Up 6 days | `` |
-| `fin-engine-dashboard` | `Up 6 days
-10.89.0.99` | Up 6 days | `0.0.0.0:8080->8080/tcp` |
-| `svc-kong` | `Up 6 days
-10.89.1.46` | Up 6 days | `127.0.0.1:8000->8000/tcp` |
-| `svc-auth` | `Up 6 days
-10.89.1.45` | Up 6 days | `` |
-| `svc-email` | `Up 6 days
-10.89.1.44` | Up 6 days | `127.0.0.1:8091->8091/tcp` |
-| `cs-web` | `Up 6 days
-10.89.1.47` | Up 6 days | `127.0.0.1:8082->80/tcp` |
+| `fin-engine-notifier` | `Up 7 days
+10.89.0.98` | Up 7 days | `` |
+| `fin-engine-brain` | `Up 7 days
+10.89.0.100` | Up 7 days | `` |
+| `fin-engine-dashboard` | `Up 7 days
+10.89.0.99` | Up 7 days | `0.0.0.0:8080->8080/tcp` |
+| `svc-kong` | `Up 7 days
+10.89.1.46` | Up 7 days | `127.0.0.1:8000->8000/tcp` |
+| `svc-auth` | `Up 7 days
+10.89.1.45` | Up 7 days | `` |
+| `svc-email` | `Up 7 days
+10.89.1.44` | Up 7 days | `127.0.0.1:8091->8091/tcp` |
+| `cs-web` | `Up 7 days
+10.89.1.47` | Up 7 days | `127.0.0.1:8082->80/tcp` |
 | `stage-sb-db` | `Up 6 days (healthy)
 10.89.3.90` | Up 6 days (healthy) | `100.126.211.117:54321->5432/tcp` |
 | `stage-sb-studio` | `Up 6 days
@@ -143,8 +143,9 @@ echo "" >> ""
 | `concierge-test` | `Up 2 days` | Up 2 days | `0.0.0.0:3003->3000/tcp` |
 | `stage-new` | `Up 2 days` | Up 2 days | `0.0.0.0:3005->3000/tcp` |
 | `concierge-test2` | `Up 2 days` | Up 2 days | `0.0.0.0:3006->3000/tcp` |
-| `stage-stage-condominio-app` | `Up 30 seconds (starting)
-10.89.3.140` | Up 30 seconds (starting) | `127.0.0.1:3002->3000/tcp, 100.126.211.117:3002->3000/tcp` |
+| `stage-condominio-app-v2` | `Created` | Created | `100.126.211.117:3002->3000/tcp` |
+| `stage-stage-condominio-app` | `Up 24 seconds
+10.89.3.144` | Up 24 seconds | `127.0.0.1:3002->3000/tcp, 100.126.211.117:3002->3000/tcp` |
 
 ---
 
@@ -170,7 +171,7 @@ echo "" >> ""
 ## 6. Código Local en Mac
 - **Ruta:** `/Users/stefenello/development/stage-condominio-app`
 - **Branch Git:** `main`
-- **Último Commit:** `80413ea - feat(concierge): add ShiftHandoverModal for turn handover registration (2026-11-09 21:04:54 -0300)`
+- **Último Commit:** `0f9c090 - feat(concierge): move shift handover to Relevos tab for consistency (2026-11-09 21:42:13 -0300)`
 - **Archivos Pendientes de Commit:**
 ```text
 
@@ -181,17 +182,15 @@ echo "" >> ""
 ## 7. Errores Detectados en Logs de Contenedores en Piave
 ```text
 ---LOG_ERROR:svc-kong---
-10.89.1.44 - - [10/Nov/2026:00:10:13 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "9a477c150dfe307b69e5617f0aeb821f"
-10.89.1.44 - - [10/Nov/2026:00:10:28 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "105afe06da34284c848f3c1870d49f51"
-10.89.1.44 - - [10/Nov/2026:00:10:43 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "2e8b0326befb171ec356a0070a6f3e2e"
+10.89.1.44 - - [10/Nov/2026:00:43:06 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "b8b96740ed8371502d6da63c2adb747a"
+10.89.1.44 - - [10/Nov/2026:00:43:21 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "6111065b35674c061c16e2504ade9551"
+10.89.1.44 - - [10/Nov/2026:00:43:36 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "72ff2e1b90eabb5fc768ad5d549f9410"
 ---LOG_ERROR:condo-sb-inbucket---
-{"level":"warn","module":"rest","proto":"WebSocket","remote":"10.89.3.19:47558","error":"websocket: close 1006 (abnormal closure): unexpected EOF","time":"2026-11-09T02:42:57Z","message":"Socket error"}
-{"level":"warn","module":"rest","proto":"WebSocket","remote":"10.89.3.19:42256","error":"websocket: close 1006 (abnormal closure): unexpected EOF","time":"2026-11-09T15:32:54Z","message":"Socket error"}
-{"level":"warn","module":"rest","proto":"WebSocket","remote":"10.89.3.19:45274","error":"websocket: close 1006 (abnormal closure): unexpected EOF","time":"2026-11-09T19:33:39Z","message":"Socket error"}
+{"level":"error","module":"web","path":"/api/v1/mailbox/@test.com","error":"missing terminating ':' in route specification","time":"2026-11-10T00:13:12Z","message":"Error handling request"}
+{"level":"error","module":"web","path":"/api/v1/mailbox/@test.com","error":"missing terminating ':' in route specification","time":"2026-11-10T00:13:13Z","message":"Error handling request"}
+{"level":"error","module":"web","path":"/api/v1/mailbox/@test.com","error":"missing terminating ':' in route specification","time":"2026-11-10T00:13:13Z","message":"Error handling request"}
 ---LOG_ERROR:condo-sb-db---
 [local] 2026-11-09 23:33:43.648 UTC [250772] postgres@postgres ERROR:  trigger functions can only be called as triggers
 ---LOG_ERROR:condo-sb-auth---
 {"component":"api","error":"invalid_grant: Invalid login credentials","level":"info","method":"POST","msg":"invalid_grant: Invalid login credentials","path":"/token","referer":"http://100.126.211.117:3002/","remote_addr":"10.89.3.115","request_id":"ee23cb8f-0f9f-4bc6-ab9e-eccfe6a3e98f","time":"2026-11-09T22:43:18Z"}
----LOG_ERROR:stage-stage-condominio-app---
- WARN  Checking for updates failed (use `--debug` to see full error)
 ```
