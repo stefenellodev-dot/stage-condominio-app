@@ -258,7 +258,7 @@ export default function AppLayout({ activeTab, onSelectTab, children }) {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          padding: '0 28px',
+          padding: isMobile ? '0 12px' : '0 28px',
         }}>
           <div style={{ fontSize: '14px', fontWeight: '500', color: 'var(--text-secondary)' }}>
             {activeTitle}
@@ -329,6 +329,16 @@ export default function AppLayout({ activeTab, onSelectTab, children }) {
           }}>
             <span style={{ fontSize: '20px' }}>👤</span>
             Perfil
+          </button>
+          <button onClick={toggleLang} style={{
+            flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center',
+            gap: '2px', background: 'transparent', border: 'none', cursor: 'pointer',
+            color: 'var(--text-secondary)',
+            fontSize: '10px', fontWeight: '500',
+            padding: '6px 4px',
+          }}>
+            <span style={{ fontSize: '20px' }}>🌐</span>
+            {lang === 'es' ? 'EN' : 'ES'}
           </button>
           <button onClick={signOut} style={{
             flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center',
