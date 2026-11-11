@@ -1,4 +1,5 @@
 import React, { useState, Suspense } from 'react';
+import '../../styles/theme';
 import AppLayout from '../layout/AppLayout';
 import ProfileSection from './ProfileSection';
 import { Home } from '../../pages/Home';

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import '../../styles/theme';
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../context/AuthContext';
 import { useIsMobile } from '../../hooks/useMediaQuery';
@@ -57,20 +58,20 @@ export function AdminDashboard({ condominiumId, onNavigate }) {
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(4, 1fr)', gap: '12px' }}>
-        <div style={{ backgroundColor: '#fff', padding: '16px', borderRadius: '10px', border: '1px solid var(--border-subtle)' }}>
+        <div style={{ backgroundColor: 'var(--bg-card)', padding: '16px', borderRadius: '10px', border: '1px solid var(--border-subtle)' }}>
           <div style={{ fontSize: '11px', color: 'var(--text-dim)', fontWeight: '700', textTransform: 'uppercase' }}>Total Facturado</div>
           <div style={{ fontSize: '20px', fontWeight: '800', color: 'var(--text-main)', marginTop: '4px' }}>{formatCLP(financials.billed)}</div>
         </div>
-        <div style={{ backgroundColor: '#fff', padding: '16px', borderRadius: '10px', border: '1px solid var(--border-subtle)' }}>
+        <div style={{ backgroundColor: 'var(--bg-card)', padding: '16px', borderRadius: '10px', border: '1px solid var(--border-subtle)' }}>
           <div style={{ fontSize: '11px', color: 'var(--text-dim)', fontWeight: '700', textTransform: 'uppercase' }}>Recaudación Efectiva</div>
           <div style={{ fontSize: '20px', fontWeight: '800', color: '#15803d', marginTop: '4px' }}>{formatCLP(financials.collected)}</div>
           <div style={{ fontSize: '11px', color: '#15803d', fontWeight: '600' }}>{financials.collectionPct}% recuperado</div>
         </div>
-        <div style={{ backgroundColor: '#fff', padding: '16px', borderRadius: '10px', border: '1px solid var(--border-subtle)' }}>
+        <div style={{ backgroundColor: 'var(--bg-card)', padding: '16px', borderRadius: '10px', border: '1px solid var(--border-subtle)' }}>
           <div style={{ fontSize: '11px', color: 'var(--text-dim)', fontWeight: '700', textTransform: 'uppercase' }}>Fondo de Reserva (Art. 39)</div>
           <div style={{ fontSize: '20px', fontWeight: '800', color: '#0369a1', marginTop: '4px' }}>{formatCLP(financials.reserveFund)}</div>
         </div>
-        <div style={{ backgroundColor: '#fff', padding: '16px', borderRadius: '10px', border: '1px solid var(--border-subtle)' }}>
+        <div style={{ backgroundColor: 'var(--bg-card)', padding: '16px', borderRadius: '10px', border: '1px solid var(--border-subtle)' }}>
           <div style={{ fontSize: '11px', color: 'var(--text-dim)', fontWeight: '700', textTransform: 'uppercase' }}>Conciliaciones Pendientes</div>
           <div style={{ fontSize: '20px', fontWeight: '800', color: pendingPaymentsCount > 0 ? '#ea580c' : '#0f172a', marginTop: '4px' }}>{pendingPaymentsCount}</div>
         </div>
@@ -90,17 +91,17 @@ export function AdminDashboard({ condominiumId, onNavigate }) {
       )}
 
       <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: '12px' }}>
-        <div style={{ backgroundColor: '#fff', padding: '16px', borderRadius: '10px', border: '1px solid var(--border-subtle)' }}>
+        <div style={{ backgroundColor: 'var(--bg-card)', padding: '16px', borderRadius: '10px', border: '1px solid var(--border-subtle)' }}>
           <h3 style={{ margin: '0 0 6px', fontSize: '14px', fontWeight: '700' }}>Cierre y Prorrateo</h3>
           <p style={{ margin: '0 0 12px', fontSize: '12px', color: 'var(--text-dim)' }}>Distribuye gastos operacionales según alícuota.</p>
           <button onClick={() => onNavigate && onNavigate('expenses')} style={{ padding: '6px 12px', backgroundColor: '#0284c7', color: '#fff', border: 'none', borderRadius: '6px', fontSize: '12px', fontWeight: '700', cursor: 'pointer' }}>Ir a Períodos de Gasto</button>
         </div>
-        <div style={{ backgroundColor: '#fff', padding: '16px', borderRadius: '10px', border: '1px solid var(--border-subtle)' }}>
+        <div style={{ backgroundColor: 'var(--bg-card)', padding: '16px', borderRadius: '10px', border: '1px solid var(--border-subtle)' }}>
           <h3 style={{ margin: '0 0 6px', fontSize: '14px', fontWeight: '700' }}>Certificados JPL (Art. 6)</h3>
           <p style={{ margin: '0 0 12px', fontSize: '12px', color: 'var(--text-dim)' }}>Genera títulos ejecutivos con código QR.</p>
           <button onClick={() => onNavigate && onNavigate('legal_collection')} style={{ padding: '6px 12px', backgroundColor: 'var(--bg-card)', color: '#fff', border: 'none', borderRadius: '6px', fontSize: '12px', fontWeight: '700', cursor: 'pointer' }}>Gestionar Cobro Judicial</button>
         </div>
-        <div style={{ backgroundColor: '#fff', padding: '16px', borderRadius: '10px', border: '1px solid var(--border-subtle)' }}>
+        <div style={{ backgroundColor: 'var(--bg-card)', padding: '16px', borderRadius: '10px', border: '1px solid var(--border-subtle)' }}>
           <h3 style={{ margin: '0 0 6px', fontSize: '14px', fontWeight: '700' }}>Rendición Asambleas (Art. 22)</h3>
           <p style={{ margin: '0 0 12px', fontSize: '12px', color: 'var(--text-dim)' }}>Reportes contables con respaldo de facturas.</p>
           <button onClick={() => onNavigate && onNavigate('legal_collection')} style={{ padding: '6px 12px', backgroundColor: '#334155', color: '#fff', border: 'none', borderRadius: '6px', fontSize: '12px', fontWeight: '700', cursor: 'pointer' }}>Ver Balances del Mes</button>

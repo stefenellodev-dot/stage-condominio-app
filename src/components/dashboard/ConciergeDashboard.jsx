@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import '../../styles/theme';
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../context/AuthContext';
 import { useIsMobile } from '../../hooks/useMediaQuery';
@@ -55,17 +56,17 @@ export function ConciergeDashboard({ condominiumId, onNavigate }) {
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: '12px' }}>
-        <div style={{ backgroundColor: '#fff', padding: '16px', borderRadius: '10px', border: '1px solid var(--border-subtle)' }}>
+        <div style={{ backgroundColor: 'var(--bg-card)', padding: '16px', borderRadius: '10px', border: '1px solid var(--border-subtle)' }}>
           <div style={{ fontSize: '11.5px', color: 'var(--text-dim)', fontWeight: '700' }}>PAQUETES EN CUSTODIA</div>
           <div style={{ fontSize: '24px', fontWeight: '800', color: 'var(--text-main)', marginTop: '4px' }}>{stats.pendingPackages}</div>
           <div style={{ fontSize: '11px', color: '#0284c7', marginTop: '2px' }}>Pendientes de retiro</div>
         </div>
-        <div style={{ backgroundColor: '#fff', padding: '16px', borderRadius: '10px', border: '1px solid var(--border-subtle)' }}>
+        <div style={{ backgroundColor: 'var(--bg-card)', padding: '16px', borderRadius: '10px', border: '1px solid var(--border-subtle)' }}>
           <div style={{ fontSize: '11.5px', color: 'var(--text-dim)', fontWeight: '700' }}>VISITAS ACTUALES DENTRO</div>
           <div style={{ fontSize: '24px', fontWeight: '800', color: 'var(--success-text)', marginTop: '4px' }}>{stats.activeVisitors}</div>
           <div style={{ fontSize: '11px', color: 'var(--text-dim)', marginTop: '2px' }}>Ingresos registrados hoy</div>
         </div>
-        <div style={{ backgroundColor: '#fff', padding: '16px', borderRadius: '10px', border: '1px solid var(--border-subtle)' }}>
+        <div style={{ backgroundColor: 'var(--bg-card)', padding: '16px', borderRadius: '10px', border: '1px solid var(--border-subtle)' }}>
           <div style={{ fontSize: '11.5px', color: 'var(--text-dim)', fontWeight: '700' }}>ESTACIONAMIENTOS VISITA</div>
           <div style={{ fontSize: '24px', fontWeight: '800', color: stats.occupiedParking >= 10 ? '#dc2626' : '#0f172a', marginTop: '4px' }}>
             {stats.occupiedParking} / {stats.totalParking}
@@ -74,7 +75,7 @@ export function ConciergeDashboard({ condominiumId, onNavigate }) {
         </div>
       </div>
 
-      <div style={{ backgroundColor: '#fff', borderRadius: '10px', border: '1px solid var(--border-subtle)', padding: '16px' }}>
+      <div style={{ backgroundColor: 'var(--bg-card)', borderRadius: '10px', border: '1px solid var(--border-subtle)', padding: '16px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
           <h3 style={{ margin: 0, fontSize: '14px', fontWeight: '800', color: 'var(--text-main)' }}>📦 Encomiendas en Custodia ({packages.length})</h3>
           <button onClick={fetchConciergeData} style={{ fontSize: '11px', background: 'none', border: 'none', color: '#0284c7', cursor: 'pointer', fontWeight: '700' }}>🔄 Actualizar</button>

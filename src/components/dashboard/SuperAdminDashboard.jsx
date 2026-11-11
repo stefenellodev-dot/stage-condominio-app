@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import '../../styles/theme';
 import { supabase } from '../../lib/supabase';
 import { useIsMobile } from '../../hooks/useMediaQuery';
 
@@ -43,26 +44,26 @@ export function SuperAdminDashboard({ onNavigate }) {
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr 1fr' : 'repeat(4, 1fr)', gap: '12px' }}>
-        <div style={{ backgroundColor: '#fff', padding: '16px', borderRadius: '10px', border: '1px solid var(--border-subtle)' }}>
+        <div style={{ backgroundColor: 'var(--bg-card)', padding: '16px', borderRadius: '10px', border: '1px solid var(--border-subtle)' }}>
           <div style={{ fontSize: '11px', color: 'var(--text-dim)', fontWeight: '700' }}>CONDOMINIOS ACTIVOS</div>
           <div style={{ fontSize: '24px', fontWeight: '900', color: 'var(--text-main)', marginTop: '4px' }}>{platformMetrics.condoCount}</div>
         </div>
-        <div style={{ backgroundColor: '#fff', padding: '16px', borderRadius: '10px', border: '1px solid var(--border-subtle)' }}>
+        <div style={{ backgroundColor: 'var(--bg-card)', padding: '16px', borderRadius: '10px', border: '1px solid var(--border-subtle)' }}>
           <div style={{ fontSize: '11px', color: 'var(--text-dim)', fontWeight: '700' }}>UNIDADES TOTALES</div>
           <div style={{ fontSize: '24px', fontWeight: '900', color: '#0284c7', marginTop: '4px' }}>{platformMetrics.unitCount}</div>
         </div>
-        <div style={{ backgroundColor: '#fff', padding: '16px', borderRadius: '10px', border: '1px solid var(--border-subtle)' }}>
+        <div style={{ backgroundColor: 'var(--bg-card)', padding: '16px', borderRadius: '10px', border: '1px solid var(--border-subtle)' }}>
           <div style={{ fontSize: '11px', color: 'var(--text-dim)', fontWeight: '700' }}>USUARIOS REGISTRADOS</div>
           <div style={{ fontSize: '24px', fontWeight: '900', color: '#15803d', marginTop: '4px' }}>{platformMetrics.userCount}</div>
         </div>
-        <div style={{ backgroundColor: '#fff', padding: '16px', borderRadius: '10px', border: '1px solid var(--border-subtle)' }}>
+        <div style={{ backgroundColor: 'var(--bg-card)', padding: '16px', borderRadius: '10px', border: '1px solid var(--border-subtle)' }}>
           <div style={{ fontSize: '11px', color: 'var(--text-dim)', fontWeight: '700' }}>NOTIFICACIONES EN COLA</div>
           <div style={{ fontSize: '24px', fontWeight: '900', color: platformMetrics.outboxPending > 0 ? '#ea580c' : '#64748b', marginTop: '4px' }}>{platformMetrics.outboxPending} pendientes</div>
           <div style={{ fontSize: '11px', color: '#15803d' }}>{platformMetrics.outboxSent} despachadas</div>
         </div>
       </div>
 
-      <div style={{ backgroundColor: '#fff', borderRadius: '10px', border: '1px solid var(--border-subtle)', padding: '16px' }}>
+      <div style={{ backgroundColor: 'var(--bg-card)', borderRadius: '10px', border: '1px solid var(--border-subtle)', padding: '16px' }}>
         <h3 style={{ margin: '0 0 12px', fontSize: '14px', fontWeight: '800' }}>Comunidades Registradas en la Red</h3>
         <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px' }}>
           <thead>
