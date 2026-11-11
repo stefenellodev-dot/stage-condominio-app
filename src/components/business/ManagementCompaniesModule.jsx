@@ -544,7 +544,7 @@ export default function ManagementCompaniesModule() {
               {t('management_companies.subtitle')}
             </p>
           </div>
-          <button onClick={handleBack} style={styles.buttonAction}>
+          <button onClick={handleBack} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>
             {t('management_companies.back_to_list')}
           </button>
         </div>
@@ -954,7 +954,7 @@ export default function ManagementCompaniesModule() {
               {t('management_companies.members_subtitle')}
             </p>
           </div>
-          <button onClick={closeMembers} style={styles.buttonAction}>
+          <button onClick={closeMembers} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>
             {t('management_companies.back_to_list')}
           </button>
         </div>
@@ -1001,7 +1001,7 @@ export default function ManagementCompaniesModule() {
                     <td style={{ ...styles.td, textAlign: 'center' }}>
                       <button
                         onClick={() => handleRemoveMember(member.id)}
-                        style={styles.btnDelete}
+                        style={{ padding: '4px 10px', backgroundColor: 'var(--danger-bg)', color: 'var(--danger-text)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}
                       >
                         {t('management_companies.members_remove')}
                       </button>
@@ -1119,7 +1119,7 @@ export default function ManagementCompaniesModule() {
           </p>
         </div>
         {isSuperadmin ? (
-          <button onClick={handleNew} style={styles.buttonAction}>
+          <button onClick={handleNew} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>
             {t('management_companies.new_button')}
           </button>
         ) : null}
@@ -1235,13 +1235,13 @@ export default function ManagementCompaniesModule() {
                     <div style={{ display: 'flex', gap: '6px', justifyContent: 'center', flexWrap: 'wrap' }}>
                       <button
                         onClick={() => handleView(company)}
-                        style={styles.buttonAction}
+                        style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}
                       >
                         {t('management_companies.view_button')}
                       </button>
                       <button
                         onClick={() => openMembers(company)}
-                        style={styles.buttonAction}
+                        style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}
                       >
                         {t('management_companies.members_button')}
                       </button>
@@ -1249,13 +1249,13 @@ export default function ManagementCompaniesModule() {
                         <>
                           <button
                             onClick={() => handleEdit(company)}
-                            style={styles.buttonAction}
+                            style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}
                           >
                             {t('management_companies.edit_button')}
                           </button>
                           <button
                             onClick={() => handleDelete(company.id)}
-                            style={styles.btnDelete}
+                            style={{ padding: '4px 10px', backgroundColor: 'var(--danger-bg)', color: 'var(--danger-text)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}
                           >
                             {t('common.delete')}
                           </button>
