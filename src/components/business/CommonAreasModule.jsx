@@ -142,7 +142,7 @@ export default function CommonAreasModule() {
     setBookingsLoading(true);
     const { data, error } = await supabase
       .from('common_area_bookings')
-      .select('*, common_areas(name,area_type,condominium_id,condominiums(name,management_company_id)), units(unit_number), profiles(full_name,email)')
+      .select('*, common_areas(name,area_type,condominium_id,condominiums(name,management_company_id)), units(unit_number), profiles!user_id(full_name,email)')
       .is('deleted_at', null)
       .order('booking_date', { ascending: true })
       .order('start_time', { ascending: true });
