@@ -459,7 +459,7 @@ export default function UsersModule() {
               <div style={{
                 marginTop: '10px', padding: '10px 12px', borderRadius: '8px',
                 background: 'rgba(250,204,21,0.10)', border: '1px solid rgba(250,204,21,0.35)',
-                color: '#ca8a04', fontSize: '13px',
+                color: 'var(--warning-text)', fontSize: '13px',
               }}>
                 Este perfil tiene datos incompletos: solo se registró el correo electrónico. Los demás campos están vacíos en la base de datos.
               </div>
@@ -866,7 +866,7 @@ export default function UsersModule() {
                           padding: '4px 8px',
                           borderRadius: 'var(--radius-sm)',
                           backgroundColor: 'rgba(139, 92, 246, 0.15)',
-                          color: '#a78bfa',
+                          color: 'var(--primary)',
                           fontSize: '11px',
                           fontWeight: '700',
                           letterSpacing: '0.5px'
@@ -986,7 +986,7 @@ export default function UsersModule() {
                 padding: '6px 12px',
                 fontSize: '12px',
                 backgroundColor: page === 1 ? 'var(--bg-card)' : 'var(--primary)',
-                color: page === 1 ? 'var(--text-dim)' : '#ffffff',
+                color: page === 1 ? 'var(--text-dim)' : 'var(--bg-card)',
                 border: page === 1 ? '1px solid var(--border-subtle)' : 'none',
                 cursor: page === 1 ? 'not-allowed' : 'pointer',
                 opacity: page === 1 ? 0.6 : 1,
@@ -1002,7 +1002,7 @@ export default function UsersModule() {
                 padding: '6px 12px',
                 fontSize: '12px',
                 backgroundColor: page === totalPages ? 'var(--bg-card)' : 'var(--primary)',
-                color: page === totalPages ? 'var(--text-dim)' : '#ffffff',
+                color: page === totalPages ? 'var(--text-dim)' : 'var(--bg-card)',
                 border: page === totalPages ? '1px solid var(--border-subtle)' : 'none',
                 cursor: page === totalPages ? 'not-allowed' : 'pointer',
                 opacity: page === totalPages ? 0.6 : 1,

@@ -52,7 +52,7 @@ export function PaymentGatewayModal({ isOpen, onClose, transactionData, onSucces
           <div style={{ fontSize: '48px', marginBottom: '8px' }}>❌</div>
           <h3 style={{ fontSize: '18px', fontWeight: '800', color: 'var(--danger-text)', margin: '0 0 6px' }}>Pago Rechazado por el Banco</h3>
           <p style={{ fontSize: '13px', color: 'var(--text-secondary)', margin: '0 0 16px' }}>La transacción fue rechazada o cancelada. El saldo de tu unidad permanece sin cambios.</p>
-          <button onClick={() => setResult(null)} style={{ padding: '8px 18px', backgroundColor: 'var(--bg-surface)', color: '#fff', border: 'none', borderRadius: '6px', fontWeight: '700', cursor: 'pointer' }}>Reintentar Pago</button>
+          <button onClick={() => setResult(null)} style={{ padding: '8px 18px', backgroundColor: 'var(--bg-surface)', color: 'var(--text-main)', border: 'none', borderRadius: '6px', fontWeight: '700', cursor: 'pointer' }}>Reintentar Pago</button>
         </div>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>

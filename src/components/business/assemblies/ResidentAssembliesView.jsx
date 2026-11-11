@@ -55,7 +55,7 @@ export function ResidentAssembliesView() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', maxWidth: '850px', margin: '0 auto', padding: isMobile ? '12px' : '20px' }}>
-      <div style={{ backgroundColor: 'var(--bg-surface)', color: '#fff', borderRadius: '14px', padding: '20px' }}>
+      <div style={{ backgroundColor: 'var(--bg-surface)', color: 'var(--text-main)', borderRadius: '14px', padding: '20px' }}>
         <h1 style={{ margin: '0 0 4px', fontSize: '18px', fontWeight: '800' }}>Asambleas y Votación Electrónica</h1>
         <p style={{ margin: 0, fontSize: '12px', color: 'var(--text-secondary)' }}>Unidad: Depto {unit?.unit_number} • Poder de Voto (Alícuota Legal): <strong>{unit?.aliquot}%</strong></p>
       </div>
@@ -64,12 +64,12 @@ export function ResidentAssembliesView() {
           <div style={{ backgroundColor: 'var(--bg-card)', borderRadius: '12px', border: '1px solid var(--border-subtle)', padding: '18px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '10px' }}>
               <div>
-                <span style={{ padding: '3px 8px', borderRadius: '10px', fontSize: '10.5px', fontWeight: '800', backgroundColor: activeAssembly.status === 'in_progress' ? '#d1fae5' : '#e2e8f0', color: activeAssembly.status === 'in_progress' ? '#065f46' : '#475569' }}>{activeAssembly.status === 'in_progress' ? '● ASAMBLEA EN VIVO' : activeAssembly.status.toUpperCase()}</span>
+                <span style={{ padding: '3px 8px', borderRadius: '10px', fontSize: '10.5px', fontWeight: '800', backgroundColor: activeAssembly.status === 'in_progress' ? 'var(--success-bg)' : 'var(--border-subtle)', color: activeAssembly.status === 'in_progress' ? 'var(--success-text)' : 'var(--text-secondary)' }}>{activeAssembly.status === 'in_progress' ? '● ASAMBLEA EN VIVO' : activeAssembly.status.toUpperCase()}</span>
                 <h2 style={{ margin: '8px 0 2px', fontSize: '17px', fontWeight: '800' }}>{activeAssembly.title}</h2>
                 <div style={{ fontSize: '12px', color: 'var(--text-dim)' }}>1ª Citación: {new Date(activeAssembly.first_call_at).toLocaleString('es-CL')}</div>
               </div>
               {activeAssembly.meeting_url && activeAssembly.status === 'in_progress' && (
-                <a href={activeAssembly.meeting_url} target="_blank" rel="noopener noreferrer" style={{ padding: '10px 18px', backgroundColor: 'var(--success)', color: '#fff', borderRadius: '8px', textDecoration: 'none', fontWeight: '800', fontSize: '13px' }}>📹 Conectarse a la Sesión</a>
+                <a href={activeAssembly.meeting_url} target="_blank" rel="noopener noreferrer" style={{ padding: '10px 18px', backgroundColor: 'var(--success)', color: 'var(--text-main)', borderRadius: '8px', textDecoration: 'none', fontWeight: '800', fontSize: '13px' }}>📹 Conectarse a la Sesión</a>
               )}
             </div>
           </div>
@@ -89,9 +89,9 @@ export function ResidentAssembliesView() {
                         <div style={{ fontSize: '12.5px', fontWeight: 'bold', color: 'var(--success-text)' }}>✓ Ya votaste: <span style={{ textTransform: 'uppercase' }}>{userVote}</span> (Ponderación: {unit?.aliquot}%)</div>
                       ) : m.status === 'open' ? (
                         <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-                          <button onClick={() => handleVote(m.id, 'apruebo')} disabled={votingMotionId === m.id} style={{ padding: '8px 16px', backgroundColor: '#15803d', color: '#fff', border: 'none', borderRadius: '6px', fontWeight: '700', cursor: 'pointer' }}>Apruebo</button>
+                          <button onClick={() => handleVote(m.id, 'apruebo')} disabled={votingMotionId === m.id} style={{ padding: '8px 16px', backgroundColor: 'var(--success-text)', color: 'var(--text-main)', border: 'none', borderRadius: '6px', fontWeight: '700', cursor: 'pointer' }}>Apruebo</button>
                           <button onClick={() => handleVote(m.id, 'rechazo')} disabled={votingMotionId === m.id} style={{ padding: '8px 16px', backgroundColor: 'var(--danger)', color: 'var(--text-main)', border: 'none', borderRadius: '6px', fontWeight: '700', cursor: 'pointer' }}>Rechazo</button>
-                          <button onClick={() => handleVote(m.id, 'abstencion')} disabled={votingMotionId === m.id} style={{ padding: '8px 16px', backgroundColor: '#475569', color: '#fff', border: 'none', borderRadius: '6px', fontWeight: '700', cursor: 'pointer' }}>Abstención</button>
+                          <button onClick={() => handleVote(m.id, 'abstencion')} disabled={votingMotionId === m.id} style={{ padding: '8px 16px', backgroundColor: 'var(--text-secondary)', color: 'var(--text-main)', border: 'none', borderRadius: '6px', fontWeight: '700', cursor: 'pointer' }}>Abstención</button>
                         </div>
                       ) : (
                         <div style={{ fontSize: '12px', color: 'var(--text-dim)' }}>Moción cerrada por la mesa.</div>

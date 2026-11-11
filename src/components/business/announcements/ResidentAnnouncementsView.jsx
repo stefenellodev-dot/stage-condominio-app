@@ -41,7 +41,7 @@ export function ResidentAnnouncementsView() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', maxWidth: '850px', margin: '0 auto', padding: isMobile ? '12px' : '20px' }}>
-      <div style={{ backgroundColor: 'var(--bg-surface)', color: '#fff', borderRadius: '14px', padding: '20px' }}>
+      <div style={{ backgroundColor: 'var(--bg-surface)', color: 'var(--text-main)', borderRadius: '14px', padding: '20px' }}>
         <h1 style={{ margin: '0 0 4px', fontSize: '18px', fontWeight: '800' }}>Circulares y Citaciones Oficiales</h1>
         <p style={{ margin: 0, fontSize: '12px', color: 'var(--text-secondary)' }}>Comunicación fehaciente de la administración conforme a la Ley N° 21.442.</p>
       </div>
@@ -53,7 +53,7 @@ export function ResidentAnnouncementsView() {
             const hasSigned = readReceipts.has(ann.id);
             const isUrgent = ann.priority === 'urgent' || ann.priority === 'critical' || ann.priority === 'high';
             return (
-              <div key={ann.id} style={{ backgroundColor: 'var(--bg-card)', borderRadius: '12px', border: isUrgent ? '1.5px solid #fca5a5' : '1px solid var(--border-subtle)', padding: '18px' }}>
+              <div key={ann.id} style={{ backgroundColor: 'var(--bg-card)', borderRadius: '12px', border: isUrgent ? '1.5px solid var(--danger-border)' : '1px solid var(--border-subtle)', padding: '18px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '10px', flexWrap: 'wrap' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <span style={{ padding: '3px 8px', borderRadius: '8px', fontSize: '10.5px', fontWeight: '800', textTransform: 'uppercase', backgroundColor: isUrgent ? 'var(--danger-bg)' : 'var(--bg-surface)', color: isUrgent ? 'var(--danger-text)' : 'var(--primary)' }}>{ann.priority || 'INFORMATIVO'}</span>
@@ -65,7 +65,7 @@ export function ResidentAnnouncementsView() {
                 <p style={{ margin: '0 0 14px', fontSize: '13px', color: 'var(--text-secondary)', lineHeight: '1.6', whiteSpace: 'pre-line' }}>{ann.content}</p>
                 {!hasSigned && (
                   <div style={{ borderTop: '1px solid var(--border-subtle)', paddingTop: '12px', display: 'flex', justifyContent: 'flex-end' }}>
-                    <button onClick={() => handleSignReceipt(ann.id)} disabled={signingId === ann.id} style={{ padding: '8px 16px', backgroundColor: 'var(--primary)', color: '#fff', border: 'none', borderRadius: '6px', fontSize: '12px', fontWeight: '700', cursor: 'pointer' }}>✍️ {signingId === ann.id ? 'Registrando...' : 'Confirmar Lectura y Conformidad (Art. 15)'}</button>
+                    <button onClick={() => handleSignReceipt(ann.id)} disabled={signingId === ann.id} style={{ padding: '8px 16px', backgroundColor: 'var(--primary)', color: 'var(--text-main)', border: 'none', borderRadius: '6px', fontSize: '12px', fontWeight: '700', cursor: 'pointer' }}>✍️ {signingId === ann.id ? 'Registrando...' : 'Confirmar Lectura y Conformidad (Art. 15)'}</button>
                   </div>
                 )}
               </div>

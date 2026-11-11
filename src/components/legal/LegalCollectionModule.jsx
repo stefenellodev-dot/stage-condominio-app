@@ -125,10 +125,10 @@ export function LegalCollectionModule({ condominiumId }) {
                     <td style={{ padding: '10px 14px', textAlign: 'center' }}>
                       <div style={{ display: 'flex', gap: '4px', justifyContent: 'center', flexWrap: 'wrap' }}>
                         {u.is_cutoff_eligible && u.active_cutoff_status !== 'notified' && (
-                          <button disabled={actionLoading} onClick={() => handleIssueCutoff(u)} style={{ padding: '6px 12px', backgroundColor: 'var(--danger)', color: '#fff', border: 'none', borderRadius: '6px', fontSize: '11.5px', fontWeight: '700', cursor: 'pointer' }}>⚡ Apercibir Corte</button>
+                          <button disabled={actionLoading} onClick={() => handleIssueCutoff(u)} style={{ padding: '6px 12px', backgroundColor: 'var(--danger)', color: 'var(--text-main)', border: 'none', borderRadius: '6px', fontSize: '11.5px', fontWeight: '700', cursor: 'pointer' }}>⚡ Apercibir Corte</button>
                         )}
                         {u.active_cutoff_status === 'notified' && (
-                          <button onClick={() => documentPdfService.downloadCutoffNoticePdf({ condo_name: u.condo_name, unit_number: u.unit_number, total_debt: u.total_debt, unpaid_periods_count: u.unpaid_periods_count, notice_folio: 'NOT-CORTE-' + u.unit_number, deadline_date: u.active_cutoff_deadline || '5 días desde notificación', service_type: 'energia_electrica' })} style={{ padding: '6px 10px', backgroundColor: 'var(--bg-surface)', color: '#fff', border: 'none', borderRadius: '6px', fontSize: '11.5px', fontWeight: '700', cursor: 'pointer' }}>📥 Carta PDF (QR)</button>
+                          <button onClick={() => documentPdfService.downloadCutoffNoticePdf({ condo_name: u.condo_name, unit_number: u.unit_number, total_debt: u.total_debt, unpaid_periods_count: u.unpaid_periods_count, notice_folio: 'NOT-CORTE-' + u.unit_number, deadline_date: u.active_cutoff_deadline || '5 días desde notificación', service_type: 'energia_electrica' })} style={{ padding: '6px 10px', backgroundColor: 'var(--bg-surface)', color: 'var(--text-main)', border: 'none', borderRadius: '6px', fontSize: '11.5px', fontWeight: '700', cursor: 'pointer' }}>📥 Carta PDF (QR)</button>
                         )}
                       </div>
                     </td>
@@ -187,8 +187,8 @@ export function LegalCollectionModule({ condominiumId }) {
                 <div><div style={{ borderTop: '1px solid #000', paddingTop: '6px', fontWeight: 'bold' }}>V°B° Presidente Comité</div><div>{certData.committee_president_name}</div></div>
               </div>
               <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', marginTop: '24px' }}>
-                <button onClick={() => documentPdfService.downloadJplCertificatePdf(certData)} style={{ padding: '8px 16px', backgroundColor: 'var(--primary)', color: '#fff', border: 'none', borderRadius: '6px', fontWeight: '700', fontSize: '12px', cursor: 'pointer' }}>📥 Descargar PDF (QR)</button>
-                <button onClick={() => window.print()} style={{ padding: '8px 16px', background: '#0f172a', color: '#fff', border: 'none', borderRadius: '6px', cursor: 'pointer' }}>🖨️ Imprimir / Guardar PDF</button>
+                <button onClick={() => documentPdfService.downloadJplCertificatePdf(certData)} style={{ padding: '8px 16px', backgroundColor: 'var(--primary)', color: 'var(--text-main)', border: 'none', borderRadius: '6px', fontWeight: '700', fontSize: '12px', cursor: 'pointer' }}>📥 Descargar PDF (QR)</button>
+                <button onClick={() => window.print()} style={{ padding: '8px 16px', background: '#0f172a', color: 'var(--text-main)', border: 'none', borderRadius: '6px', cursor: 'pointer' }}>🖨️ Imprimir / Guardar PDF</button>
                 <button onClick={() => setCertData(null)} style={{ padding: '8px 16px', border: '1px solid #ccc', background: '#fff', borderRadius: '6px', cursor: 'pointer' }}>Volver al Listado</button>
               </div>
             </div>
@@ -202,7 +202,7 @@ export function LegalCollectionModule({ condominiumId }) {
                       <strong>Depto {u.unit_number}</strong> — {u.owner_name} ({u.unpaid_periods_count} cuotas impagas)
                       <div style={{ fontSize: '12px', color: 'var(--danger-text)', fontWeight: 'bold' }}>Deuda: {formatCLP(u.total_debt)}</div>
                     </div>
-                    <button onClick={() => handleGenerateCertificate(u)} disabled={actionLoading} style={{ padding: '8px 14px', backgroundColor: 'var(--primary)', color: '#fff', border: 'none', borderRadius: '6px', fontSize: '12px', fontWeight: '700', cursor: 'pointer' }}>
+                    <button onClick={() => handleGenerateCertificate(u)} disabled={actionLoading} style={{ padding: '8px 14px', backgroundColor: 'var(--primary)', color: 'var(--text-main)', border: 'none', borderRadius: '6px', fontSize: '12px', fontWeight: '700', cursor: 'pointer' }}>
                       📜 Emitir Título Ejecutivo JPL
                     </button>
                   </div>

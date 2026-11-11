@@ -69,7 +69,7 @@ export function AdminMaintenanceView({ condominiumId }) {
               </div>
               <div>
                 {t.status !== 'resolved' ? (
-                  <button onClick={() => handleResolveTicket(t.id)} style={{ padding: '6px 12px', backgroundColor: 'var(--success)', color: '#fff', border: 'none', borderRadius: '6px', fontSize: '12px', fontWeight: '700', cursor: 'pointer' }}>Marcar Resuelto</button>
+                  <button onClick={() => handleResolveTicket(t.id)} style={{ padding: '6px 12px', backgroundColor: 'var(--success)', color: 'var(--text-main)', border: 'none', borderRadius: '6px', fontSize: '12px', fontWeight: '700', cursor: 'pointer' }}>Marcar Resuelto</button>
                 ) : (
                   <span style={{ color: 'var(--success-text)', fontSize: '12px', fontWeight: 'bold' }}>✓ Resuelto</span>
                 )}

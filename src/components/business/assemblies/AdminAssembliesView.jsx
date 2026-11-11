@@ -58,7 +58,7 @@ export function AdminAssembliesView({ condominiumId }) {
             <form onSubmit={handleCreateMotion} style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
               <input type="text" required placeholder="Título de la Moción (Ej: Aprobación Presupuesto Anual 2027)" value={newMotionTitle} onChange={(e) => setNewMotionTitle(e.target.value)} style={{ padding: '10px', borderRadius: '6px', border: '1px solid var(--border-subtle)' }} />
               <textarea rows={2} placeholder="Detalle o fundamentación..." value={newMotionDesc} onChange={(e) => setNewMotionDesc(e.target.value)} style={{ padding: '10px', borderRadius: '6px', border: '1px solid var(--border-subtle)', boxSizing: 'border-box' }} />
-              <button type="submit" style={{ alignSelf: 'flex-end', padding: '8px 16px', backgroundColor: 'var(--primary)', color: '#fff', border: 'none', borderRadius: '6px', fontWeight: '700', cursor: 'pointer' }}>+ Abrir Votación</button>
+              <button type="submit" style={{ alignSelf: 'flex-end', padding: '8px 16px', backgroundColor: 'var(--primary)', color: 'var(--text-main)', border: 'none', borderRadius: '6px', fontWeight: '700', cursor: 'pointer' }}>+ Abrir Votación</button>
             </form>
           </div>
           <div style={{ backgroundColor: 'var(--bg-card)', borderRadius: '12px', border: '1px solid var(--border-subtle)', padding: '16px' }}>

@@ -369,7 +369,7 @@ export default function ConciergeDeskView() {
                     <div style={{ fontSize: '11px', color: 'var(--text-dim)', marginBottom: '2px' }}>PIN de retiro</div>
                     <div style={{ fontSize: '22px', fontWeight: '800', letterSpacing: '4px', fontFamily: 'var(--font-mono)' }}>{p.pickup_pin}</div>
                   </div>
-                  <button style={{ width: '100%', padding: '10px', borderRadius: '6px', border: 'none', backgroundColor: 'var(--primary)', color: '#fff', fontWeight: '700', cursor: 'pointer' }}>
+                  <button style={{ width: '100%', padding: '10px', borderRadius: '6px', border: 'none', backgroundColor: 'var(--primary)', color: 'var(--text-main)', fontWeight: '700', cursor: 'pointer' }}>
                     Entregar paquete
                   </button>
                 </div>

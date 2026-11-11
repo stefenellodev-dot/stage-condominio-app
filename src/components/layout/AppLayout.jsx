@@ -76,7 +76,7 @@ export default function AppLayout({ activeTab, onSelectTab, children }) {
       {/* SKIP LINK */}
       <a href="#main-content" style={{
         position: 'absolute', left: '-9999px', top: 0, zIndex: 10001,
-        padding: '8px 12px', background: 'var(--primary)', color: '#fff',
+        padding: '8px 12px', background: 'var(--primary)', color: 'var(--text-main)',
       }} onFocus={(e) => { e.currentTarget.style.left = '8px'; e.currentTarget.style.top = '8px'; }}
         onBlur={(e) => { e.currentTarget.style.left = '-9999px'; e.currentTarget.style.top = '0'; }}>
         Saltar al contenido principal
@@ -104,7 +104,7 @@ export default function AppLayout({ activeTab, onSelectTab, children }) {
             <div style={{
               width: '32px', height: '32px', borderRadius: 'var(--radius-md)',
               backgroundColor: 'var(--primary)', display: 'flex', alignItems: 'center',
-              justifyContent: 'center', fontWeight: 'bold', color: '#fff', fontSize: '15px'
+              justifyContent: 'center', fontWeight: 'bold', color: 'var(--text-main)', fontSize: '15px'
             }}>
               {appConfig.symbol}
             </div>

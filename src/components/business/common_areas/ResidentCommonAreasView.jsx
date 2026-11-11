@@ -56,7 +56,7 @@ export function ResidentCommonAreasView() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', maxWidth: '900px', margin: '0 auto', padding: isMobile ? '12px' : '20px' }}>
-      <div style={{ backgroundColor: 'var(--bg-surface)', color: '#fff', borderRadius: '14px', padding: '20px' }}>
+      <div style={{ backgroundColor: 'var(--bg-surface)', color: 'var(--text-main)', borderRadius: '14px', padding: '20px' }}>
         <h1 style={{ margin: '0 0 4px', fontSize: '18px', fontWeight: '800' }}>Reserva de Espacios Comunes</h1>
         <p style={{ margin: 0, fontSize: '12.5px', color: 'var(--text-secondary)' }}>Unidad: Depto {unit?.unit_number} • Los cobros se cargan a la colilla mensual.</p>
       </div>
@@ -70,7 +70,7 @@ export function ResidentCommonAreasView() {
               <div style={{ fontSize: '12.5px', marginBottom: '4px' }}>Arriendo: <strong>{formatCLP(area.fee_amount)}</strong></div>
               <div style={{ fontSize: '12px', color: 'var(--primary)' }}>Garantía reembolsable: {formatCLP(area.deposit_amount)}</div>
             </div>
-            <button onClick={() => setSelectedArea(area)} style={{ marginTop: '14px', padding: '10px', backgroundColor: 'var(--primary)', color: '#fff', border: 'none', borderRadius: '8px', fontWeight: '700', fontSize: '12.5px', cursor: 'pointer' }}>📅 Reservar Fecha</button>
+            <button onClick={() => setSelectedArea(area)} style={{ marginTop: '14px', padding: '10px', backgroundColor: 'var(--primary)', color: 'var(--text-main)', border: 'none', borderRadius: '8px', fontWeight: '700', fontSize: '12.5px', cursor: 'pointer' }}>📅 Reservar Fecha</button>
           </div>
         ))}
       </div>
@@ -90,7 +90,7 @@ export function ResidentCommonAreasView() {
               </div>
               <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', marginTop: '8px' }}>
                 <button type="button" onClick={() => setSelectedArea(null)} style={{ padding: '8px 14px', borderRadius: '6px', border: '1px solid var(--border-subtle)', background: '#fff', cursor: 'pointer' }}>Cancelar</button>
-                <button type="submit" disabled={submitting} style={{ padding: '8px 16px', borderRadius: '6px', border: 'none', background: '#059669', color: '#fff', fontWeight: '700', cursor: 'pointer' }}>{submitting ? 'Procesando...' : 'Confirmar Reserva'}</button>
+                <button type="submit" disabled={submitting} style={{ padding: '8px 16px', borderRadius: '6px', border: 'none', background: 'var(--success)', color: 'var(--text-main)', fontWeight: '700', cursor: 'pointer' }}>{submitting ? 'Procesando...' : 'Confirmar Reserva'}</button>
               </div>
             </form>
           </div>
@@ -109,7 +109,7 @@ export function ResidentCommonAreasView() {
                   <div style={{ fontSize: '12px', color: 'var(--text-dim)', marginTop: '2px' }}>📅 {r.booking_date} • {r.start_time} a {r.end_time} hrs</div>
                 </div>
                 <div style={{ textAlign: 'right' }}>
-                  <span style={{ padding: '3px 8px', borderRadius: '12px', fontSize: '10.5px', fontWeight: '800', backgroundColor: r.status === 'approved' ? '#d1fae5' : '#e2e8f0', color: r.status === 'approved' ? '#065f46' : '#475569' }}>{r.status === 'approved' ? 'APROBADA' : r.status.toUpperCase()}</span>
+                  <span style={{ padding: '3px 8px', borderRadius: '12px', fontSize: '10.5px', fontWeight: '800', backgroundColor: r.status === 'approved' ? 'var(--success-bg)' : 'var(--border-subtle)', color: r.status === 'approved' ? 'var(--success-text)' : 'var(--text-secondary)' }}>{r.status === 'approved' ? 'APROBADA' : r.status.toUpperCase()}</span>
                   <div style={{ fontSize: '11px', color: 'var(--text-dim)', marginTop: '4px' }}>Cobro: {formatCLP(r.total_fee)}</div>
                 </div>
               </div>

@@ -138,7 +138,7 @@ export function PeriodCloseModal({ isOpen, onClose, period, condominiumId, admin
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '8px', borderTop: '1px solid var(--border-subtle)', paddingTop: '12px' }}>
             <button type="button" onClick={onClose} disabled={submitting} style={{ padding: '8px 16px', borderRadius: '6px', border: '1px solid var(--border-subtle)', background: '#fff', cursor: 'pointer' }}>Cancelar</button>
-            <button type="button" onClick={handleIssuePeriod} disabled={submitting || expenses.length === 0} style={{ padding: '10px 22px', borderRadius: '8px', border: 'none', background: '#059669', color: '#fff', fontWeight: '800', fontSize: '13px', cursor: submitting || expenses.length === 0 ? 'not-allowed' : 'pointer' }}>
+            <button type="button" onClick={handleIssuePeriod} disabled={submitting || expenses.length === 0} style={{ padding: '10px 22px', borderRadius: '8px', border: 'none', background: '#059669', color: 'var(--text-main)', fontWeight: '800', fontSize: '13px', cursor: submitting || expenses.length === 0 ? 'not-allowed' : 'pointer' }}>
               {submitting ? 'Emitiendo y Prorrateando...' : '⚖️ Emitir Período y Despachar Colillas (Art. 6)'}
             </button>
           </div>

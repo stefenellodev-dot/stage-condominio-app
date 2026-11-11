@@ -164,7 +164,7 @@ export function StaffModal({ isOpen, onClose, condominiumId, onSuccess }) {
         </div>
         <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginTop: '12px' }}>
           <button type="button" onClick={onClose} disabled={saving} style={{ padding: '8px 16px', borderRadius: '6px', border: '1px solid var(--border-subtle)', background: '#fff', cursor: 'pointer' }}>Cancelar</button>
-          <button type="submit" disabled={saving} style={{ padding: '8px 20px', borderRadius: '6px', border: 'none', background: '#0284c7', color: '#fff', fontWeight: '700', cursor: saving ? 'not-allowed' : 'pointer' }}>
+          <button type="submit" disabled={saving} style={{ padding: '8px 20px', borderRadius: '6px', border: 'none', background: '#0284c7', color: 'var(--text-main)', fontWeight: '700', cursor: saving ? 'not-allowed' : 'pointer' }}>
             {saving ? 'Guardando...' : 'Registrar Colaborador'}
           </button>
         </div>

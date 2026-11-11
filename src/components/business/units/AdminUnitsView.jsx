@@ -26,7 +26,7 @@ export function AdminUnitsView({ condominiumId }) {
     <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', maxWidth: '1100px', margin: '0 auto', padding: isMobile ? '12px' : '20px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '10px' }}>
         <div><h2 style={{ margin: 0, fontSize: '18px', fontWeight: '800' }}>Padrón Maestro de Unidades (Art. 5 Ley N° 21.442)</h2><div style={{ fontSize: '12px', color: 'var(--text-dim)' }}>Asignación de alícuotas, bodegas y roles de avalúo.</div></div>
-        <div style={{ padding: '8px 16px', borderRadius: '8px', fontWeight: '800', fontSize: '13px', backgroundColor: isAliquot100 ? '#dcfce7' : '#fee2e2', color: isAliquot100 ? '#166534' : '#991b1b', border: isAliquot100 ? '1px solid #86efac' : '1px solid #fca5a5' }}>Suma Alícuotas: {totalAliquot.toFixed(2)}% {isAliquot100 ? '✓ (Conforme a Ley)' : '⚠️ (Descuadre)'}</div>
+        <div style={{ padding: '8px 16px', borderRadius: '8px', fontWeight: '800', fontSize: '13px', backgroundColor: isAliquot100 ? 'var(--success-bg)' : 'var(--danger-bg)', color: isAliquot100 ? 'var(--success-text)' : 'var(--danger-text)', border: isAliquot100 ? '1px solid var(--success-border)' : '1px solid var(--danger-border)' }}>Suma Alícuotas: {totalAliquot.toFixed(2)}% {isAliquot100 ? '✓ (Conforme a Ley)' : '⚠️ (Descuadre)'}</div>
       </div>
       <div style={{ backgroundColor: 'var(--bg-card)', borderRadius: '12px', border: '1px solid var(--border-subtle)', padding: '16px', overflowX: 'auto' }}>
         <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '12.5px' }}>

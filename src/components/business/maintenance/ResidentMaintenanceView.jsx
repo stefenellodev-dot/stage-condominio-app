@@ -50,7 +50,7 @@ export function ResidentMaintenanceView() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', maxWidth: '850px', margin: '0 auto', padding: isMobile ? '12px' : '20px' }}>
-      <div style={{ backgroundColor: 'var(--bg-surface)', color: '#fff', borderRadius: '12px', padding: '18px' }}>
+      <div style={{ backgroundColor: 'var(--bg-surface)', color: 'var(--text-main)', borderRadius: '12px', padding: '18px' }}>
         <h1 style={{ margin: '0 0 4px', fontSize: '18px', fontWeight: '800' }}>Mantenimiento e Incidentes</h1>
         <p style={{ margin: 0, fontSize: '12.5px', color: 'var(--text-secondary)' }}>Reporta fallas operacionales, filtraciones o solicitudes técnicas.</p>
       </div>
@@ -75,7 +75,7 @@ export function ResidentMaintenanceView() {
             </select>
           </div>
           <textarea rows={3} required placeholder="Describe detalladamente el desperfecto..." value={description} onChange={(e) => setDescription(e.target.value)} style={{ padding: '10px', borderRadius: '6px', border: '1px solid var(--border-subtle)', boxSizing: 'border-box' }} />
-          <button type="submit" disabled={submitting} style={{ padding: '10px', backgroundColor: 'var(--primary)', color: '#fff', border: 'none', borderRadius: '6px', fontWeight: '800', cursor: 'pointer' }}>{submitting ? 'Enviando...' : '+ Ingresar Requerimiento'}</button>
+          <button type="submit" disabled={submitting} style={{ padding: '10px', backgroundColor: 'var(--primary)', color: 'var(--text-main)', border: 'none', borderRadius: '6px', fontWeight: '800', cursor: 'pointer' }}>{submitting ? 'Enviando...' : '+ Ingresar Requerimiento'}</button>
         </form>
       </div>
       <div style={{ backgroundColor: 'var(--bg-card)', borderRadius: '12px', border: '1px solid var(--border-subtle)', padding: '16px' }}>
@@ -91,7 +91,7 @@ export function ResidentMaintenanceView() {
                   <div style={{ fontSize: '11.5px', color: 'var(--text-dim)', marginTop: '2px' }}>Categoría: {t.category.replace('_', ' ')} • {new Date(t.created_at).toLocaleDateString('es-CL')}</div>
                   <div style={{ fontSize: '12px', color: 'var(--text-secondary)', marginTop: '3px' }}>{t.description}</div>
                 </div>
-                <span style={{ padding: '3px 8px', borderRadius: '10px', fontSize: '10.5px', fontWeight: '800', backgroundColor: t.status === 'resolved' ? '#d1fae5' : t.status === 'in_progress' ? '#e0f2fe' : '#fef3c7', color: t.status === 'resolved' ? '#065f46' : t.status === 'in_progress' ? '#0369a1' : '#b45309' }}>
+                <span style={{ padding: '3px 8px', borderRadius: '10px', fontSize: '10.5px', fontWeight: '800', backgroundColor: t.status === 'resolved' ? 'var(--success-bg)' : t.status === 'in_progress' ? 'var(--bg-surface)' : 'var(--warning-bg)', color: t.status === 'resolved' ? 'var(--success-text)' : t.status === 'in_progress' ? 'var(--info-hover)' : 'var(--warning-text)' }}>
                   {t.status === 'resolved' ? 'RESUELTO' : t.status === 'in_progress' ? 'EN PROCESO' : 'REPORTADO'}
                 </span>
               </div>

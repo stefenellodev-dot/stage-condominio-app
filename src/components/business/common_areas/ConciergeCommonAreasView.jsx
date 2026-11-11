@@ -44,7 +44,7 @@ export function ConciergeCommonAreasView({ condominiumId }) {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', maxWidth: '900px', margin: '0 auto', padding: isMobile ? '12px' : '20px' }}>
-      <div style={{ backgroundColor: 'var(--bg-surface)', color: '#fff', borderRadius: '12px', padding: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <div style={{ backgroundColor: 'var(--bg-surface)', color: 'var(--text-main)', borderRadius: '12px', padding: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div>
           <div style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px', color: 'var(--text-secondary)' }}>Conserjería Operativa</div>
           <h2 style={{ margin: '4px 0 0', fontSize: '17px', fontWeight: '800' }}>Eventos y Espacios Comunes de Hoy ({todayReservations.length})</h2>
@@ -64,8 +64,8 @@ export function ConciergeCommonAreasView({ condominiumId }) {
                 <div style={{ fontSize: '12px', color: 'var(--text-dim)', marginTop: '2px' }}>Horario: {res.start_time} a {res.end_time} hrs</div>
               </div>
               <div style={{ display: 'flex', gap: '8px' }}>
-                <button onClick={() => { setSelectedRes(res); setChecklistType('check_in'); }} style={{ padding: '8px 12px', backgroundColor: 'var(--primary)', color: '#fff', border: 'none', borderRadius: '6px', fontSize: '12px', fontWeight: '700', cursor: 'pointer' }}>📋 Entrega Inicial</button>
-                <button onClick={() => { setSelectedRes(res); setChecklistType('check_out'); }} style={{ padding: '8px 12px', backgroundColor: '#15803d', color: '#fff', border: 'none', borderRadius: '6px', fontSize: '12px', fontWeight: '700', cursor: 'pointer' }}>🔍 Recepción y Cierre</button>
+                <button onClick={() => { setSelectedRes(res); setChecklistType('check_in'); }} style={{ padding: '8px 12px', backgroundColor: 'var(--primary)', color: 'var(--text-main)', border: 'none', borderRadius: '6px', fontSize: '12px', fontWeight: '700', cursor: 'pointer' }}>📋 Entrega Inicial</button>
+                <button onClick={() => { setSelectedRes(res); setChecklistType('check_out'); }} style={{ padding: '8px 12px', backgroundColor: 'var(--success-text)', color: 'var(--text-main)', border: 'none', borderRadius: '6px', fontSize: '12px', fontWeight: '700', cursor: 'pointer' }}>🔍 Recepción y Cierre</button>
               </div>
             </div>
           ))}
@@ -82,7 +82,7 @@ export function ConciergeCommonAreasView({ condominiumId }) {
               <label style={{ display: 'flex', justifyContent: 'space-between', padding: '10px', backgroundColor: 'var(--bg-surface)', borderRadius: '8px', cursor: 'pointer' }}><span>💡 Iluminación y enchufes:</span><input type="checkbox" checked={lightsOk} onChange={(e) => setLightsOk(e.target.checked)} /></label>
               <label style={{ display: 'flex', justifyContent: 'space-between', padding: '10px', backgroundColor: 'var(--bg-surface)', borderRadius: '8px', cursor: 'pointer' }}><span>🪑 Mobiliario íntegro:</span><input type="checkbox" checked={furnitureOk} onChange={(e) => setFurnitureOk(e.target.checked)} /></label>
               {(!cleanliness || !grillOk || !lightsOk || !furnitureOk) && (
-                <div><label style={{ fontSize: '11.5px', fontWeight: 'bold', color: 'var(--danger-text)' }}>OBSERVACIONES DE DAÑOS:</label><textarea rows={3} placeholder="Describe los daños..." value={damageNotes} onChange={(e) => setDamageNotes(e.target.value)} style={{ width: '100%', padding: '8px', borderRadius: '6px', border: '1px solid #f87171', marginTop: '4px', boxSizing: 'border-box' }} /></div>
+                <div><label style={{ fontSize: '11.5px', fontWeight: 'bold', color: 'var(--danger-text)' }}>OBSERVACIONES DE DAÑOS:</label><textarea rows={3} placeholder="Describe los daños..." value={damageNotes} onChange={(e) => setDamageNotes(e.target.value)} style={{ width: '100%', padding: '8px', borderRadius: '6px', border: '1px solid var(--danger-border)', marginTop: '4px', boxSizing: 'border-box' }} /></div>
               )}
             </div>
             <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', marginTop: '16px' }}>

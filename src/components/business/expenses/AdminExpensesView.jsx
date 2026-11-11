@@ -372,11 +372,11 @@ export default function AdminExpensesView() {
                     <div>Saldo: {fmtCLP(b.balance)}</div>
                   </div>
                   <div style={{ display: 'flex', gap: '8px' }}>
-                    <button onClick={() => setViewingBill(b)} style={{ flex: 1, padding: '10px', borderRadius: '6px', border: 'none', backgroundColor: 'var(--primary)', color: '#fff', fontWeight: '700', cursor: 'pointer' }}>
+                    <button onClick={() => setViewingBill(b)} style={{ flex: 1, padding: '10px', borderRadius: '6px', border: 'none', backgroundColor: 'var(--primary)', color: 'var(--text-main)', fontWeight: '700', cursor: 'pointer' }}>
                       Ver Colilla
                     </button>
                     {b.balance > 0 && (
-                      <button onClick={() => handleStartOnlinePayment(b.id)} disabled={startingPayment} style={{ flex: 1, padding: '10px', borderRadius: '6px', border: 'none', backgroundColor: 'var(--primary)', color: '#fff', fontWeight: '700', cursor: startingPayment ? 'not-allowed' : 'pointer' }}>
+                      <button onClick={() => handleStartOnlinePayment(b.id)} disabled={startingPayment} style={{ flex: 1, padding: '10px', borderRadius: '6px', border: 'none', backgroundColor: 'var(--primary)', color: 'var(--text-main)', fontWeight: '700', cursor: startingPayment ? 'not-allowed' : 'pointer' }}>
                         {startingPayment ? 'Conectando...' : '💳 Pagar en Línea'}
                       </button>
                     )}
@@ -482,13 +482,13 @@ export default function AdminExpensesView() {
                         <div style={{ display: 'flex', gap: '6px' }}>
                           <button
                             onClick={() => handleReconcile(p.id, 'verify')}
-                            style={{ ...styles.buttonAction, backgroundColor: 'var(--success)', color: '#fff' }}
+                            style={{ ...styles.buttonAction, backgroundColor: 'var(--success)', color: 'var(--text-main)' }}
                           >
                             ✓ Aprobar
                           </button>
                           <button
                             onClick={() => handleReconcile(p.id, 'reject')}
-                            style={{ ...styles.buttonAction, backgroundColor: 'var(--danger)', color: '#fff' }}
+                            style={{ ...styles.buttonAction, backgroundColor: 'var(--danger)', color: 'var(--text-main)' }}
                           >
                             ✕ Rechazar
                           </button>

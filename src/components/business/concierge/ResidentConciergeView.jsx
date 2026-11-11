@@ -66,7 +66,7 @@ export function ResidentConciergeView() {
         <form onSubmit={handlePreAuthorize} style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '2fr 1fr 1fr', gap: '10px' }}>
           <input type="text" required placeholder="Nombre completo invitado" value={guestName} onChange={(e) => setGuestName(e.target.value)} style={{ padding: '10px', borderRadius: '6px', border: '1px solid var(--border-subtle)' }} />
           <input type="text" placeholder="Patente (opcional)" value={guestPlate} onChange={(e) => setGuestPlate(e.target.value)} style={{ padding: '10px', borderRadius: '6px', border: '1px solid var(--border-subtle)' }} />
-          <button type="submit" disabled={savingGuest} style={{ padding: '10px', backgroundColor: 'var(--bg-surface)', color: '#fff', border: 'none', borderRadius: '6px', fontWeight: '700', cursor: 'pointer' }}>+ Crear Pase</button>
+          <button type="submit" disabled={savingGuest} style={{ padding: '10px', backgroundColor: 'var(--bg-surface)', color: 'var(--text-main)', border: 'none', borderRadius: '6px', fontWeight: '700', cursor: 'pointer' }}>+ Crear Pase</button>
         </form>
         {preAuthVisitors.length > 0 && (
           <div style={{ marginTop: '14px', display: 'flex', flexDirection: 'column', gap: '6px' }}>

@@ -52,7 +52,7 @@ export function AdminAnnouncementsView({ condominiumId }) {
           </div>
           <textarea rows={4} required placeholder="Cuerpo formal de la comunicación..." value={content} onChange={(e) => setContent(e.target.value)} style={{ padding: '10px', borderRadius: '6px', border: '1px solid var(--border-subtle)', boxSizing: 'border-box' }} />
           <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <button type="submit" disabled={isSubmitting} style={{ padding: '10px 20px', backgroundColor: 'var(--bg-surface)', color: '#fff', border: 'none', borderRadius: '6px', fontWeight: '800', cursor: 'pointer' }}>{isSubmitting ? 'Publicando...' : '📢 Emitir Circular'}</button>
+            <button type="submit" disabled={isSubmitting} style={{ padding: '10px 20px', backgroundColor: 'var(--bg-surface)', color: 'var(--text-main)', border: 'none', borderRadius: '6px', fontWeight: '800', cursor: 'pointer' }}>{isSubmitting ? 'Publicando...' : '📢 Emitir Circular'}</button>
           </div>
         </form>
       </div>
@@ -70,7 +70,7 @@ export function AdminAnnouncementsView({ condominiumId }) {
                     <td style={{ padding: '8px 12px', fontWeight: '600' }}>{a.title}</td>
                     <td style={{ padding: '8px 12px', color: 'var(--text-dim)' }}>{new Date(a.created_at || a.published_at).toLocaleDateString('es-CL')}</td>
                     <td style={{ padding: '8px 12px' }}><span style={{ fontSize: '11px', fontWeight: 'bold', textTransform: 'uppercase' }}>{a.priority}</span></td>
-                    <td style={{ padding: '8px 12px', textAlign: 'right' }}><strong>{signedCount} / {totalUnits}</strong><span style={{ color: signedPct >= 50 ? '#15803d' : '#ea580c', marginLeft: '6px', fontSize: '11px' }}>({signedPct}%)</span></td>
+                    <td style={{ padding: '8px 12px', textAlign: 'right' }}><strong>{signedCount} / {totalUnits}</strong><span style={{ color: signedPct >= 50 ? 'var(--success-text)' : 'var(--warning)', marginLeft: '6px', fontSize: '11px' }}>({signedPct}%)</span></td>
                   </tr>
                 );
               })}

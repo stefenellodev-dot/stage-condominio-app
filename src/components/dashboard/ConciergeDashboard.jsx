@@ -32,7 +32,7 @@ export function ConciergeDashboard({ condominiumId, onNavigate }) {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', maxWidth: '1200px', margin: '0 auto', padding: isMobile ? '12px' : '20px' }}>
-      <div style={{ backgroundColor: 'var(--bg-card)', color: '#fff', borderRadius: '12px', padding: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
+      <div style={{ backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', borderRadius: '12px', padding: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
         <div>
           <div style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px', color: 'var(--text-dim)' }}>Conserjería y Control de Acceso</div>
           <h2 style={{ margin: '4px 0 0', fontSize: '18px', fontWeight: '800' }}>Turno Activo: {profile?.full_name || 'Personal de Turno'}</h2>
@@ -41,16 +41,16 @@ export function ConciergeDashboard({ condominiumId, onNavigate }) {
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr 1fr' : 'repeat(4, 1fr)', gap: '12px' }}>
-        <button onClick={() => onNavigate && onNavigate('concierge')} style={{ padding: '16px', borderRadius: '10px', border: 'none', backgroundColor: 'var(--primary)', color: '#fff', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', cursor: 'pointer', fontWeight: '700', fontSize: '13px' }}>
+        <button onClick={() => onNavigate && onNavigate('concierge')} style={{ padding: '16px', borderRadius: '10px', border: 'none', backgroundColor: 'var(--primary)', color: 'var(--text-main)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', cursor: 'pointer', fontWeight: '700', fontSize: '13px' }}>
           <span style={{ fontSize: '24px' }}>📦</span><span>Recepcionar Paquete</span>
         </button>
-        <button onClick={() => onNavigate && onNavigate('concierge')} style={{ padding: '16px', borderRadius: '10px', border: 'none', backgroundColor: 'var(--success)', color: '#fff', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', cursor: 'pointer', fontWeight: '700', fontSize: '13px' }}>
+        <button onClick={() => onNavigate && onNavigate('concierge')} style={{ padding: '16px', borderRadius: '10px', border: 'none', backgroundColor: 'var(--success)', color: 'var(--text-main)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', cursor: 'pointer', fontWeight: '700', fontSize: '13px' }}>
           <span style={{ fontSize: '24px' }}>🚪</span><span>Ingreso de Visita</span>
         </button>
-        <button onClick={() => onNavigate && onNavigate('concierge')} style={{ padding: '16px', borderRadius: '10px', border: 'none', backgroundColor: 'var(--border-subtle)', color: '#fff', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', cursor: 'pointer', fontWeight: '700', fontSize: '13px' }}>
+        <button onClick={() => onNavigate && onNavigate('concierge')} style={{ padding: '16px', borderRadius: '10px', border: 'none', backgroundColor: 'var(--border-subtle)', color: 'var(--text-main)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', cursor: 'pointer', fontWeight: '700', fontSize: '13px' }}>
           <span style={{ fontSize: '24px' }}>✍️</span><span>Libro de Novedades</span>
         </button>
-        <button onClick={() => onNavigate && onNavigate('announcements')} style={{ padding: '16px', borderRadius: '10px', border: 'none', backgroundColor: 'var(--danger)', color: '#fff', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', cursor: 'pointer', fontWeight: '800', fontSize: '13px' }}>
+        <button onClick={() => onNavigate && onNavigate('announcements')} style={{ padding: '16px', borderRadius: '10px', border: 'none', backgroundColor: 'var(--danger)', color: 'var(--text-main)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', cursor: 'pointer', fontWeight: '800', fontSize: '13px' }}>
           <span style={{ fontSize: '24px' }}>🚨</span><span>Protocolo SOS (Art. 40)</span>
         </button>
       </div>

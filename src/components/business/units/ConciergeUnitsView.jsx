@@ -20,7 +20,7 @@ export function ConciergeUnitsView({ condominiumId }) {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', maxWidth: '850px', margin: '0 auto', padding: isMobile ? '12px' : '20px' }}>
-      <div style={{ backgroundColor: 'var(--bg-surface)', color: '#fff', borderRadius: '12px', padding: '16px' }}>
+      <div style={{ backgroundColor: 'var(--bg-surface)', color: 'var(--text-main)', borderRadius: '12px', padding: '16px' }}>
         <h2 style={{ margin: 0, fontSize: '17px', fontWeight: '800' }}>Citofonía y Contacto de Residentes</h2>
         <div style={{ fontSize: '11.5px', color: 'var(--text-secondary)' }}>Directorio de recepción protegido conforme a la Ley N° 19.628.</div>
       </div>
@@ -35,7 +35,7 @@ export function ConciergeUnitsView({ condominiumId }) {
             </div>
             <div>
               {c.contact_phone !== 'No registrado' ? (
-                <a href={`tel:${c.contact_phone}`} style={{ padding: '8px 14px', backgroundColor: 'var(--primary)', color: '#fff', borderRadius: '6px', textDecoration: 'none', fontWeight: '700', fontSize: '12px', display: 'inline-block' }}>📞 {c.contact_phone}</a>
+                <a href={`tel:${c.contact_phone}`} style={{ padding: '8px 14px', backgroundColor: 'var(--primary)', color: 'var(--text-main)', borderRadius: '6px', textDecoration: 'none', fontWeight: '700', fontSize: '12px', display: 'inline-block' }}>📞 {c.contact_phone}</a>
               ) : (
                 <span style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>Sin teléfono</span>
               )}

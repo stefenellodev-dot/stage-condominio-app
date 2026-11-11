@@ -72,13 +72,13 @@ export function ResidentExpensesView() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', maxWidth: '850px', margin: '0 auto', padding: isMobile ? '12px' : '20px' }}>
-      <div style={{ backgroundColor: hasDebt ? '#991b1b' : '#065f46', backgroundImage: hasDebt ? 'linear-gradient(135deg, #b91c1c 0%, #7f1d1d 100%)' : 'linear-gradient(135deg, #059669 0%, #064e3b 100%)', color: 'var(--text-main)', borderRadius: '16px', padding: '24px', boxShadow: '0 4px 14px rgba(0,0,0,0.12)' }}>
+      <div style={{ backgroundColor: hasDebt ? 'var(--danger-text)' : 'var(--success-text)', backgroundImage: hasDebt ? 'linear-gradient(135deg, var(--danger) 0%, var(--danger-dark) 100%)' : 'linear-gradient(135deg, var(--success) 0%, var(--success-dark) 100%)', color: 'var(--text-main)', borderRadius: '16px', padding: '24px', boxShadow: '0 4px 14px rgba(0,0,0,0.12)' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div>
             <div style={{ fontSize: '11.5px', textTransform: 'uppercase', letterSpacing: '1px', opacity: 0.85 }}>{unit.condominiums?.name || 'Condominio'}</div>
             <h1 style={{ margin: '4px 0 0', fontSize: '24px', fontWeight: '900' }}>Departamento {unit.unit_number}</h1>
           </div>
-          <span style={{ backgroundColor: hasDebt ? '#fee2e2' : '#d1fae5', color: hasDebt ? '#991b1b' : '#065f46', padding: '4px 12px', borderRadius: '20px', fontWeight: '800', fontSize: '11px' }}>{hasDebt ? 'COBRO PENDIENTE' : 'AL DÍA'}</span>
+          <span style={{ backgroundColor: hasDebt ? 'var(--danger-bg)' : 'var(--success-bg)', color: hasDebt ? 'var(--danger-text)' : 'var(--success-text)', padding: '4px 12px', borderRadius: '20px', fontWeight: '800', fontSize: '11px' }}>{hasDebt ? 'COBRO PENDIENTE' : 'AL DÍA'}</span>
         </div>
         <div style={{ marginTop: '22px' }}>
           <div style={{ fontSize: '12px', opacity: 0.9 }}>{hasDebt ? `Saldo a Pagar (${activeBill?.expense_periods?.period_name})` : 'Sin saldo adeudado'}</div>

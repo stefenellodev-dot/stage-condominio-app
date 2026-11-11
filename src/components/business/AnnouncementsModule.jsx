@@ -143,8 +143,8 @@ export default function AnnouncementsModule() {
   const hasRead = (ann) => ann.announcement_read_receipts?.some(r => r.user_id === profile.id);
 
   const categoryColors = {
-    corte_suministro: '#dc2626', mantencion: '#f59e0b', asamblea: '#3b82f6',
-    convivencia: '#10b981', financiero: '#8b5cf6', seguridad: '#ef4444',
+    corte_suministro: 'var(--danger)', mantencion: 'var(--warning)', asamblea: 'var(--primary)',
+    convivencia: 'var(--success)', financiero: 'var(--primary)', seguridad: 'var(--danger)',
     administrativo: 'var(--text-dim)', urgente: 'var(--danger-text)',
   };
 
@@ -258,7 +258,7 @@ export default function AnnouncementsModule() {
                         <div style={{ fontWeight: '600', fontSize: '13px', color: 'var(--text-main)' }}>{c.entity}</div>
                         <div style={{ fontSize: '12px', color: 'var(--text-dim)' }}>Prioridad {c.priority}</div>
                       </div>
-                      <a href={`tel:${c.phone}`} style={{ ...styles.buttonAction, textDecoration: 'none', backgroundColor: 'var(--success)', color: '#fff' }}>📞 {c.phone}</a>
+                      <a href={`tel:${c.phone}`} style={{ ...styles.buttonAction, textDecoration: 'none', backgroundColor: 'var(--success)', color: 'var(--text-main)' }}>📞 {c.phone}</a>
                     </div>
                   ))}
                 </div>
@@ -323,7 +323,7 @@ export default function AnnouncementsModule() {
       {showBroadcast && (
         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
           <div style={{ backgroundColor: 'var(--bg-card)', borderRadius: 'var(--radius-lg)', maxWidth: '500px', width: '100%', padding: '20px' }}>
-            <h3 style={{ margin: '0 0 16px', color: '#dc2626' }}>🚨 Emitir Alerta de Emergencia</h3>
+            <h3 style={{ margin: '0 0 16px', color: 'var(--danger)' }}>🚨 Emitir Alerta de Emergencia</h3>
             <form onSubmit={handleBroadcast}>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', marginBottom: '8px' }}>
                 <select value={broadcastForm.alert_type} onChange={e => setBroadcastForm({ ...broadcastForm, alert_type: e.target.value })} style={styles.select}>

@@ -78,7 +78,7 @@ export function ExpenseBillDocument({ billData }) {
             onClick={() => window.print()}
             style={{
               flex: 1, padding: '12px', background: 'var(--primary)',
-              color: '#fff', border: 'none', borderRadius: 'var(--radius-md)',
+              color: 'var(--text-main)', border: 'none', borderRadius: 'var(--radius-md)',
               cursor: 'pointer', fontWeight: '700', fontSize: '14px',
             }}
           >
@@ -215,7 +215,7 @@ export function ExpenseBillDocument({ billData }) {
       <div className="no-print" style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', marginBottom: '16px' }}>
         <button
           onClick={() => window.print()}
-          style={{ padding: '8px 16px', backgroundColor: 'var(--primary)', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}
+          style={{ padding: '8px 16px', backgroundColor: 'var(--primary)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}
         >
           🖨️ Imprimir / Guardar como PDF
         </button>

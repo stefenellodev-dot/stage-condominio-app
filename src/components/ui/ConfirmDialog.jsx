@@ -100,7 +100,7 @@ export default function ConfirmDialog({ open, title, message, promptLabel, confi
             style={{
               padding: '8px 14px', borderRadius: '8px', border: 'none',
               background: danger ? 'var(--danger, #d33)' : 'var(--accent, #4f8cff)',
-              color: '#fff', cursor: 'pointer', fontSize: '13px', fontWeight: 600,
+              color: 'var(--text-main)', cursor: 'pointer', fontSize: '13px', fontWeight: 600,
             }}
           >
             {confirmLabel || 'Confirmar'}

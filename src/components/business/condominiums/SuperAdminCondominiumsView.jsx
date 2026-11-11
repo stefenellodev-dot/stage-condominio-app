@@ -28,7 +28,7 @@ export function SuperAdminCondominiumsView() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', maxWidth: '1200px', margin: '0 auto', padding: isMobile ? '12px' : '20px' }}>
-      <div style={{ backgroundColor: 'var(--bg-surface)', color: '#fff', borderRadius: '12px', padding: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
+      <div style={{ backgroundColor: 'var(--bg-surface)', color: 'var(--text-main)', borderRadius: '12px', padding: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
         <div>
           <div style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px', color: 'var(--primary)' }}>Parque Habitacional e Inmobiliario</div>
           <h1 style={{ margin: '4px 0 0', fontSize: '20px', fontWeight: '800' }}>Padrón Maestro de Condominios</h1>
@@ -57,7 +57,7 @@ export function SuperAdminCondominiumsView() {
                 </td>
                 <td style={{ padding: '10px 12px', fontFamily: 'monospace' }}>{c.rut}</td>
                 <td style={{ padding: '10px 12px' }}>
-                  <span style={{ padding: '2px 8px', borderRadius: '6px', fontSize: '11px', fontWeight: 'bold', backgroundColor: c.type === 'tipo_a' ? '#eff6ff' : '#fef3c7', color: c.type === 'tipo_a' ? '#1e40af' : '#92400e' }}>
+                  <span style={{ padding: '2px 8px', borderRadius: '6px', fontSize: '11px', fontWeight: 'bold', backgroundColor: c.type === 'tipo_a' ? 'var(--bg-surface)' : 'var(--warning-bg)', color: c.type === 'tipo_a' ? 'var(--text-main)' : 'var(--warning-text)' }}>
                     {c.type === 'tipo_a' ? 'Tipo A (En Terreno Común)' : 'Tipo B (Sitios Privados)'}
                   </span>
                   <div style={{ fontSize: '10.5px', color: 'var(--text-dim)', marginTop: '2px' }}>Destino: {c.destination || 'Habitacional'}</div>

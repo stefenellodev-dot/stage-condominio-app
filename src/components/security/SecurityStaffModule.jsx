@@ -76,7 +76,7 @@ export default function SecurityStaffModule() {
           </button>
         </div>
         {isAdminOrSuper && activeTab === 'staff' && (
-          <button onClick={() => setIsModalOpen(true)} style={{ padding: '8px 16px', backgroundColor: 'var(--primary)', color: '#fff', border: 'none', borderRadius: '6px', fontWeight: '700', cursor: 'pointer' }}>
+          <button onClick={() => setIsModalOpen(true)} style={{ padding: '8px 16px', backgroundColor: 'var(--primary)', color: 'var(--text-main)', border: 'none', borderRadius: '6px', fontWeight: '700', cursor: 'pointer' }}>
             + Registrar Personal
           </button>
         )}

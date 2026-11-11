@@ -35,7 +35,7 @@ export function ConciergeMaintenanceView({ condominiumId }) {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', maxWidth: '950px', margin: '0 auto', padding: isMobile ? '12px' : '20px' }}>
-      <div style={{ backgroundColor: 'var(--bg-surface)', color: '#fff', borderRadius: '12px', padding: '16px' }}>
+      <div style={{ backgroundColor: 'var(--bg-surface)', color: 'var(--text-main)', borderRadius: '12px', padding: '16px' }}>
         <h2 style={{ margin: 0, fontSize: '17px', fontWeight: '800' }}>Bitácora Técnica de Rondas Preventivas</h2>
         <div style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>Inspección diaria de equipos críticos de continuidad operacional.</div>
       </div>
@@ -54,7 +54,7 @@ export function ConciergeMaintenanceView({ condominiumId }) {
             <option value="ok">🟢 Operando Normal</option>
             <option value="fail">🔴 Anormal / En Falla</option>
           </select>
-          <button type="submit" disabled={saving} style={{ padding: '10px', backgroundColor: 'var(--success)', color: '#fff', border: 'none', borderRadius: '6px', fontWeight: '800', cursor: 'pointer' }}>{saving ? 'Guardando...' : '+ Grabar Ronda'}</button>
+          <button type="submit" disabled={saving} style={{ padding: '10px', backgroundColor: 'var(--success)', color: 'var(--text-main)', border: 'none', borderRadius: '6px', fontWeight: '800', cursor: 'pointer' }}>{saving ? 'Guardando...' : '+ Grabar Ronda'}</button>
         </form>
       </div>
       <div style={{ backgroundColor: 'var(--bg-card)', borderRadius: '12px', border: '1px solid var(--border-subtle)', padding: '16px' }}>
@@ -69,7 +69,7 @@ export function ConciergeMaintenanceView({ condominiumId }) {
                 <div style={{ fontSize: '11px', color: 'var(--text-dim)', marginTop: '2px' }}>{new Date(insp.created_at).toLocaleString('es-CL')} • Guardia: {insp.profiles?.full_name || 'Turno'}</div>
                 {insp.observations && <div style={{ fontSize: '11px', color: 'var(--text-dim)', marginTop: '2px' }}>Obs: {insp.observations}</div>}
               </div>
-              <span style={{ padding: '3px 8px', borderRadius: '10px', fontSize: '10.5px', fontWeight: '800', backgroundColor: insp.status_ok ? '#d1fae5' : '#fee2e2', color: insp.status_ok ? '#065f46' : '#991b1b' }}>{insp.status_ok ? 'NORMAL' : 'FALLA'}</span>
+              <span style={{ padding: '3px 8px', borderRadius: '10px', fontSize: '10.5px', fontWeight: '800', backgroundColor: insp.status_ok ? 'var(--success-bg)' : 'var(--danger-bg)', color: insp.status_ok ? 'var(--success-text)' : 'var(--danger-text)' }}>{insp.status_ok ? 'NORMAL' : 'FALLA'}</span>
             </div>
           ))}
         </div>
