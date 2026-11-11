@@ -789,16 +789,17 @@ export default function CommonAreasModule() {
           </div>
 
           {!readOnly ? (
-            <button type="submit" disabled={saving} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>
-              {saving
-                ? t('common_areas.saving')
-                : 'Crear'}
-            </button>
-          ) : (
-            <div style={{ color: 'var(--text-secondary)', fontSize: '13px', marginTop: '8px' }}>
-              {t('common_areas.read_only_notice')}
+            <div style={{ display: 'flex', gap: '8px' }}>
+              <button type="submit" disabled={saving} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>
+                {saving
+                  ? t('common_areas.saving')
+                  : editingId ? 'Guardar' : 'Crear'}
+              </button>
+              <button type="button" onClick={handleBack} style={{ padding: '4px 10px', backgroundColor: 'var(--danger-bg)', color: 'var(--danger-text)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>
+                {t('common.cancel')}
+              </button>
             </div>
-          )}
+          ) : null}
         </form>
       </div>
     );
@@ -953,8 +954,8 @@ export default function CommonAreasModule() {
             ) : null}
           </section>
 
-          <button type="submit" disabled={bookingSaving} style={styles.button}>
-            {bookingSaving ? t('common_areas.saving') : t('common_areas.booking_create')}
+          <button type="submit" disabled={bookingSaving} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>
+            {bookingSaving ? t('common_areas.booking_saving') : 'Crear'}
           </button>
         </form>
       </div>
