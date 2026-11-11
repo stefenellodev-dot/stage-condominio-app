@@ -291,8 +291,8 @@ export default function CondominiumsModule() {
               <div><label style={styles.label}>N° de cuenta</label><input type="text" name="account_number" value={formData.account_number} onChange={handleChange} style={styles.input} /></div>
             </div>
             <div style={{ marginTop: '12px', display: 'flex', gap: '8px' }}>
-              {!readOnly && <button type="submit" disabled={saving} style={{ ...styles.button, padding: '8px 16px' }}>{saving ? 'Guardando...' : formMode === 'create' ? 'Crear' : 'Actualizar'}</button>}
-              <button type="button" onClick={handleCancel} style={{ ...styles.button, backgroundColor: 'var(--danger-bg)', color: 'var(--danger-text)', marginTop: '0' }}>Cancelar</button>
+              {!readOnly && <button type="submit" disabled={saving} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>{saving ? 'Guardando...' : formMode === 'create' ? 'Crear' : 'Actualizar'}</button>}
+              <button type="button" onClick={handleCancel} style={{ padding: '4px 10px', backgroundColor: 'var(--danger-bg)', color: 'var(--danger-text)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>Cancelar</button>
             </div>
           </form>
         </div>
