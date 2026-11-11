@@ -542,7 +542,7 @@ export default function UnitsModule() {
               <button type="submit" disabled={saving} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>
                 {saving
                   ? t('units.saving')
-                  : formMode === 'create' ? 'Crear' : 'Guardar'}
+                  : editingId ? 'Guardar' : 'Crear'}
               </button>
               <button type="button" onClick={handleBack} style={{ padding: '4px 10px', backgroundColor: 'var(--danger-bg)', color: 'var(--danger-text)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>
                 {t('common.cancel')}
@@ -566,12 +566,19 @@ export default function UnitsModule() {
           </p>
         </div>
         {canManageUnits ? (
-          <button onClick={handleNew} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>
-            {t('units.new_button')}
-          </button>
+          view === 'list' ? (
+            <button onClick={handleNew} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>
+              {t('units.new_button')}
+            </button>
+          ) : (
+            <button onClick={handleBack} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>
+              {t('units.back_to_list')}
+            </button>
+          )
         ) : null}
       </div>
 
+      {view === 'list' && (
       <div style={{ ...styles.sectionBox, marginBottom: '14px' }}>
         <h4 style={{ margin: '0 0 12px', color: 'var(--primary)' }}>Filtrar</h4>
         <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '10px' }}>
@@ -638,10 +645,12 @@ export default function UnitsModule() {
         </select>
       </div>
       </div>
+      )}
 
       {/* Selectores de empresa y condominio movidos al header */}
 
-      <div style={styles.tableWrapper}>
+      {view === 'list' && (
+            <div style={styles.tableWrapper}>
         <table style={{ ...styles.table, tableLayout: 'fixed', minWidth: '1080px' }}>
           <thead>
             <tr style={styles.thRow}>
@@ -741,6 +750,7 @@ export default function UnitsModule() {
           </tbody>
         </table>
       </div>
+      )}
 
       {totalPages > 1 ? (
         <div
