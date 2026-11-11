@@ -890,23 +890,28 @@ export default function AdminManagementCompaniesView() {
             </div>
           </section>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-            <div>
-              <label style={styles.label} htmlFor="status">{t('management_companies.status')}</label>
-              <select
-                id="status" name="status"
-                value={form.status}
-                onChange={handleChange}
-                disabled={readOnly}
+          <section style={styles.sectionBox}>
+            <h4 style={{ margin: '0 0 12px', color: 'var(--primary)' }}>
+              {t('management_companies.status')}
+            </h4>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+              <div>
+                <label style={styles.label} htmlFor="status">{t('management_companies.status')}</label>
+                <select
+                  id="status" name="status"
+                  value={form.status}
+                  onChange={handleChange}
+                  disabled={readOnly}
 
-                style={styles.select}
-              >
-                <option value="active">{t('management_companies.active_status')}</option>
-                <option value="inactive">{t('management_companies.inactive_status')}</option>
-                <option value="suspended">{t('management_companies.suspended_status')}</option>
-              </select>
+                  style={styles.select}
+                >
+                  <option value="active">{t('management_companies.active_status')}</option>
+                  <option value="inactive">{t('management_companies.inactive_status')}</option>
+                  <option value="suspended">{t('management_companies.suspended_status')}</option>
+                </select>
+              </div>
             </div>
-          </div>
+          </section>
 
           {!readOnly ? (
             <button type="submit" disabled={saving} style={styles.button}>
@@ -914,11 +919,7 @@ export default function AdminManagementCompaniesView() {
                 ? t('management_companies.saving')
                 : t('management_companies.save')}
             </button>
-          ) : (
-            <div style={{ color: 'var(--text-secondary)', fontSize: '13px', marginTop: '8px' }}>
-              {t('management_companies.read_only_notice')}
-            </div>
-          )}
+          ) : null}
         </form>
       </div>
     );
