@@ -237,17 +237,21 @@ export default function AdminCondominiumsView() {
           <h3 style={{ margin: '0 0 4px' }}>Condominios ({condominiums.length})</h3>
           <p style={{ margin: 0, color: 'var(--text-secondary)', fontSize: '13px' }}>Gestión de condominios, recepción municipal, ubicación y cuenta bancaria.</p>
         </div>
-        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-          {companies.length > 0 && (
+        {canManage && (
+          <button style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }} onClick={() => { handleCancel(); setFormMode('create'); }}>Nuevo condominio</button>
+        )}
+      </div>
+
+      {companies.length > 0 && (
+        <div style={{ ...styles.sectionBox, marginBottom: '14px' }}>
+          <h4 style={{ margin: '0 0 12px', color: 'var(--primary)' }}>Filtro</h4>
+          <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
             <select value={selectedCompany} onChange={e => setSelectedCompany(e.target.value)} style={{ ...styles.select, minWidth: '220px' }}>
               {companies.map(c => <option key={c.id} value={c.id}>{c.fantasy_name || c.legal_name}</option>)}
             </select>
-          )}
-          {canManage && (
-            <button style={{ ...styles.button, padding: '8px 16px', fontSize: '13px' }} onClick={() => { handleCancel(); setFormMode('create'); }}>Nuevo condominio</button>
-          )}
+          </div>
         </div>
-      </div>
+      )}
 
       {formMode !== 'list' && (
         <div style={{ marginBottom: '16px' }}>
