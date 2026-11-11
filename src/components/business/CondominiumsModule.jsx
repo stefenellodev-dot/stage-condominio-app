@@ -327,7 +327,7 @@ export default function CondominiumsModule() {
                 <td style={styles.td}>{c.reserve_fund_percentage || 5}%</td>
                 <td style={styles.td}>{c.status}</td>
                 <td style={styles.td}>
-                  <div style={{ display: 'flex', gap: '6px', justifyContent: 'center', flexWrap: 'wrap' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', alignItems: 'center' }}>
                     <button onClick={() => handleView(c)} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>Ver</button>
                     {canManage && <button onClick={() => handleEdit(c)} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>Editar</button>}
                     {canManage && <button onClick={() => handleDelete(c.id)} style={{ padding: '4px 10px', backgroundColor: 'var(--danger-bg)', color: 'var(--danger-text)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>Desactivar</button>}
