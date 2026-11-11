@@ -368,7 +368,7 @@ export default function UnitsModule() {
               {t('units.subtitle')}
             </p>
           </div>
-          <button onClick={handleBack} style={styles.buttonAction}>
+          <button onClick={handleBack} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>
             {t('units.back_to_list')}
           </button>
         </div>
@@ -518,33 +518,37 @@ export default function UnitsModule() {
             </div>
           </section>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-            <div>
-              <label style={styles.label} htmlFor="status">{t('units.status')}</label>
-              <select
-                id="status" name="status"
-                value={form.status}
-                onChange={handleChange}
-                disabled={readOnly}
-                style={styles.select}
-              >
-                <option value="active">{t('units.active_status')}</option>
-                <option value="inactive">{t('units.inactive_status')}</option>
-              </select>
+          <section style={styles.sectionBox}>
+            <h4 style={{ margin: '0 0 12px', color: 'var(--primary)' }}>Estado operativo</h4>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+              <div>
+                <label style={styles.label} htmlFor="status">{t('units.status')}</label>
+                <select
+                  id="status" name="status"
+                  value={form.status}
+                  onChange={handleChange}
+                  disabled={readOnly}
+                  style={styles.select}
+                >
+                  <option value="active">{t('units.active_status')}</option>
+                  <option value="inactive">{t('units.inactive_status')}</option>
+                </select>
+              </div>
             </div>
-          </div>
+          </section>
 
           {!readOnly ? (
-            <button type="submit" disabled={saving} style={styles.button}>
-              {saving
-                ? t('units.saving')
-                : t('units.save')}
-            </button>
-          ) : (
-            <div style={{ color: 'var(--text-secondary)', fontSize: '13px', marginTop: '8px' }}>
-              {t('units.read_only_notice')}
+            <div style={{ display: 'flex', gap: '8px' }}>
+              <button type="submit" disabled={saving} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>
+                {saving
+                  ? t('units.saving')
+                  : 'Crear'}
+              </button>
+              <button type="button" onClick={handleBack} style={{ padding: '4px 10px', backgroundColor: 'var(--danger-bg)', color: 'var(--danger-text)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>
+                {t('common.cancel')}
+              </button>
             </div>
-          )}
+          ) : null}
         </form>
       </div>
     );
