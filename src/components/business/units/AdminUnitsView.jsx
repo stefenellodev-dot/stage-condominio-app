@@ -25,21 +25,21 @@ export function AdminUnitsView({ condominiumId }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', maxWidth: '1100px', margin: '0 auto', padding: isMobile ? '12px' : '20px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '10px' }}>
-        <div><h2 style={{ margin: 0, fontSize: '18px', fontWeight: '800' }}>Padrón Maestro de Unidades (Art. 5 Ley N° 21.442)</h2><div style={{ fontSize: '12px', color: '#64748b' }}>Asignación de alícuotas, bodegas y roles de avalúo.</div></div>
+        <div><h2 style={{ margin: 0, fontSize: '18px', fontWeight: '800' }}>Padrón Maestro de Unidades (Art. 5 Ley N° 21.442)</h2><div style={{ fontSize: '12px', color: 'var(--text-dim)' }}>Asignación de alícuotas, bodegas y roles de avalúo.</div></div>
         <div style={{ padding: '8px 16px', borderRadius: '8px', fontWeight: '800', fontSize: '13px', backgroundColor: isAliquot100 ? '#dcfce7' : '#fee2e2', color: isAliquot100 ? '#166534' : '#991b1b', border: isAliquot100 ? '1px solid #86efac' : '1px solid #fca5a5' }}>Suma Alícuotas: {totalAliquot.toFixed(2)}% {isAliquot100 ? '✓ (Conforme a Ley)' : '⚠️ (Descuadre)'}</div>
       </div>
-      <div style={{ backgroundColor: '#fff', borderRadius: '12px', border: '1px solid #e2e8f0', padding: '16px', overflowX: 'auto' }}>
+      <div style={{ backgroundColor: 'var(--bg-card)', borderRadius: '12px', border: '1px solid var(--border-subtle)', padding: '16px', overflowX: 'auto' }}>
         <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '12.5px' }}>
-          <thead><tr style={{ backgroundColor: '#f8fafc', borderBottom: '1px solid #e2e8f0', textAlign: 'left', color: '#475569' }}><th style={{ padding: '8px 12px' }}>Unidad</th><th style={{ padding: '8px 12px' }}>Copropietario</th><th style={{ padding: '8px 12px', textAlign: 'right' }}>Alícuota (%)</th><th style={{ padding: '8px 12px' }}>Estacionamiento</th><th style={{ padding: '8px 12px' }}>Bodega</th><th style={{ padding: '8px 12px' }}>Contacto</th></tr></thead>
+          <thead><tr style={{ backgroundColor: 'var(--bg-surface)', borderBottom: '1px solid var(--border-subtle)', textAlign: 'left', color: 'var(--text-secondary)' }}><th style={{ padding: '8px 12px' }}>Unidad</th><th style={{ padding: '8px 12px' }}>Copropietario</th><th style={{ padding: '8px 12px', textAlign: 'right' }}>Alícuota (%)</th><th style={{ padding: '8px 12px' }}>Estacionamiento</th><th style={{ padding: '8px 12px' }}>Bodega</th><th style={{ padding: '8px 12px' }}>Contacto</th></tr></thead>
           <tbody>
             {units.map((u) => (
-              <tr key={u.id} style={{ borderBottom: '1px solid #f1f5f9' }}>
+              <tr key={u.id} style={{ borderBottom: '1px solid var(--border-subtle)' }}>
                 <td style={{ padding: '8px 12px', fontWeight: '800' }}>Depto {u.unit_number}</td>
                 <td style={{ padding: '8px 12px' }}>{u.profiles?.full_name || 'Sin asignar'}</td>
-                <td style={{ padding: '8px 12px', textAlign: 'right', fontWeight: '700', color: '#0284c7' }}>{u.aliquot}%</td>
+                <td style={{ padding: '8px 12px', textAlign: 'right', fontWeight: '700', color: 'var(--primary)' }}>{u.aliquot}%</td>
                 <td style={{ padding: '8px 12px' }}>{u.parking_number || '—'}</td>
                 <td style={{ padding: '8px 12px' }}>{u.storage_number || '—'}</td>
-                <td style={{ padding: '8px 12px', color: '#64748b' }}>{u.profiles?.phone || u.profiles?.email || '—'}</td>
+                <td style={{ padding: '8px 12px', color: 'var(--text-dim)' }}>{u.profiles?.phone || u.profiles?.email || '—'}</td>
               </tr>
             ))}
           </tbody>

@@ -72,7 +72,7 @@ export function ResidentExpensesView() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', maxWidth: '850px', margin: '0 auto', padding: isMobile ? '12px' : '20px' }}>
-      <div style={{ backgroundColor: hasDebt ? '#991b1b' : '#065f46', backgroundImage: hasDebt ? 'linear-gradient(135deg, #b91c1c 0%, #7f1d1d 100%)' : 'linear-gradient(135deg, #059669 0%, #064e3b 100%)', color: '#ffffff', borderRadius: '16px', padding: '24px', boxShadow: '0 4px 14px rgba(0,0,0,0.12)' }}>
+      <div style={{ backgroundColor: hasDebt ? '#991b1b' : '#065f46', backgroundImage: hasDebt ? 'linear-gradient(135deg, #b91c1c 0%, #7f1d1d 100%)' : 'linear-gradient(135deg, #059669 0%, #064e3b 100%)', color: 'var(--text-main)', borderRadius: '16px', padding: '24px', boxShadow: '0 4px 14px rgba(0,0,0,0.12)' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div>
             <div style={{ fontSize: '11.5px', textTransform: 'uppercase', letterSpacing: '1px', opacity: 0.85 }}>{unit.condominiums?.name || 'Condominio'}</div>
@@ -87,50 +87,50 @@ export function ResidentExpensesView() {
         </div>
         {hasDebt && (
           <div style={{ display: 'flex', gap: '10px', marginTop: '20px', flexWrap: 'wrap' }}>
-            <button onClick={() => handleStartOnlinePayment(activeBill.id)} disabled={startingPayment} style={{ padding: '10px 22px', backgroundColor: '#ffffff', color: '#991b1b', border: 'none', borderRadius: '8px', fontWeight: '800', fontSize: '13px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>💳 {startingPayment ? 'Conectando...' : 'Pagar en Línea con Webpay'}</button>
-            <button onClick={() => setIsManualModalOpen(true)} style={{ padding: '10px 16px', backgroundColor: 'rgba(255,255,255,0.15)', color: '#ffffff', border: '1px solid rgba(255,255,255,0.3)', borderRadius: '8px', fontWeight: '700', fontSize: '12.5px', cursor: 'pointer' }}>Informar Transferencia</button>
+            <button onClick={() => handleStartOnlinePayment(activeBill.id)} disabled={startingPayment} style={{ padding: '10px 22px', backgroundColor: 'var(--bg-card)', color: 'var(--danger-text)', border: 'none', borderRadius: '8px', fontWeight: '800', fontSize: '13px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>💳 {startingPayment ? 'Conectando...' : 'Pagar en Línea con Webpay'}</button>
+            <button onClick={() => setIsManualModalOpen(true)} style={{ padding: '10px 16px', backgroundColor: 'rgba(255,255,255,0.15)', color: 'var(--text-main)', border: '1px solid rgba(255,255,255,0.3)', borderRadius: '8px', fontWeight: '700', fontSize: '12.5px', cursor: 'pointer' }}>Informar Transferencia</button>
           </div>
         )}
       </div>
 
       {activeBill && (
-        <div style={{ backgroundColor: '#ffffff', borderRadius: '12px', border: '1px solid #e2e8f0', padding: '16px' }}>
+        <div style={{ backgroundColor: 'var(--bg-card)', borderRadius: '12px', border: '1px solid var(--border-subtle)', padding: '16px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
-            <h3 style={{ margin: 0, fontSize: '14px', fontWeight: '800', color: '#0f172a' }}>Desglose Legal: {activeBill.expense_periods?.period_name}</h3>
-            <span style={{ fontSize: '11px', color: '#64748b', fontFamily: 'monospace' }}>Folio: {activeBill.executive_title_folio || 'COL-2026-N/D'}</span>
+            <h3 style={{ margin: 0, fontSize: '14px', fontWeight: '800', color: 'var(--text-main)' }}>Desglose Legal: {activeBill.expense_periods?.period_name}</h3>
+            <span style={{ fontSize: '11px', color: 'var(--text-dim)', fontFamily: 'monospace' }}>Folio: {activeBill.executive_title_folio || 'COL-2026-N/D'}</span>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr 1fr' : 'repeat(4, 1fr)', gap: '10px' }}>
-            <div style={{ backgroundColor: '#f8fafc', padding: '10px', borderRadius: '8px' }}>
-              <div style={{ fontSize: '10.5px', color: '#64748b' }}>GASTO BASE (ALÍCUOTA)</div>
+            <div style={{ backgroundColor: 'var(--bg-surface)', padding: '10px', borderRadius: '8px' }}>
+              <div style={{ fontSize: '10.5px', color: 'var(--text-dim)' }}>GASTO BASE (ALÍCUOTA)</div>
               <div style={{ fontSize: '15px', fontWeight: '700', marginTop: '2px' }}>{formatCLP(activeBill.operational_amount)}</div>
             </div>
-            <div style={{ backgroundColor: '#f8fafc', padding: '10px', borderRadius: '8px' }}>
-              <div style={{ fontSize: '10.5px', color: '#64748b' }}>FONDO DE RESERVA (ART. 39)</div>
-              <div style={{ fontSize: '15px', fontWeight: '700', color: '#0369a1', marginTop: '2px' }}>{formatCLP(activeBill.reserve_fund_amount)}</div>
+            <div style={{ backgroundColor: 'var(--bg-surface)', padding: '10px', borderRadius: '8px' }}>
+              <div style={{ fontSize: '10.5px', color: 'var(--text-dim)' }}>FONDO DE RESERVA (ART. 39)</div>
+              <div style={{ fontSize: '15px', fontWeight: '700', color: 'var(--primary)', marginTop: '2px' }}>{formatCLP(activeBill.reserve_fund_amount)}</div>
             </div>
-            <div style={{ backgroundColor: '#f8fafc', padding: '10px', borderRadius: '8px' }}>
-              <div style={{ fontSize: '10.5px', color: '#64748b' }}>DEUDA ANTERIOR</div>
+            <div style={{ backgroundColor: 'var(--bg-surface)', padding: '10px', borderRadius: '8px' }}>
+              <div style={{ fontSize: '10.5px', color: 'var(--text-dim)' }}>DEUDA ANTERIOR</div>
               <div style={{ fontSize: '15px', fontWeight: '700', color: activeBill.previous_debt > 0 ? '#b91c1c' : '#0f172a', marginTop: '2px' }}>{formatCLP(activeBill.previous_debt)}</div>
             </div>
-            <div style={{ backgroundColor: '#f8fafc', padding: '10px', borderRadius: '8px' }}>
-              <div style={{ fontSize: '10.5px', color: '#64748b' }}>MULTAS / CARGOS</div>
+            <div style={{ backgroundColor: 'var(--bg-surface)', padding: '10px', borderRadius: '8px' }}>
+              <div style={{ fontSize: '10.5px', color: 'var(--text-dim)' }}>MULTAS / CARGOS</div>
               <div style={{ fontSize: '15px', fontWeight: '700', marginTop: '2px' }}>{formatCLP(activeBill.individual_charges)}</div>
             </div>
           </div>
         </div>
       )}
 
-      <div style={{ backgroundColor: '#ffffff', borderRadius: '12px', border: '1px solid #e2e8f0', padding: '16px' }}>
-        <h3 style={{ margin: '0 0 12px', fontSize: '14px', fontWeight: '800', color: '#0f172a' }}>Historial de Colillas y Comprobantes</h3>
+      <div style={{ backgroundColor: 'var(--bg-card)', borderRadius: '12px', border: '1px solid var(--border-subtle)', padding: '16px' }}>
+        <h3 style={{ margin: '0 0 12px', fontSize: '14px', fontWeight: '800', color: 'var(--text-main)' }}>Historial de Colillas y Comprobantes</h3>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
           {bills.map((bill) => (
-            <div key={bill.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 14px', backgroundColor: '#f8fafc', borderRadius: '8px', border: '1px solid #f1f5f9' }}>
+            <div key={bill.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 14px', backgroundColor: 'var(--bg-surface)', borderRadius: '8px', border: '1px solid var(--border-subtle)' }}>
               <div>
-                <strong style={{ fontSize: '13.5px', color: '#0f172a' }}>{bill.expense_periods?.period_name}</strong>
-                <div style={{ fontSize: '11px', color: '#64748b', marginTop: '2px' }}>Folio: {bill.executive_title_folio} • Vence: {bill.expense_periods?.due_date}</div>
+                <strong style={{ fontSize: '13.5px', color: 'var(--text-main)' }}>{bill.expense_periods?.period_name}</strong>
+                <div style={{ fontSize: '11px', color: 'var(--text-dim)', marginTop: '2px' }}>Folio: {bill.executive_title_folio} • Vence: {bill.expense_periods?.due_date}</div>
               </div>
               <div style={{ textAlign: 'right' }}>
-                <div style={{ fontSize: '14px', fontWeight: '800', color: '#0f172a' }}>{formatCLP(bill.total_amount)}</div>
+                <div style={{ fontSize: '14px', fontWeight: '800', color: 'var(--text-main)' }}>{formatCLP(bill.total_amount)}</div>
                 <span style={{ fontSize: '10.5px', fontWeight: '700', color: bill.status === 'paid' ? '#15803d' : '#b91c1c' }}>{bill.status === 'paid' ? '● PAGADA' : `● SALDO: ${formatCLP(bill.balance)}`}</span>
               </div>
             </div>
@@ -142,16 +142,16 @@ export function ResidentExpensesView() {
 
       {isManualModalOpen && (
         <div style={{ position: 'fixed', inset: 0, backgroundColor: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: '16px' }}>
-          <div style={{ backgroundColor: '#ffffff', borderRadius: '12px', padding: '24px', maxWidth: '420px', width: '100%' }}>
+          <div style={{ backgroundColor: 'var(--bg-card)', borderRadius: '12px', padding: '24px', maxWidth: '420px', width: '100%' }}>
             <h3 style={{ margin: '0 0 8px', fontSize: '16px', fontWeight: '800' }}>Informar Transferencia Bancaria</h3>
-            <p style={{ margin: '0 0 16px', fontSize: '12.5px', color: '#64748b' }}>Transfiere <strong>{formatCLP(activeBill?.balance)}</strong> a la cuenta corriente del condominio:</p>
+            <p style={{ margin: '0 0 16px', fontSize: '12.5px', color: 'var(--text-dim)' }}>Transfiere <strong>{formatCLP(activeBill?.balance)}</strong> a la cuenta corriente del condominio:</p>
             <form onSubmit={handleUploadVoucher} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               <div>
-                <label style={{ fontSize: '11.5px', fontWeight: '700', color: '#334155' }}>N° DE OPERACIÓN BANCARIA:</label>
-                <input type="text" required placeholder="Ej: 8492019" value={operationNumber} onChange={(e) => setOperationNumber(e.target.value)} style={{ width: '100%', padding: '10px', borderRadius: '6px', border: '1px solid #cbd5e1', marginTop: '4px', boxSizing: 'border-box' }} />
+                <label style={{ fontSize: '11.5px', fontWeight: '700', color: 'var(--text-secondary)' }}>N° DE OPERACIÓN BANCARIA:</label>
+                <input type="text" required placeholder="Ej: 8492019" value={operationNumber} onChange={(e) => setOperationNumber(e.target.value)} style={{ width: '100%', padding: '10px', borderRadius: '6px', border: '1px solid var(--border-subtle)', marginTop: '4px', boxSizing: 'border-box' }} />
               </div>
               <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', marginTop: '8px' }}>
-                <button type="button" onClick={() => setIsManualModalOpen(false)} style={{ padding: '8px 14px', borderRadius: '6px', border: '1px solid #cbd5e1', background: '#fff', cursor: 'pointer' }}>Cancelar</button>
+                <button type="button" onClick={() => setIsManualModalOpen(false)} style={{ padding: '8px 14px', borderRadius: '6px', border: '1px solid var(--border-subtle)', background: '#fff', cursor: 'pointer' }}>Cancelar</button>
                 <button type="submit" disabled={uploadingVoucher} style={{ padding: '8px 16px', borderRadius: '6px', border: 'none', background: '#0f172a', color: '#fff', fontWeight: '700', cursor: 'pointer' }}>{uploadingVoucher ? 'Enviando...' : 'Confirmar Envío'}</button>
               </div>
             </form>

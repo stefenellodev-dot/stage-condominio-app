@@ -17,9 +17,9 @@ export function ConciergeAnnouncementsView({ condominiumId }) {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', maxWidth: '850px', margin: '0 auto', padding: isMobile ? '12px' : '20px' }}>
-      <div style={{ backgroundColor: '#0f172a', color: '#fff', borderRadius: '12px', padding: '16px' }}>
+      <div style={{ backgroundColor: 'var(--bg-surface)', color: '#fff', borderRadius: '12px', padding: '16px' }}>
         <h2 style={{ margin: 0, fontSize: '17px', fontWeight: '800' }}>Tablero Operativo de Conserjería</h2>
-        <div style={{ fontSize: '12px', color: '#94a3b8' }}>Avisos inmediatos para información de residentes y visitas.</div>
+        <div style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>Avisos inmediatos para información de residentes y visitas.</div>
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
         {notices.map((notice) => (

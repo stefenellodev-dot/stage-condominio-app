@@ -172,7 +172,7 @@ export default function AnnouncementsModule() {
           <button onClick={() => setShowNewForm(true)} style={{ ...styles.button, marginLeft: 'auto' }}>+ Nueva Circular</button>
         )}
         {canBroadcast && (
-          <button onClick={() => setShowBroadcast(true)} style={{ ...styles.button, backgroundColor: '#dc2626', marginLeft: canCreate && tab === 'circulares' ? '0' : 'auto' }}>🚨 Emitir Alerta</button>
+          <button onClick={() => setShowBroadcast(true)} style={{ ...styles.button, backgroundColor: 'var(--danger)', marginLeft: canCreate && tab === 'circulares' ? '0' : 'auto' }}>🚨 Emitir Alerta</button>
         )}
       </div>
 
@@ -346,7 +346,7 @@ export default function AnnouncementsModule() {
               <textarea placeholder="Instrucciones para la comunidad" value={broadcastForm.instructions} onChange={e => setBroadcastForm({ ...broadcastForm, instructions: e.target.value })} style={{ ...styles.input, minHeight: '80px', marginBottom: '12px' }} required />
               <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
                 <button type="button" onClick={() => setShowBroadcast(false)} style={styles.buttonAction}>Cancelar</button>
-                <button type="submit" disabled={saving} style={{ ...styles.button, backgroundColor: '#dc2626' }}>{saving ? 'Enviando...' : '🚨 Enviar Alerta'}</button>
+                <button type="submit" disabled={saving} style={{ ...styles.button, backgroundColor: 'var(--danger)' }}>{saving ? 'Enviando...' : '🚨 Enviar Alerta'}</button>
               </div>
             </form>
           </div>

@@ -52,7 +52,7 @@ export function AdminDashboard({ condominiumId, onNavigate }) {
           <div style={{ fontSize: '12.5px', color: 'var(--text-dim)' }}>Período Activo: <strong>{currentPeriod?.period_name || 'Sin período'}</strong> ({currentPeriod?.status === 'issued' ? 'Emitido' : 'Borrador'})</div>
         </div>
         <div style={{ display: 'flex', gap: '8px' }}>
-          <button onClick={() => onNavigate && onNavigate('expenses')} style={{ padding: '8px 16px', backgroundColor: '#059669', color: '#fff', border: 'none', borderRadius: '8px', fontWeight: '700', fontSize: '12.5px', cursor: 'pointer' }}>⚙️ Gastos y Prorrateo</button>
+          <button onClick={() => onNavigate && onNavigate('expenses')} style={{ padding: '8px 16px', backgroundColor: 'var(--success)', color: '#fff', border: 'none', borderRadius: '8px', fontWeight: '700', fontSize: '12.5px', cursor: 'pointer' }}>⚙️ Gastos y Prorrateo</button>
           <button onClick={() => onNavigate && onNavigate('legal_collection')} style={{ padding: '8px 16px', backgroundColor: 'var(--bg-card)', color: '#fff', border: 'none', borderRadius: '8px', fontWeight: '700', fontSize: '12.5px', cursor: 'pointer' }}>⚖️ Módulo Legal (Art. 6/20)</button>
         </div>
       </div>
@@ -64,12 +64,12 @@ export function AdminDashboard({ condominiumId, onNavigate }) {
         </div>
         <div style={{ backgroundColor: 'var(--bg-card)', padding: '16px', borderRadius: '10px', border: '1px solid var(--border-subtle)' }}>
           <div style={{ fontSize: '11px', color: 'var(--text-dim)', fontWeight: '700', textTransform: 'uppercase' }}>Recaudación Efectiva</div>
-          <div style={{ fontSize: '20px', fontWeight: '800', color: '#15803d', marginTop: '4px' }}>{formatCLP(financials.collected)}</div>
-          <div style={{ fontSize: '11px', color: '#15803d', fontWeight: '600' }}>{financials.collectionPct}% recuperado</div>
+          <div style={{ fontSize: '20px', fontWeight: '800', color: 'var(--success-text)', marginTop: '4px' }}>{formatCLP(financials.collected)}</div>
+          <div style={{ fontSize: '11px', color: 'var(--success-text)', fontWeight: '600' }}>{financials.collectionPct}% recuperado</div>
         </div>
         <div style={{ backgroundColor: 'var(--bg-card)', padding: '16px', borderRadius: '10px', border: '1px solid var(--border-subtle)' }}>
           <div style={{ fontSize: '11px', color: 'var(--text-dim)', fontWeight: '700', textTransform: 'uppercase' }}>Fondo de Reserva (Art. 39)</div>
-          <div style={{ fontSize: '20px', fontWeight: '800', color: '#0369a1', marginTop: '4px' }}>{formatCLP(financials.reserveFund)}</div>
+          <div style={{ fontSize: '20px', fontWeight: '800', color: 'var(--primary)', marginTop: '4px' }}>{formatCLP(financials.reserveFund)}</div>
         </div>
         <div style={{ backgroundColor: 'var(--bg-card)', padding: '16px', borderRadius: '10px', border: '1px solid var(--border-subtle)' }}>
           <div style={{ fontSize: '11px', color: 'var(--text-dim)', fontWeight: '700', textTransform: 'uppercase' }}>Conciliaciones Pendientes</div>
@@ -86,7 +86,7 @@ export function AdminDashboard({ condominiumId, onNavigate }) {
               <div style={{ fontSize: '12px', color: 'var(--danger-text)' }}>Registran 3 o más cuotas impagas (Ley N° 21.442, Art. 20).</div>
             </div>
           </div>
-          <button onClick={() => onNavigate && onNavigate('legal_collection')} style={{ padding: '8px 14px', backgroundColor: '#dc2626', color: '#fff', border: 'none', borderRadius: '6px', fontWeight: '700', fontSize: '12px', cursor: 'pointer' }}>Apercibir con Plazo Fatal →</button>
+          <button onClick={() => onNavigate && onNavigate('legal_collection')} style={{ padding: '8px 14px', backgroundColor: 'var(--danger)', color: '#fff', border: 'none', borderRadius: '6px', fontWeight: '700', fontSize: '12px', cursor: 'pointer' }}>Apercibir con Plazo Fatal →</button>
         </div>
       )}
 
@@ -94,7 +94,7 @@ export function AdminDashboard({ condominiumId, onNavigate }) {
         <div style={{ backgroundColor: 'var(--bg-card)', padding: '16px', borderRadius: '10px', border: '1px solid var(--border-subtle)' }}>
           <h3 style={{ margin: '0 0 6px', fontSize: '14px', fontWeight: '700' }}>Cierre y Prorrateo</h3>
           <p style={{ margin: '0 0 12px', fontSize: '12px', color: 'var(--text-dim)' }}>Distribuye gastos operacionales según alícuota.</p>
-          <button onClick={() => onNavigate && onNavigate('expenses')} style={{ padding: '6px 12px', backgroundColor: '#0284c7', color: '#fff', border: 'none', borderRadius: '6px', fontSize: '12px', fontWeight: '700', cursor: 'pointer' }}>Ir a Períodos de Gasto</button>
+          <button onClick={() => onNavigate && onNavigate('expenses')} style={{ padding: '6px 12px', backgroundColor: 'var(--primary)', color: '#fff', border: 'none', borderRadius: '6px', fontSize: '12px', fontWeight: '700', cursor: 'pointer' }}>Ir a Períodos de Gasto</button>
         </div>
         <div style={{ backgroundColor: 'var(--bg-card)', padding: '16px', borderRadius: '10px', border: '1px solid var(--border-subtle)' }}>
           <h3 style={{ margin: '0 0 6px', fontSize: '14px', fontWeight: '700' }}>Certificados JPL (Art. 6)</h3>
@@ -104,7 +104,7 @@ export function AdminDashboard({ condominiumId, onNavigate }) {
         <div style={{ backgroundColor: 'var(--bg-card)', padding: '16px', borderRadius: '10px', border: '1px solid var(--border-subtle)' }}>
           <h3 style={{ margin: '0 0 6px', fontSize: '14px', fontWeight: '700' }}>Rendición Asambleas (Art. 22)</h3>
           <p style={{ margin: '0 0 12px', fontSize: '12px', color: 'var(--text-dim)' }}>Reportes contables con respaldo de facturas.</p>
-          <button onClick={() => onNavigate && onNavigate('legal_collection')} style={{ padding: '6px 12px', backgroundColor: '#334155', color: '#fff', border: 'none', borderRadius: '6px', fontSize: '12px', fontWeight: '700', cursor: 'pointer' }}>Ver Balances del Mes</button>
+          <button onClick={() => onNavigate && onNavigate('legal_collection')} style={{ padding: '6px 12px', backgroundColor: 'var(--border-subtle)', color: '#fff', border: 'none', borderRadius: '6px', fontSize: '12px', fontWeight: '700', cursor: 'pointer' }}>Ver Balances del Mes</button>
         </div>
       </div>
     </div>

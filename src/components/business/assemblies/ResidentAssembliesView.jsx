@@ -55,38 +55,38 @@ export function ResidentAssembliesView() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', maxWidth: '850px', margin: '0 auto', padding: isMobile ? '12px' : '20px' }}>
-      <div style={{ backgroundColor: '#0f172a', color: '#fff', borderRadius: '14px', padding: '20px' }}>
+      <div style={{ backgroundColor: 'var(--bg-surface)', color: '#fff', borderRadius: '14px', padding: '20px' }}>
         <h1 style={{ margin: '0 0 4px', fontSize: '18px', fontWeight: '800' }}>Asambleas y Votación Electrónica</h1>
-        <p style={{ margin: 0, fontSize: '12px', color: '#94a3b8' }}>Unidad: Depto {unit?.unit_number} • Poder de Voto (Alícuota Legal): <strong>{unit?.aliquot}%</strong></p>
+        <p style={{ margin: 0, fontSize: '12px', color: 'var(--text-secondary)' }}>Unidad: Depto {unit?.unit_number} • Poder de Voto (Alícuota Legal): <strong>{unit?.aliquot}%</strong></p>
       </div>
       {activeAssembly ? (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-          <div style={{ backgroundColor: '#fff', borderRadius: '12px', border: '1px solid #e2e8f0', padding: '18px' }}>
+          <div style={{ backgroundColor: 'var(--bg-card)', borderRadius: '12px', border: '1px solid var(--border-subtle)', padding: '18px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '10px' }}>
               <div>
                 <span style={{ padding: '3px 8px', borderRadius: '10px', fontSize: '10.5px', fontWeight: '800', backgroundColor: activeAssembly.status === 'in_progress' ? '#d1fae5' : '#e2e8f0', color: activeAssembly.status === 'in_progress' ? '#065f46' : '#475569' }}>{activeAssembly.status === 'in_progress' ? '● ASAMBLEA EN VIVO' : activeAssembly.status.toUpperCase()}</span>
                 <h2 style={{ margin: '8px 0 2px', fontSize: '17px', fontWeight: '800' }}>{activeAssembly.title}</h2>
-                <div style={{ fontSize: '12px', color: '#64748b' }}>1ª Citación: {new Date(activeAssembly.first_call_at).toLocaleString('es-CL')}</div>
+                <div style={{ fontSize: '12px', color: 'var(--text-dim)' }}>1ª Citación: {new Date(activeAssembly.first_call_at).toLocaleString('es-CL')}</div>
               </div>
               {activeAssembly.meeting_url && activeAssembly.status === 'in_progress' && (
-                <a href={activeAssembly.meeting_url} target="_blank" rel="noopener noreferrer" style={{ padding: '10px 18px', backgroundColor: '#059669', color: '#fff', borderRadius: '8px', textDecoration: 'none', fontWeight: '800', fontSize: '13px' }}>📹 Conectarse a la Sesión</a>
+                <a href={activeAssembly.meeting_url} target="_blank" rel="noopener noreferrer" style={{ padding: '10px 18px', backgroundColor: 'var(--success)', color: '#fff', borderRadius: '8px', textDecoration: 'none', fontWeight: '800', fontSize: '13px' }}>📹 Conectarse a la Sesión</a>
               )}
             </div>
           </div>
-          <div style={{ backgroundColor: '#fff', borderRadius: '12px', border: '1px solid #e2e8f0', padding: '18px' }}>
+          <div style={{ backgroundColor: 'var(--bg-card)', borderRadius: '12px', border: '1px solid var(--border-subtle)', padding: '18px' }}>
             <h3 style={{ margin: '0 0 14px', fontSize: '15px', fontWeight: '800' }}>Mociones Sometidas a Votación ({motions.length})</h3>
             {motions.length === 0 ? (
-              <div style={{ color: '#94a3b8', fontSize: '13px' }}>No hay mociones abiertas en este momento.</div>
+              <div style={{ color: 'var(--text-secondary)', fontSize: '13px' }}>No hay mociones abiertas en este momento.</div>
             ) : (
               <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 {motions.map((m) => {
                   const userVote = myVotes[m.id];
                   return (
-                    <div key={m.id} style={{ padding: '14px', backgroundColor: '#f8fafc', borderRadius: '10px', border: '1px solid #e2e8f0' }}>
-                      <strong style={{ fontSize: '14px', color: '#0f172a' }}>{m.title}</strong>
-                      <p style={{ margin: '4px 0 12px', fontSize: '12.5px', color: '#475569' }}>{m.description}</p>
+                    <div key={m.id} style={{ padding: '14px', backgroundColor: 'var(--bg-surface)', borderRadius: '10px', border: '1px solid var(--border-subtle)' }}>
+                      <strong style={{ fontSize: '14px', color: 'var(--text-main)' }}>{m.title}</strong>
+                      <p style={{ margin: '4px 0 12px', fontSize: '12.5px', color: 'var(--text-secondary)' }}>{m.description}</p>
                       {userVote ? (
-                        <div style={{ fontSize: '12.5px', fontWeight: 'bold', color: '#15803d' }}>✓ Ya votaste: <span style={{ textTransform: 'uppercase' }}>{userVote}</span> (Ponderación: {unit?.aliquot}%)</div>
+                        <div style={{ fontSize: '12.5px', fontWeight: 'bold', color: 'var(--success-text)' }}>✓ Ya votaste: <span style={{ textTransform: 'uppercase' }}>{userVote}</span> (Ponderación: {unit?.aliquot}%)</div>
                       ) : m.status === 'open' ? (
                         <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                           <button onClick={() => handleVote(m.id, 'apruebo')} disabled={votingMotionId === m.id} style={{ padding: '8px 16px', backgroundColor: '#15803d', color: '#fff', border: 'none', borderRadius: '6px', fontWeight: '700', cursor: 'pointer' }}>Apruebo</button>
@@ -94,7 +94,7 @@ export function ResidentAssembliesView() {
                           <button onClick={() => handleVote(m.id, 'abstencion')} disabled={votingMotionId === m.id} style={{ padding: '8px 16px', backgroundColor: '#475569', color: '#fff', border: 'none', borderRadius: '6px', fontWeight: '700', cursor: 'pointer' }}>Abstención</button>
                         </div>
                       ) : (
-                        <div style={{ fontSize: '12px', color: '#64748b' }}>Moción cerrada por la mesa.</div>
+                        <div style={{ fontSize: '12px', color: 'var(--text-dim)' }}>Moción cerrada por la mesa.</div>
                       )}
                     </div>
                   );
@@ -104,7 +104,7 @@ export function ResidentAssembliesView() {
           </div>
         </div>
       ) : (
-        <div style={{ backgroundColor: '#fff', borderRadius: '12px', padding: '30px', textAlign: 'center', color: '#94a3b8' }}>No hay asambleas convocadas.</div>
+        <div style={{ backgroundColor: 'var(--bg-card)', borderRadius: '12px', padding: '30px', textAlign: 'center', color: 'var(--text-secondary)' }}>No hay asambleas convocadas.</div>
       )}
     </div>
   );

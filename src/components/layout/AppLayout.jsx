@@ -196,9 +196,9 @@ export default function AppLayout({ activeTab, onSelectTab, children }) {
               </div>
               <span style={
                 (profile?.role === ROLES.SUPERADMIN || isSuperadmin)
-                  ? { ...styles.badgeAdmin, backgroundColor: "#7c3aed", color: "#ffffff" }
+                  ? { ...styles.badgeAdmin, backgroundColor: "#7c3aed", color: 'var(--text-main)' }
                   : profile?.role === ROLES.CONCIERGE
-                  ? { ...styles.badgeAdmin, backgroundColor: "#059669", color: "#ffffff" }
+                  ? { ...styles.badgeAdmin, backgroundColor: "#059669", color: 'var(--text-main)' }
                   : isAdmin
                   ? styles.badgeAdmin
                   : styles.badgeUser

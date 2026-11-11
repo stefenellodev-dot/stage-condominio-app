@@ -46,7 +46,7 @@ export function EmergencyAlertBanner({ condominiumId, userRole, userId }) {
   return (
     <div style={{
       backgroundColor: bgColor,
-      color: '#ffffff',
+      color: 'var(--text-main)',
       padding: '12px 16px',
       position: 'sticky',
       top: 0,
@@ -70,7 +70,7 @@ export function EmergencyAlertBanner({ condominiumId, userRole, userId }) {
         <button
           onClick={handleResolveAlert}
           style={{
-            backgroundColor: '#ffffff',
+            backgroundColor: 'var(--bg-card)',
             color: bgColor,
             border: 'none',
             borderRadius: '6px',

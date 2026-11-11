@@ -44,7 +44,7 @@ export function ResidentDashboard({ onNavigate }) {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', maxWidth: '800px', margin: '0 auto', padding: isMobile ? '12px' : '20px' }}>
-      <div style={{ backgroundColor: hasDebt ? '#7f1d1d' : '#064e3b', backgroundImage: hasDebt ? 'linear-gradient(135deg, #991b1b 0%, #450a0a 100%)' : 'linear-gradient(135deg, #059669 0%, #064e3b 100%)', color: '#ffffff', borderRadius: '16px', padding: '24px', boxShadow: '0 4px 12px rgba(0,0,0,0.15)' }}>
+      <div style={{ backgroundColor: hasDebt ? '#7f1d1d' : '#064e3b', backgroundImage: hasDebt ? 'linear-gradient(135deg, #991b1b 0%, #450a0a 100%)' : 'linear-gradient(135deg, #059669 0%, #064e3b 100%)', color: 'var(--text-main)', borderRadius: '16px', padding: '24px', boxShadow: '0 4px 12px rgba(0,0,0,0.15)' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div>
             <div style={{ fontSize: '12px', letterSpacing: '1px', opacity: 0.85, textTransform: 'uppercase' }}>{unitInfo?.condominiums?.name || 'Mi Condominio'}</div>
@@ -63,7 +63,7 @@ export function ResidentDashboard({ onNavigate }) {
           {hasDebt && (
             <button onClick={() => onNavigate && onNavigate('expenses')} style={{ padding: '10px 20px', backgroundColor: 'var(--bg-card)', color: 'var(--danger-text)', border: 'none', borderRadius: '8px', fontWeight: '800', fontSize: '13px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>💳 Pagar en Línea (Webpay)</button>
           )}
-          <button onClick={() => onNavigate && onNavigate('expenses')} style={{ padding: '10px 16px', backgroundColor: 'rgba(255,255,255,0.15)', color: '#ffffff', border: '1px solid rgba(255,255,255,0.3)', borderRadius: '8px', fontWeight: '700', fontSize: '13px', cursor: 'pointer' }}>Ver Colilla Oficial (Art. 6)</button>
+          <button onClick={() => onNavigate && onNavigate('expenses')} style={{ padding: '10px 16px', backgroundColor: 'rgba(255,255,255,0.15)', color: 'var(--text-main)', border: '1px solid rgba(255,255,255,0.3)', borderRadius: '8px', fontWeight: '700', fontSize: '13px', cursor: 'pointer' }}>Ver Colilla Oficial (Art. 6)</button>
         </div>
       </div>
 
@@ -75,13 +75,13 @@ export function ResidentDashboard({ onNavigate }) {
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
             {packages.map((pkg) => (
-              <div key={pkg.id} style={{ backgroundColor: 'var(--bg-card)', borderRadius: '8px', padding: '12px 16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', border: '1px solid #bfdbfe' }}>
+              <div key={pkg.id} style={{ backgroundColor: 'var(--bg-card)', borderRadius: '8px', padding: '12px 16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', border: '1px solid var(--border-subtle)' }}>
                 <div>
                   <div style={{ fontSize: '13px', fontWeight: '700', color: 'var(--text-main)' }}>{pkg.carrier || 'Reparto / Courier'}</div>
                   <div style={{ fontSize: '11px', color: 'var(--text-dim)' }}>Presenta este código al conserje:</div>
                 </div>
                 <div style={{ textAlign: 'center' }}>
-                  <div style={{ fontFamily: 'monospace', fontSize: '22px', fontWeight: '900', color: '#1d4ed8', backgroundColor: 'var(--bg-surface)', padding: '4px 12px', borderRadius: '8px', letterSpacing: '3px' }}>{pkg.pickup_pin}</div>
+                  <div style={{ fontFamily: 'monospace', fontSize: '22px', fontWeight: '900', color: 'var(--primary)', backgroundColor: 'var(--bg-surface)', padding: '4px 12px', borderRadius: '8px', letterSpacing: '3px' }}>{pkg.pickup_pin}</div>
                 </div>
               </div>
             ))}
@@ -113,7 +113,7 @@ export function ResidentDashboard({ onNavigate }) {
           <h3 style={{ margin: '0 0 6px', fontSize: '15px', color: 'var(--text-main)' }}>{announcements[0].title}</h3>
           <p style={{ margin: 0, fontSize: '12.5px', color: 'var(--text-secondary)', lineHeight: '1.5' }}>{announcements[0].content?.slice(0, 160)}...</p>
           <div style={{ marginTop: '10px' }}>
-            <button onClick={() => onNavigate && onNavigate('announcements')} style={{ fontSize: '12px', color: '#0284c7', background: 'none', border: 'none', fontWeight: '700', cursor: 'pointer', padding: 0 }}>
+            <button onClick={() => onNavigate && onNavigate('announcements')} style={{ fontSize: '12px', color: 'var(--primary)', background: 'none', border: 'none', fontWeight: '700', cursor: 'pointer', padding: 0 }}>
               Leer comunicado completo y firmar acuse →
             </button>
           </div>

@@ -28,18 +28,18 @@ export function SuperAdminManagementCompaniesView() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', maxWidth: '1200px', margin: '0 auto', padding: isMobile ? '12px' : '20px' }}>
-      <div style={{ backgroundColor: '#0f172a', color: '#fff', borderRadius: '12px', padding: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
+      <div style={{ backgroundColor: 'var(--bg-surface)', color: '#fff', borderRadius: '12px', padding: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
         <div>
-          <div style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px', color: '#38bdf8' }}>Control Multi-Tenant SaaS</div>
+          <div style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px', color: 'var(--primary)' }}>Control Multi-Tenant SaaS</div>
           <h1 style={{ margin: '4px 0 0', fontSize: '20px', fontWeight: '800' }}>Empresas Administradoras y Operadores</h1>
         </div>
         <span style={{ backgroundColor: 'rgba(255,255,255,0.1)', padding: '6px 12px', borderRadius: '8px', fontSize: '12px' }}>Empresas: <strong>{companies.length}</strong></span>
       </div>
-      <input type="text" placeholder="🔍 Buscar por Razón Social, Nombre de Fantasía o RUT..." value={search} onChange={(e) => setSearch(e.target.value)} style={{ padding: '12px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '13px' }} />
-      <div style={{ backgroundColor: '#fff', borderRadius: '12px', border: '1px solid #e2e8f0', padding: '16px', overflowX: 'auto' }}>
+      <input type="text" placeholder="🔍 Buscar por Razón Social, Nombre de Fantasía o RUT..." value={search} onChange={(e) => setSearch(e.target.value)} style={{ padding: '12px', borderRadius: '8px', border: '1px solid var(--border-subtle)', fontSize: '13px' }} />
+      <div style={{ backgroundColor: 'var(--bg-card)', borderRadius: '12px', border: '1px solid var(--border-subtle)', padding: '16px', overflowX: 'auto' }}>
         <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '12.5px' }}>
           <thead>
-            <tr style={{ backgroundColor: '#f8fafc', borderBottom: '1px solid #e2e8f0', textAlign: 'left', color: '#475569' }}>
+            <tr style={{ backgroundColor: 'var(--bg-surface)', borderBottom: '1px solid var(--border-subtle)', textAlign: 'left', color: 'var(--text-secondary)' }}>
               <th style={{ padding: '10px 12px' }}>Razón Social / Fantasía</th>
               <th style={{ padding: '10px 12px' }}>RUT Legal</th>
               <th style={{ padding: '10px 12px' }}>Registro MINVU</th>
@@ -52,15 +52,15 @@ export function SuperAdminManagementCompaniesView() {
             {filtered.map((comp) => {
               const isMinvuActive = comp.minvu_status === 'active';
               return (
-                <tr key={comp.id} style={{ borderBottom: '1px solid #f1f5f9' }}>
+                <tr key={comp.id} style={{ borderBottom: '1px solid var(--border-subtle)' }}>
                   <td style={{ padding: '10px 12px' }}>
-                    <strong style={{ fontSize: '13px', color: '#0f172a' }}>{comp.legal_name}</strong>
-                    {comp.fantasy_name && <div style={{ fontSize: '11px', color: '#64748b' }}>{comp.fantasy_name}</div>}
+                    <strong style={{ fontSize: '13px', color: 'var(--text-main)' }}>{comp.legal_name}</strong>
+                    {comp.fantasy_name && <div style={{ fontSize: '11px', color: 'var(--text-dim)' }}>{comp.fantasy_name}</div>}
                   </td>
                   <td style={{ padding: '10px 12px', fontFamily: 'monospace' }}>{comp.rut}</td>
                   <td style={{ padding: '10px 12px' }}>
                     <div style={{ fontWeight: '700', color: isMinvuActive ? '#15803d' : '#ea580c' }}>{comp.minvu_registry_number || 'Sin registro'}</div>
-                    <div style={{ fontSize: '10.5px', color: '#64748b' }}>{comp.minvu_status ? comp.minvu_status.toUpperCase() : 'PENDIENTE'}</div>
+                    <div style={{ fontSize: '10.5px', color: 'var(--text-dim)' }}>{comp.minvu_status ? comp.minvu_status.toUpperCase() : 'PENDIENTE'}</div>
                   </td>
                   <td style={{ padding: '10px 12px' }}>
                     <span style={{ padding: '3px 8px', borderRadius: '12px', fontSize: '10.5px', fontWeight: '800', backgroundColor: comp.has_guarantee_insurance ? '#dcfce7' : '#fee2e2', color: comp.has_guarantee_insurance ? '#166534' : '#991b1b' }}>

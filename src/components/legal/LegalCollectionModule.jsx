@@ -90,13 +90,13 @@ export function LegalCollectionModule({ condominiumId }) {
         <div style={{ textAlign: 'center', padding: '30px' }}>Cargando datos legales...</div>
       ) : activeTab === 'cutoffs' ? (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-          <div style={{ backgroundColor: '#fef2f2', border: '1px solid #fecaca', borderRadius: '8px', padding: '12px', fontSize: '12.5px', color: '#991b1b' }}>
+          <div style={{ backgroundColor: 'var(--danger-bg)', border: '1px solid var(--danger-border)', borderRadius: '8px', padding: '12px', fontSize: '12.5px', color: 'var(--danger-text)' }}>
             <strong>Marco Legal Art. 20:</strong> Procede suspender el servicio eléctrico a unidades con <strong>3 o más cuotas impagas</strong>, previa notificación fehaciente otorgando plazo fatal.
           </div>
-          <div style={{ backgroundColor: '#fff', borderRadius: '10px', border: '1px solid #e2e8f0', overflow: 'hidden' }}>
+          <div style={{ backgroundColor: 'var(--bg-card)', borderRadius: '10px', border: '1px solid var(--border-subtle)', overflow: 'hidden' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px' }}>
               <thead>
-                <tr style={{ backgroundColor: '#f8fafc', borderBottom: '1px solid #e2e8f0', textAlign: 'left', color: '#475569' }}>
+                <tr style={{ backgroundColor: 'var(--bg-surface)', borderBottom: '1px solid var(--border-subtle)', textAlign: 'left', color: 'var(--text-secondary)' }}>
                   <th style={{ padding: '10px 14px' }}>Unidad</th>
                   <th style={{ padding: '10px 14px' }}>Copropietario</th>
                   <th style={{ padding: '10px 14px', textAlign: 'center' }}>Cuotas Impagas</th>
@@ -107,7 +107,7 @@ export function LegalCollectionModule({ condominiumId }) {
               </thead>
               <tbody>
                 {morosityList.filter(u => u.total_debt > 0).map(u => (
-                  <tr key={u.unit_id} style={{ borderBottom: '1px solid #f1f5f9' }}>
+                  <tr key={u.unit_id} style={{ borderBottom: '1px solid var(--border-subtle)' }}>
                     <td style={{ padding: '10px 14px', fontWeight: '700' }}>Depto {u.unit_number}</td>
                     <td style={{ padding: '10px 14px' }}>{u.owner_name || 'Sin asignar'}</td>
                     <td style={{ padding: '10px 14px', textAlign: 'center' }}>
@@ -115,20 +115,20 @@ export function LegalCollectionModule({ condominiumId }) {
                         {u.unpaid_periods_count} {u.unpaid_periods_count === 1 ? 'cuota' : 'cuotas'}
                       </span>
                     </td>
-                    <td style={{ padding: '10px 14px', textAlign: 'right', fontWeight: '700', color: '#0f172a' }}>{formatCLP(u.total_debt)}</td>
+                    <td style={{ padding: '10px 14px', textAlign: 'right', fontWeight: '700', color: 'var(--text-main)' }}>{formatCLP(u.total_debt)}</td>
                     <td style={{ padding: '10px 14px' }}>
-                      {u.active_cutoff_status === 'notified' ? <span style={{ color: '#ea580c', fontWeight: '700', fontSize: '11.5px' }}>⏳ Apercibido (Vence {u.active_cutoff_deadline})</span> :
-                       u.active_cutoff_status === 'suspended' ? <span style={{ color: '#b91c1c', fontWeight: '800', fontSize: '11.5px' }}>🔴 Suministro Cortado</span> :
+                      {u.active_cutoff_status === 'notified' ? <span style={{ color: 'var(--warning-text)', fontWeight: '700', fontSize: '11.5px' }}>⏳ Apercibido (Vence {u.active_cutoff_deadline})</span> :
+                       u.active_cutoff_status === 'suspended' ? <span style={{ color: 'var(--danger-text)', fontWeight: '800', fontSize: '11.5px' }}>🔴 Suministro Cortado</span> :
                        u.is_cutoff_eligible ? <span style={{ color: '#dc2626', fontWeight: '600', fontSize: '11.5px' }}>Sujeto a Corte Inmediato</span> :
-                       <span style={{ color: '#64748b', fontSize: '11.5px' }}>Deuda regular</span>}
+                       <span style={{ color: 'var(--text-dim)', fontSize: '11.5px' }}>Deuda regular</span>}
                     </td>
                     <td style={{ padding: '10px 14px', textAlign: 'center' }}>
                       <div style={{ display: 'flex', gap: '4px', justifyContent: 'center', flexWrap: 'wrap' }}>
                         {u.is_cutoff_eligible && u.active_cutoff_status !== 'notified' && (
-                          <button disabled={actionLoading} onClick={() => handleIssueCutoff(u)} style={{ padding: '6px 12px', backgroundColor: '#dc2626', color: '#fff', border: 'none', borderRadius: '6px', fontSize: '11.5px', fontWeight: '700', cursor: 'pointer' }}>⚡ Apercibir Corte</button>
+                          <button disabled={actionLoading} onClick={() => handleIssueCutoff(u)} style={{ padding: '6px 12px', backgroundColor: 'var(--danger)', color: '#fff', border: 'none', borderRadius: '6px', fontSize: '11.5px', fontWeight: '700', cursor: 'pointer' }}>⚡ Apercibir Corte</button>
                         )}
                         {u.active_cutoff_status === 'notified' && (
-                          <button onClick={() => documentPdfService.downloadCutoffNoticePdf({ condo_name: u.condo_name, unit_number: u.unit_number, total_debt: u.total_debt, unpaid_periods_count: u.unpaid_periods_count, notice_folio: 'NOT-CORTE-' + u.unit_number, deadline_date: u.active_cutoff_deadline || '5 días desde notificación', service_type: 'energia_electrica' })} style={{ padding: '6px 10px', backgroundColor: '#0f172a', color: '#fff', border: 'none', borderRadius: '6px', fontSize: '11.5px', fontWeight: '700', cursor: 'pointer' }}>📥 Carta PDF (QR)</button>
+                          <button onClick={() => documentPdfService.downloadCutoffNoticePdf({ condo_name: u.condo_name, unit_number: u.unit_number, total_debt: u.total_debt, unpaid_periods_count: u.unpaid_periods_count, notice_folio: 'NOT-CORTE-' + u.unit_number, deadline_date: u.active_cutoff_deadline || '5 días desde notificación', service_type: 'energia_electrica' })} style={{ padding: '6px 10px', backgroundColor: 'var(--bg-surface)', color: '#fff', border: 'none', borderRadius: '6px', fontSize: '11.5px', fontWeight: '700', cursor: 'pointer' }}>📥 Carta PDF (QR)</button>
                         )}
                       </div>
                     </td>
@@ -140,19 +140,19 @@ export function LegalCollectionModule({ condominiumId }) {
         </div>
       ) : activeTab === 'jpl' ? (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-          <div style={{ backgroundColor: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: '8px', padding: '12px', fontSize: '12.5px', color: '#166534' }}>
+          <div style={{ backgroundColor: 'var(--success-bg)', border: '1px solid var(--success-border)', borderRadius: '8px', padding: '12px', fontSize: '12.5px', color: 'var(--success-text)' }}>
             <strong>Mérito Ejecutivo (Art. 6):</strong> Las colillas de cobro constituyen <strong>título ejecutivo</strong> ante los Juzgados de Policía Local para iniciar juicio sumario de cobro.
           </div>
           {certData ? (
-            <div style={{ backgroundColor: '#fff', border: '2px solid #0f172a', borderRadius: '8px', padding: '24px', fontFamily: 'serif' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '2px solid #0f172a', paddingBottom: '12px', marginBottom: '16px' }}>
+            <div style={{ backgroundColor: 'var(--bg-card)', border: '2px solid var(--text-main)', borderRadius: '8px', padding: '24px', fontFamily: 'serif' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '2px solid var(--text-main)', paddingBottom: '12px', marginBottom: '16px' }}>
                 <div>
                   <h2 style={{ margin: 0, fontSize: '16px', textTransform: 'uppercase' }}>{certData.condo_name}</h2>
-                  <div style={{ fontSize: '12px', color: '#475569' }}>Administración de Edificios y Condominios</div>
+                  <div style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>Administración de Edificios y Condominios</div>
                 </div>
                 <div style={{ textAlign: 'right' }}>
                   <div style={{ fontWeight: 'bold', fontSize: '13px' }}>FOLIO: {certData.folio}</div>
-                  <div style={{ fontSize: '11px', color: '#64748b' }}>Fecha: {certData.issued_at}</div>
+                  <div style={{ fontSize: '11px', color: 'var(--text-dim)' }}>Fecha: {certData.issued_at}</div>
                 </div>
               </div>
               <h3 style={{ textAlign: 'center', textTransform: 'uppercase', fontSize: '16px', letterSpacing: '1px', margin: '20px 0' }}>
@@ -187,22 +187,22 @@ export function LegalCollectionModule({ condominiumId }) {
                 <div><div style={{ borderTop: '1px solid #000', paddingTop: '6px', fontWeight: 'bold' }}>V°B° Presidente Comité</div><div>{certData.committee_president_name}</div></div>
               </div>
               <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', marginTop: '24px' }}>
-                <button onClick={() => documentPdfService.downloadJplCertificatePdf(certData)} style={{ padding: '8px 16px', backgroundColor: '#0284c7', color: '#fff', border: 'none', borderRadius: '6px', fontWeight: '700', fontSize: '12px', cursor: 'pointer' }}>📥 Descargar PDF (QR)</button>
+                <button onClick={() => documentPdfService.downloadJplCertificatePdf(certData)} style={{ padding: '8px 16px', backgroundColor: 'var(--primary)', color: '#fff', border: 'none', borderRadius: '6px', fontWeight: '700', fontSize: '12px', cursor: 'pointer' }}>📥 Descargar PDF (QR)</button>
                 <button onClick={() => window.print()} style={{ padding: '8px 16px', background: '#0f172a', color: '#fff', border: 'none', borderRadius: '6px', cursor: 'pointer' }}>🖨️ Imprimir / Guardar PDF</button>
                 <button onClick={() => setCertData(null)} style={{ padding: '8px 16px', border: '1px solid #ccc', background: '#fff', borderRadius: '6px', cursor: 'pointer' }}>Volver al Listado</button>
               </div>
             </div>
           ) : (
-            <div style={{ backgroundColor: '#fff', borderRadius: '10px', border: '1px solid #e2e8f0', padding: '16px' }}>
+            <div style={{ backgroundColor: 'var(--bg-card)', borderRadius: '10px', border: '1px solid var(--border-subtle)', padding: '16px' }}>
               <div style={{ fontSize: '13px', fontWeight: 'bold', marginBottom: '10px' }}>Unidades con Deuda Ejecutiva Exigible:</div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                 {morosityList.filter(u => u.total_debt > 0).map(u => (
-                  <div key={u.unit_id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px', backgroundColor: '#f8fafc', borderRadius: '6px' }}>
+                  <div key={u.unit_id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px', backgroundColor: 'var(--bg-surface)', borderRadius: '6px' }}>
                     <div>
                       <strong>Depto {u.unit_number}</strong> — {u.owner_name} ({u.unpaid_periods_count} cuotas impagas)
-                      <div style={{ fontSize: '12px', color: '#b91c1c', fontWeight: 'bold' }}>Deuda: {formatCLP(u.total_debt)}</div>
+                      <div style={{ fontSize: '12px', color: 'var(--danger-text)', fontWeight: 'bold' }}>Deuda: {formatCLP(u.total_debt)}</div>
                     </div>
-                    <button onClick={() => handleGenerateCertificate(u)} disabled={actionLoading} style={{ padding: '8px 14px', backgroundColor: '#0284c7', color: '#fff', border: 'none', borderRadius: '6px', fontSize: '12px', fontWeight: '700', cursor: 'pointer' }}>
+                    <button onClick={() => handleGenerateCertificate(u)} disabled={actionLoading} style={{ padding: '8px 14px', backgroundColor: 'var(--primary)', color: '#fff', border: 'none', borderRadius: '6px', fontSize: '12px', fontWeight: '700', cursor: 'pointer' }}>
                       📜 Emitir Título Ejecutivo JPL
                     </button>
                   </div>
@@ -213,38 +213,38 @@ export function LegalCollectionModule({ condominiumId }) {
         </div>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#fff', padding: '12px 16px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'var(--bg-card)', padding: '12px 16px', borderRadius: '8px', border: '1px solid var(--border-subtle)' }}>
             <span style={{ fontSize: '13px', fontWeight: 'bold' }}>Selecciona Período a Rendir:</span>
-            <select value={selectedPeriodId} onChange={(e) => setSelectedPeriodId(e.target.value)} style={{ padding: '6px 12px', borderRadius: '6px', border: '1px solid #cbd5e1', fontSize: '13px' }}>
+            <select value={selectedPeriodId} onChange={(e) => setSelectedPeriodId(e.target.value)} style={{ padding: '6px 12px', borderRadius: '6px', border: '1px solid var(--border-subtle)', fontSize: '13px' }}>
               {periods.map(p => (<option key={p.id} value={p.id}>{p.period_name}</option>))}
             </select>
           </div>
           {accountabilityData && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
               <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(4, 1fr)', gap: '10px' }}>
-                <div style={{ backgroundColor: '#fff', padding: '14px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
-                  <div style={{ fontSize: '11px', color: '#64748b', fontWeight: 'bold' }}>TOTAL FACTURADO</div>
+                <div style={{ backgroundColor: 'var(--bg-card)', padding: '14px', borderRadius: '8px', border: '1px solid var(--border-subtle)' }}>
+                  <div style={{ fontSize: '11px', color: 'var(--text-dim)', fontWeight: 'bold' }}>TOTAL FACTURADO</div>
                   <div style={{ fontSize: '18px', fontWeight: '800', marginTop: '4px' }}>{formatCLP(accountabilityData.financial_summary.total_billed)}</div>
                 </div>
-                <div style={{ backgroundColor: '#fff', padding: '14px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
-                  <div style={{ fontSize: '11px', color: '#64748b', fontWeight: 'bold' }}>TOTAL RECAUDADO</div>
-                  <div style={{ fontSize: '18px', fontWeight: '800', color: '#15803d', marginTop: '4px' }}>{formatCLP(accountabilityData.financial_summary.total_collected)}</div>
-                  <div style={{ fontSize: '11px', color: '#15803d' }}>{accountabilityData.financial_summary.collection_rate_pct}% efectividad</div>
+                <div style={{ backgroundColor: 'var(--bg-card)', padding: '14px', borderRadius: '8px', border: '1px solid var(--border-subtle)' }}>
+                  <div style={{ fontSize: '11px', color: 'var(--text-dim)', fontWeight: 'bold' }}>TOTAL RECAUDADO</div>
+                  <div style={{ fontSize: '18px', fontWeight: '800', color: 'var(--success-text)', marginTop: '4px' }}>{formatCLP(accountabilityData.financial_summary.total_collected)}</div>
+                  <div style={{ fontSize: '11px', color: 'var(--success-text)' }}>{accountabilityData.financial_summary.collection_rate_pct}% efectividad</div>
                 </div>
-                <div style={{ backgroundColor: '#fff', padding: '14px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
-                  <div style={{ fontSize: '11px', color: '#64748b', fontWeight: 'bold' }}>EGRESOS OPERACIONALES</div>
-                  <div style={{ fontSize: '18px', fontWeight: '800', color: '#b91c1c', marginTop: '4px' }}>{formatCLP(accountabilityData.financial_summary.total_operational_expenses)}</div>
+                <div style={{ backgroundColor: 'var(--bg-card)', padding: '14px', borderRadius: '8px', border: '1px solid var(--border-subtle)' }}>
+                  <div style={{ fontSize: '11px', color: 'var(--text-dim)', fontWeight: 'bold' }}>EGRESOS OPERACIONALES</div>
+                  <div style={{ fontSize: '18px', fontWeight: '800', color: 'var(--danger-text)', marginTop: '4px' }}>{formatCLP(accountabilityData.financial_summary.total_operational_expenses)}</div>
                 </div>
-                <div style={{ backgroundColor: '#fff', padding: '14px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
-                  <div style={{ fontSize: '11px', color: '#64748b', fontWeight: 'bold' }}>APORTE FONDO RESERVA</div>
-                  <div style={{ fontSize: '18px', fontWeight: '800', color: '#0369a1', marginTop: '4px' }}>{formatCLP(accountabilityData.financial_summary.reserve_fund_inflow)}</div>
+                <div style={{ backgroundColor: 'var(--bg-card)', padding: '14px', borderRadius: '8px', border: '1px solid var(--border-subtle)' }}>
+                  <div style={{ fontSize: '11px', color: 'var(--text-dim)', fontWeight: 'bold' }}>APORTE FONDO RESERVA</div>
+                  <div style={{ fontSize: '18px', fontWeight: '800', color: 'var(--primary)', marginTop: '4px' }}>{formatCLP(accountabilityData.financial_summary.reserve_fund_inflow)}</div>
                 </div>
               </div>
-              <div style={{ backgroundColor: '#fff', padding: '16px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
+              <div style={{ backgroundColor: 'var(--bg-card)', padding: '16px', borderRadius: '8px', border: '1px solid var(--border-subtle)' }}>
                 <strong style={{ fontSize: '13.5px' }}>Desglose de Egresos Mensuales:</strong>
                 <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: '10px', fontSize: '12.5px' }}>
                   <thead>
-                    <tr style={{ backgroundColor: '#f8fafc', borderBottom: '1px solid #e2e8f0', textAlign: 'left', color: '#475569' }}>
+                    <tr style={{ backgroundColor: 'var(--bg-surface)', borderBottom: '1px solid var(--border-subtle)', textAlign: 'left', color: 'var(--text-secondary)' }}>
                       <th style={{ padding: '8px' }}>Categoría de Gasto</th>
                       <th style={{ padding: '8px', textAlign: 'right' }}>Monto Rendido</th>
                       <th style={{ padding: '8px', textAlign: 'right' }}>% del Total</th>
@@ -252,10 +252,10 @@ export function LegalCollectionModule({ condominiumId }) {
                   </thead>
                   <tbody>
                     {accountabilityData.expenses_breakdown.map((exp, idx) => (
-                      <tr key={idx} style={{ borderBottom: '1px solid #f1f5f9' }}>
+                      <tr key={idx} style={{ borderBottom: '1px solid var(--border-subtle)' }}>
                         <td style={{ padding: '8px', textTransform: 'capitalize' }}>{exp.category.replace('_', ' ')}</td>
                         <td style={{ padding: '8px', textAlign: 'right', fontWeight: 'bold' }}>{formatCLP(exp.total)}</td>
-                        <td style={{ padding: '8px', textAlign: 'right', color: '#64748b' }}>{exp.percentage}%</td>
+                        <td style={{ padding: '8px', textAlign: 'right', color: 'var(--text-dim)' }}>{exp.percentage}%</td>
                       </tr>
                     ))}
                   </tbody>

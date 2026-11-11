@@ -54,13 +54,13 @@ export default function SecurityStaffModule() {
   const getStatusBadge = (status, days) => {
     switch (status) {
       case 'vigente':
-        return <span style={{ backgroundColor: '#dcfce7', color: '#15803d', padding: '3px 8px', borderRadius: '6px', fontSize: '11px', fontWeight: '700' }}>🟢 Vigente ({days} días)</span>;
+        return <span style={{ backgroundColor: 'var(--success-bg)', color: 'var(--success-text)', padding: '3px 8px', borderRadius: '6px', fontSize: '11px', fontWeight: '700' }}>🟢 Vigente ({days} días)</span>;
       case 'por_vencer':
-        return <span style={{ backgroundColor: '#fef3c7', color: '#b45309', padding: '3px 8px', borderRadius: '6px', fontSize: '11px', fontWeight: '700' }}>🟡 Por Vencer ({days} días)</span>;
+        return <span style={{ backgroundColor: '#fef3c7', color: 'var(--warning-text)', padding: '3px 8px', borderRadius: '6px', fontSize: '11px', fontWeight: '700' }}>🟡 Por Vencer ({days} días)</span>;
       case 'vencido':
-        return <span style={{ backgroundColor: '#fee2e2', color: '#b91c1c', padding: '3px 8px', borderRadius: '6px', fontSize: '11px', fontWeight: '800' }}>🔴 Vencido</span>;
+        return <span style={{ backgroundColor: 'var(--danger-bg)', color: 'var(--danger-text)', padding: '3px 8px', borderRadius: '6px', fontSize: '11px', fontWeight: '800' }}>🔴 Vencido</span>;
       default:
-        return <span style={{ backgroundColor: '#f1f5f9', color: '#64748b', padding: '3px 8px', borderRadius: '6px', fontSize: '11px' }}>⚪ No Acreditado</span>;
+        return <span style={{ backgroundColor: 'var(--bg-surface)', color: 'var(--text-dim)', padding: '3px 8px', borderRadius: '6px', fontSize: '11px' }}>⚪ No Acreditado</span>;
     }
   };
 
@@ -68,15 +68,15 @@ export default function SecurityStaffModule() {
     <div style={{ maxWidth: '1100px', margin: '0 auto', padding: isMobile ? '12px' : '20px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', flexWrap: 'wrap', gap: '10px' }}>
         <div style={{ display: 'flex', gap: '8px' }}>
-          <button onClick={() => setActiveTab('staff')} style={{ padding: '8px 16px', borderRadius: '8px', border: 'none', fontWeight: '700', cursor: 'pointer', backgroundColor: activeTab === 'staff' ? '#0f172a' : '#e2e8f0', color: activeTab === 'staff' ? '#ffffff' : '#475569' }}>
+          <button onClick={() => setActiveTab('staff')} style={{ padding: '8px 16px', borderRadius: '8px', border: 'none', fontWeight: '700', cursor: 'pointer', backgroundColor: activeTab === 'staff' ? 'var(--bg-surface)' : 'var(--bg-surface)', color: activeTab === 'staff' ? 'var(--text-main)' : 'var(--text-secondary)' }}>
             🛡️ Personal y Semáforo OS-10
           </button>
-          <button onClick={() => setActiveTab('handovers')} style={{ padding: '8px 16px', borderRadius: '8px', border: 'none', fontWeight: '700', cursor: 'pointer', backgroundColor: activeTab === 'handovers' ? '#0f172a' : '#e2e8f0', color: activeTab === 'handovers' ? '#ffffff' : '#475569' }}>
+          <button onClick={() => setActiveTab('handovers')} style={{ padding: '8px 16px', borderRadius: '8px', border: 'none', fontWeight: '700', cursor: 'pointer', backgroundColor: activeTab === 'handovers' ? 'var(--bg-surface)' : 'var(--bg-surface)', color: activeTab === 'handovers' ? 'var(--text-main)' : 'var(--text-secondary)' }}>
             📋 Libro de Relevos de Turno
           </button>
         </div>
         {isAdminOrSuper && activeTab === 'staff' && (
-          <button onClick={() => setIsModalOpen(true)} style={{ padding: '8px 16px', backgroundColor: '#0284c7', color: '#fff', border: 'none', borderRadius: '6px', fontWeight: '700', cursor: 'pointer' }}>
+          <button onClick={() => setIsModalOpen(true)} style={{ padding: '8px 16px', backgroundColor: 'var(--primary)', color: '#fff', border: 'none', borderRadius: '6px', fontWeight: '700', cursor: 'pointer' }}>
             + Registrar Personal
           </button>
         )}

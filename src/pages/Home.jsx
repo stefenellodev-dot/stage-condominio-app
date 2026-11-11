@@ -14,11 +14,11 @@ export function Home({ onNavigate }) {
   return (
     <div>
       {profile?.role === 'superadmin' && (
-        <div style={{ backgroundColor: '#f1f5f9', borderBottom: '1px solid #cbd5e1', padding: '6px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '12px' }}>
-          <span style={{ color: '#475569' }}>🛠️ Vista activa de rol: <strong>{activeRole.toUpperCase()}</strong></span>
+        <div style={{ backgroundColor: 'var(--bg-surface)', borderBottom: '1px solid #cbd5e1', padding: '6px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '12px' }}>
+          <span style={{ color: 'var(--text-secondary)' }}>🛠️ Vista activa de rol: <strong>{activeRole.toUpperCase()}</strong></span>
           <div style={{ display: 'flex', gap: '6px' }}>
             {['superadmin', 'admin', 'concierge', 'user'].map((r) => (
-              <button key={r} onClick={() => setSimulatedRole(r === profile.role ? null : r)} style={{ padding: '3px 8px', borderRadius: '4px', border: '1px solid #94a3b8', backgroundColor: activeRole === r ? '#0f172a' : '#ffffff', color: activeRole === r ? '#ffffff' : '#334155', cursor: 'pointer', fontSize: '11px', fontWeight: 'bold' }}>
+              <button key={r} onClick={() => setSimulatedRole(r === profile.role ? null : r)} style={{ padding: '3px 8px', borderRadius: '4px', border: '1px solid #94a3b8', backgroundColor: activeRole === r ? 'var(--bg-surface)' : 'var(--bg-card)', color: activeRole === r ? 'var(--text-main)' : 'var(--text-secondary)', cursor: 'pointer', fontSize: '11px', fontWeight: 'bold' }}>
                 {r}
               </button>
             ))}

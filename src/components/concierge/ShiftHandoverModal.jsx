@@ -86,7 +86,7 @@ export function ShiftHandoverModal({ isOpen, onClose, condominiumId, onSuccess }
   return (
     <Modal open={isOpen} onClose={onClose} title="🔄 Acta de Relevo y Entrega de Turno">
       {errorMsg && (
-        <div style={{ backgroundColor: '#fef2f2', color: '#b91c1c', padding: '10px', borderRadius: '6px', fontSize: '13px', marginBottom: '12px' }}>
+        <div style={{ backgroundColor: 'var(--danger-bg)', color: 'var(--danger-text)', padding: '10px', borderRadius: '6px', fontSize: '13px', marginBottom: '12px' }}>
           {errorMsg}
         </div>
       )}
@@ -94,7 +94,7 @@ export function ShiftHandoverModal({ isOpen, onClose, condominiumId, onSuccess }
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
           <div>
             <label style={{ display: 'block', fontSize: '12px', fontWeight: '700', marginBottom: '4px' }}>Conserje Saliente:</label>
-            <select value={outgoingStaffId} onChange={e => setOutgoingStaffId(e.target.value)} style={{ width: '100%', padding: '8px', borderRadius: '6px', border: '1px solid #cbd5e1' }}>
+            <select value={outgoingStaffId} onChange={e => setOutgoingStaffId(e.target.value)} style={{ width: '100%', padding: '8px', borderRadius: '6px', border: '1px solid var(--border-subtle)' }}>
               {staffList.map(s => (
                 <option key={s.id} value={s.id}>{s.full_name} ({s.job_title?.replace('_', ' ')})</option>
               ))}
@@ -102,7 +102,7 @@ export function ShiftHandoverModal({ isOpen, onClose, condominiumId, onSuccess }
           </div>
           <div>
             <label style={{ display: 'block', fontSize: '12px', fontWeight: '700', marginBottom: '4px' }}>Conserje Entrante:</label>
-            <select value={incomingStaffId} onChange={e => setIncomingStaffId(e.target.value)} style={{ width: '100%', padding: '8px', borderRadius: '6px', border: '1px solid #cbd5e1' }}>
+            <select value={incomingStaffId} onChange={e => setIncomingStaffId(e.target.value)} style={{ width: '100%', padding: '8px', borderRadius: '6px', border: '1px solid var(--border-subtle)' }}>
               {staffList.map(s => (
                 <option key={s.id} value={s.id}>{s.full_name} ({s.job_title?.replace('_', ' ')})</option>
               ))}
@@ -111,14 +111,14 @@ export function ShiftHandoverModal({ isOpen, onClose, condominiumId, onSuccess }
         </div>
         <div>
           <label style={{ display: 'block', fontSize: '12px', fontWeight: '700', marginBottom: '4px' }}>Horario de Relevo:</label>
-          <select value={shiftTime} onChange={e => setShiftTime(e.target.value)} style={{ width: '100%', padding: '8px', borderRadius: '6px', border: '1px solid #cbd5e1' }}>
+          <select value={shiftTime} onChange={e => setShiftTime(e.target.value)} style={{ width: '100%', padding: '8px', borderRadius: '6px', border: '1px solid var(--border-subtle)' }}>
             <option value="morning_to_afternoon">Mañana ➔ Tarde (07:00 a 15:00)</option>
             <option value="afternoon_to_night">Tarde ➔ Noche (15:00 a 23:00)</option>
             <option value="night_to_morning">Noche ➔ Mañana (23:00 a 07:00)</option>
           </select>
         </div>
-        <div style={{ backgroundColor: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '8px', padding: '12px' }}>
-          <div style={{ fontSize: '12px', fontWeight: '700', marginBottom: '8px', color: '#334155' }}>Checklist de Operatividad en Puesto:</div>
+        <div style={{ backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border-subtle)', borderRadius: '8px', padding: '12px' }}>
+          <div style={{ fontSize: '12px', fontWeight: '700', marginBottom: '8px', color: 'var(--text-secondary)' }}>Checklist de Operatividad en Puesto:</div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', fontSize: '12px' }}>
             <label style={{ display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer' }}>
               <input type="checkbox" checked={checklist.radios_portatiles} onChange={() => handleCheckboxChange('radios_portatiles')} />
@@ -144,10 +144,10 @@ export function ShiftHandoverModal({ isOpen, onClose, condominiumId, onSuccess }
         </div>
         <div>
           <label style={{ display: 'block', fontSize: '12px', fontWeight: '700', marginBottom: '4px' }}>Tareas y Novedades Pendientes:</label>
-          <textarea rows={3} required placeholder="Ej: Quedan 2 paquetes pendientes por retirar..." value={pendingTasks} onChange={e => setPendingTasks(e.target.value)} style={{ width: '100%', padding: '8px', borderRadius: '6px', border: '1px solid #cbd5e1', fontSize: '12.5px' }} />
+          <textarea rows={3} required placeholder="Ej: Quedan 2 paquetes pendientes por retirar..." value={pendingTasks} onChange={e => setPendingTasks(e.target.value)} style={{ width: '100%', padding: '8px', borderRadius: '6px', border: '1px solid var(--border-subtle)', fontSize: '12.5px' }} />
         </div>
         <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginTop: '10px' }}>
-          <button type="button" onClick={onClose} disabled={saving} style={{ padding: '8px 16px', borderRadius: '6px', border: '1px solid #cbd5e1', background: '#fff' }}>Cancelar</button>
+          <button type="button" onClick={onClose} disabled={saving} style={{ padding: '8px 16px', borderRadius: '6px', border: '1px solid var(--border-subtle)', background: '#fff' }}>Cancelar</button>
           <button type="submit" disabled={saving} style={{ padding: '8px 20px', borderRadius: '6px', border: 'none', background: '#0284c7', color: '#fff', fontWeight: '700' }}>
             {saving ? 'Registrando...' : 'Firmar y Registrar Relevo'}
           </button>

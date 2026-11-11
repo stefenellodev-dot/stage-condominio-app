@@ -54,14 +54,14 @@ export function EmergencyPlanView({ condominiumId }) {
       <div style={{ backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-lg)', padding: isMobile ? '16px' : '20px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '8px' }}>
           <div>
-            <span style={{ backgroundColor: '#dbeafe', color: '#1e40af', fontSize: '11px', fontWeight: '700', padding: '2px 8px', borderRadius: '999px', textTransform: 'uppercase' }}>Ley N° 21.442 — Art. 40</span>
+            <span style={{ backgroundColor: 'var(--bg-surface)', color: 'var(--text-main)', fontSize: '11px', fontWeight: '700', padding: '2px 8px', borderRadius: '999px', textTransform: 'uppercase' }}>Ley N° 21.442 — Art. 40</span>
             <h2 style={{ fontSize: isMobile ? '18px' : '20px', margin: '8px 0 4px', fontWeight: '800', color: 'var(--text-main)' }}>Plan de Emergencia y Evacuación {plan.valid_year}</h2>
             <div style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>Versión: <strong>{plan.version}</strong> | Aprobación: {plan.approval_date}</div>
           </div>
           <div style={{ backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border-subtle)', borderRadius: '6px', padding: '8px 12px', fontSize: '11.5px', lineHeight: 1.4, color: 'var(--text-main)' }}>
             <div>🚒 Bomberos: <strong>{plan.bomberos_approval_folio}</strong></div>
             <div>👮 Carabineros: <strong>{plan.carabineros_approval_folio}</strong></div>
-            <div style={{ color: '#0369a1', marginTop: '2px' }}>Próximo Simulacro: <strong>{plan.next_drill_deadline}</strong></div>
+            <div style={{ color: 'var(--primary)', marginTop: '2px' }}>Próximo Simulacro: <strong>{plan.next_drill_deadline}</strong></div>
           </div>
         </div>
       </div>

@@ -215,7 +215,7 @@ export function ExpenseBillDocument({ billData }) {
       <div className="no-print" style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', marginBottom: '16px' }}>
         <button
           onClick={() => window.print()}
-          style={{ padding: '8px 16px', backgroundColor: '#0284c7', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}
+          style={{ padding: '8px 16px', backgroundColor: 'var(--primary)', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}
         >
           🖨️ Imprimir / Guardar como PDF
         </button>
@@ -230,8 +230,8 @@ export function ExpenseBillDocument({ billData }) {
           <div>Dirección: {condo?.street} #{condo?.street_number}, {condo?.commune}, {condo?.region}</div>
         </div>
         <div className="text-right">
-          <div style={{ fontSize: '13px', fontWeight: '700', color: '#475569' }}>COPIA LIQUIDACIÓN DE COBRO</div>
-          <div style={{ fontSize: '16px', fontWeight: '800', color: '#0284c7' }}>{expense_periods?.period_name}</div>
+          <div style={{ fontSize: '13px', fontWeight: '700', color: 'var(--text-secondary)' }}>COPIA LIQUIDACIÓN DE COBRO</div>
+          <div style={{ fontSize: '16px', fontWeight: '800', color: 'var(--primary)' }}>{expense_periods?.period_name}</div>
           <div style={{ marginTop: '4px' }}>Fecha Emisión: {expense_periods?.issue_date}</div>
           <div style={{ color: '#dc2626', fontWeight: '700' }}>Vencimiento: {expense_periods?.due_date}</div>
         </div>
@@ -279,7 +279,7 @@ export function ExpenseBillDocument({ billData }) {
           )}
         </tbody>
         <tfoot>
-          <tr style={{ fontWeight: '700', backgroundColor: '#f8fafc' }}>
+          <tr style={{ fontWeight: '700', backgroundColor: 'var(--bg-surface)' }}>
             <td colSpan="3">TOTAL EGRESOS ORDINARIOS CONDOMINIO</td>
             <td className="text-right">{formatCLP(expense_periods?.total_expenses)}</td>
           </tr>
@@ -321,7 +321,7 @@ export function ExpenseBillDocument({ billData }) {
                 <td className="text-right">-{formatCLP(billData.paid_amount)}</td>
               </tr>
             )}
-            <tr style={{ fontWeight: '800', backgroundColor: '#f1f5f9' }}>
+            <tr style={{ fontWeight: '800', backgroundColor: 'var(--bg-surface)' }}>
               <td>SALDO PENDIENTE ACTUAL:</td>
               <td className="text-right" style={{ color: billData.balance > 0 ? '#b91c1c' : '#15803d' }}>
                 {formatCLP(billData.balance)}

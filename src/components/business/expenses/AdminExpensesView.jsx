@@ -286,7 +286,7 @@ export default function AdminExpensesView() {
           {periods.map(p => <option key={p.id} value={p.id}>{p.period_name} ({p.status})</option>)}
         </select>
         {canManage && selectedPeriod && period?.status !== 'issued' && (
-          <button onClick={() => setIsCloseModalOpen(true)} style={{ ...styles.button, backgroundColor: '#059669', fontSize: '12.5px', padding: '8px 16px' }}>
+          <button onClick={() => setIsCloseModalOpen(true)} style={{ ...styles.button, backgroundColor: 'var(--success)', fontSize: '12.5px', padding: '8px 16px' }}>
             ⚙️ Cierre y Prorrateo Masivo
           </button>
         )}
@@ -376,7 +376,7 @@ export default function AdminExpensesView() {
                       Ver Colilla
                     </button>
                     {b.balance > 0 && (
-                      <button onClick={() => handleStartOnlinePayment(b.id)} disabled={startingPayment} style={{ flex: 1, padding: '10px', borderRadius: '6px', border: 'none', backgroundColor: '#0284c7', color: '#fff', fontWeight: '700', cursor: startingPayment ? 'not-allowed' : 'pointer' }}>
+                      <button onClick={() => handleStartOnlinePayment(b.id)} disabled={startingPayment} style={{ flex: 1, padding: '10px', borderRadius: '6px', border: 'none', backgroundColor: 'var(--primary)', color: '#fff', fontWeight: '700', cursor: startingPayment ? 'not-allowed' : 'pointer' }}>
                         {startingPayment ? 'Conectando...' : '💳 Pagar en Línea'}
                       </button>
                     )}

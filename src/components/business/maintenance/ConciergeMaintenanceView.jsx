@@ -35,39 +35,39 @@ export function ConciergeMaintenanceView({ condominiumId }) {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', maxWidth: '950px', margin: '0 auto', padding: isMobile ? '12px' : '20px' }}>
-      <div style={{ backgroundColor: '#0f172a', color: '#fff', borderRadius: '12px', padding: '16px' }}>
+      <div style={{ backgroundColor: 'var(--bg-surface)', color: '#fff', borderRadius: '12px', padding: '16px' }}>
         <h2 style={{ margin: 0, fontSize: '17px', fontWeight: '800' }}>Bitácora Técnica de Rondas Preventivas</h2>
-        <div style={{ fontSize: '12px', color: '#94a3b8' }}>Inspección diaria de equipos críticos de continuidad operacional.</div>
+        <div style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>Inspección diaria de equipos críticos de continuidad operacional.</div>
       </div>
-      <div style={{ backgroundColor: '#fff', borderRadius: '12px', border: '1px solid #e2e8f0', padding: '16px' }}>
+      <div style={{ backgroundColor: 'var(--bg-card)', borderRadius: '12px', border: '1px solid var(--border-subtle)', padding: '16px' }}>
         <h3 style={{ margin: '0 0 10px', fontSize: '14.5px', fontWeight: '800' }}>Registrar Parámetro de Equipo</h3>
         <form onSubmit={handleSaveInspection} style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(4, 1fr)', gap: '10px' }}>
-          <select value={equipType} onChange={(e) => setEquipType(e.target.value)} style={{ padding: '10px', borderRadius: '6px', border: '1px solid #cbd5e1' }}>
+          <select value={equipType} onChange={(e) => setEquipType(e.target.value)} style={{ padding: '10px', borderRadius: '6px', border: '1px solid var(--border-subtle)' }}>
             <option value="bombas_agua">💧 Bombas de Agua (Presión)</option>
             <option value="grupo_electrogeno">⚡ Grupo Electrógeno (Petróleo)</option>
             <option value="calderas_central">🔥 Calderas (Temperatura)</option>
             <option value="porton_vehicular">🚗 Portón Vehicular (Motores)</option>
             <option value="luces_emergencia">🔦 Luces de Emergencia</option>
           </select>
-          <input type="text" placeholder="Nivel/Presión (Ej: 4.2 bar / 90%)" value={levelVal} onChange={(e) => setLevelVal(e.target.value)} style={{ padding: '10px', borderRadius: '6px', border: '1px solid #cbd5e1' }} />
-          <select value={isOk ? 'ok' : 'fail'} onChange={(e) => setIsOk(e.target.value === 'ok')} style={{ padding: '10px', borderRadius: '6px', border: '1px solid #cbd5e1' }}>
+          <input type="text" placeholder="Nivel/Presión (Ej: 4.2 bar / 90%)" value={levelVal} onChange={(e) => setLevelVal(e.target.value)} style={{ padding: '10px', borderRadius: '6px', border: '1px solid var(--border-subtle)' }} />
+          <select value={isOk ? 'ok' : 'fail'} onChange={(e) => setIsOk(e.target.value === 'ok')} style={{ padding: '10px', borderRadius: '6px', border: '1px solid var(--border-subtle)' }}>
             <option value="ok">🟢 Operando Normal</option>
             <option value="fail">🔴 Anormal / En Falla</option>
           </select>
-          <button type="submit" disabled={saving} style={{ padding: '10px', backgroundColor: '#059669', color: '#fff', border: 'none', borderRadius: '6px', fontWeight: '800', cursor: 'pointer' }}>{saving ? 'Guardando...' : '+ Grabar Ronda'}</button>
+          <button type="submit" disabled={saving} style={{ padding: '10px', backgroundColor: 'var(--success)', color: '#fff', border: 'none', borderRadius: '6px', fontWeight: '800', cursor: 'pointer' }}>{saving ? 'Guardando...' : '+ Grabar Ronda'}</button>
         </form>
       </div>
-      <div style={{ backgroundColor: '#fff', borderRadius: '12px', border: '1px solid #e2e8f0', padding: '16px' }}>
+      <div style={{ backgroundColor: 'var(--bg-card)', borderRadius: '12px', border: '1px solid var(--border-subtle)', padding: '16px' }}>
         <h3 style={{ margin: '0 0 12px', fontSize: '14px', fontWeight: '800' }}>Últimas Rondas Técnicas Registradas</h3>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
           {inspections.map((insp) => (
-            <div key={insp.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 14px', backgroundColor: '#f8fafc', borderRadius: '8px', border: '1px solid #f1f5f9' }}>
+            <div key={insp.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 14px', backgroundColor: 'var(--bg-surface)', borderRadius: '8px', border: '1px solid var(--border-subtle)' }}>
               <div>
                 <strong style={{ fontSize: '13.5px', textTransform: 'capitalize' }}>{insp.inspection_type.replace('_', ' ')}</strong>
-                <span style={{ margin: '0 8px', color: '#cbd5e1' }}>•</span>
+                <span style={{ margin: '0 8px', color: 'var(--text-dim)' }}>•</span>
                 <span>Nivel: <strong>{insp.pressure_or_level || 'N/D'}</strong></span>
-                <div style={{ fontSize: '11px', color: '#64748b', marginTop: '2px' }}>{new Date(insp.created_at).toLocaleString('es-CL')} • Guardia: {insp.profiles?.full_name || 'Turno'}</div>
-                {insp.observations && <div style={{ fontSize: '11px', color: '#64748b', marginTop: '2px' }}>Obs: {insp.observations}</div>}
+                <div style={{ fontSize: '11px', color: 'var(--text-dim)', marginTop: '2px' }}>{new Date(insp.created_at).toLocaleString('es-CL')} • Guardia: {insp.profiles?.full_name || 'Turno'}</div>
+                {insp.observations && <div style={{ fontSize: '11px', color: 'var(--text-dim)', marginTop: '2px' }}>Obs: {insp.observations}</div>}
               </div>
               <span style={{ padding: '3px 8px', borderRadius: '10px', fontSize: '10.5px', fontWeight: '800', backgroundColor: insp.status_ok ? '#d1fae5' : '#fee2e2', color: insp.status_ok ? '#065f46' : '#991b1b' }}>{insp.status_ok ? 'NORMAL' : 'FALLA'}</span>
             </div>

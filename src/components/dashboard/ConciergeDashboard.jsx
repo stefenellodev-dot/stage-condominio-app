@@ -41,16 +41,16 @@ export function ConciergeDashboard({ condominiumId, onNavigate }) {
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr 1fr' : 'repeat(4, 1fr)', gap: '12px' }}>
-        <button onClick={() => onNavigate && onNavigate('concierge')} style={{ padding: '16px', borderRadius: '10px', border: 'none', backgroundColor: '#0284c7', color: '#fff', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', cursor: 'pointer', fontWeight: '700', fontSize: '13px' }}>
+        <button onClick={() => onNavigate && onNavigate('concierge')} style={{ padding: '16px', borderRadius: '10px', border: 'none', backgroundColor: 'var(--primary)', color: '#fff', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', cursor: 'pointer', fontWeight: '700', fontSize: '13px' }}>
           <span style={{ fontSize: '24px' }}>📦</span><span>Recepcionar Paquete</span>
         </button>
-        <button onClick={() => onNavigate && onNavigate('concierge')} style={{ padding: '16px', borderRadius: '10px', border: 'none', backgroundColor: '#059669', color: '#fff', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', cursor: 'pointer', fontWeight: '700', fontSize: '13px' }}>
+        <button onClick={() => onNavigate && onNavigate('concierge')} style={{ padding: '16px', borderRadius: '10px', border: 'none', backgroundColor: 'var(--success)', color: '#fff', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', cursor: 'pointer', fontWeight: '700', fontSize: '13px' }}>
           <span style={{ fontSize: '24px' }}>🚪</span><span>Ingreso de Visita</span>
         </button>
-        <button onClick={() => onNavigate && onNavigate('concierge')} style={{ padding: '16px', borderRadius: '10px', border: 'none', backgroundColor: '#334155', color: '#fff', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', cursor: 'pointer', fontWeight: '700', fontSize: '13px' }}>
+        <button onClick={() => onNavigate && onNavigate('concierge')} style={{ padding: '16px', borderRadius: '10px', border: 'none', backgroundColor: 'var(--border-subtle)', color: '#fff', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', cursor: 'pointer', fontWeight: '700', fontSize: '13px' }}>
           <span style={{ fontSize: '24px' }}>✍️</span><span>Libro de Novedades</span>
         </button>
-        <button onClick={() => onNavigate && onNavigate('announcements')} style={{ padding: '16px', borderRadius: '10px', border: 'none', backgroundColor: '#dc2626', color: '#fff', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', cursor: 'pointer', fontWeight: '800', fontSize: '13px' }}>
+        <button onClick={() => onNavigate && onNavigate('announcements')} style={{ padding: '16px', borderRadius: '10px', border: 'none', backgroundColor: 'var(--danger)', color: '#fff', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', cursor: 'pointer', fontWeight: '800', fontSize: '13px' }}>
           <span style={{ fontSize: '24px' }}>🚨</span><span>Protocolo SOS (Art. 40)</span>
         </button>
       </div>
@@ -59,7 +59,7 @@ export function ConciergeDashboard({ condominiumId, onNavigate }) {
         <div style={{ backgroundColor: 'var(--bg-card)', padding: '16px', borderRadius: '10px', border: '1px solid var(--border-subtle)' }}>
           <div style={{ fontSize: '11.5px', color: 'var(--text-dim)', fontWeight: '700' }}>PAQUETES EN CUSTODIA</div>
           <div style={{ fontSize: '24px', fontWeight: '800', color: 'var(--text-main)', marginTop: '4px' }}>{stats.pendingPackages}</div>
-          <div style={{ fontSize: '11px', color: '#0284c7', marginTop: '2px' }}>Pendientes de retiro</div>
+          <div style={{ fontSize: '11px', color: 'var(--primary)', marginTop: '2px' }}>Pendientes de retiro</div>
         </div>
         <div style={{ backgroundColor: 'var(--bg-card)', padding: '16px', borderRadius: '10px', border: '1px solid var(--border-subtle)' }}>
           <div style={{ fontSize: '11.5px', color: 'var(--text-dim)', fontWeight: '700' }}>VISITAS ACTUALES DENTRO</div>
@@ -78,7 +78,7 @@ export function ConciergeDashboard({ condominiumId, onNavigate }) {
       <div style={{ backgroundColor: 'var(--bg-card)', borderRadius: '10px', border: '1px solid var(--border-subtle)', padding: '16px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
           <h3 style={{ margin: 0, fontSize: '14px', fontWeight: '800', color: 'var(--text-main)' }}>📦 Encomiendas en Custodia ({packages.length})</h3>
-          <button onClick={fetchConciergeData} style={{ fontSize: '11px', background: 'none', border: 'none', color: '#0284c7', cursor: 'pointer', fontWeight: '700' }}>🔄 Actualizar</button>
+          <button onClick={fetchConciergeData} style={{ fontSize: '11px', background: 'none', border: 'none', color: 'var(--primary)', cursor: 'pointer', fontWeight: '700' }}>🔄 Actualizar</button>
         </div>
         {packages.length === 0 ? (
           <div style={{ textAlign: 'center', padding: '24px', color: 'var(--text-dim)', fontSize: '13px' }}>No hay encomiendas pendientes en conserjería.</div>
@@ -94,7 +94,7 @@ export function ConciergeDashboard({ condominiumId, onNavigate }) {
                 </div>
                 <div style={{ textAlign: 'right' }}>
                   <div style={{ fontSize: '10px', color: 'var(--text-dim)', fontWeight: '700' }}>PIN EXIGIDO</div>
-                  <div style={{ fontFamily: 'monospace', fontSize: '18px', fontWeight: '900', color: '#0284c7', backgroundColor: 'var(--bg-surface)', padding: '2px 8px', borderRadius: '6px', letterSpacing: '1.5px' }}>
+                  <div style={{ fontFamily: 'monospace', fontSize: '18px', fontWeight: '900', color: 'var(--primary)', backgroundColor: 'var(--bg-surface)', padding: '2px 8px', borderRadius: '6px', letterSpacing: '1.5px' }}>
                     {pkg.pickup_pin}
                   </div>
                 </div>

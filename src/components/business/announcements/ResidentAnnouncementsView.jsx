@@ -41,9 +41,9 @@ export function ResidentAnnouncementsView() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', maxWidth: '850px', margin: '0 auto', padding: isMobile ? '12px' : '20px' }}>
-      <div style={{ backgroundColor: '#0f172a', color: '#fff', borderRadius: '14px', padding: '20px' }}>
+      <div style={{ backgroundColor: 'var(--bg-surface)', color: '#fff', borderRadius: '14px', padding: '20px' }}>
         <h1 style={{ margin: '0 0 4px', fontSize: '18px', fontWeight: '800' }}>Circulares y Citaciones Oficiales</h1>
-        <p style={{ margin: 0, fontSize: '12px', color: '#94a3b8' }}>Comunicación fehaciente de la administración conforme a la Ley N° 21.442.</p>
+        <p style={{ margin: 0, fontSize: '12px', color: 'var(--text-secondary)' }}>Comunicación fehaciente de la administración conforme a la Ley N° 21.442.</p>
       </div>
       {announcements.length === 0 ? (
         <div style={{ backgroundColor: 'var(--bg-card)', borderRadius: '12px', padding: '30px', textAlign: 'center', color: 'var(--text-dim)', border: '1px solid var(--border-subtle)' }}>No hay circulares publicadas actualmente.</div>
@@ -59,7 +59,7 @@ export function ResidentAnnouncementsView() {
                     <span style={{ padding: '3px 8px', borderRadius: '8px', fontSize: '10.5px', fontWeight: '800', textTransform: 'uppercase', backgroundColor: isUrgent ? '#fee2e2' : '#e0f2fe', color: isUrgent ? '#b91c1c' : '#0369a1' }}>{ann.priority || 'INFORMATIVO'}</span>
                     <span style={{ fontSize: '11.5px', color: 'var(--text-dim)' }}>{new Date(ann.created_at || ann.published_at).toLocaleDateString('es-CL')}</span>
                   </div>
-                  <div>{hasSigned ? <span style={{ color: '#15803d', fontSize: '11px', fontWeight: '700' }}>✓ Acuse de Lectura Firmado</span> : <span style={{ color: '#ea580c', fontSize: '11px', fontWeight: '700' }}>Pendiente de Confirmación</span>}</div>
+                  <div>{hasSigned ? <span style={{ color: 'var(--success-text)', fontSize: '11px', fontWeight: '700' }}>✓ Acuse de Lectura Firmado</span> : <span style={{ color: 'var(--warning-text)', fontSize: '11px', fontWeight: '700' }}>Pendiente de Confirmación</span>}</div>
                 </div>
                 <h3 style={{ margin: '10px 0 6px', fontSize: '16px', fontWeight: '800', color: 'var(--text-main)' }}>{ann.title}</h3>
                 <p style={{ margin: '0 0 14px', fontSize: '13px', color: 'var(--text-secondary)', lineHeight: '1.6', whiteSpace: 'pre-line' }}>{ann.content}</p>

@@ -50,16 +50,16 @@ export function ResidentMaintenanceView() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', maxWidth: '850px', margin: '0 auto', padding: isMobile ? '12px' : '20px' }}>
-      <div style={{ backgroundColor: '#0f172a', color: '#fff', borderRadius: '12px', padding: '18px' }}>
+      <div style={{ backgroundColor: 'var(--bg-surface)', color: '#fff', borderRadius: '12px', padding: '18px' }}>
         <h1 style={{ margin: '0 0 4px', fontSize: '18px', fontWeight: '800' }}>Mantenimiento e Incidentes</h1>
-        <p style={{ margin: 0, fontSize: '12.5px', color: '#94a3b8' }}>Reporta fallas operacionales, filtraciones o solicitudes técnicas.</p>
+        <p style={{ margin: 0, fontSize: '12.5px', color: 'var(--text-secondary)' }}>Reporta fallas operacionales, filtraciones o solicitudes técnicas.</p>
       </div>
-      <div style={{ backgroundColor: '#fff', borderRadius: '12px', border: '1px solid #e2e8f0', padding: '16px' }}>
+      <div style={{ backgroundColor: 'var(--bg-card)', borderRadius: '12px', border: '1px solid var(--border-subtle)', padding: '16px' }}>
         <h3 style={{ margin: '0 0 10px', fontSize: '14.5px', fontWeight: '800' }}>Nuevo Requerimiento</h3>
         <form onSubmit={handleCreateTicket} style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-          <input type="text" required placeholder="Título breve (Ej: Fuga de agua en lavaplatos)" value={title} onChange={(e) => setTitle(e.target.value)} style={{ padding: '10px', borderRadius: '6px', border: '1px solid #cbd5e1' }} />
+          <input type="text" required placeholder="Título breve (Ej: Fuga de agua en lavaplatos)" value={title} onChange={(e) => setTitle(e.target.value)} style={{ padding: '10px', borderRadius: '6px', border: '1px solid var(--border-subtle)' }} />
           <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: '10px' }}>
-            <select value={category} onChange={(e) => setCategory(e.target.value)} style={{ padding: '10px', borderRadius: '6px', border: '1px solid #cbd5e1' }}>
+            <select value={category} onChange={(e) => setCategory(e.target.value)} style={{ padding: '10px', borderRadius: '6px', border: '1px solid var(--border-subtle)' }}>
               <option value="infraestructura">Infraestructura General</option>
               <option value="electricidad">Electricidad / Luminarias</option>
               <option value="aguas_bombas">Plomería / Cañerías / Filtración</option>
@@ -67,29 +67,29 @@ export function ResidentMaintenanceView() {
               <option value="gas_calderas">Agua Caliente / Calderas</option>
               <option value="areas_comunes">Espacios Comunes</option>
             </select>
-            <select value={priority} onChange={(e) => setPriority(e.target.value)} style={{ padding: '10px', borderRadius: '6px', border: '1px solid #cbd5e1' }}>
+            <select value={priority} onChange={(e) => setPriority(e.target.value)} style={{ padding: '10px', borderRadius: '6px', border: '1px solid var(--border-subtle)' }}>
               <option value="baja">Prioridad Baja</option>
               <option value="media">Prioridad Media</option>
               <option value="alta">Prioridad Alta</option>
               <option value="urgente">Urgencia Crítica</option>
             </select>
           </div>
-          <textarea rows={3} required placeholder="Describe detalladamente el desperfecto..." value={description} onChange={(e) => setDescription(e.target.value)} style={{ padding: '10px', borderRadius: '6px', border: '1px solid #cbd5e1', boxSizing: 'border-box' }} />
-          <button type="submit" disabled={submitting} style={{ padding: '10px', backgroundColor: '#0284c7', color: '#fff', border: 'none', borderRadius: '6px', fontWeight: '800', cursor: 'pointer' }}>{submitting ? 'Enviando...' : '+ Ingresar Requerimiento'}</button>
+          <textarea rows={3} required placeholder="Describe detalladamente el desperfecto..." value={description} onChange={(e) => setDescription(e.target.value)} style={{ padding: '10px', borderRadius: '6px', border: '1px solid var(--border-subtle)', boxSizing: 'border-box' }} />
+          <button type="submit" disabled={submitting} style={{ padding: '10px', backgroundColor: 'var(--primary)', color: '#fff', border: 'none', borderRadius: '6px', fontWeight: '800', cursor: 'pointer' }}>{submitting ? 'Enviando...' : '+ Ingresar Requerimiento'}</button>
         </form>
       </div>
-      <div style={{ backgroundColor: '#fff', borderRadius: '12px', border: '1px solid #e2e8f0', padding: '16px' }}>
-        <h3 style={{ margin: '0 0 12px', fontSize: '14px', fontWeight: '800', color: '#0f172a' }}>Mis Requerimientos Registrados ({myTickets.length})</h3>
+      <div style={{ backgroundColor: 'var(--bg-card)', borderRadius: '12px', border: '1px solid var(--border-subtle)', padding: '16px' }}>
+        <h3 style={{ margin: '0 0 12px', fontSize: '14px', fontWeight: '800', color: 'var(--text-main)' }}>Mis Requerimientos Registrados ({myTickets.length})</h3>
         {myTickets.length === 0 ? (
-          <div style={{ textAlign: 'center', padding: '20px', color: '#94a3b8', fontSize: '13px' }}>No tienes solicitudes de mantenimiento registradas.</div>
+          <div style={{ textAlign: 'center', padding: '20px', color: 'var(--text-secondary)', fontSize: '13px' }}>No tienes solicitudes de mantenimiento registradas.</div>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
             {myTickets.map((t) => (
-              <div key={t.id} style={{ padding: '12px 14px', backgroundColor: '#f8fafc', borderRadius: '8px', border: '1px solid #f1f5f9', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div key={t.id} style={{ padding: '12px 14px', backgroundColor: 'var(--bg-surface)', borderRadius: '8px', border: '1px solid var(--border-subtle)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div>
                   <strong style={{ fontSize: '14px' }}>{t.title}</strong>
-                  <div style={{ fontSize: '11.5px', color: '#64748b', marginTop: '2px' }}>Categoría: {t.category.replace('_', ' ')} • {new Date(t.created_at).toLocaleDateString('es-CL')}</div>
-                  <div style={{ fontSize: '12px', color: '#334155', marginTop: '3px' }}>{t.description}</div>
+                  <div style={{ fontSize: '11.5px', color: 'var(--text-dim)', marginTop: '2px' }}>Categoría: {t.category.replace('_', ' ')} • {new Date(t.created_at).toLocaleDateString('es-CL')}</div>
+                  <div style={{ fontSize: '12px', color: 'var(--text-secondary)', marginTop: '3px' }}>{t.description}</div>
                 </div>
                 <span style={{ padding: '3px 8px', borderRadius: '10px', fontSize: '10.5px', fontWeight: '800', backgroundColor: t.status === 'resolved' ? '#d1fae5' : t.status === 'in_progress' ? '#e0f2fe' : '#fef3c7', color: t.status === 'resolved' ? '#065f46' : t.status === 'in_progress' ? '#0369a1' : '#b45309' }}>
                   {t.status === 'resolved' ? 'RESUELTO' : t.status === 'in_progress' ? 'EN PROCESO' : 'REPORTADO'}

@@ -34,12 +34,12 @@ export function SuperAdminDashboard({ onNavigate }) {
     <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', maxWidth: '1200px', margin: '0 auto', padding: isMobile ? '12px' : '20px' }}>
       <div style={{ backgroundColor: 'var(--bg-card)', color: '#fff', borderRadius: '12px', padding: '18px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
         <div>
-          <div style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px', color: '#38bdf8' }}>Centro de Operaciones Global (SaaS)</div>
+          <div style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px', color: 'var(--primary)' }}>Centro de Operaciones Global (SaaS)</div>
           <h1 style={{ margin: '4px 0 0', fontSize: '20px', fontWeight: '800' }}>Plataforma Piave • ecomunity.cl</h1>
         </div>
         <div style={{ display: 'flex', gap: '8px' }}>
-          <span style={{ backgroundColor: '#059669', color: '#fff', padding: '4px 10px', borderRadius: '20px', fontSize: '11px', fontWeight: '700' }}>TUNNEL CLOUDFLARE: ACTIVO</span>
-          <span style={{ backgroundColor: '#0284c7', color: '#fff', padding: '4px 10px', borderRadius: '20px', fontSize: '11px', fontWeight: '700' }}>BACKUPS: OK</span>
+          <span style={{ backgroundColor: 'var(--success)', color: '#fff', padding: '4px 10px', borderRadius: '20px', fontSize: '11px', fontWeight: '700' }}>TUNNEL CLOUDFLARE: ACTIVO</span>
+          <span style={{ backgroundColor: 'var(--primary)', color: '#fff', padding: '4px 10px', borderRadius: '20px', fontSize: '11px', fontWeight: '700' }}>BACKUPS: OK</span>
         </div>
       </div>
 
@@ -50,16 +50,16 @@ export function SuperAdminDashboard({ onNavigate }) {
         </div>
         <div style={{ backgroundColor: 'var(--bg-card)', padding: '16px', borderRadius: '10px', border: '1px solid var(--border-subtle)' }}>
           <div style={{ fontSize: '11px', color: 'var(--text-dim)', fontWeight: '700' }}>UNIDADES TOTALES</div>
-          <div style={{ fontSize: '24px', fontWeight: '900', color: '#0284c7', marginTop: '4px' }}>{platformMetrics.unitCount}</div>
+          <div style={{ fontSize: '24px', fontWeight: '900', color: 'var(--primary)', marginTop: '4px' }}>{platformMetrics.unitCount}</div>
         </div>
         <div style={{ backgroundColor: 'var(--bg-card)', padding: '16px', borderRadius: '10px', border: '1px solid var(--border-subtle)' }}>
           <div style={{ fontSize: '11px', color: 'var(--text-dim)', fontWeight: '700' }}>USUARIOS REGISTRADOS</div>
-          <div style={{ fontSize: '24px', fontWeight: '900', color: '#15803d', marginTop: '4px' }}>{platformMetrics.userCount}</div>
+          <div style={{ fontSize: '24px', fontWeight: '900', color: 'var(--success-text)', marginTop: '4px' }}>{platformMetrics.userCount}</div>
         </div>
         <div style={{ backgroundColor: 'var(--bg-card)', padding: '16px', borderRadius: '10px', border: '1px solid var(--border-subtle)' }}>
           <div style={{ fontSize: '11px', color: 'var(--text-dim)', fontWeight: '700' }}>NOTIFICACIONES EN COLA</div>
           <div style={{ fontSize: '24px', fontWeight: '900', color: platformMetrics.outboxPending > 0 ? '#ea580c' : '#64748b', marginTop: '4px' }}>{platformMetrics.outboxPending} pendientes</div>
-          <div style={{ fontSize: '11px', color: '#15803d' }}>{platformMetrics.outboxSent} despachadas</div>
+          <div style={{ fontSize: '11px', color: 'var(--success-text)' }}>{platformMetrics.outboxSent} despachadas</div>
         </div>
       </div>
 
@@ -67,7 +67,7 @@ export function SuperAdminDashboard({ onNavigate }) {
         <h3 style={{ margin: '0 0 12px', fontSize: '14px', fontWeight: '800' }}>Comunidades Registradas en la Red</h3>
         <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px' }}>
           <thead>
-            <tr style={{ backgroundColor: 'var(--bg-surface)', borderBottom: '1px solid #e2e8f0', textAlign: 'left', color: 'var(--text-secondary)' }}>
+            <tr style={{ backgroundColor: 'var(--bg-surface)', borderBottom: '1px solid var(--border-subtle)', textAlign: 'left', color: 'var(--text-secondary)' }}>
               <th style={{ padding: '8px 12px' }}>Condominio</th>
               <th style={{ padding: '8px 12px' }}>RUT</th>
               <th style={{ padding: '8px 12px' }}>Dirección</th>
