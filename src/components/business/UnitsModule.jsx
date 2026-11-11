@@ -542,7 +542,7 @@ export default function UnitsModule() {
               <button type="submit" disabled={saving} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>
                 {saving
                   ? t('units.saving')
-                  : 'Crear'}
+                  : formMode === 'create' ? 'Crear' : 'Guardar'}
               </button>
               <button type="button" onClick={handleBack} style={{ padding: '4px 10px', backgroundColor: 'var(--danger-bg)', color: 'var(--danger-text)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>
                 {t('common.cancel')}
