@@ -7,14 +7,14 @@ export const businessModules = [
     id: 'management_companies',
     labelKey: 'nav.management_companies',
     icon: '🏢',
-    component: lazy(() => import('../components/business/ManagementCompaniesModule')),
+    component: lazy(() => import('../components/business/management_companies/ManagementCompaniesModule')),
     roles: [ROLES.SUPERADMIN, ROLES.ADMIN],
   },
   {
     id: 'condominiums',
     labelKey: 'nav.condominiums',
     icon: '🏗️',
-    component: lazy(() => import('../components/business/CondominiumsModule')),
+    component: lazy(() => import('../components/business/condominiums/CondominiumsModule')),
     roles: [ROLES.SUPERADMIN, ROLES.ADMIN],
   },
   {
