@@ -250,7 +250,7 @@ export default function CondominiumsModule() {
       </div>
 
       {formMode !== 'list' && (
-        <div style={{ ...styles.formSection, marginBottom: '16px' }}>
+        <div style={{ ...styles.sectionBox, marginBottom: '16px' }}>
           <h4 style={{ margin: '0 0 12px', color: 'var(--primary)' }}>{readOnly ? 'Ver condominio' : formMode === 'create' ? 'Nuevo condominio' : 'Editar condominio'}</h4>
           <form onSubmit={formMode === 'create' ? handleCreate : handleUpdate} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
