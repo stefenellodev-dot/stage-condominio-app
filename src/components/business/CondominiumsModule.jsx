@@ -244,7 +244,7 @@ export default function CondominiumsModule() {
             </select>
           )}
           {canManage && (
-            <button style={{ ...styles.button, padding: '8px 16px', fontSize: '13px' }} onClick={() => { handleCancel(); setFormMode('create'); }}>Nuevo condominio</button>
+            <button style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }} onClick={() => { handleCancel(); setFormMode('create'); }}>Nuevo condominio</button>
           )}
         </div>
       </div>
