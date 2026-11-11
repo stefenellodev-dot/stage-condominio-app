@@ -31,7 +31,7 @@ export function SuperAdminDashboard({ onNavigate }) {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', maxWidth: '1200px', margin: '0 auto', padding: isMobile ? '12px' : '20px' }}>
-      <div style={{ backgroundColor: '#0f172a', color: '#fff', borderRadius: '12px', padding: '18px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
+      <div style={{ backgroundColor: 'var(--bg-card)', color: '#fff', borderRadius: '12px', padding: '18px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
         <div>
           <div style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px', color: '#38bdf8' }}>Centro de Operaciones Global (SaaS)</div>
           <h1 style={{ margin: '4px 0 0', fontSize: '20px', fontWeight: '800' }}>Plataforma Piave • ecomunity.cl</h1>
@@ -43,30 +43,30 @@ export function SuperAdminDashboard({ onNavigate }) {
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr 1fr' : 'repeat(4, 1fr)', gap: '12px' }}>
-        <div style={{ backgroundColor: '#fff', padding: '16px', borderRadius: '10px', border: '1px solid #e2e8f0' }}>
-          <div style={{ fontSize: '11px', color: '#64748b', fontWeight: '700' }}>CONDOMINIOS ACTIVOS</div>
-          <div style={{ fontSize: '24px', fontWeight: '900', color: '#0f172a', marginTop: '4px' }}>{platformMetrics.condoCount}</div>
+        <div style={{ backgroundColor: '#fff', padding: '16px', borderRadius: '10px', border: '1px solid var(--border-subtle)' }}>
+          <div style={{ fontSize: '11px', color: 'var(--text-dim)', fontWeight: '700' }}>CONDOMINIOS ACTIVOS</div>
+          <div style={{ fontSize: '24px', fontWeight: '900', color: 'var(--text-main)', marginTop: '4px' }}>{platformMetrics.condoCount}</div>
         </div>
-        <div style={{ backgroundColor: '#fff', padding: '16px', borderRadius: '10px', border: '1px solid #e2e8f0' }}>
-          <div style={{ fontSize: '11px', color: '#64748b', fontWeight: '700' }}>UNIDADES TOTALES</div>
+        <div style={{ backgroundColor: '#fff', padding: '16px', borderRadius: '10px', border: '1px solid var(--border-subtle)' }}>
+          <div style={{ fontSize: '11px', color: 'var(--text-dim)', fontWeight: '700' }}>UNIDADES TOTALES</div>
           <div style={{ fontSize: '24px', fontWeight: '900', color: '#0284c7', marginTop: '4px' }}>{platformMetrics.unitCount}</div>
         </div>
-        <div style={{ backgroundColor: '#fff', padding: '16px', borderRadius: '10px', border: '1px solid #e2e8f0' }}>
-          <div style={{ fontSize: '11px', color: '#64748b', fontWeight: '700' }}>USUARIOS REGISTRADOS</div>
+        <div style={{ backgroundColor: '#fff', padding: '16px', borderRadius: '10px', border: '1px solid var(--border-subtle)' }}>
+          <div style={{ fontSize: '11px', color: 'var(--text-dim)', fontWeight: '700' }}>USUARIOS REGISTRADOS</div>
           <div style={{ fontSize: '24px', fontWeight: '900', color: '#15803d', marginTop: '4px' }}>{platformMetrics.userCount}</div>
         </div>
-        <div style={{ backgroundColor: '#fff', padding: '16px', borderRadius: '10px', border: '1px solid #e2e8f0' }}>
-          <div style={{ fontSize: '11px', color: '#64748b', fontWeight: '700' }}>NOTIFICACIONES EN COLA</div>
+        <div style={{ backgroundColor: '#fff', padding: '16px', borderRadius: '10px', border: '1px solid var(--border-subtle)' }}>
+          <div style={{ fontSize: '11px', color: 'var(--text-dim)', fontWeight: '700' }}>NOTIFICACIONES EN COLA</div>
           <div style={{ fontSize: '24px', fontWeight: '900', color: platformMetrics.outboxPending > 0 ? '#ea580c' : '#64748b', marginTop: '4px' }}>{platformMetrics.outboxPending} pendientes</div>
           <div style={{ fontSize: '11px', color: '#15803d' }}>{platformMetrics.outboxSent} despachadas</div>
         </div>
       </div>
 
-      <div style={{ backgroundColor: '#fff', borderRadius: '10px', border: '1px solid #e2e8f0', padding: '16px' }}>
+      <div style={{ backgroundColor: '#fff', borderRadius: '10px', border: '1px solid var(--border-subtle)', padding: '16px' }}>
         <h3 style={{ margin: '0 0 12px', fontSize: '14px', fontWeight: '800' }}>Comunidades Registradas en la Red</h3>
         <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px' }}>
           <thead>
-            <tr style={{ backgroundColor: '#f8fafc', borderBottom: '1px solid #e2e8f0', textAlign: 'left', color: '#475569' }}>
+            <tr style={{ backgroundColor: 'var(--bg-surface)', borderBottom: '1px solid #e2e8f0', textAlign: 'left', color: 'var(--text-secondary)' }}>
               <th style={{ padding: '8px 12px' }}>Condominio</th>
               <th style={{ padding: '8px 12px' }}>RUT</th>
               <th style={{ padding: '8px 12px' }}>Dirección</th>
@@ -75,12 +75,12 @@ export function SuperAdminDashboard({ onNavigate }) {
           </thead>
           <tbody>
             {condos.map((c) => (
-              <tr key={c.id} style={{ borderBottom: '1px solid #f1f5f9' }}>
+              <tr key={c.id} style={{ borderBottom: '1px solid var(--border-subtle)' }}>
                 <td style={{ padding: '8px 12px', fontWeight: '700' }}>{c.name}</td>
                 <td style={{ padding: '8px 12px', fontFamily: 'monospace' }}>{c.rut}</td>
-                <td style={{ padding: '8px 12px', color: '#64748b' }}>{c.street} {c.street_number}, {c.commune}</td>
+                <td style={{ padding: '8px 12px', color: 'var(--text-dim)' }}>{c.street} {c.street_number}, {c.commune}</td>
                 <td style={{ padding: '8px 12px', textAlign: 'center' }}>
-                  <button onClick={() => onNavigate && onNavigate('units')} style={{ padding: '4px 10px', backgroundColor: '#0f172a', color: '#fff', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>Ver Unidades</button>
+                  <button onClick={() => onNavigate && onNavigate('units')} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: '#fff', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>Ver Unidades</button>
                 </td>
               </tr>
             ))}

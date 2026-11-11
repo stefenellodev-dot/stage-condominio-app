@@ -60,24 +60,24 @@ export function ResidentDashboard({ onNavigate }) {
         </div>
         <div style={{ display: 'flex', gap: '10px', marginTop: '20px', flexWrap: 'wrap' }}>
           {hasDebt && (
-            <button onClick={() => onNavigate && onNavigate('expenses')} style={{ padding: '10px 20px', backgroundColor: '#ffffff', color: '#991b1b', border: 'none', borderRadius: '8px', fontWeight: '800', fontSize: '13px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>💳 Pagar en Línea (Webpay)</button>
+            <button onClick={() => onNavigate && onNavigate('expenses')} style={{ padding: '10px 20px', backgroundColor: 'var(--bg-card)', color: '#991b1b', border: 'none', borderRadius: '8px', fontWeight: '800', fontSize: '13px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>💳 Pagar en Línea (Webpay)</button>
           )}
           <button onClick={() => onNavigate && onNavigate('expenses')} style={{ padding: '10px 16px', backgroundColor: 'rgba(255,255,255,0.15)', color: '#ffffff', border: '1px solid rgba(255,255,255,0.3)', borderRadius: '8px', fontWeight: '700', fontSize: '13px', cursor: 'pointer' }}>Ver Colilla Oficial (Art. 6)</button>
         </div>
       </div>
 
       {packages.length > 0 && (
-        <div style={{ backgroundColor: '#eff6ff', border: '2px dashed #3b82f6', borderRadius: '12px', padding: '16px' }}>
+        <div style={{ backgroundColor: 'var(--bg-surface)', border: '2px dashed var(--primary)', borderRadius: '12px', padding: '16px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#1e40af', marginBottom: '10px' }}>
             <span style={{ fontSize: '20px' }}>📦</span>
             <strong style={{ fontSize: '14px' }}>Tienes {packages.length} {packages.length === 1 ? 'encomienda lista' : 'encomiendas listas'} en Conserjería</strong>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
             {packages.map((pkg) => (
-              <div key={pkg.id} style={{ backgroundColor: '#ffffff', borderRadius: '8px', padding: '12px 16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', border: '1px solid #bfdbfe' }}>
+              <div key={pkg.id} style={{ backgroundColor: 'var(--bg-card)', borderRadius: '8px', padding: '12px 16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', border: '1px solid #bfdbfe' }}>
                 <div>
-                  <div style={{ fontSize: '13px', fontWeight: '700', color: '#0f172a' }}>{pkg.carrier || 'Reparto / Courier'}</div>
-                  <div style={{ fontSize: '11px', color: '#64748b' }}>Presenta este código al conserje:</div>
+                  <div style={{ fontSize: '13px', fontWeight: '700', color: 'var(--text-main)' }}>{pkg.carrier || 'Reparto / Courier'}</div>
+                  <div style={{ fontSize: '11px', color: 'var(--text-dim)' }}>Presenta este código al conserje:</div>
                 </div>
                 <div style={{ textAlign: 'center' }}>
                   <div style={{ fontFamily: 'monospace', fontSize: '22px', fontWeight: '900', color: '#1d4ed8', backgroundColor: '#dbeafe', padding: '4px 12px', borderRadius: '8px', letterSpacing: '3px' }}>{pkg.pickup_pin}</div>
@@ -89,28 +89,28 @@ export function ResidentDashboard({ onNavigate }) {
       )}
 
       <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr 1fr' : 'repeat(3, 1fr)', gap: '10px' }}>
-        <button onClick={() => onNavigate && onNavigate('visitors')} style={{ padding: '14px', backgroundColor: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '10px', textAlign: 'left', cursor: 'pointer', display: 'flex', flexDirection: 'column', gap: '6px' }}>
+        <button onClick={() => onNavigate && onNavigate('visitors')} style={{ padding: '14px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: '10px', textAlign: 'left', cursor: 'pointer', display: 'flex', flexDirection: 'column', gap: '6px' }}>
           <span style={{ fontSize: '22px' }}>🚪</span>
-          <strong style={{ fontSize: '13px', color: '#0f172a' }}>Pre-autorizar Visita</strong>
-          <span style={{ fontSize: '11px', color: '#64748b' }}>Genera pase rápido con patente</span>
+          <strong style={{ fontSize: '13px', color: 'var(--text-main)' }}>Pre-autorizar Visita</strong>
+          <span style={{ fontSize: '11px', color: 'var(--text-dim)' }}>Genera pase rápido con patente</span>
         </button>
-        <button onClick={() => onNavigate && onNavigate('announcements')} style={{ padding: '14px', backgroundColor: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '10px', textAlign: 'left', cursor: 'pointer', display: 'flex', flexDirection: 'column', gap: '6px' }}>
+        <button onClick={() => onNavigate && onNavigate('announcements')} style={{ padding: '14px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: '10px', textAlign: 'left', cursor: 'pointer', display: 'flex', flexDirection: 'column', gap: '6px' }}>
           <span style={{ fontSize: '22px' }}>📢</span>
-          <strong style={{ fontSize: '13px', color: '#0f172a' }}>Circulares y Asambleas</strong>
-          <span style={{ fontSize: '11px', color: '#64748b' }}>Acuerdos Ley N° 21.442</span>
+          <strong style={{ fontSize: '13px', color: 'var(--text-main)' }}>Circulares y Asambleas</strong>
+          <span style={{ fontSize: '11px', color: 'var(--text-dim)' }}>Acuerdos Ley N° 21.442</span>
         </button>
-        <button onClick={() => onNavigate && onNavigate('emergency')} style={{ padding: '14px', backgroundColor: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '10px', textAlign: 'left', cursor: 'pointer', display: 'flex', flexDirection: 'column', gap: '6px' }}>
+        <button onClick={() => onNavigate && onNavigate('emergency')} style={{ padding: '14px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: '10px', textAlign: 'left', cursor: 'pointer', display: 'flex', flexDirection: 'column', gap: '6px' }}>
           <span style={{ fontSize: '22px' }}>🚨</span>
           <strong style={{ fontSize: '13px', color: '#b91c1c' }}>Plan de Evacuación</strong>
-          <span style={{ fontSize: '11px', color: '#64748b' }}>Zonas seguras y Bomberos</span>
+          <span style={{ fontSize: '11px', color: 'var(--text-dim)' }}>Zonas seguras y Bomberos</span>
         </button>
       </div>
 
       {announcements.length > 0 && (
-        <div style={{ backgroundColor: '#ffffff', borderRadius: '10px', border: '1px solid #e2e8f0', padding: '16px' }}>
-          <div style={{ fontSize: '11px', fontWeight: '800', color: '#64748b', textTransform: 'uppercase', marginBottom: '6px' }}>ÚLTIMA CIRCULAR DE COPROPIEDAD</div>
-          <h3 style={{ margin: '0 0 6px', fontSize: '15px', color: '#0f172a' }}>{announcements[0].title}</h3>
-          <p style={{ margin: 0, fontSize: '12.5px', color: '#475569', lineHeight: '1.5' }}>{announcements[0].content?.slice(0, 160)}...</p>
+        <div style={{ backgroundColor: 'var(--bg-card)', borderRadius: '10px', border: '1px solid var(--border-subtle)', padding: '16px' }}>
+          <div style={{ fontSize: '11px', fontWeight: '800', color: 'var(--text-dim)', textTransform: 'uppercase', marginBottom: '6px' }}>ÚLTIMA CIRCULAR DE COPROPIEDAD</div>
+          <h3 style={{ margin: '0 0 6px', fontSize: '15px', color: 'var(--text-main)' }}>{announcements[0].title}</h3>
+          <p style={{ margin: 0, fontSize: '12.5px', color: 'var(--text-secondary)', lineHeight: '1.5' }}>{announcements[0].content?.slice(0, 160)}...</p>
           <div style={{ marginTop: '10px' }}>
             <button onClick={() => onNavigate && onNavigate('announcements')} style={{ fontSize: '12px', color: '#0284c7', background: 'none', border: 'none', fontWeight: '700', cursor: 'pointer', padding: 0 }}>
               Leer comunicado completo y firmar acuse →
