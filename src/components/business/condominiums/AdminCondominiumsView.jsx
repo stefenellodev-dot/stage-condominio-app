@@ -353,4 +353,6 @@ export default function AdminCondominiumsView() {
         </table>
       </div>
       )}
+    </div>
+  );
 }

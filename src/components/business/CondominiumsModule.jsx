@@ -353,4 +353,6 @@ export default function CondominiumsModule() {
         </table>
       </div>
       )}
+    </div>
+  );
 }
