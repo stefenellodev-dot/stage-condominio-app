@@ -1128,14 +1128,15 @@ export default function AdminManagementCompaniesView() {
         ) : null}
       </div>
 
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: '2fr 1fr 1fr',
-          gap: '10px',
-          marginBottom: '14px',
-        }}
-      >
+      <div style={{ ...styles.sectionBox, marginBottom: '14px' }}>
+        <h4 style={{ margin: '0 0 12px', color: 'var(--primary)' }}>Filtrar</h4>
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: '2fr 1fr 1fr',
+            gap: '10px',
+          }}
+        >
         <input
           type="text"
           placeholder={t('management_companies.search_placeholder')}
@@ -1170,6 +1171,7 @@ export default function AdminManagementCompaniesView() {
           <option value="suspended">{t('management_companies.minvu_suspended')}</option>
           <option value="expired">{t('management_companies.minvu_expired')}</option>
         </select>
+      </div>
       </div>
 
       <div style={styles.tableWrapper}>
