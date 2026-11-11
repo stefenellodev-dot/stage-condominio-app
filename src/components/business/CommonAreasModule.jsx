@@ -523,9 +523,11 @@ export default function CommonAreasModule() {
           .some((value) => value.toLowerCase().includes(term));
       const matchesStatus = bookingFilterStatus === 'all' || booking.status === bookingFilterStatus;
       const matchesDate = !bookingFilterDate || booking.booking_date === bookingFilterDate;
-      return matchesSearch && matchesStatus && matchesDate;
+      const matchesCondominium = !selectedCondo || selectedCondo === 'all' || booking.condominium_id === selectedCondo || areas.find(a => a.id === booking.common_area_id)?.condominium_id === selectedCondo;
+      const matchesCompany = !selectedCompany || selectedCompany === 'all' || condominiums.find(c => c.id === (booking.condominium_id || areas.find(a => a.id === booking.common_area_id)?.condominium_id))?.management_company_id === selectedCompany;
+      return matchesSearch && matchesStatus && matchesDate && matchesCondominium && matchesCompany;
     });
-  }, [bookings, areas, units, bookingSearch, bookingFilterStatus, bookingFilterDate, isSuperadmin, isAdmin, user]);
+  }, [bookings, areas, units, bookingSearch, bookingFilterStatus, bookingFilterDate, selectedCondo, selectedCompany, isSuperadmin, isAdmin, user]);
 
   const bookingTotalPages = Math.max(1, Math.ceil(filteredBookings.length / bookingPerPage));
   const paginatedBookings = filteredBookings.slice(
@@ -1007,31 +1009,6 @@ export default function CommonAreasModule() {
             </button>
           ) : null}
         </div>
-      </div>
-
-      <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '10px' }}>
-        {companies.length > 0 && (
-          <select
-            value={selectedCompany}
-            onChange={e => setSelectedCompany(e.target.value)}
-            style={{ ...styles.select, minWidth: '220px' }}
-          >
-            {companies.map(c => (
-              <option key={c.id} value={c.id}>{c.fantasy_name || c.legal_name}</option>
-            ))}
-          </select>
-        )}
-        {condominiums.length > 0 && (
-          <select
-            value={selectedCondo}
-            onChange={e => setSelectedCondo(e.target.value)}
-            style={{ ...styles.select, minWidth: '240px' }}
-          >
-            {condominiums.map(c => (
-              <option key={c.id} value={c.id}>{c.name}</option>
-            ))}
-          </select>
-        )}
       </div>
 
       {activeTab === 'catalog' ? (
