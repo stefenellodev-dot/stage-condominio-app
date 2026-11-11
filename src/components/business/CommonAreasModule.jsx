@@ -602,7 +602,7 @@ export default function CommonAreasModule() {
               {t('common_areas.subtitle')}
             </p>
           </div>
-          <button onClick={handleBack} style={styles.buttonAction}>
+          <button onClick={handleBack} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>
             {t('common_areas.back_to_list')}
           </button>
         </div>
@@ -787,10 +787,10 @@ export default function CommonAreasModule() {
           </div>
 
           {!readOnly ? (
-            <button type="submit" disabled={saving} style={styles.button}>
+            <button type="submit" disabled={saving} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>
               {saving
                 ? t('common_areas.saving')
-                : t('common_areas.save')}
+                : 'Crear'}
             </button>
           ) : (
             <div style={{ color: 'var(--text-secondary)', fontSize: '13px', marginTop: '8px' }}>
@@ -825,7 +825,7 @@ export default function CommonAreasModule() {
               {t('common_areas.booking_subtitle')}
             </p>
           </div>
-          <button onClick={handleBookingBack} style={styles.buttonAction}>
+          <button onClick={handleBookingBack} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>
             {t('common_areas.back_to_list')}
           </button>
         </div>
@@ -984,6 +984,34 @@ export default function CommonAreasModule() {
           </p>
         </div>
         <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+          <button
+            onClick={() => setActiveTab('catalog')}
+            style={activeTab === 'catalog' ? { padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' } : { padding: '4px 10px', backgroundColor: 'var(--bg-surface)', color: 'var(--text-main)', border: '1px solid var(--border-subtle)', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}
+          >
+            {t('common_areas.tab_catalog')}
+          </button>
+          <button
+            onClick={() => setActiveTab('bookings')}
+            style={activeTab === 'bookings' ? { padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' } : { padding: '4px 10px', backgroundColor: 'var(--bg-surface)', color: 'var(--text-main)', border: '1px solid var(--border-subtle)', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}
+          >
+            {t('common_areas.tab_bookings')}
+          </button>
+          {activeTab === 'catalog' && canManageAreas ? (
+            <button onClick={handleNew} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>
+              {t('common_areas.new_button')}
+            </button>
+          ) : null}
+          {activeTab === 'bookings' && canCreateBooking ? (
+            <button onClick={handleNewBooking} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>
+              {t('common_areas.booking_new_button')}
+            </button>
+          ) : null}
+        </div>
+      </div>
+
+      <div style={{ ...styles.sectionBox, marginBottom: '14px' }}>
+        <h4 style={{ margin: '0 0 12px', color: 'var(--primary)' }}>Filtrar</h4>
+        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '10px' }}>
           {companies.length > 0 && (
             <select
               value={selectedCompany}
@@ -1007,31 +1035,6 @@ export default function CommonAreasModule() {
             </select>
           )}
         </div>
-        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-          <button
-            onClick={() => setActiveTab('catalog')}
-            style={activeTab === 'catalog' ? styles.buttonAction : { ...styles.buttonAction, backgroundColor: 'var(--bg-surface)', color: 'var(--text-main)', border: '1px solid var(--border-subtle)' }}
-          >
-            {t('common_areas.tab_catalog')}
-          </button>
-          <button
-            onClick={() => setActiveTab('bookings')}
-            style={activeTab === 'bookings' ? styles.buttonAction : { ...styles.buttonAction, backgroundColor: 'var(--bg-surface)', color: 'var(--text-main)', border: '1px solid var(--border-subtle)' }}
-          >
-            {t('common_areas.tab_bookings')}
-          </button>
-          {activeTab === 'catalog' && canManageAreas ? (
-            <button onClick={handleNew} style={styles.buttonAction}>
-              {t('common_areas.new_button')}
-            </button>
-          ) : null}
-          {activeTab === 'bookings' && canCreateBooking ? (
-            <button onClick={handleNewBooking} style={styles.buttonAction}>
-              {t('common_areas.booking_new_button')}
-            </button>
-          ) : null}
-        </div>
-      </div>
 
       {activeTab === 'catalog' ? (
       <>
@@ -1040,7 +1043,6 @@ export default function CommonAreasModule() {
           display: 'grid',
           gridTemplateColumns: '2fr 1fr 1fr',
           gap: '10px',
-          marginBottom: '14px',
         }}
       >
         <input
@@ -1076,6 +1078,7 @@ export default function CommonAreasModule() {
           <option value="terraza_lounge">{t('common_areas.type_terraza')}</option>
           <option value="juegos_infantiles">{t('common_areas.type_juegos')}</option>
         </select>
+      </div>
       </div>
 
       {/* Selectores de empresa y condominio movidos al header */}
@@ -1159,10 +1162,10 @@ export default function CommonAreasModule() {
                     {(area.status || 'available').toUpperCase()}
                   </td>
                   <td style={{ ...styles.td, textAlign: 'center' }}>
-                    <div style={{ display: 'flex', gap: '6px', justifyContent: 'center', flexWrap: 'wrap' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', alignItems: 'center' }}>
                       <button
                         onClick={() => handleView(area)}
-                        style={styles.buttonAction}
+                        style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}
                       >
                         {t('common_areas.view_button')}
                       </button>
@@ -1170,13 +1173,13 @@ export default function CommonAreasModule() {
                         <>
                           <button
                             onClick={() => handleEdit(area)}
-                            style={styles.buttonAction}
+                            style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}
                           >
                             {t('common_areas.edit_button')}
                           </button>
                           <button
                             onClick={() => handleDelete(area.id)}
-                            style={styles.btnDelete}
+                            style={{ padding: '4px 10px', backgroundColor: 'var(--danger-bg)', color: 'var(--danger-text)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}
                           >
                             {t('common.delete')}
                           </button>
@@ -1209,12 +1212,12 @@ export default function CommonAreasModule() {
               onClick={() => setPage((current) => Math.max(current - 1, 1))}
               disabled={page === 1}
               style={{
-                ...styles.buttonAction,
-                padding: '6px 12px',
-                fontSize: '12px',
-                backgroundColor: page === 1 ? 'var(--bg-card)' : 'var(--primary)',
-                color: page === 1 ? 'var(--text-dim)' : 'var(--bg-card)',
-                border: page === 1 ? '1px solid var(--border-subtle)' : 'none',
+                padding: '4px 10px',
+                backgroundColor: page === 1 ? 'var(--danger-bg)' : 'var(--bg-card)',
+                color: page === 1 ? 'var(--danger-text)' : 'var(--text-main)',
+                border: 'none',
+                borderRadius: '4px',
+                fontSize: '11.5px',
                 cursor: page === 1 ? 'not-allowed' : 'pointer',
                 opacity: page === 1 ? 0.6 : 1,
               }}
@@ -1225,12 +1228,12 @@ export default function CommonAreasModule() {
               onClick={() => setPage((current) => Math.min(current + 1, totalPages))}
               disabled={page === totalPages}
               style={{
-                ...styles.buttonAction,
-                padding: '6px 12px',
-                fontSize: '12px',
-                backgroundColor: page === totalPages ? 'var(--bg-card)' : 'var(--primary)',
-                color: page === totalPages ? 'var(--text-dim)' : 'var(--bg-card)',
-                border: page === totalPages ? '1px solid var(--border-subtle)' : 'none',
+                padding: '4px 10px',
+                backgroundColor: page === totalPages ? 'var(--danger-bg)' : 'var(--bg-card)',
+                color: page === totalPages ? 'var(--danger-text)' : 'var(--text-main)',
+                border: 'none',
+                borderRadius: '4px',
+                fontSize: '11.5px',
                 cursor: page === totalPages ? 'not-allowed' : 'pointer',
                 opacity: page === totalPages ? 0.6 : 1,
               }}
@@ -1356,10 +1359,10 @@ export default function CommonAreasModule() {
                 {t('common.page')} <strong>{bookingPage}</strong> {t('common.of')} {bookingTotalPages}
               </span>
               <div style={{ display: 'flex', gap: '8px' }}>
-                <button onClick={() => setBookingPage((current) => Math.max(current - 1, 1))} disabled={bookingPage === 1} style={{ ...styles.buttonAction, padding: '6px 12px', fontSize: '12px' }}>
+                <button onClick={() => setBookingPage((current) => Math.max(current - 1, 1))} disabled={bookingPage === 1} style={{ padding: '4px 10px', backgroundColor: bookingPage === 1 ? 'var(--danger-bg)' : 'var(--bg-card)', color: bookingPage === 1 ? 'var(--danger-text)' : 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: bookingPage === 1 ? 'not-allowed' : 'pointer', opacity: bookingPage === 1 ? 0.6 : 1 }}>
                   {t('common.previous')}
                 </button>
-                <button onClick={() => setBookingPage((current) => Math.min(current + 1, bookingTotalPages))} disabled={bookingPage === bookingTotalPages} style={{ ...styles.buttonAction, padding: '6px 12px', fontSize: '12px' }}>
+                <button onClick={() => setBookingPage((current) => Math.min(current + 1, bookingTotalPages))} disabled={bookingPage === bookingTotalPages} style={{ padding: '4px 10px', backgroundColor: bookingPage === bookingTotalPages ? 'var(--danger-bg)' : 'var(--bg-card)', color: bookingPage === bookingTotalPages ? 'var(--danger-text)' : 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: bookingPage === bookingTotalPages ? 'not-allowed' : 'pointer', opacity: bookingPage === bookingTotalPages ? 0.6 : 1 }}>
                   {t('common.next')}
                 </button>
               </div>
