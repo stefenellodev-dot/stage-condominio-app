@@ -56,7 +56,7 @@ export function ResidentAnnouncementsView() {
               <div key={ann.id} style={{ backgroundColor: 'var(--bg-card)', borderRadius: '12px', border: isUrgent ? '1.5px solid #fca5a5' : '1px solid var(--border-subtle)', padding: '18px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '10px', flexWrap: 'wrap' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <span style={{ padding: '3px 8px', borderRadius: '8px', fontSize: '10.5px', fontWeight: '800', textTransform: 'uppercase', backgroundColor: isUrgent ? '#fee2e2' : '#e0f2fe', color: isUrgent ? '#b91c1c' : '#0369a1' }}>{ann.priority || 'INFORMATIVO'}</span>
+                    <span style={{ padding: '3px 8px', borderRadius: '8px', fontSize: '10.5px', fontWeight: '800', textTransform: 'uppercase', backgroundColor: isUrgent ? 'var(--danger-bg)' : 'var(--bg-surface)', color: isUrgent ? 'var(--danger-text)' : 'var(--primary)' }}>{ann.priority || 'INFORMATIVO'}</span>
                     <span style={{ fontSize: '11.5px', color: 'var(--text-dim)' }}>{new Date(ann.created_at || ann.published_at).toLocaleDateString('es-CL')}</span>
                   </div>
                   <div>{hasSigned ? <span style={{ color: 'var(--success-text)', fontSize: '11px', fontWeight: '700' }}>✓ Acuse de Lectura Firmado</span> : <span style={{ color: 'var(--warning-text)', fontSize: '11px', fontWeight: '700' }}>Pendiente de Confirmación</span>}</div>

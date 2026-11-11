@@ -110,7 +110,7 @@ export function ResidentExpensesView() {
             </div>
             <div style={{ backgroundColor: 'var(--bg-surface)', padding: '10px', borderRadius: '8px' }}>
               <div style={{ fontSize: '10.5px', color: 'var(--text-dim)' }}>DEUDA ANTERIOR</div>
-              <div style={{ fontSize: '15px', fontWeight: '700', color: activeBill.previous_debt > 0 ? '#b91c1c' : '#0f172a', marginTop: '2px' }}>{formatCLP(activeBill.previous_debt)}</div>
+              <div style={{ fontSize: '15px', fontWeight: '700', color: activeBill.previous_debt > 0 ? 'var(--danger-text)' : 'var(--text-main)', marginTop: '2px' }}>{formatCLP(activeBill.previous_debt)}</div>
             </div>
             <div style={{ backgroundColor: 'var(--bg-surface)', padding: '10px', borderRadius: '8px' }}>
               <div style={{ fontSize: '10.5px', color: 'var(--text-dim)' }}>MULTAS / CARGOS</div>
@@ -131,7 +131,7 @@ export function ResidentExpensesView() {
               </div>
               <div style={{ textAlign: 'right' }}>
                 <div style={{ fontSize: '14px', fontWeight: '800', color: 'var(--text-main)' }}>{formatCLP(bill.total_amount)}</div>
-                <span style={{ fontSize: '10.5px', fontWeight: '700', color: bill.status === 'paid' ? '#15803d' : '#b91c1c' }}>{bill.status === 'paid' ? '● PAGADA' : `● SALDO: ${formatCLP(bill.balance)}`}</span>
+                <span style={{ fontSize: '10.5px', fontWeight: '700', color: bill.status === 'paid' ? 'var(--success-text)' : 'var(--danger-text)' }}>{bill.status === 'paid' ? '● PAGADA' : `● SALDO: ${formatCLP(bill.balance)}`}</span>
               </div>
             </div>
           ))}
@@ -152,7 +152,7 @@ export function ResidentExpensesView() {
               </div>
               <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', marginTop: '8px' }}>
                 <button type="button" onClick={() => setIsManualModalOpen(false)} style={{ padding: '8px 14px', borderRadius: '6px', border: '1px solid var(--border-subtle)', background: '#fff', cursor: 'pointer' }}>Cancelar</button>
-                <button type="submit" disabled={uploadingVoucher} style={{ padding: '8px 16px', borderRadius: '6px', border: 'none', background: '#0f172a', color: '#fff', fontWeight: '700', cursor: 'pointer' }}>{uploadingVoucher ? 'Enviando...' : 'Confirmar Envío'}</button>
+                <button type="submit" disabled={uploadingVoucher} style={{ padding: '8px 16px', borderRadius: '6px', border: 'none', background: 'var(--bg-surface)', color: 'var(--text-main)', fontWeight: '700', cursor: 'pointer' }}>{uploadingVoucher ? 'Enviando...' : 'Confirmar Envío'}</button>
               </div>
             </form>
           </div>

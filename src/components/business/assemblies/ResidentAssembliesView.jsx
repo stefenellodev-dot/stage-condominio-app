@@ -90,7 +90,7 @@ export function ResidentAssembliesView() {
                       ) : m.status === 'open' ? (
                         <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                           <button onClick={() => handleVote(m.id, 'apruebo')} disabled={votingMotionId === m.id} style={{ padding: '8px 16px', backgroundColor: '#15803d', color: '#fff', border: 'none', borderRadius: '6px', fontWeight: '700', cursor: 'pointer' }}>Apruebo</button>
-                          <button onClick={() => handleVote(m.id, 'rechazo')} disabled={votingMotionId === m.id} style={{ padding: '8px 16px', backgroundColor: '#b91c1c', color: '#fff', border: 'none', borderRadius: '6px', fontWeight: '700', cursor: 'pointer' }}>Rechazo</button>
+                          <button onClick={() => handleVote(m.id, 'rechazo')} disabled={votingMotionId === m.id} style={{ padding: '8px 16px', backgroundColor: 'var(--danger)', color: 'var(--text-main)', border: 'none', borderRadius: '6px', fontWeight: '700', cursor: 'pointer' }}>Rechazo</button>
                           <button onClick={() => handleVote(m.id, 'abstencion')} disabled={votingMotionId === m.id} style={{ padding: '8px 16px', backgroundColor: '#475569', color: '#fff', border: 'none', borderRadius: '6px', fontWeight: '700', cursor: 'pointer' }}>Abstención</button>
                         </div>
                       ) : (

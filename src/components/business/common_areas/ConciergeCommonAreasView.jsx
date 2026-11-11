@@ -87,7 +87,7 @@ export function ConciergeCommonAreasView({ condominiumId }) {
             </div>
             <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', marginTop: '16px' }}>
               <button type="button" onClick={() => setSelectedRes(null)} style={{ padding: '8px 14px', borderRadius: '6px', border: '1px solid var(--border-subtle)', background: '#fff', cursor: 'pointer' }}>Cerrar</button>
-              <button type="button" disabled={savingChecklist} onClick={handleSaveChecklist} style={{ padding: '8px 16px', borderRadius: '6px', border: 'none', background: '#0f172a', color: '#fff', fontWeight: '700', cursor: 'pointer' }}>{savingChecklist ? 'Guardando...' : 'Finalizar Inspección'}</button>
+              <button type="button" disabled={savingChecklist} onClick={handleSaveChecklist} style={{ padding: '8px 16px', borderRadius: '6px', border: 'none', background: 'var(--bg-surface)', color: 'var(--text-main)', fontWeight: '700', cursor: 'pointer' }}>{savingChecklist ? 'Guardando...' : 'Finalizar Inspección'}</button>
             </div>
           </div>
         </div>

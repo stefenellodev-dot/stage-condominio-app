@@ -145,7 +145,7 @@ export default function AnnouncementsModule() {
   const categoryColors = {
     corte_suministro: '#dc2626', mantencion: '#f59e0b', asamblea: '#3b82f6',
     convivencia: '#10b981', financiero: '#8b5cf6', seguridad: '#ef4444',
-    administrativo: '#64748b', urgente: '#b91c1c',
+    administrativo: 'var(--text-dim)', urgente: 'var(--danger-text)',
   };
 
   return (
