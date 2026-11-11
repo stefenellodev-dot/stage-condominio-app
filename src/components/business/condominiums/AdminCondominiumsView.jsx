@@ -250,49 +250,58 @@ export default function AdminCondominiumsView() {
       </div>
 
       {formMode !== 'list' && (
-        <div style={{ ...styles.sectionBox, marginBottom: '16px' }}>
-          <h4 style={{ margin: '0 0 12px', color: 'var(--primary)' }}>{readOnly ? 'Ver condominio' : formMode === 'create' ? 'Nuevo condominio' : 'Editar condominio'}</h4>
+        <div style={{ marginBottom: '16px' }}>
+          <h3 style={{ margin: '0 0 12px', fontSize: '14px', fontWeight: '800' }}>{readOnly ? 'Ver condominio' : formMode === 'create' ? 'Nuevo condominio' : 'Editar condominio'}</h3>
           <form onSubmit={formMode === 'create' ? handleCreate : handleUpdate} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-              <div><label style={styles.label}>Nombre del condominio *</label><input type="text" name="name" value={formData.name} onChange={handleChange} style={styles.input} required /></div>
-              <div><label style={styles.label}>RUT del condominio *</label><input type="text" name="rut" value={formData.rut} onChange={handleChange} style={styles.input} required /></div>
-              <div><label style={styles.label}>Rol Matriz SII</label><input type="text" name="sii_property_role" value={formData.sii_property_role} onChange={handleChange} style={styles.input} placeholder="Ej: 1234-5" /></div>
-              <div><label style={styles.label}>Tipo</label><select name="type" value={formData.type} onChange={handleChange} style={styles.select}><option value="tipo_a">Tipo A</option><option value="tipo_b">Tipo B</option></select></div>
-              <div><label style={styles.label}>Destino</label><select name="destination" value={formData.destination} onChange={handleChange} style={styles.select}><option value="">Seleccionar</option><option value="habitacional">Habitacional</option><option value="comercial">Comercial</option><option value="mixto">Mixto</option></select></div>
-              <div><label style={styles.label}>Total de unidades</label><input type="number" name="total_units" value={formData.total_units} onChange={handleChange} style={styles.input} /></div>
-              <div><label style={styles.label}>N° Certificado DOM</label><input type="text" name="dom_certificate_number" value={formData.dom_certificate_number} onChange={handleChange} style={styles.input} /></div>
-              <div><label style={styles.label}>Fecha aprobación DOM</label><input type="date" name="dom_approval_date" value={formData.dom_approval_date} onChange={handleChange} style={styles.input} /></div>
-              <div><label style={styles.label}>% Fondo de Reserva</label><input type="number" name="reserve_fund_percentage" value={formData.reserve_fund_percentage} onChange={handleChange} style={styles.input} step="0.01" /></div>
-              <div><label style={styles.label}>Teléfono Conserjería</label><input type="text" name="concierge_phone" value={formData.concierge_phone} onChange={handleChange} style={styles.input} /></div>
-              <div><label style={styles.label}>Email Administración</label><input type="email" name="administration_email" value={formData.administration_email} onChange={handleChange} style={styles.input} /></div>
-              <div><label style={styles.label}>Estado</label><select name="status" value={formData.status} onChange={handleChange} style={styles.select}><option value="active">Activo</option><option value="inactive">Inactivo</option></select></div>
-            </div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '12px', marginTop: '8px' }}>
-              <div><label style={styles.label}>Calle</label><input type="text" name="street" value={formData.street} onChange={handleChange} style={styles.input} /></div>
-              <div><label style={styles.label}>Número</label><input type="text" name="street_number" value={formData.street_number} onChange={handleChange} style={styles.input} /></div>
-              <div>
-                <label style={styles.label}>Región</label>
-                <select name="region_id" value={formData.region_id} onChange={handleChange} style={styles.select}>
-                  <option value="">Seleccionar</option>
-                  {regions.map(r => <option key={r.id} value={r.id}>{r.roman_numeral ? `${r.roman_numeral} - ` : ''}{r.name}</option>)}
-                </select>
+            <section style={styles.sectionBox}>
+              <h4 style={{ margin: '0 0 12px', color: 'var(--primary)' }}>Identificación</h4>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                <div><label style={styles.label}>Nombre del condominio *</label><input type="text" name="name" value={formData.name} onChange={handleChange} style={styles.input} required /></div>
+                <div><label style={styles.label}>RUT del condominio *</label><input type="text" name="rut" value={formData.rut} onChange={handleChange} style={styles.input} required /></div>
+                <div><label style={styles.label}>Rol Matriz SII</label><input type="text" name="sii_property_role" value={formData.sii_property_role} onChange={handleChange} style={styles.input} placeholder="Ej: 1234-5" /></div>
+                <div><label style={styles.label}>Tipo</label><select name="type" value={formData.type} onChange={handleChange} style={styles.select}><option value="tipo_a">Tipo A</option><option value="tipo_b">Tipo B</option></select></div>
+                <div><label style={styles.label}>Destino</label><select name="destination" value={formData.destination} onChange={handleChange} style={styles.select}><option value="">Seleccionar</option><option value="habitacional">Habitacional</option><option value="comercial">Comercial</option><option value="mixto">Mixto</option></select></div>
+                <div><label style={styles.label}>Total de unidades</label><input type="number" name="total_units" value={formData.total_units} onChange={handleChange} style={styles.input} /></div>
+                <div><label style={styles.label}>N° Certificado DOM</label><input type="text" name="dom_certificate_number" value={formData.dom_certificate_number} onChange={handleChange} style={styles.input} /></div>
+                <div><label style={styles.label}>Fecha aprobación DOM</label><input type="date" name="dom_approval_date" value={formData.dom_approval_date} onChange={handleChange} style={styles.input} /></div>
+                <div><label style={styles.label}>% Fondo de Reserva</label><input type="number" name="reserve_fund_percentage" value={formData.reserve_fund_percentage} onChange={handleChange} style={styles.input} step="0.01" /></div>
+                <div><label style={styles.label}>Teléfono Conserjería</label><input type="text" name="concierge_phone" value={formData.concierge_phone} onChange={handleChange} style={styles.input} /></div>
+                <div><label style={styles.label}>Email Administración</label><input type="email" name="administration_email" value={formData.administration_email} onChange={handleChange} style={styles.input} /></div>
+                <div><label style={styles.label}>Estado</label><select name="status" value={formData.status} onChange={handleChange} style={styles.select}><option value="active">Activo</option><option value="inactive">Inactivo</option></select></div>
               </div>
-              <div>
-                <label style={styles.label}>Comuna</label>
-                <select name="commune_id" value={formData.commune_id} onChange={handleChange} style={styles.select} disabled={!formData.region_id}>
-                  <option value="">Seleccionar</option>
-                  {communes.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
-                </select>
+            </section>
+            <section style={styles.sectionBox}>
+              <h4 style={{ margin: '0 0 12px', color: 'var(--primary)' }}>Ubicación</h4>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '12px' }}>
+                <div><label style={styles.label}>Calle</label><input type="text" name="street" value={formData.street} onChange={handleChange} style={styles.input} /></div>
+                <div><label style={styles.label}>Número</label><input type="text" name="street_number" value={formData.street_number} onChange={handleChange} style={styles.input} /></div>
+                <div>
+                  <label style={styles.label}>Región</label>
+                  <select name="region_id" value={formData.region_id} onChange={handleChange} style={styles.select}>
+                    <option value="">Seleccionar</option>
+                    {regions.map(r => <option key={r.id} value={r.id}>{r.roman_numeral ? `${r.roman_numeral} - ` : ''}{r.name}</option>)}
+                  </select>
+                </div>
+                <div>
+                  <label style={styles.label}>Comuna</label>
+                  <select name="commune_id" value={formData.commune_id} onChange={handleChange} style={styles.select} disabled={!formData.region_id}>
+                    <option value="">Seleccionar</option>
+                    {communes.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+                  </select>
+                </div>
               </div>
-            </div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '12px', marginTop: '8px' }}>
-              <div><label style={styles.label}>Banco</label><input type="text" name="bank_name" value={formData.bank_name} onChange={handleChange} style={styles.input} /></div>
-              <div><label style={styles.label}>Tipo de cuenta</label><select name="account_type" value={formData.account_type} onChange={handleChange} style={styles.select}><option value="">Seleccionar</option><option value="corriente">Corriente</option><option value="vista">Vista</option><option value="ahorro">Ahorro</option></select></div>
-              <div><label style={styles.label}>N° de cuenta</label><input type="text" name="account_number" value={formData.account_number} onChange={handleChange} style={styles.input} /></div>
-            </div>
-            <div style={{ marginTop: '12px', display: 'flex', gap: '8px' }}>
-              {!readOnly && <button type="submit" disabled={saving} style={{ ...styles.button, padding: '8px 16px' }}>{saving ? 'Guardando...' : formMode === 'create' ? 'Crear' : 'Actualizar'}</button>}
-              <button type="button" onClick={handleCancel} style={{ ...styles.button, backgroundColor: 'var(--danger-bg)', color: 'var(--danger-text)', marginTop: '0' }}>Cancelar</button>
+            </section>
+            <section style={styles.sectionBox}>
+              <h4 style={{ margin: '0 0 12px', color: 'var(--primary)' }}>Cuenta Bancaria</h4>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '12px' }}>
+                <div><label style={styles.label}>Banco</label><input type="text" name="bank_name" value={formData.bank_name} onChange={handleChange} style={styles.input} /></div>
+                <div><label style={styles.label}>Tipo de cuenta</label><select name="account_type" value={formData.account_type} onChange={handleChange} style={styles.select}><option value="">Seleccionar</option><option value="corriente">Corriente</option><option value="vista">Vista</option><option value="ahorro">Ahorro</option></select></div>
+                <div><label style={styles.label}>N° de cuenta</label><input type="text" name="account_number" value={formData.account_number} onChange={handleChange} style={styles.input} /></div>
+              </div>
+            </section>
+            <div style={{ display: 'flex', gap: '8px' }}>
+              {!readOnly && <button type="submit" disabled={saving} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>{saving ? 'Guardando...' : formMode === 'create' ? 'Crear' : 'Actualizar'}</button>}
+              <button type="button" onClick={handleCancel} style={{ padding: '4px 10px', backgroundColor: 'var(--danger-bg)', color: 'var(--danger-text)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>Cancelar</button>
             </div>
           </form>
         </div>
