@@ -1288,12 +1288,12 @@ export default function ManagementCompaniesModule() {
               onClick={() => setPage((current) => Math.max(current - 1, 1))}
               disabled={page === 1}
               style={{
-                ...styles.buttonAction,
-                padding: '6px 12px',
-                fontSize: '12px',
-                backgroundColor: page === 1 ? 'var(--bg-card)' : 'var(--primary)',
-                color: page === 1 ? 'var(--text-dim)' : 'var(--bg-card)',
-                border: page === 1 ? '1px solid var(--border-subtle)' : 'none',
+                padding: '4px 10px',
+                backgroundColor: page === 1 ? 'var(--danger-bg)' : 'var(--bg-card)',
+                color: page === 1 ? 'var(--danger-text)' : 'var(--text-main)',
+                border: 'none',
+                borderRadius: '4px',
+                fontSize: '11.5px',
                 cursor: page === 1 ? 'not-allowed' : 'pointer',
                 opacity: page === 1 ? 0.6 : 1,
               }}
@@ -1304,12 +1304,12 @@ export default function ManagementCompaniesModule() {
               onClick={() => setPage((current) => Math.min(current + 1, totalPages))}
               disabled={page === totalPages}
               style={{
-                ...styles.buttonAction,
-                padding: '6px 12px',
-                fontSize: '12px',
-                backgroundColor: page === totalPages ? 'var(--bg-card)' : 'var(--primary)',
-                color: page === totalPages ? 'var(--text-dim)' : 'var(--bg-card)',
-                border: page === totalPages ? '1px solid var(--border-subtle)' : 'none',
+                padding: '4px 10px',
+                backgroundColor: page === totalPages ? 'var(--danger-bg)' : 'var(--bg-card)',
+                color: page === totalPages ? 'var(--danger-text)' : 'var(--text-main)',
+                border: 'none',
+                borderRadius: '4px',
+                fontSize: '11.5px',
                 cursor: page === totalPages ? 'not-allowed' : 'pointer',
                 opacity: page === totalPages ? 0.6 : 1,
               }}
