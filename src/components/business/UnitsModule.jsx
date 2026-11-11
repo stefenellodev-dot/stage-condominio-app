@@ -598,7 +598,7 @@ export default function UnitsModule() {
             </select>
           )}
           {canManageUnits ? (
-            <button onClick={handleNew} style={styles.buttonAction}>
+            <button onClick={handleNew} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>
               {t('units.new_button')}
             </button>
           ) : null}
@@ -713,10 +713,10 @@ export default function UnitsModule() {
                     {(unit.status || 'active').toUpperCase()}
                   </td>
                   <td style={{ ...styles.td, textAlign: 'center' }}>
-                    <div style={{ display: 'flex', gap: '6px', justifyContent: 'center', flexWrap: 'wrap' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', alignItems: 'center' }}>
                       <button
                         onClick={() => handleView(unit)}
-                        style={styles.buttonAction}
+                        style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}
                       >
                         {t('units.view_button')}
                       </button>
@@ -724,13 +724,13 @@ export default function UnitsModule() {
                         <>
                           <button
                             onClick={() => handleEdit(unit)}
-                            style={styles.buttonAction}
+                            style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}
                           >
                             {t('units.edit_button')}
                           </button>
                           <button
                             onClick={() => handleDelete(unit.id)}
-                            style={styles.btnDelete}
+                            style={{ padding: '4px 10px', backgroundColor: 'var(--danger-bg)', color: 'var(--danger-text)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}
                           >
                             {t('common.delete')}
                           </button>
