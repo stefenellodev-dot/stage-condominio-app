@@ -1270,14 +1270,39 @@ export default function CommonAreasModule() {
       </>
       ) : (
         <div style={{ marginTop: '14px' }}>
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: '2fr 1fr 1fr',
-              gap: '10px',
-              marginBottom: '14px',
-            }}
-          >
+          <div style={{ ...styles.sectionBox, marginBottom: '14px' }}>
+            <h4 style={{ margin: '0 0 12px', color: 'var(--primary)' }}>Filtrar</h4>
+            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '10px' }}>
+              {companies.length > 0 && (
+                <select
+                  value={selectedCompany}
+                  onChange={e => setSelectedCompany(e.target.value)}
+                  style={{ ...styles.select, minWidth: '220px' }}
+                >
+                  {companies.map(c => (
+                    <option key={c.id} value={c.id}>{c.fantasy_name || c.legal_name}</option>
+                  ))}
+                </select>
+              )}
+              {condominiums.length > 0 && (
+                <select
+                  value={selectedCondo}
+                  onChange={e => setSelectedCondo(e.target.value)}
+                  style={{ ...styles.select, minWidth: '240px' }}
+                >
+                  {condominiums.map(c => (
+                    <option key={c.id} value={c.id}>{c.name}</option>
+                  ))}
+                </select>
+              )}
+            </div>
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: '2fr 1fr 1fr',
+                gap: '10px',
+              }}
+            >
             <input
               type="text"
               placeholder={t('common_areas.booking_search_placeholder')}
@@ -1303,6 +1328,7 @@ export default function CommonAreasModule() {
               onChange={(event) => setBookingFilterDate(event.target.value)}
               style={styles.input}
             />
+          </div>
           </div>
 
           <div style={styles.tableWrapper}>
@@ -1347,24 +1373,24 @@ export default function CommonAreasModule() {
                       </td>
                       <td style={{ ...styles.td, textAlign: 'center' }}>{booking.status}</td>
                       <td style={{ ...styles.td, textAlign: 'center' }}>
-                        <div style={{ display: 'flex', gap: '6px', justifyContent: 'center', flexWrap: 'wrap' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', alignItems: 'center' }}>
                           {booking.user_id === user?.id && (booking.status === 'pending' || booking.status === 'confirmed') ? (
-                            <button onClick={() => handleCancelBooking(booking)} style={styles.btnDelete}>
+                            <button onClick={() => handleCancelBooking(booking)} style={{ padding: '4px 10px', backgroundColor: 'var(--danger-bg)', color: 'var(--danger-text)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>
                               {t('common_areas.booking_cancel')}
                             </button>
                           ) : null}
                           {canManageBookings && booking.status === 'pending' ? (
                             <>
-                              <button onClick={() => handleBookingStatus(booking, 'confirmed')} style={styles.buttonAction}>
+                              <button onClick={() => handleBookingStatus(booking, 'confirmed')} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>
                                 {t('common_areas.booking_approve')}
                               </button>
-                              <button onClick={() => handleRejectBooking(booking)} style={styles.btnDelete}>
+                              <button onClick={() => handleRejectBooking(booking)} style={{ padding: '4px 10px', backgroundColor: 'var(--danger-bg)', color: 'var(--danger-text)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>
                                 {t('common_areas.booking_reject')}
                               </button>
                             </>
                           ) : null}
                           {canManageBookings && booking.status === 'confirmed' ? (
-                            <button onClick={() => handleCancelBookingByManager(booking)} style={styles.btnDelete}>
+                            <button onClick={() => handleCancelBookingByManager(booking)} style={{ padding: '4px 10px', backgroundColor: 'var(--danger-bg)', color: 'var(--danger-text)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>
                               {t('common_areas.booking_cancel')}
                             </button>
                           ) : null}
