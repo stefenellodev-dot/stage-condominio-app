@@ -311,6 +311,7 @@ export default function CondominiumsModule() {
         </div>
       )}
 
+      {formMode === 'list' && (
       <div style={styles.tableWrapper}>
         <table style={{ ...styles.table, minWidth: '800px' }}>
           <thead>
@@ -351,6 +352,5 @@ export default function CondominiumsModule() {
           </tbody>
         </table>
       </div>
-    </div>
-  );
+      )}
 }
