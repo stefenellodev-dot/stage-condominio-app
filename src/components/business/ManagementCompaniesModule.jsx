@@ -896,7 +896,6 @@ export default function ManagementCompaniesModule() {
             </h4>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
               <div>
-                <label style={styles.label} htmlFor="status">{t('management_companies.status')}</label>
                 <select
                   id="status" name="status"
                   value={form.status}
@@ -914,11 +913,16 @@ export default function ManagementCompaniesModule() {
           </section>
 
           {!readOnly ? (
-            <button type="submit" disabled={saving} style={styles.button}>
-              {saving
-                ? t('management_companies.saving')
-                : t('management_companies.save')}
-            </button>
+            <div style={{ display: 'flex', gap: '8px' }}>
+              <button type="submit" disabled={saving} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>
+                {saving
+                  ? t('management_companies.saving')
+                  : t('management_companies.save')}
+              </button>
+              <button type="button" onClick={handleBack} style={{ padding: '4px 10px', backgroundColor: 'var(--danger-bg)', color: 'var(--danger-text)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>
+                {t('common.cancel')}
+              </button>
+            </div>
           ) : null}
         </form>
       </div>
