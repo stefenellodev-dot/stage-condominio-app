@@ -171,7 +171,7 @@ export const styles = {
   },
   tableWrapper: {
     overflowX: 'auto',
-    borderRadius: 'var(--radius-md)',
+    borderRadius: '10px',
     border: '1px solid var(--border-subtle)',
     marginTop: '12px',
   },
@@ -186,7 +186,7 @@ export const styles = {
     borderBottom: '1px solid var(--border-subtle)',
   },
   th: {
-    padding: '12px 14px',
+    padding: '8px 12px',
     color: 'var(--text-secondary)',
     fontWeight: '600',
   },
@@ -194,7 +194,7 @@ export const styles = {
     borderBottom: '1px solid var(--border-subtle)',
   },
   td: {
-    padding: '12px 14px',
+    padding: '8px 12px',
   },
   toggleText: {
     margin: '12px 0 0',
