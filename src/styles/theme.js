@@ -171,8 +171,10 @@ export const styles = {
   },
   tableWrapper: {
     overflowX: 'auto',
+    backgroundColor: 'var(--bg-card)',
     borderRadius: '10px',
     border: '1px solid var(--border-subtle)',
+    padding: '16px',
     marginTop: '12px',
   },
   table: {
@@ -188,7 +190,6 @@ export const styles = {
   th: {
     padding: '8px 12px',
     color: 'var(--text-secondary)',
-    fontWeight: '600',
   },
   tr: {
     borderBottom: '1px solid var(--border-subtle)',

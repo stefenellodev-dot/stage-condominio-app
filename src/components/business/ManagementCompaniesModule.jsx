@@ -1199,7 +1199,7 @@ export default function ManagementCompaniesModule() {
               paginatedCompanies.map((company) => (
                 <tr key={company.id} style={styles.tr}>
                   <td style={styles.td}>
-                    <div style={{ fontWeight: '600', color: 'var(--text-main)' }}>
+                    <div style={{ fontWeight: '700', color: 'var(--text-main)' }}>
                       {company.legal_name}
                     </div>
                     {company.fantasy_name ? (
