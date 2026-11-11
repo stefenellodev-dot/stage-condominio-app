@@ -238,11 +238,15 @@ export default function CondominiumsModule() {
           <p style={{ margin: 0, color: 'var(--text-secondary)', fontSize: '13px' }}>Gestión de condominios, recepción municipal, ubicación y cuenta bancaria.</p>
         </div>
         {canManage && (
-          <button style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }} onClick={() => { handleCancel(); setFormMode('create'); }}>Nuevo condominio</button>
+          formMode === 'list' ? (
+            <button style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }} onClick={() => { handleCancel(); setFormMode('create'); }}>Nuevo condominio</button>
+          ) : (
+            <button style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }} onClick={handleCancel}>Volver al listado</button>
+          )
         )}
       </div>
 
-      {companies.length > 0 && (
+      {formMode === 'list' && companies.length > 0 && (
         <div style={{ ...styles.sectionBox, marginBottom: '14px' }}>
           <h4 style={{ margin: '0 0 12px', color: 'var(--primary)' }}>Filtro</h4>
           <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
