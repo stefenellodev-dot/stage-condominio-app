@@ -552,16 +552,7 @@ export default function UnitsModule() {
 
   return (
     <div style={{ marginTop: '28px' }}>
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          gap: '12px',
-          marginBottom: '14px',
-          flexWrap: 'wrap',
-        }}
-      >
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px', marginBottom: '14px', flexWrap: 'wrap' }}>
         <div>
           <h3 style={{ margin: '0 0 4px' }}>
             {t('units.title')} ({filteredUnits.length})
@@ -570,7 +561,16 @@ export default function UnitsModule() {
             {t('units.subtitle')}
           </p>
         </div>
-        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+        {canManageUnits ? (
+          <button onClick={handleNew} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>
+            {t('units.new_button')}
+          </button>
+        ) : null}
+      </div>
+
+      <div style={{ ...styles.sectionBox, marginBottom: '14px' }}>
+        <h4 style={{ margin: '0 0 12px', color: 'var(--primary)' }}>Filtrar</h4>
+        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '10px' }}>
           {companies.length > 0 && (
             <select
               value={filterCompany}
@@ -597,22 +597,14 @@ export default function UnitsModule() {
               ))}
             </select>
           )}
-          {canManageUnits ? (
-            <button onClick={handleNew} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>
-              {t('units.new_button')}
-            </button>
-          ) : null}
         </div>
-      </div>
-
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: '2fr 1fr 1fr',
-          gap: '10px',
-          marginBottom: '14px',
-        }}
-      >
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: '2fr 1fr 1fr',
+            gap: '10px',
+          }}
+        >
         <input
           type="text"
           placeholder={t('units.search_placeholder')}
@@ -640,6 +632,7 @@ export default function UnitsModule() {
           <option value="oficina">{t('units.type_oficina')}</option>
           <option value="local">{t('units.type_local')}</option>
         </select>
+      </div>
       </div>
 
       {/* Selectores de empresa y condominio movidos al header */}
