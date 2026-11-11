@@ -1009,6 +1009,33 @@ export default function CommonAreasModule() {
         </div>
       </div>
 
+      <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '10px' }}>
+        {companies.length > 0 && (
+          <select
+            value={selectedCompany}
+            onChange={e => setSelectedCompany(e.target.value)}
+            style={{ ...styles.select, minWidth: '220px' }}
+          >
+            {companies.map(c => (
+              <option key={c.id} value={c.id}>{c.fantasy_name || c.legal_name}</option>
+            ))}
+          </select>
+        )}
+        {condominiums.length > 0 && (
+          <select
+            value={selectedCondo}
+            onChange={e => setSelectedCondo(e.target.value)}
+            style={{ ...styles.select, minWidth: '240px' }}
+          >
+            {condominiums.map(c => (
+              <option key={c.id} value={c.id}>{c.name}</option>
+            ))}
+          </select>
+        )}
+      </div>
+
+      {activeTab === 'catalog' ? (
+      <>
       <div style={{ ...styles.sectionBox, marginBottom: '14px' }}>
         <h4 style={{ margin: '0 0 12px', color: 'var(--primary)' }}>Filtrar</h4>
         <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '10px' }}>
@@ -1035,16 +1062,13 @@ export default function CommonAreasModule() {
             </select>
           )}
         </div>
-
-      {activeTab === 'catalog' ? (
-      <>
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: '2fr 1fr 1fr',
-          gap: '10px',
-        }}
-      >
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: '2fr 1fr 1fr',
+            gap: '10px',
+          }}
+        >
         <input
           type="text"
           placeholder={t('common_areas.search_placeholder')}
