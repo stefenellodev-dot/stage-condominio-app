@@ -65,9 +65,9 @@ export const styles = {
     marginBottom: '24px',
   },
   sectionBox: {
-    backgroundColor: 'var(--bg-surface)',
-    padding: '20px',
-    borderRadius: 'var(--radius-md)',
+    backgroundColor: 'var(--bg-card)',
+    padding: '16px',
+    borderRadius: '10px',
     border: '1px solid var(--border-subtle)',
   },
   badgeAdmin: {
