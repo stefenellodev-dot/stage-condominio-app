@@ -33,10 +33,10 @@ export function ConciergeDashboard({ condominiumId, onNavigate }) {
     <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', maxWidth: '1200px', margin: '0 auto', padding: isMobile ? '12px' : '20px' }}>
       <div style={{ backgroundColor: 'var(--bg-card)', color: '#fff', borderRadius: '12px', padding: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
         <div>
-          <div style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px', color: '#94a3b8' }}>Conserjería y Control de Acceso</div>
+          <div style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px', color: 'var(--text-dim)' }}>Conserjería y Control de Acceso</div>
           <h2 style={{ margin: '4px 0 0', fontSize: '18px', fontWeight: '800' }}>Turno Activo: {profile?.full_name || 'Personal de Turno'}</h2>
         </div>
-        <div style={{ fontSize: '12px', color: '#94a3b8' }}>Acreditación OS-10 al día</div>
+        <div style={{ fontSize: '12px', color: 'var(--text-dim)' }}>Acreditación OS-10 al día</div>
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr 1fr' : 'repeat(4, 1fr)', gap: '12px' }}>
@@ -80,11 +80,11 @@ export function ConciergeDashboard({ condominiumId, onNavigate }) {
           <button onClick={fetchConciergeData} style={{ fontSize: '11px', background: 'none', border: 'none', color: '#0284c7', cursor: 'pointer', fontWeight: '700' }}>🔄 Actualizar</button>
         </div>
         {packages.length === 0 ? (
-          <div style={{ textAlign: 'center', padding: '24px', color: '#94a3b8', fontSize: '13px' }}>No hay encomiendas pendientes en conserjería.</div>
+          <div style={{ textAlign: 'center', padding: '24px', color: 'var(--text-dim)', fontSize: '13px' }}>No hay encomiendas pendientes en conserjería.</div>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
             {packages.map((pkg) => (
-              <div key={pkg.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 14px', backgroundColor: 'var(--bg-surface)', borderRadius: '8px', border: '1px solid #f1f5f9' }}>
+              <div key={pkg.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 14px', backgroundColor: 'var(--bg-surface)', borderRadius: '8px', border: '1px solid var(--border-subtle)' }}>
                 <div>
                   <strong style={{ fontSize: '14px', color: 'var(--text-main)' }}>Depto {pkg.units?.unit_number}</strong>
                   <span style={{ margin: '0 8px', color: 'var(--text-dim)' }}>•</span>
@@ -93,7 +93,7 @@ export function ConciergeDashboard({ condominiumId, onNavigate }) {
                 </div>
                 <div style={{ textAlign: 'right' }}>
                   <div style={{ fontSize: '10px', color: 'var(--text-dim)', fontWeight: '700' }}>PIN EXIGIDO</div>
-                  <div style={{ fontFamily: 'monospace', fontSize: '18px', fontWeight: '900', color: '#0284c7', backgroundColor: '#e0f2fe', padding: '2px 8px', borderRadius: '6px', letterSpacing: '1.5px' }}>
+                  <div style={{ fontFamily: 'monospace', fontSize: '18px', fontWeight: '900', color: '#0284c7', backgroundColor: 'var(--bg-surface)', padding: '2px 8px', borderRadius: '6px', letterSpacing: '1.5px' }}>
                     {pkg.pickup_pin}
                   </div>
                 </div>

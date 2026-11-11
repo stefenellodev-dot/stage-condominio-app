@@ -60,7 +60,7 @@ export function ResidentDashboard({ onNavigate }) {
         </div>
         <div style={{ display: 'flex', gap: '10px', marginTop: '20px', flexWrap: 'wrap' }}>
           {hasDebt && (
-            <button onClick={() => onNavigate && onNavigate('expenses')} style={{ padding: '10px 20px', backgroundColor: 'var(--bg-card)', color: '#991b1b', border: 'none', borderRadius: '8px', fontWeight: '800', fontSize: '13px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>💳 Pagar en Línea (Webpay)</button>
+            <button onClick={() => onNavigate && onNavigate('expenses')} style={{ padding: '10px 20px', backgroundColor: 'var(--bg-card)', color: 'var(--danger-text)', border: 'none', borderRadius: '8px', fontWeight: '800', fontSize: '13px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>💳 Pagar en Línea (Webpay)</button>
           )}
           <button onClick={() => onNavigate && onNavigate('expenses')} style={{ padding: '10px 16px', backgroundColor: 'rgba(255,255,255,0.15)', color: '#ffffff', border: '1px solid rgba(255,255,255,0.3)', borderRadius: '8px', fontWeight: '700', fontSize: '13px', cursor: 'pointer' }}>Ver Colilla Oficial (Art. 6)</button>
         </div>
@@ -68,7 +68,7 @@ export function ResidentDashboard({ onNavigate }) {
 
       {packages.length > 0 && (
         <div style={{ backgroundColor: 'var(--bg-surface)', border: '2px dashed var(--primary)', borderRadius: '12px', padding: '16px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#1e40af', marginBottom: '10px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--text-main)', marginBottom: '10px' }}>
             <span style={{ fontSize: '20px' }}>📦</span>
             <strong style={{ fontSize: '14px' }}>Tienes {packages.length} {packages.length === 1 ? 'encomienda lista' : 'encomiendas listas'} en Conserjería</strong>
           </div>
@@ -80,7 +80,7 @@ export function ResidentDashboard({ onNavigate }) {
                   <div style={{ fontSize: '11px', color: 'var(--text-dim)' }}>Presenta este código al conserje:</div>
                 </div>
                 <div style={{ textAlign: 'center' }}>
-                  <div style={{ fontFamily: 'monospace', fontSize: '22px', fontWeight: '900', color: '#1d4ed8', backgroundColor: '#dbeafe', padding: '4px 12px', borderRadius: '8px', letterSpacing: '3px' }}>{pkg.pickup_pin}</div>
+                  <div style={{ fontFamily: 'monospace', fontSize: '22px', fontWeight: '900', color: '#1d4ed8', backgroundColor: 'var(--bg-surface)', padding: '4px 12px', borderRadius: '8px', letterSpacing: '3px' }}>{pkg.pickup_pin}</div>
                 </div>
               </div>
             ))}
@@ -101,7 +101,7 @@ export function ResidentDashboard({ onNavigate }) {
         </button>
         <button onClick={() => onNavigate && onNavigate('emergency')} style={{ padding: '14px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: '10px', textAlign: 'left', cursor: 'pointer', display: 'flex', flexDirection: 'column', gap: '6px' }}>
           <span style={{ fontSize: '22px' }}>🚨</span>
-          <strong style={{ fontSize: '13px', color: '#b91c1c' }}>Plan de Evacuación</strong>
+          <strong style={{ fontSize: '13px', color: 'var(--danger-text)' }}>Plan de Evacuación</strong>
           <span style={{ fontSize: '11px', color: 'var(--text-dim)' }}>Zonas seguras y Bomberos</span>
         </button>
       </div>

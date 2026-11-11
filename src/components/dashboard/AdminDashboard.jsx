@@ -77,12 +77,12 @@ export function AdminDashboard({ condominiumId, onNavigate }) {
       </div>
 
       {cutoffEligibleCount > 0 && (
-        <div style={{ backgroundColor: '#fef2f2', border: '1px solid #fecaca', borderRadius: '10px', padding: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '10px' }}>
+        <div style={{ backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border-subtle)', borderRadius: '10px', padding: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '10px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <span style={{ fontSize: '24px' }}>⚡</span>
             <div>
-              <strong style={{ fontSize: '14px', color: '#991b1b' }}>{cutoffEligibleCount} {cutoffEligibleCount === 1 ? 'Unidad apta' : 'Unidades aptas'} para Corte de Suministro</strong>
-              <div style={{ fontSize: '12px', color: '#b91c1c' }}>Registran 3 o más cuotas impagas (Ley N° 21.442, Art. 20).</div>
+              <strong style={{ fontSize: '14px', color: 'var(--danger-text)' }}>{cutoffEligibleCount} {cutoffEligibleCount === 1 ? 'Unidad apta' : 'Unidades aptas'} para Corte de Suministro</strong>
+              <div style={{ fontSize: '12px', color: 'var(--danger-text)' }}>Registran 3 o más cuotas impagas (Ley N° 21.442, Art. 20).</div>
             </div>
           </div>
           <button onClick={() => onNavigate && onNavigate('legal_collection')} style={{ padding: '8px 14px', backgroundColor: '#dc2626', color: '#fff', border: 'none', borderRadius: '6px', fontWeight: '700', fontSize: '12px', cursor: 'pointer' }}>Apercibir con Plazo Fatal →</button>
