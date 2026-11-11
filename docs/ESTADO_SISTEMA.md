@@ -1,5 +1,5 @@
 # Estado del Sistema: Mac (Código) vs Piave (Despliegue e Infraestructura)
-**Fecha de levantamiento:** 2026-11-11 09:35:48
+**Fecha de levantamiento:** 2026-11-11 09:42:26
 **Servidor Remoto (Infraestructura y Producción):** piave (100.126.211.117)
 **Host Local (Desarrollo):** dstefene1-mac
 
@@ -8,9 +8,9 @@
 ## 1. Servidor Físico Piave (Host y Recursos)
 - **HOSTNAME:** `piave`
 - **KERNEL:** `6.8.0-139-generic`
-- **UPTIME:** `up 7 weeks, 19 hours, 53 minutes`
-- **DISK_USAGE:** `58G/232G (27% en uso)`
-- **RAM_USAGE:** `2645MB / 7829MB (33.8%)`
+- **UPTIME:** `up 7 weeks, 20 hours, 0 minutes`
+- **DISK_USAGE:** `59G/232G (27% en uso)`
+- **RAM_USAGE:** `2648MB / 7829MB (33.8%)`
 - **PODMAN_VER:** `podman version 4.9.3`
 
 # Verificar buckets de storage
@@ -37,10 +37,10 @@ echo "" >> ""
 | :--- | :--- |
 | **Contenedor Web** | `stage-stage-condominio-app` |
 | **Estado del Contenedor** | `running` |
-| **Último Inicio / Reinicio** | `2026-11-11 12:35:28.501648664 +0000 UTC` |
+| **Último Inicio / Reinicio** | `2026-11-11 12:41:40.96047196 +0000 UTC` |
 | **Veces Reiniciado (Crash count)** | `0` |
 | **Directorio Servido (Web Root)** | `/app/dist` |
-| **Fecha de Compilación en Piave** | `2026-11-11 12:35:09.000000000 +0000` |
+| **Fecha de Compilación en Piave** | `2026-11-11 12:41:21.000000000 +0000` |
 | **Título HTML Desplegado** | `<title>Sistema de Administración de Condominios</title>` |
 | **Respuesta HTTP Puerto :3002** | `200` |
 | **Servidor Web Interno** | `` |
@@ -112,12 +112,12 @@ echo "" >> ""
 10.89.3.96` | Up 8 days | `` |
 | `stage-sb-meta` | `Up 8 days
 10.89.3.97` | Up 8 days | `` |
-| `fin-engine-agent-pablo` | `Up 3 days
-10.89.0.41` | Up 3 days | `` |
-| `fin-engine-agent-marcos` | `Up 3 days
-10.89.0.42` | Up 3 days | `` |
-| `fin-engine-agent-pedro` | `Up 3 days
-10.89.0.43` | Up 3 days | `` |
+| `fin-engine-agent-pablo` | `Up 4 days
+10.89.0.41` | Up 4 days | `` |
+| `fin-engine-agent-marcos` | `Up 4 days
+10.89.0.42` | Up 4 days | `` |
+| `fin-engine-agent-pedro` | `Up 4 days
+10.89.0.43` | Up 4 days | `` |
 | `concierge-test` | `Up 3 days` | Up 3 days | `0.0.0.0:3003->3000/tcp` |
 | `stage-new` | `Up 3 days` | Up 3 days | `0.0.0.0:3005->3000/tcp` |
 | `concierge-test2` | `Up 3 days` | Up 3 days | `0.0.0.0:3006->3000/tcp` |
@@ -140,8 +140,8 @@ echo "" >> ""
 10.89.5.34` | Up 23 hours (healthy) | `100.126.211.117:8200->8000/tcp` |
 | `vaultwarden` | `Up 19 hours (healthy)
 10.89.4.5` | Up 19 hours (healthy) | `100.126.211.117:8222->80/tcp` |
-| `stage-stage-condominio-app` | `Up 21 seconds (starting)
-10.89.5.113` | Up 21 seconds (starting) | `100.126.211.117:3002->3000/tcp, 127.0.0.1:3002->3000/tcp` |
+| `stage-stage-condominio-app` | `Up 47 seconds (healthy)
+10.89.5.115` | Up 47 seconds (healthy) | `127.0.0.1:3002->3000/tcp, 100.126.211.117:3002->3000/tcp` |
 
 ---
 
@@ -167,7 +167,7 @@ echo "" >> ""
 ## 6. Código Local en Mac
 - **Ruta:** `/Users/stefenello/development/stage-condominio-app`
 - **Branch Git:** `main`
-- **Último Commit:** `d11b52f - style: align table card bg, padding, and fontWeight with SuperAdminDashboard (2026-11-11 09:35:09 -0300)`
+- **Último Commit:** `4c5980d - style: align sectionBox (form cards) with SuperAdminDashboard card (2026-11-11 09:41:21 -0300)`
 - **Archivos Pendientes de Commit:**
 ```text
 
@@ -181,9 +181,9 @@ echo "" >> ""
 poll error getaddrinfo EAI_AGAIN svc-db
 poll error getaddrinfo EAI_AGAIN svc-db
 ---LOG_ERROR:svc-kong---
-10.89.1.44 - - [11/Nov/2026:12:36:06 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "46f5fd20639f4432b97cb70830c7fc59"
-10.89.1.44 - - [11/Nov/2026:12:36:21 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "a1e42c22aae6bd60aab5eb510af8a53b"
-10.89.1.44 - - [11/Nov/2026:12:36:36 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "4ef8be54fe0978124fc8a9712ad79f69"
+10.89.1.44 - - [11/Nov/2026:12:42:38 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "152b236fa91eba002ba7724f238e1b34"
+10.89.1.44 - - [11/Nov/2026:12:42:53 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "f660407358d78c28206f9460f8026e60"
+10.89.1.44 - - [11/Nov/2026:12:43:08 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "9d9fbf1b4137e11bdb689c19bb69925d"
 ---LOG_ERROR:stage-sb-db---
 [local] 2026-11-10 02:04:16.307 UTC [436250] postgres@postgres ERROR:  relation "public.condominiums" does not exist at character 60
 [local] 2026-11-10 02:04:57.450 UTC [436286] postgres@postgres ERROR:  relation "public.condominiums" does not exist at character 22
