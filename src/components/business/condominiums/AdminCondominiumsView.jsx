@@ -260,28 +260,28 @@ export default function AdminCondominiumsView() {
             <section style={styles.sectionBox}>
               <h4 style={{ margin: '0 0 12px', color: 'var(--primary)' }}>Identificación</h4>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-                <div><label style={styles.label}>Nombre del condominio *</label><input type="text" name="name" value={formData.name} onChange={handleChange} style={styles.input} required /></div>
-                <div><label style={styles.label}>RUT del condominio *</label><input type="text" name="rut" value={formData.rut} onChange={handleChange} style={styles.input} required /></div>
-                <div><label style={styles.label}>Rol Matriz SII</label><input type="text" name="sii_property_role" value={formData.sii_property_role} onChange={handleChange} style={styles.input} placeholder="Ej: 1234-5" /></div>
-                <div><label style={styles.label}>Tipo</label><select name="type" value={formData.type} onChange={handleChange} style={styles.select}><option value="tipo_a">Tipo A</option><option value="tipo_b">Tipo B</option></select></div>
-                <div><label style={styles.label}>Destino</label><select name="destination" value={formData.destination} onChange={handleChange} style={styles.select}><option value="">Seleccionar</option><option value="habitacional">Habitacional</option><option value="comercial">Comercial</option><option value="mixto">Mixto</option></select></div>
-                <div><label style={styles.label}>Total de unidades</label><input type="number" name="total_units" value={formData.total_units} onChange={handleChange} style={styles.input} /></div>
-                <div><label style={styles.label}>N° Certificado DOM</label><input type="text" name="dom_certificate_number" value={formData.dom_certificate_number} onChange={handleChange} style={styles.input} /></div>
-                <div><label style={styles.label}>Fecha aprobación DOM</label><input type="date" name="dom_approval_date" value={formData.dom_approval_date} onChange={handleChange} style={styles.input} /></div>
-                <div><label style={styles.label}>% Fondo de Reserva</label><input type="number" name="reserve_fund_percentage" value={formData.reserve_fund_percentage} onChange={handleChange} style={styles.input} step="0.01" /></div>
-                <div><label style={styles.label}>Teléfono Conserjería</label><input type="text" name="concierge_phone" value={formData.concierge_phone} onChange={handleChange} style={styles.input} /></div>
-                <div><label style={styles.label}>Email Administración</label><input type="email" name="administration_email" value={formData.administration_email} onChange={handleChange} style={styles.input} /></div>
-                <div><label style={styles.label}>Estado</label><select name="status" value={formData.status} onChange={handleChange} style={styles.select}><option value="active">Activo</option><option value="inactive">Inactivo</option></select></div>
+                <div><label style={styles.label}>Nombre del condominio *</label><input type="text" name="name" value={formData.name} onChange={handleChange} disabled={readOnly} style={styles.input} required /></div>
+                <div><label style={styles.label}>RUT del condominio *</label><input type="text" name="rut" value={formData.rut} onChange={handleChange} disabled={readOnly} style={styles.input} required /></div>
+                <div><label style={styles.label}>Rol Matriz SII</label><input type="text" name="sii_property_role" value={formData.sii_property_role} onChange={handleChange} disabled={readOnly} style={styles.input} placeholder="Ej: 1234-5" /></div>
+                <div><label style={styles.label}>Tipo</label><select name="type" value={formData.type} onChange={handleChange} disabled={readOnly} style={styles.select}><option value="tipo_a">Tipo A</option><option value="tipo_b">Tipo B</option></select></div>
+                <div><label style={styles.label}>Destino</label><select name="destination" value={formData.destination} onChange={handleChange} disabled={readOnly} style={styles.select}><option value="">Seleccionar</option><option value="habitacional">Habitacional</option><option value="comercial">Comercial</option><option value="mixto">Mixto</option></select></div>
+                <div><label style={styles.label}>Total de unidades</label><input type="number" name="total_units" value={formData.total_units} onChange={handleChange} disabled={readOnly} style={styles.input} /></div>
+                <div><label style={styles.label}>N° Certificado DOM</label><input type="text" name="dom_certificate_number" value={formData.dom_certificate_number} onChange={handleChange} disabled={readOnly} style={styles.input} /></div>
+                <div><label style={styles.label}>Fecha aprobación DOM</label><input type="date" name="dom_approval_date" value={formData.dom_approval_date} onChange={handleChange} disabled={readOnly} style={styles.input} /></div>
+                <div><label style={styles.label}>% Fondo de Reserva</label><input type="number" name="reserve_fund_percentage" value={formData.reserve_fund_percentage} onChange={handleChange} disabled={readOnly} style={styles.input} step="0.01" /></div>
+                <div><label style={styles.label}>Teléfono Conserjería</label><input type="text" name="concierge_phone" value={formData.concierge_phone} onChange={handleChange} disabled={readOnly} style={styles.input} /></div>
+                <div><label style={styles.label}>Email Administración</label><input type="email" name="administration_email" value={formData.administration_email} onChange={handleChange} disabled={readOnly} style={styles.input} /></div>
+                <div><label style={styles.label}>Estado</label><select name="status" value={formData.status} onChange={handleChange} disabled={readOnly} style={styles.select}><option value="active">Activo</option><option value="inactive">Inactivo</option></select></div>
               </div>
             </section>
             <section style={styles.sectionBox}>
               <h4 style={{ margin: '0 0 12px', color: 'var(--primary)' }}>Ubicación</h4>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '12px' }}>
-                <div><label style={styles.label}>Calle</label><input type="text" name="street" value={formData.street} onChange={handleChange} style={styles.input} /></div>
-                <div><label style={styles.label}>Número</label><input type="text" name="street_number" value={formData.street_number} onChange={handleChange} style={styles.input} /></div>
+                <div><label style={styles.label}>Calle</label><input type="text" name="street" value={formData.street} onChange={handleChange} disabled={readOnly} style={styles.input} /></div>
+                <div><label style={styles.label}>Número</label><input type="text" name="street_number" value={formData.street_number} onChange={handleChange} disabled={readOnly} style={styles.input} /></div>
                 <div>
                   <label style={styles.label}>Región</label>
-                  <select name="region_id" value={formData.region_id} onChange={handleChange} style={styles.select}>
+                  <select name="region_id" value={formData.region_id} onChange={handleChange} disabled={readOnly} style={styles.select}>
                     <option value="">Seleccionar</option>
                     {regions.map(r => <option key={r.id} value={r.id}>{r.roman_numeral ? `${r.roman_numeral} - ` : ''}{r.name}</option>)}
                   </select>
@@ -298,9 +298,9 @@ export default function AdminCondominiumsView() {
             <section style={styles.sectionBox}>
               <h4 style={{ margin: '0 0 12px', color: 'var(--primary)' }}>Cuenta Bancaria</h4>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '12px' }}>
-                <div><label style={styles.label}>Banco</label><input type="text" name="bank_name" value={formData.bank_name} onChange={handleChange} style={styles.input} /></div>
-                <div><label style={styles.label}>Tipo de cuenta</label><select name="account_type" value={formData.account_type} onChange={handleChange} style={styles.select}><option value="">Seleccionar</option><option value="corriente">Corriente</option><option value="vista">Vista</option><option value="ahorro">Ahorro</option></select></div>
-                <div><label style={styles.label}>N° de cuenta</label><input type="text" name="account_number" value={formData.account_number} onChange={handleChange} style={styles.input} /></div>
+                <div><label style={styles.label}>Banco</label><input type="text" name="bank_name" value={formData.bank_name} onChange={handleChange} disabled={readOnly} style={styles.input} /></div>
+                <div><label style={styles.label}>Tipo de cuenta</label><select name="account_type" value={formData.account_type} onChange={handleChange} disabled={readOnly} style={styles.select}><option value="">Seleccionar</option><option value="corriente">Corriente</option><option value="vista">Vista</option><option value="ahorro">Ahorro</option></select></div>
+                <div><label style={styles.label}>N° de cuenta</label><input type="text" name="account_number" value={formData.account_number} onChange={handleChange} disabled={readOnly} style={styles.input} /></div>
               </div>
             </section>
             <div style={{ display: 'flex', gap: '8px' }}>
