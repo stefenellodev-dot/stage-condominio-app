@@ -227,30 +227,6 @@ export default function MaintenanceModule() {
               ⚠️ {alertCerts.length} certificación(es) por vencer o vencida(s)
             </span>
           )}
-          <button
-            onClick={() => setTab('activos')}
-            style={tab === 'activos' ? { padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' } : { padding: '4px 10px', backgroundColor: 'var(--bg-surface)', color: 'var(--text-main)', border: '1px solid var(--border-subtle)', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}
-          >
-            Activos
-          </button>
-          <button
-            onClick={() => setTab('certificaciones')}
-            style={tab === 'certificaciones' ? { padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' } : { padding: '4px 10px', backgroundColor: 'var(--bg-surface)', color: 'var(--text-main)', border: '1px solid var(--border-subtle)', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}
-          >
-            Certificaciones
-          </button>
-          <button
-            onClick={() => setTab('bitacora')}
-            style={tab === 'bitacora' ? { padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' } : { padding: '4px 10px', backgroundColor: 'var(--bg-surface)', color: 'var(--text-main)', border: '1px solid var(--border-subtle)', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}
-          >
-            Bitácora
-          </button>
-        </div>
-      </div>
-
-      <div style={{ ...styles.sectionBox, marginBottom: '14px' }}>
-        <h4 style={{ margin: '0 0 12px', color: 'var(--primary)' }}>Filtrar</h4>
-        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
           {companies.length > 0 && (
             <select
               value={selectedCompany}
@@ -274,6 +250,12 @@ export default function MaintenanceModule() {
             </select>
           )}
         </div>
+      </div>
+
+      <div style={{ display: 'flex', gap: '6px', marginBottom: '14px' }}>
+        <button style={tabStyle(tab === 'activos')} onClick={() => setTab('activos')}>Activos</button>
+        <button style={tabStyle(tab === 'certificaciones')} onClick={() => setTab('certificaciones')}>Certificaciones</button>
+        <button style={tabStyle(tab === 'bitacora')} onClick={() => setTab('bitacora')}>Bitácora</button>
       </div>
 
       {loading && <p style={{ color: 'var(--text-dim)' }}>Cargando…</p>}
@@ -300,7 +282,7 @@ export default function MaintenanceModule() {
                   {CRITICALITY.map(c => <option key={c} value={c}>{c}</option>)}
                 </select>
               </div>
-              <button type="submit" disabled={savingAsset} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>{savingAsset ? 'Guardando…' : 'Registrar activo'}</button>
+              <button type="submit" disabled={savingAsset} style={{ ...styles.button, marginTop: '10px' }}>{savingAsset ? 'Guardando…' : 'Registrar activo'}</button>
             </form>
           )}
           <div style={styles.tableWrapper}>
@@ -363,7 +345,7 @@ export default function MaintenanceModule() {
                 <label style={styles.label}>Documento (PDF, JPG, PNG)</label>
                 <input type="file" accept=".pdf,.jpg,.jpeg,.png" onChange={e => setCertFile(e.target.files[0])} style={styles.input} />
               </div>
-              <button type="submit" disabled={savingCert} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>{savingCert ? 'Guardando…' : 'Registrar certificación'}</button>
+              <button type="submit" disabled={savingCert} style={{ ...styles.button, marginTop: '10px' }}>{savingCert ? 'Guardando…' : 'Registrar certificación'}</button>
             </form>
           )}
           <div style={styles.tableWrapper}>
