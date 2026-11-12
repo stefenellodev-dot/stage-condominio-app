@@ -627,6 +627,7 @@ export default function ConciergeDeskView() {
             </div>
             </form>
           )}
+          {handoverView === 'list' && (
           <div style={{ ...styles.sectionBox, marginBottom: '14px' }}>
             <h4 style={{ margin: '0 0 12px', color: 'var(--primary)' }}>Relevos registrados</h4>
             {handovers.length === 0 ? (
@@ -649,6 +650,7 @@ export default function ConciergeDeskView() {
             </div>
           )}
           </div>
+          )}
         </div>
       )}
     </div>
