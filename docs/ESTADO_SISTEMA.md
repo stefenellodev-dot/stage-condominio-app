@@ -1,5 +1,5 @@
 # Estado del Sistema: Mac (Código) vs Piave (Despliegue e Infraestructura)
-**Fecha de levantamiento:** 2026-11-12 12:59:10
+**Fecha de levantamiento:** 2026-11-12 14:29:08
 **Servidor Remoto (Infraestructura y Producción):** piave (100.126.211.117)
 **Host Local (Desarrollo):** dstefene1-mac
 
@@ -8,9 +8,9 @@
 ## 1. Servidor Físico Piave (Host y Recursos)
 - **HOSTNAME:** `piave`
 - **KERNEL:** `6.8.0-139-generic`
-- **UPTIME:** `up 7 weeks, 1 day, 23 hours, 17 minutes`
+- **UPTIME:** `up 7 weeks, 2 days, 47 minutes`
 - **DISK_USAGE:** `59G/232G (27% en uso)`
-- **RAM_USAGE:** `2617MB / 7829MB (33.4%)`
+- **RAM_USAGE:** `2616MB / 7829MB (33.4%)`
 - **PODMAN_VER:** `podman version 4.9.3`
 
 # Verificar buckets de storage
@@ -37,10 +37,10 @@ echo "" >> ""
 | :--- | :--- |
 | **Contenedor Web** | `stage-stage-condominio-app` |
 | **Estado del Contenedor** | `running` |
-| **Último Inicio / Reinicio** | `2026-11-12 15:58:48.317803624 +0000 UTC` |
+| **Último Inicio / Reinicio** | `2026-11-12 17:28:46.415877333 +0000 UTC` |
 | **Veces Reiniciado (Crash count)** | `0` |
 | **Directorio Servido (Web Root)** | `/app/dist` |
-| **Fecha de Compilación en Piave** | `2026-11-12 15:58:22.000000000 +0000` |
+| **Fecha de Compilación en Piave** | `2026-11-12 17:28:20.000000000 +0000` |
 | **Título HTML Desplegado** | `<title>Sistema de Administración de Condominios</title>` |
 | **Respuesta HTTP Puerto :3002** | `200` |
 | **Servidor Web Interno** | `` |
@@ -136,12 +136,12 @@ echo "" >> ""
 10.89.5.9` | Up 2 days | `` |
 | `condo-sb-kong` | `Up 2 days (healthy)
 10.89.5.34` | Up 2 days (healthy) | `100.126.211.117:8200->8000/tcp` |
-| `vaultwarden` | `Up 46 hours (healthy)
-10.89.4.5` | Up 46 hours (healthy) | `100.126.211.117:8222->80/tcp` |
-| `fin-engine-brain` | `Up 22 hours
-10.89.0.205` | Up 22 hours | `` |
-| `stage-stage-condominio-app` | `Up 24 seconds (starting)
-10.89.5.235` | Up 24 seconds (starting) | `127.0.0.1:3002->3000/tcp, 100.126.211.117:3002->3000/tcp` |
+| `vaultwarden` | `Up 2 days (healthy)
+10.89.4.5` | Up 2 days (healthy) | `100.126.211.117:8222->80/tcp` |
+| `fin-engine-brain` | `Up 24 hours
+10.89.0.205` | Up 24 hours | `` |
+| `stage-stage-condominio-app` | `Up 25 seconds (starting)
+10.89.5.237` | Up 25 seconds (starting) | `127.0.0.1:3002->3000/tcp, 100.126.211.117:3002->3000/tcp` |
 
 ---
 
@@ -167,7 +167,7 @@ echo "" >> ""
 ## 6. Código Local en Mac
 - **Ruta:** `/Users/stefenello/development/stage-condominio-app`
 - **Branch Git:** `main`
-- **Último Commit:** `563226c - style: move Crear/Cancelar buttons outside card in Assemblies (2026-11-12 12:58:22 -0300)`
+- **Último Commit:** `a463ca5 - fix: clear assemblies when condo changes (Assemblies module) (2026-11-12 14:28:20 -0300)`
 - **Archivos Pendientes de Commit:**
 ```text
 
@@ -178,9 +178,9 @@ echo "" >> ""
 ## 7. Errores Detectados en Logs de Contenedores en Piave
 ```text
 ---LOG_ERROR:svc-kong---
-10.89.1.44 - - [12/Nov/2026:15:59:18 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "365e8a56fca2b11389b63d28fd036834"
-10.89.1.44 - - [12/Nov/2026:15:59:33 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "ed025a6cf43cc450c7bc5c3137dc1814"
-10.89.1.44 - - [12/Nov/2026:15:59:48 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "6451a30b9cb0ac7d9274565637043356"
+10.89.1.44 - - [12/Nov/2026:17:29:28 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "780a562087b7b00585a4bd772ac1a947"
+10.89.1.44 - - [12/Nov/2026:17:29:43 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "df3bd80eaf59024166e1f04db9621808"
+10.89.1.44 - - [12/Nov/2026:17:29:58 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "651b3a56394b9b514139243aa61a2e1b"
 ---LOG_ERROR:stage-sb-auth---
 {"component":"api","error":"invalid_grant: Invalid login credentials","level":"info","method":"POST","msg":"invalid_grant: Invalid login credentials","path":"/token","referer":"http://100.126.211.117:3002/","remote_addr":"10.89.3.92","request_id":"3698211f-a562-4037-b099-d98587b1b47d","time":"2026-11-10T13:25:09Z"}
 ---LOG_ERROR:condo-sb-inbucket---
@@ -189,6 +189,4 @@ echo "" >> ""
 {"level":"warn","module":"rest","proto":"WebSocket","remote":"10.89.5.5:45258","error":"websocket: close 1006 (abnormal closure): unexpected EOF","time":"2026-11-12T01:21:12Z","message":"Socket error"}
 ---LOG_ERROR:condo-sb-auth---
 {"component":"api","error":"invalid_grant: Invalid Refresh Token: Refresh Token Not Found","level":"info","method":"POST","msg":"invalid_grant: Invalid Refresh Token: Refresh Token Not Found","path":"/token","referer":"http://100.126.211.117:3002","remote_addr":"204.119.24.225","request_id":"63550f15-d5e8-4141-87df-ce900a1e93f5","time":"2026-11-12T13:37:56Z"}
----LOG_ERROR:condo-sb-storage---
-{"level":50,"time":"2026-11-12T15:15:37.921Z","pid":1,"hostname":"9da06a17fc8f","region":"not-specified","reqId":"req-ab","tenantId":"default","project":"default","reqId":"req-ab","type":"request","req":{"region":"not-specified","traceId":"req-ab","method":"POST","url":"/object/sign/avatars/e64b00b9-8630-4f0b-98fa-ba18bf3c06fc/avatar_1793734891800.jpg","headers":{"host":"condo-sb-storage:5000","x_forwarded_proto":"http","x_forwarded_host":"api.ecomunity.cl","x_forwarded_port":"8000","x_real_ip":"10.89.5.34","content_length":"17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36","accept":"*/*","cf_connecting_ip":"204.119.24.225","cf_ipcountry":"CL","cf_ray":"a5967e2f18f69099-MIA","content_type":"application/json","referer":"https://www.ecomunity.cl/","x_client_info":"supabase-js/2.118.0; runtime=web"},"hostname":"condo-sb-storage:5000","remoteAddress":"10.89.5.34","remotePort":50474},"res":{"statusCode":544,"headers":{"content_type":"application/json; charset=utf-8","content_length":"124"}},"responseTime":3004.8257446289062,"error":{"raw":"{\"metadata\":{},\"code\":\"DatabaseTimeout\",\"httpStatusCode\":544,\"userStatusCode\":544,\"originalError\":{\"name\":\"KnexTimeoutError\"}}","name":"Error","message":"The connection to the database timed out","stack":"Error: The connection to the database timed out\n    at StorageBackendError.withStatusCode (/app/dist/internal/errors/storage-error.js:42:19)\n    at Object.DatabaseTimeout (/app/dist/internal/errors/codes.js:265:68)\n    at TenantConnection.transaction (/app/dist/internal/database/connection.js:186:36)\n    at runNextTicks (node:internal/process/task_queues:60:5)\n    at listOnTimeout (node:internal/timers:545:9)\n    at process.processTimers (node:internal/timers:519:7)\n    at async StorageKnexDB.runQuery (/app/dist/storage/database/knex.js:505:13)\n    at async StorageKnexDB.findObject (/app/dist/storage/database/knex.js:325:20)\n    at async ObjectStorage.signObjectUrl (/app/dist/storage/object.js:451:5)\n    at async Object.<anonymous> (/app/dist/http/routes/object/getSignedURL.js:89:25)"},"owner":"e64b00b9-8630-4f0b-98fa-ba18bf3c06fc","resources":["/avatars/e64b00b9-8630-4f0b-98fa-ba18bf3c06fc/avatar_1793734891800.jpg"],"operation":"storage.object.sign","msg":"default | POST | 544 | 10.89.5.34 | req-ab | /object/sign/avatars/e64b00b9-8630-4f0b-98fa-ba18bf3c06fc/avatar_1793734891800.jpg | Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36"}
 ```
