@@ -451,7 +451,11 @@ export default function MaintenanceModule() {
         <div>
           {canManage && (
             <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '14px' }}>
-              <button onClick={() => setLogView('form')} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>Nueva mantención</button>
+              {logView === 'list' ? (
+                <button onClick={() => setLogView('form')} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>Nueva mantención</button>
+              ) : (
+                <button onClick={() => setLogView('list')} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>Volver a la lista</button>
+              )}
             </div>
           )}
           {logView === 'form' && canManage && (
@@ -493,6 +497,7 @@ export default function MaintenanceModule() {
               </section>
             </form>
           )}
+          {logView === 'list' && (
           <div style={styles.tableWrapper}>
             <table style={{ ...styles.table, minWidth: '900px' }}>
               <thead><tr style={styles.thRow}>
@@ -515,6 +520,7 @@ export default function MaintenanceModule() {
               </tbody>
             </table>
           </div>
+          )}
         </div>
       )}
 
