@@ -1,5 +1,5 @@
 # Estado del Sistema: Mac (Código) vs Piave (Despliegue e Infraestructura)
-**Fecha de levantamiento:** 2026-11-12 16:03:21
+**Fecha de levantamiento:** 2026-11-12 20:00:01
 **Servidor Remoto (Infraestructura y Producción):** piave (100.126.211.117)
 **Host Local (Desarrollo):** dstefene1-mac
 
@@ -8,9 +8,9 @@
 ## 1. Servidor Físico Piave (Host y Recursos)
 - **HOSTNAME:** `piave`
 - **KERNEL:** `6.8.0-139-generic`
-- **UPTIME:** `up 7 weeks, 2 days, 2 hours, 21 minutes`
+- **UPTIME:** `up 7 weeks, 2 days, 6 hours, 17 minutes`
 - **DISK_USAGE:** `59G/232G (27% en uso)`
-- **RAM_USAGE:** `2662MB / 7829MB (34.0%)`
+- **RAM_USAGE:** `2779MB / 7829MB (35.5%)`
 - **PODMAN_VER:** `podman version 4.9.3`
 
 # Verificar buckets de storage
@@ -37,10 +37,10 @@ echo "" >> ""
 | :--- | :--- |
 | **Contenedor Web** | `stage-stage-condominio-app` |
 | **Estado del Contenedor** | `running` |
-| **Último Inicio / Reinicio** | `2026-11-12 19:02:57.573901694 +0000 UTC` |
+| **Último Inicio / Reinicio** | `2026-11-12 22:59:53.385420092 +0000 UTC` |
 | **Veces Reiniciado (Crash count)** | `0` |
 | **Directorio Servido (Web Root)** | `/app/dist` |
-| **Fecha de Compilación en Piave** | `2026-11-12 19:02:33.000000000 +0000` |
+| **Fecha de Compilación en Piave** | `2026-11-12 22:59:22.000000000 +0000` |
 | **Título HTML Desplegado** | `<title>Sistema de Administración de Condominios</title>` |
 | **Respuesta HTTP Puerto :3002** | `200` |
 | **Servidor Web Interno** | `` |
@@ -138,10 +138,11 @@ echo "" >> ""
 10.89.5.34` | Up 2 days (healthy) | `100.126.211.117:8200->8000/tcp` |
 | `vaultwarden` | `Up 2 days (healthy)
 10.89.4.5` | Up 2 days (healthy) | `100.126.211.117:8222->80/tcp` |
-| `fin-engine-brain` | `Up 26 hours
-10.89.0.205` | Up 26 hours | `` |
-| `stage-stage-condominio-app` | `Up 27 seconds (starting)
-10.89.5.247` | Up 27 seconds (starting) | `127.0.0.1:3002->3000/tcp, 100.126.211.117:3002->3000/tcp` |
+| `fin-engine-brain` | `Up 29 hours
+10.89.0.205` | Up 29 hours | `` |
+| `stage-stage-condominio-app` | `Up 10 seconds (starting)
+10.89.5.249` | Up 10 seconds (starting) | `127.0.0.1:3002->3000/tcp, 100.126.211.117:3002->3000/tcp` |
+| `fin-engine-watchdog` | `Created` | Created | `` |
 
 ---
 
@@ -167,7 +168,7 @@ echo "" >> ""
 ## 6. Código Local en Mac
 - **Ruta:** `/Users/stefenello/development/stage-condominio-app`
 - **Branch Git:** `main`
-- **Último Commit:** `fcd36b9 - style: toggle asistencia view and hide list when creating (2026-11-12 16:02:33 -0300)`
+- **Último Commit:** `50823f2 - feat: add fallback message when no assembly selected in Asistencia (2026-11-12 19:59:26 -0300)`
 - **Archivos Pendientes de Commit:**
 ```text
 
@@ -182,21 +183,19 @@ echo "" >> ""
 2026-11-12 18:05:38.563 UTC [1450358] ERROR:  syntax error at or near "public" at character 67
 2026-11-12 18:06:41.946 UTC [1450400] FATAL:  database "template0" is not currently accepting connections
 ---LOG_ERROR:svc-kong---
-10.89.1.44 - - [12/Nov/2026:19:03:25 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "0b73766a849d7d1cd9599f2dd4d15965"
-10.89.1.44 - - [12/Nov/2026:19:03:40 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "25c59c036c151f5144a61d6517071d31"
-10.89.1.44 - - [12/Nov/2026:19:03:55 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "fbef4a5a52e8091add499e67e7343532"
+10.89.1.44 - - [12/Nov/2026:23:00:14 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "89486a0dda4cee379af85666d2df3042"
+10.89.1.44 - - [12/Nov/2026:23:00:29 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "94c8514d3d385c32fe909a328e03576a"
+10.89.1.44 - - [12/Nov/2026:23:00:44 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "33b51118112b1138406cb11f1d377815"
 ---LOG_ERROR:stage-sb-db---
 [local] 2026-11-12 17:45:47.753 UTC [596633] postgres@postgres ERROR:  relation "assembly_motions" does not exist at character 22
 [local] 2026-11-12 17:46:17.432 UTC [596664] postgres@condosmart FATAL:  database "condosmart" does not exist
 [local] 2026-11-12 18:06:44.839 UTC [597531] postgres@template0 FATAL:  database "template0" is not currently accepting connections
 ---LOG_ERROR:stage-sb-auth---
 {"component":"api","error":"invalid_grant: Invalid login credentials","level":"info","method":"POST","msg":"invalid_grant: Invalid login credentials","path":"/token","referer":"http://100.126.211.117:3002/","remote_addr":"10.89.3.92","request_id":"3698211f-a562-4037-b099-d98587b1b47d","time":"2026-11-10T13:25:09Z"}
----LOG_ERROR:condo-sb-db---
-[local] 2026-11-12 18:09:03.791 UTC [220549] postgres@postgres ERROR:  new row for relation "assembly_attendees" violates check constraint "assembly_attendees_attendee_type_check"
 ---LOG_ERROR:condo-sb-inbucket---
-{"level":"warn","module":"rest","proto":"WebSocket","remote":"10.89.5.5:36146","error":"websocket: close 1006 (abnormal closure): unexpected EOF","time":"2026-11-11T21:10:56Z","message":"Socket error"}
 {"level":"warn","module":"rest","proto":"WebSocket","remote":"10.89.5.5:45258","error":"websocket: close 1006 (abnormal closure): unexpected EOF","time":"2026-11-12T01:21:12Z","message":"Socket error"}
 {"level":"warn","module":"rest","proto":"WebSocket","remote":"10.89.5.5:41276","error":"websocket: close 1006 (abnormal closure): unexpected EOF","time":"2026-11-12T18:07:46Z","message":"Socket error"}
+{"level":"warn","module":"rest","proto":"WebSocket","remote":"10.89.5.5:53164","error":"websocket: close 1006 (abnormal closure): unexpected EOF","time":"2026-11-12T19:15:16Z","message":"Socket error"}
 ---LOG_ERROR:condo-sb-auth---
-{"component":"api","error":"invalid_grant: Invalid Refresh Token: Refresh Token Not Found","level":"info","method":"POST","msg":"invalid_grant: Invalid Refresh Token: Refresh Token Not Found","path":"/token","referer":"http://100.126.211.117:3002","remote_addr":"204.119.24.225","request_id":"63550f15-d5e8-4141-87df-ce900a1e93f5","time":"2026-11-12T13:37:56Z"}
+{"component":"api","error":"invalid_grant: Invalid login credentials","level":"info","method":"POST","msg":"invalid_grant: Invalid login credentials","path":"/token","referer":"http://100.126.211.117:3002","remote_addr":"191.112.211.218","request_id":"9e9e2f42-f9d3-4aeb-a1a6-f642826cc0f6","time":"2026-11-12T22:46:14Z"}
 ```
