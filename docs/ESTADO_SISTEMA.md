@@ -1,5 +1,5 @@
 # Estado del Sistema: Mac (Código) vs Piave (Despliegue e Infraestructura)
-**Fecha de levantamiento:** 2026-11-12 20:15:44
+**Fecha de levantamiento:** 2026-11-12 20:21:04
 **Servidor Remoto (Infraestructura y Producción):** piave (100.126.211.117)
 **Host Local (Desarrollo):** dstefene1-mac
 
@@ -8,9 +8,9 @@
 ## 1. Servidor Físico Piave (Host y Recursos)
 - **HOSTNAME:** `piave`
 - **KERNEL:** `6.8.0-139-generic`
-- **UPTIME:** `up 7 weeks, 2 days, 6 hours, 33 minutes`
+- **UPTIME:** `up 7 weeks, 2 days, 6 hours, 38 minutes`
 - **DISK_USAGE:** `59G/232G (27% en uso)`
-- **RAM_USAGE:** `2665MB / 7829MB (34.0%)`
+- **RAM_USAGE:** `2736MB / 7829MB (34.9%)`
 - **PODMAN_VER:** `podman version 4.9.3`
 
 # Verificar buckets de storage
@@ -27,7 +27,7 @@ done
 echo "" >> ""
 - **Base de Datos:** `postgres`
 - **Tamaño en Disco:** `16 MB`
-- **Conexiones Activas:** `6`
+- **Conexiones Activas:** `7`
 
 ---
 
@@ -37,10 +37,10 @@ echo "" >> ""
 | :--- | :--- |
 | **Contenedor Web** | `stage-stage-condominio-app` |
 | **Estado del Contenedor** | `running` |
-| **Último Inicio / Reinicio** | `2026-11-12 23:15:15.909177116 +0000 UTC` |
+| **Último Inicio / Reinicio** | `2026-11-12 23:20:38.422343451 +0000 UTC` |
 | **Veces Reiniciado (Crash count)** | `0` |
 | **Directorio Servido (Web Root)** | `/app/dist` |
-| **Fecha de Compilación en Piave** | `2026-11-12 23:14:51.000000000 +0000` |
+| **Fecha de Compilación en Piave** | `2026-11-12 23:19:57.000000000 +0000` |
 | **Título HTML Desplegado** | `<title>Sistema de Administración de Condominios</title>` |
 | **Respuesta HTTP Puerto :3002** | `200` |
 | **Servidor Web Interno** | `` |
@@ -80,8 +80,8 @@ echo "" >> ""
 | `rollback-test-db` | `Up 5 weeks` | Up 5 weeks | `` |
 | `svc-push` | `Up 5 weeks
 10.89.1.26` | Up 5 weeks | `` |
-| `stage-demo-app` | `Up 9 days
-10.89.3.24` | Up 9 days | `127.0.0.1:3000->3000/tcp, 100.126.211.117:3000->3000/tcp` |
+| `stage-demo-app` | `Up 10 days
+10.89.3.24` | Up 10 days | `127.0.0.1:3000->3000/tcp, 100.126.211.117:3000->3000/tcp` |
 | `fin-engine-redis` | `Up 9 days
 10.89.0.83` | Up 9 days | `` |
 | `fin-engine-notifier` | `Up 9 days
@@ -140,8 +140,8 @@ echo "" >> ""
 10.89.4.5` | Up 2 days (healthy) | `100.126.211.117:8222->80/tcp` |
 | `fin-engine-brain` | `Up 30 hours
 10.89.0.205` | Up 30 hours | `` |
-| `stage-stage-condominio-app` | `Up 32 seconds (starting)
-10.89.5.253` | Up 32 seconds (starting) | `100.126.211.117:3002->3000/tcp, 127.0.0.1:3002->3000/tcp` |
+| `stage-stage-condominio-app` | `Up 29 seconds (starting)
+10.89.5.4` | Up 29 seconds (starting) | `127.0.0.1:3002->3000/tcp, 100.126.211.117:3002->3000/tcp` |
 
 ---
 
@@ -167,7 +167,7 @@ echo "" >> ""
 ## 6. Código Local en Mac
 - **Ruta:** `/Users/stefenello/development/stage-condominio-app`
 - **Branch Git:** `main`
-- **Último Commit:** `2d6a4df - feat: show fallback message when no assembly selected in Asistencia (2026-11-12 20:14:51 -0300)`
+- **Último Commit:** `f374fec - revert: remove fallback message in Asistencia (2026-11-12 20:19:58 -0300)`
 - **Archivos Pendientes de Commit:**
 ```text
 
@@ -182,9 +182,9 @@ echo "" >> ""
 2026-11-12 18:05:38.563 UTC [1450358] ERROR:  syntax error at or near "public" at character 67
 2026-11-12 18:06:41.946 UTC [1450400] FATAL:  database "template0" is not currently accepting connections
 ---LOG_ERROR:svc-kong---
-10.89.1.44 - - [12/Nov/2026:23:15:49 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "a3163023d974d16209e50513d2369474"
-10.89.1.44 - - [12/Nov/2026:23:16:04 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "cda3e312ca4f973666c68354aa2eb61f"
-10.89.1.44 - - [12/Nov/2026:23:16:19 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "2a869e30c58b834efaddae4eaa392164"
+10.89.1.44 - - [12/Nov/2026:23:21:20 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "7fe46905b67df6735e6d0461408c815c"
+10.89.1.44 - - [12/Nov/2026:23:21:35 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "65abf56b44e7ce69914776441a772945"
+10.89.1.44 - - [12/Nov/2026:23:21:50 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "a3a4577e3eba2b509f302936e26b2273"
 ---LOG_ERROR:stage-sb-db---
 [local] 2026-11-12 17:45:47.753 UTC [596633] postgres@postgres ERROR:  relation "assembly_motions" does not exist at character 22
 [local] 2026-11-12 17:46:17.432 UTC [596664] postgres@condosmart FATAL:  database "condosmart" does not exist
