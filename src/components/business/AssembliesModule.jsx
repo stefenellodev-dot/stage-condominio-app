@@ -56,7 +56,11 @@ export default function AssembliesModule() {
   }, [selectedCompany]);
 
   useEffect(() => {
-    if (!selectedCondo) return;
+    if (!selectedCondo) {
+      setAssemblies([]);
+      setSelectedAssembly('');
+      return;
+    }
     (async () => {
       setLoading(true);
       const { data, error } = await supabase
