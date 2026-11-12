@@ -242,11 +242,11 @@ export default function AssembliesModule() {
                   <input placeholder="Enlace telemático (Zoom/Meet)" value={asmForm.video_conference_url} onChange={e => setAsmForm({ ...asmForm, video_conference_url: e.target.value })} style={styles.input} />
                   <input placeholder="Lugar" value={asmForm.location} onChange={e => setAsmForm({ ...asmForm, location: e.target.value })} style={styles.input} />
                 </div>
-                <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
-                  <button type="submit" disabled={savingAsm} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>{savingAsm ? 'Guardando…' : 'Crear'}</button>
-                  <button type="button" onClick={() => setAsmView('list')} style={{ padding: '4px 10px', backgroundColor: 'var(--danger-bg)', color: 'var(--danger-text)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>Cancelar</button>
-                </div>
               </section>
+            <div style={{ display: 'flex', gap: '8px' }}>
+              <button type="submit" disabled={savingAsm} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>{savingAsm ? 'Guardando…' : 'Crear'}</button>
+              <button type="button" onClick={() => setAsmView('list')} style={{ padding: '4px 10px', backgroundColor: 'var(--danger-bg)', color: 'var(--danger-text)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>Cancelar</button>
+            </div>
             </form>
           )}
           {asmView === 'list' && (
