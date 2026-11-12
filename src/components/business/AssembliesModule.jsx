@@ -241,7 +241,9 @@ export default function AssembliesModule() {
           {canManage && (
             <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '14px' }}>
               {asmView === 'list' ? (
-                <button onClick={() => setAsmView('form')} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>Nueva asamblea</button>
+                assemblies.length > 0 ? (
+                  <button onClick={() => setAsmView('form')} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>Nueva asamblea</button>
+                ) : null
               ) : (
                 <button onClick={() => setAsmView('list')} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>Volver a la lista</button>
               )}
