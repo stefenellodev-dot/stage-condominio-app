@@ -29,7 +29,6 @@ export default function MaintenanceModule() {
 
   const [tab, setTab] = useState('activos');
   const [logView, setLogView] = useState('list');
-  const [logView, setLogView] = useState('list');
   const [certView, setCertView] = useState('list');
   const [assetView, setAssetView] = useState('list');
   const [companies, setCompanies] = useState([]);
@@ -492,8 +491,6 @@ export default function MaintenanceModule() {
                   <button type="button" onClick={() => setLogView('list')} style={{ padding: '4px 10px', backgroundColor: 'var(--danger-bg)', color: 'var(--danger-text)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>Cancelar</button>
                 </div>
               </section>
-            </form>
-          )}
             </form>
           )}
           <div style={styles.tableWrapper}>
