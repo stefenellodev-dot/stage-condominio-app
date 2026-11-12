@@ -1,5 +1,5 @@
 # Estado del Sistema: Mac (Código) vs Piave (Despliegue e Infraestructura)
-**Fecha de levantamiento:** 2026-11-12 11:57:26
+**Fecha de levantamiento:** 2026-11-12 12:13:27
 **Servidor Remoto (Infraestructura y Producción):** piave (100.126.211.117)
 **Host Local (Desarrollo):** dstefene1-mac
 
@@ -8,9 +8,9 @@
 ## 1. Servidor Físico Piave (Host y Recursos)
 - **HOSTNAME:** `piave`
 - **KERNEL:** `6.8.0-139-generic`
-- **UPTIME:** `up 7 weeks, 1 day, 22 hours, 15 minutes`
+- **UPTIME:** `up 7 weeks, 1 day, 22 hours, 31 minutes`
 - **DISK_USAGE:** `59G/232G (27% en uso)`
-- **RAM_USAGE:** `2710MB / 7829MB (34.6%)`
+- **RAM_USAGE:** `2717MB / 7829MB (34.7%)`
 - **PODMAN_VER:** `podman version 4.9.3`
 
 # Verificar buckets de storage
@@ -27,7 +27,7 @@ done
 echo "" >> ""
 - **Base de Datos:** `postgres`
 - **Tamaño en Disco:** `16 MB`
-- **Conexiones Activas:** `8`
+- **Conexiones Activas:** `7`
 
 ---
 
@@ -37,10 +37,10 @@ echo "" >> ""
 | :--- | :--- |
 | **Contenedor Web** | `stage-stage-condominio-app` |
 | **Estado del Contenedor** | `running` |
-| **Último Inicio / Reinicio** | `2026-11-12 14:56:43.632921297 +0000 UTC` |
+| **Último Inicio / Reinicio** | `2026-11-12 15:13:04.80689672 +0000 UTC` |
 | **Veces Reiniciado (Crash count)** | `0` |
 | **Directorio Servido (Web Root)** | `/app/dist` |
-| **Fecha de Compilación en Piave** | `2026-11-12 14:56:18.000000000 +0000` |
+| **Fecha de Compilación en Piave** | `2026-11-12 15:12:33.000000000 +0000` |
 | **Título HTML Desplegado** | `<title>Sistema de Administración de Condominios</title>` |
 | **Respuesta HTTP Puerto :3002** | `200` |
 | **Servidor Web Interno** | `` |
@@ -136,12 +136,12 @@ echo "" >> ""
 10.89.5.9` | Up 2 days | `` |
 | `condo-sb-kong` | `Up 2 days (healthy)
 10.89.5.34` | Up 2 days (healthy) | `100.126.211.117:8200->8000/tcp` |
-| `vaultwarden` | `Up 45 hours (healthy)
-10.89.4.5` | Up 45 hours (healthy) | `100.126.211.117:8222->80/tcp` |
-| `fin-engine-brain` | `Up 21 hours
-10.89.0.205` | Up 21 hours | `` |
-| `stage-stage-condominio-app` | `Up 46 seconds (healthy)
-10.89.5.221` | Up 46 seconds (healthy) | `127.0.0.1:3002->3000/tcp, 100.126.211.117:3002->3000/tcp` |
+| `vaultwarden` | `Up 46 hours (healthy)
+10.89.4.5` | Up 46 hours (healthy) | `100.126.211.117:8222->80/tcp` |
+| `fin-engine-brain` | `Up 22 hours
+10.89.0.205` | Up 22 hours | `` |
+| `stage-stage-condominio-app` | `Up 26 seconds (starting)
+10.89.5.223` | Up 26 seconds (starting) | `127.0.0.1:3002->3000/tcp, 100.126.211.117:3002->3000/tcp` |
 
 ---
 
@@ -167,7 +167,7 @@ echo "" >> ""
 ## 6. Código Local en Mac
 - **Ruta:** `/Users/stefenello/development/stage-condominio-app`
 - **Branch Git:** `main`
-- **Último Commit:** `5fd616f - style: move Crear/Cancelar buttons outside card in Maintenance certificaciones (2026-11-12 11:56:18 -0300)`
+- **Último Commit:** `8353d7b - style: align Maintenance bitacora with standard pattern (2026-11-12 12:12:36 -0300)`
 - **Archivos Pendientes de Commit:**
 ```text
 
@@ -177,26 +177,22 @@ echo "" >> ""
 
 ## 7. Errores Detectados en Logs de Contenedores en Piave
 ```text
----LOG_ERROR:svc-push---
-poll error getaddrinfo EAI_AGAIN svc-db
-poll error getaddrinfo EAI_AGAIN svc-db
 ---LOG_ERROR:fin-engine-notifier---
 2026-11-12 14:30:02,553 ERROR notifier.channels: Error sending email: Connection unexpectedly closed
 ---LOG_ERROR:svc-kong---
-10.89.1.44 - - [12/Nov/2026:14:57:31 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "bcd47979d8966c6b4eb824295dd8740d"
-10.89.1.44 - - [12/Nov/2026:14:57:46 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "aff6d0217849ea097bf4726730c81365"
-10.89.1.44 - - [12/Nov/2026:14:58:01 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "b4a7e31e61290751766d8523b011e204"
----LOG_ERROR:stage-sb-db---
-[local] 2026-11-10 02:04:16.307 UTC [436250] postgres@postgres ERROR:  relation "public.condominiums" does not exist at character 60
-[local] 2026-11-10 02:04:57.450 UTC [436286] postgres@postgres ERROR:  relation "public.condominiums" does not exist at character 22
+10.89.1.44 - - [12/Nov/2026:15:13:36 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "0e997827a707877abb9cd02626a1fc10"
+10.89.1.44 - - [12/Nov/2026:15:13:51 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "ad089c5196cc782ee5f6f0444e16ce2c"
+10.89.1.44 - - [12/Nov/2026:15:14:06 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "8db1a93a49727903a4a7486a04ffb470"
 ---LOG_ERROR:stage-sb-auth---
-{"component":"api","error":"invalid_grant: Invalid login credentials","level":"info","method":"POST","msg":"invalid_grant: Invalid login credentials","path":"/token","referer":"http://100.126.211.117:3002/","remote_addr":"10.89.3.92","request_id":"324e0edc-adbc-49f4-a399-a6cf7adb0ae4","time":"2026-11-10T02:01:48Z"}
-{"component":"api","error":"invalid_grant: Invalid login credentials","level":"info","method":"POST","msg":"invalid_grant: Invalid login credentials","path":"/token","referer":"http://100.126.211.117:3002/","remote_addr":"10.89.3.92","request_id":"f36091de-056a-4623-8258-64904ff048fb","time":"2026-11-10T02:03:29Z"}
 {"component":"api","error":"invalid_grant: Invalid login credentials","level":"info","method":"POST","msg":"invalid_grant: Invalid login credentials","path":"/token","referer":"http://100.126.211.117:3002/","remote_addr":"10.89.3.92","request_id":"3698211f-a562-4037-b099-d98587b1b47d","time":"2026-11-10T13:25:09Z"}
 ---LOG_ERROR:condo-sb-inbucket---
 {"level":"warn","module":"rest","proto":"WebSocket","remote":"10.89.5.5:37752","error":"websocket: close 1006 (abnormal closure): unexpected EOF","time":"2026-11-10T17:20:51Z","message":"Socket error"}
 {"level":"warn","module":"rest","proto":"WebSocket","remote":"10.89.5.5:36146","error":"websocket: close 1006 (abnormal closure): unexpected EOF","time":"2026-11-11T21:10:56Z","message":"Socket error"}
 {"level":"warn","module":"rest","proto":"WebSocket","remote":"10.89.5.5:45258","error":"websocket: close 1006 (abnormal closure): unexpected EOF","time":"2026-11-12T01:21:12Z","message":"Socket error"}
+---LOG_ERROR:condo-sb-rest---
+12/Nov/2026:15:13:39 +0000: {"code":"PGRST000","details":"could not translate host name \"condo-sb-db\" to address: Try again\n","hint":null,"message":"Database connection error. Retrying the connection."}
+12/Nov/2026:15:13:39 +0000: {"code":"PGRST000","details":"could not translate host name \"condo-sb-db\" to address: Try again\n","hint":null,"message":"Database connection error. Retrying the connection."}
+12/Nov/2026:15:13:39 +0000: {"code":"PGRST000","details":"could not translate host name \"condo-sb-db\" to address: Try again\n","hint":null,"message":"Database connection error. Retrying the connection."}
 ---LOG_ERROR:condo-sb-auth---
 {"component":"api","error":"invalid_grant: Invalid Refresh Token: Refresh Token Not Found","level":"info","method":"POST","msg":"invalid_grant: Invalid Refresh Token: Refresh Token Not Found","path":"/token","referer":"http://100.126.211.117:3002","remote_addr":"204.119.24.225","request_id":"63550f15-d5e8-4141-87df-ce900a1e93f5","time":"2026-11-12T13:37:56Z"}
 ---LOG_ERROR:condo-sb-storage---
