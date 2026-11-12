@@ -319,8 +319,6 @@ export default function MaintenanceModule() {
               </section>
             </form>
           )}
-            </form>
-          )}
           {assetView === 'list' && (
           <div style={styles.tableWrapper}>
             <table style={{ ...styles.table, minWidth: '700px' }}>
