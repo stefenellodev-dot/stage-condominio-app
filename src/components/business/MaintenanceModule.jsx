@@ -28,6 +28,8 @@ export default function MaintenanceModule() {
   const { t } = useTranslation();
 
   const [tab, setTab] = useState('activos');
+  const [logView, setLogView] = useState('list');
+  const [logView, setLogView] = useState('list');
   const [certView, setCertView] = useState('list');
   const [assetView, setAssetView] = useState('list');
   const [companies, setCompanies] = useState([]);
@@ -449,36 +451,49 @@ export default function MaintenanceModule() {
       {tab === 'bitacora' && (
         <div>
           {canManage && (
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '14px' }}>
+              <button onClick={() => setLogView('form')} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>Nueva mantención</button>
+            </div>
+          )}
+          {logView === 'form' && canManage && (
             <form onSubmit={handleCreateLog} style={{ ...styles.form, marginBottom: '16px' }}>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
-                <select value={logForm.asset_id} onChange={e => setLogForm({ ...logForm, asset_id: e.target.value })} style={styles.select} required>
-                  <option value="">Selecciona activo</option>
-                  {assets.map(a => <option key={a.id} value={a.id}>{a.name}</option>)}
-                </select>
-                <select value={logForm.maintenance_type} onChange={e => setLogForm({ ...logForm, maintenance_type: e.target.value })} style={styles.select}>
-                  {MAINT_TYPES.map(t => <option key={t} value={t}>{t}</option>)}
-                </select>
-              </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '10px', marginTop: '8px' }}>
-                <input type="date" value={logForm.service_date} onChange={e => setLogForm({ ...logForm, service_date: e.target.value })} style={styles.input} />
-                <input placeholder="Técnico" value={logForm.technician_name} onChange={e => setLogForm({ ...logForm, technician_name: e.target.value })} style={styles.input} required />
-                <input placeholder="Proveedor" value={logForm.provider_name} onChange={e => setLogForm({ ...logForm, provider_name: e.target.value })} style={styles.input} required />
-              </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '10px', marginTop: '8px' }}>
-                <input placeholder="RUT proveedor" value={logForm.provider_rut} onChange={e => setLogForm({ ...logForm, provider_rut: e.target.value })} style={styles.input} />
-                <input placeholder="Nº orden de trabajo" value={logForm.work_order_number} onChange={e => setLogForm({ ...logForm, work_order_number: e.target.value })} style={styles.input} />
-                <input placeholder="Costo CLP" type="number" value={logForm.cost_amount} onChange={e => setLogForm({ ...logForm, cost_amount: e.target.value })} style={styles.input} />
-              </div>
-              <div style={{ marginTop: '8px' }}>
-                <textarea placeholder="Tareas realizadas" value={logForm.tasks_performed} onChange={e => setLogForm({ ...logForm, tasks_performed: e.target.value })} style={{ ...styles.input, minHeight: '60px' }} required />
-              </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginTop: '8px' }}>
-                <input placeholder="Repuestos cambiados" value={logForm.parts_replaced} onChange={e => setLogForm({ ...logForm, parts_replaced: e.target.value })} style={styles.input} />
-                <select value={logForm.operational_status_after} onChange={e => setLogForm({ ...logForm, operational_status_after: e.target.value })} style={styles.select}>
-                  {OP_STATUS.map(s => <option key={s} value={s}>{s}</option>)}
-                </select>
-              </div>
-              <button type="submit" disabled={savingLog} style={{ ...styles.button, marginTop: '10px' }}>{savingLog ? 'Guardando…' : 'Registrar mantención'}</button>
+              <section style={styles.sectionBox}>
+                <h4 style={{ margin: '0 0 12px', color: 'var(--primary)' }}>Registrar mantención</h4>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                  <select value={logForm.asset_id} onChange={e => setLogForm({ ...logForm, asset_id: e.target.value })} style={styles.select} required>
+                    <option value="">Selecciona activo</option>
+                    {assets.map(a => <option key={a.id} value={a.id}>{a.name}</option>)}
+                  </select>
+                  <select value={logForm.maintenance_type} onChange={e => setLogForm({ ...logForm, maintenance_type: e.target.value })} style={styles.select}>
+                    {MAINT_TYPES.map(t => <option key={t} value={t}>{t}</option>)}
+                  </select>
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '10px', marginTop: '8px' }}>
+                  <input type="date" value={logForm.service_date} onChange={e => setLogForm({ ...logForm, service_date: e.target.value })} style={styles.input} />
+                  <input placeholder="Técnico" value={logForm.technician_name} onChange={e => setLogForm({ ...logForm, technician_name: e.target.value })} style={styles.input} required />
+                  <input placeholder="Proveedor" value={logForm.provider_name} onChange={e => setLogForm({ ...logForm, provider_name: e.target.value })} style={styles.input} required />
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '10px', marginTop: '8px' }}>
+                  <input placeholder="RUT proveedor" value={logForm.provider_rut} onChange={e => setLogForm({ ...logForm, provider_rut: e.target.value })} style={styles.input} />
+                  <input placeholder="Nº orden de trabajo" value={logForm.work_order_number} onChange={e => setLogForm({ ...logForm, work_order_number: e.target.value })} style={styles.input} />
+                  <input placeholder="Costo CLP" type="number" value={logForm.cost_amount} onChange={e => setLogForm({ ...logForm, cost_amount: e.target.value })} style={styles.input} />
+                </div>
+                <div style={{ marginTop: '8px' }}>
+                  <textarea placeholder="Tareas realizadas" value={logForm.tasks_performed} onChange={e => setLogForm({ ...logForm, tasks_performed: e.target.value })} style={{ ...styles.input, minHeight: '60px' }} required />
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginTop: '8px' }}>
+                  <input placeholder="Repuestos cambiados" value={logForm.parts_replaced} onChange={e => setLogForm({ ...logForm, parts_replaced: e.target.value })} style={styles.input} />
+                  <select value={logForm.operational_status_after} onChange={e => setLogForm({ ...logForm, operational_status_after: e.target.value })} style={styles.select}>
+                    {OP_STATUS.map(s => <option key={s} value={s}>{s}</option>)}
+                  </select>
+                </div>
+                <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
+                  <button type="submit" disabled={savingLog} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>{savingLog ? 'Guardando…' : 'Crear'}</button>
+                  <button type="button" onClick={() => setLogView('list')} style={{ padding: '4px 10px', backgroundColor: 'var(--danger-bg)', color: 'var(--danger-text)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>Cancelar</button>
+                </div>
+              </section>
+            </form>
+          )}
             </form>
           )}
           <div style={styles.tableWrapper}>
