@@ -24,6 +24,7 @@ export default function ConciergeDeskView() {
   const [tab, setTab] = useState('visitas');
   const [pkgView, setPkgView] = useState('list');
   const [logView, setLogView] = useState('list');
+  const [handoverView, setHandoverView] = useState('list');
   const [visitView, setVisitView] = useState('list');
   const [companies, setCompanies] = useState([]);
   const [selectedCompany, setSelectedCompany] = useState('');
@@ -555,10 +556,21 @@ export default function ConciergeDeskView() {
       {tab === 'relevos' && (
         <div>
           {canManage && (
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '14px' }}>
+              {handoverView === 'list' ? (
+                <button onClick={() => setHandoverView('form')} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>Nuevo Relevo</button>
+              ) : (
+                <button onClick={() => setHandoverView('list')} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>Volver a la lista</button>
+              )}
+            </div>
+          )}
+          {handoverView === 'form' && canManage && (
             <form onSubmit={handleCreateHandover} style={{ ...styles.form, marginBottom: '16px' }}>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
-                <div>
-                  <label style={styles.label}>Conserje Saliente</label>
+              <section style={styles.sectionBox}>
+                <h4 style={{ margin: '0 0 12px', color: 'var(--primary)' }}>Registrar relevo</h4>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                  <div>
+                    <label style={styles.label}>Conserje Saliente</label>
                   <select value={handoverForm.outgoing} onChange={e => setHandoverForm({ ...handoverForm, outgoing: e.target.value })} style={styles.select} required>
                     <option value="">Selecciona</option>
                     {staffList.map(s => <option key={s.id} value={s.id}>{s.full_name} ({s.job_title?.replace('_', ' ')})</option>)}
@@ -608,7 +620,11 @@ export default function ConciergeDeskView() {
                 <label style={styles.label}>Observaciones</label>
                 <textarea value={handoverForm.observations} onChange={e => setHandoverForm({ ...handoverForm, observations: e.target.value })} style={{ ...styles.input, minHeight: '60px' }} />
               </div>
-              <button type="submit" disabled={savingHandover} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>{savingHandover ? 'Registrando…' : 'Firmar y Registrar Relevo'}</button>
+              </section>
+            <div style={{ display: 'flex', gap: '8px' }}>
+              <button type="submit" disabled={savingHandover} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>{savingHandover ? 'Registrando…' : 'Firmar y Crear'}</button>
+              <button type="button" onClick={() => setHandoverView('list')} style={{ padding: '4px 10px', backgroundColor: 'var(--danger-bg)', color: 'var(--danger-text)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>Cancelar</button>
+            </div>
             </form>
           )}
           {handovers.length === 0 ? (
