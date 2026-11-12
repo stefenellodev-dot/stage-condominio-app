@@ -221,6 +221,36 @@ export default function ConciergeDeskView() {
           <p style={{ margin: 0, color: 'var(--text-secondary)', fontSize: '13px' }}>Visitas, paquetes y bitácora de guardia.</p>
         </div>
         <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+          <button
+            onClick={() => setTab('visitas')}
+            style={tab === 'visitas' ? { padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' } : { padding: '4px 10px', backgroundColor: 'var(--bg-surface)', color: 'var(--text-main)', border: '1px solid var(--border-subtle)', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}
+          >
+            Visitas
+          </button>
+          <button
+            onClick={() => setTab('paquetes')}
+            style={tab === 'paquetes' ? { padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' } : { padding: '4px 10px', backgroundColor: 'var(--bg-surface)', color: 'var(--text-main)', border: '1px solid var(--border-subtle)', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}
+          >
+            Paquetes
+          </button>
+          <button
+            onClick={() => setTab('libro')}
+            style={tab === 'libro' ? { padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' } : { padding: '4px 10px', backgroundColor: 'var(--bg-surface)', color: 'var(--text-main)', border: '1px solid var(--border-subtle)', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}
+          >
+            Bitácora
+          </button>
+          <button
+            onClick={() => setTab('relevos')}
+            style={tab === 'relevos' ? { padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' } : { padding: '4px 10px', backgroundColor: 'var(--bg-surface)', color: 'var(--text-main)', border: '1px solid var(--border-subtle)', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}
+          >
+            Relevos
+          </button>
+        </div>
+      </div>
+
+      <div style={{ ...styles.sectionBox, marginBottom: '14px' }}>
+        <h4 style={{ margin: '0 0 12px', color: 'var(--primary)' }}>Filtrar</h4>
+        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
           {companies.length > 0 && (
             <select
               value={selectedCompany}
@@ -246,13 +276,6 @@ export default function ConciergeDeskView() {
         </div>
       </div>
 
-      <div style={{ display: 'flex', gap: '6px', marginBottom: '14px', flexWrap: 'wrap' }}>
-        <button style={tabStyle(tab === 'visitas')} onClick={() => setTab('visitas')}>Visitas</button>
-        <button style={tabStyle(tab === 'paquetes')} onClick={() => setTab('paquetes')}>Paquetes</button>
-        <button style={tabStyle(tab === 'libro')} onClick={() => setTab('libro')}>Bitácora</button>
-        <button style={tabStyle(tab === 'relevos')} onClick={() => setTab('relevos')}>Relevos</button>
-      </div>
-
       {loading && <p style={{ color: 'var(--text-dim)' }}>Cargando…</p>}
 
       {tab === 'visitas' && (
@@ -275,7 +298,7 @@ export default function ConciergeDeskView() {
                 <label style={styles.label}>Notas</label>
                 <textarea value={visitForm.notes} onChange={e => setVisitForm({ ...visitForm, notes: e.target.value })} style={{ ...styles.input, minHeight: '80px' }} />
               </div>
-              <button type="submit" disabled={savingVisit} style={{ ...styles.button, marginTop: '10px' }}>{savingVisit ? 'Registrando…' : 'Registrar visita'}</button>
+              <button type="submit" disabled={savingVisit} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>{savingVisit ? 'Registrando…' : 'Registrar visita'}</button>
             </form>
           )}
           {isMobile ? (
@@ -347,7 +370,7 @@ export default function ConciergeDeskView() {
                 </select>
                 <input placeholder="PIN de retiro" value={pkgForm.pickup_pin} onChange={e => setPkgForm({ ...pkgForm, pickup_pin: e.target.value })} style={styles.input} />
               </div>
-              <button type="submit" disabled={savingPkg} style={{ ...styles.button, marginTop: '10px' }}>{savingPkg ? 'Registrando…' : 'Registrar paquete'}</button>
+              <button type="submit" disabled={savingPkg} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>{savingPkg ? 'Registrando…' : 'Registrar paquete'}</button>
             </form>
           )}
           {isMobile ? (
@@ -441,7 +464,7 @@ export default function ConciergeDeskView() {
                 <label style={styles.label}>Descripción</label>
                 <textarea value={logForm.description} onChange={e => setLogForm({ ...logForm, description: e.target.value })} style={{ ...styles.input, minHeight: '80px' }} required />
               </div>
-              <button type="submit" disabled={savingLog} style={{ ...styles.button, marginTop: '10px' }}>{savingLog ? 'Registrando…' : 'Registrar novedad'}</button>
+              <button type="submit" disabled={savingLog} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>{savingLog ? 'Registrando…' : 'Registrar novedad'}</button>
             </form>
           )}
           <div style={styles.tableWrapper}>
@@ -522,7 +545,7 @@ export default function ConciergeDeskView() {
                 <label style={styles.label}>Observaciones</label>
                 <textarea value={handoverForm.observations} onChange={e => setHandoverForm({ ...handoverForm, observations: e.target.value })} style={{ ...styles.input, minHeight: '60px' }} />
               </div>
-              <button type="submit" disabled={savingHandover} style={{ ...styles.button, marginTop: '10px' }}>{savingHandover ? 'Registrando…' : 'Firmar y Registrar Relevo'}</button>
+              <button type="submit" disabled={savingHandover} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>{savingHandover ? 'Registrando…' : 'Firmar y Registrar Relevo'}</button>
             </form>
           )}
           {handovers.length === 0 ? (
