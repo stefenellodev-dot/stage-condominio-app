@@ -275,15 +275,18 @@ export default function AssembliesModule() {
             </form>
           )}
           {asmView === 'list' && (
+            assemblies.length === 0 ? (
+              <div style={{ ...styles.sectionBox, padding: '24px', textAlign: 'center', color: 'var(--text-dim)' }}>
+                Sin asambleas registradas.
+              </div>
+            ) : (
           <div style={styles.tableWrapper}>
             <table style={{ ...styles.table, minWidth: '600px' }}>
               <thead><tr style={styles.thRow}>
                 <th style={styles.th}>Título</th><th style={styles.th}>Tipo</th><th style={styles.th}>Fecha</th><th style={styles.th}>Quórum</th><th style={styles.th}>Estado</th>
               </tr></thead>
               <tbody>
-                {assemblies.length === 0 ? (
-                  <tr><td colSpan="5" style={{ ...styles.td, textAlign: 'center', color: 'var(--text-dim)', padding: '24px' }}>Sin asambleas registradas.</td></tr>
-                ) : assemblies.map(a => (
+                {assemblies.map(a => (
                   <tr key={a.id} style={styles.tr}>
                     <td style={styles.td}>{a.title}</td>
                     <td style={styles.td}>{a.assembly_type}</td>
@@ -295,6 +298,7 @@ export default function AssembliesModule() {
               </tbody>
             </table>
           </div>
+          )
           )}
         </div>
       )}
