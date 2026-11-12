@@ -1,5 +1,5 @@
 # Estado del Sistema: Mac (Código) vs Piave (Despliegue e Infraestructura)
-**Fecha de levantamiento:** 2026-11-12 10:42:14
+**Fecha de levantamiento:** 2026-11-12 10:46:16
 **Servidor Remoto (Infraestructura y Producción):** piave (100.126.211.117)
 **Host Local (Desarrollo):** dstefene1-mac
 
@@ -8,7 +8,7 @@
 ## 1. Servidor Físico Piave (Host y Recursos)
 - **HOSTNAME:** `piave`
 - **KERNEL:** `6.8.0-139-generic`
-- **UPTIME:** `up 7 weeks, 1 day, 21 hours, 0 minutes`
+- **UPTIME:** `up 7 weeks, 1 day, 21 hours, 4 minutes`
 - **DISK_USAGE:** `59G/232G (27% en uso)`
 - **RAM_USAGE:** `2571MB / 7829MB (32.8%)`
 - **PODMAN_VER:** `podman version 4.9.3`
@@ -37,10 +37,10 @@ echo "" >> ""
 | :--- | :--- |
 | **Contenedor Web** | `stage-stage-condominio-app` |
 | **Estado del Contenedor** | `running` |
-| **Último Inicio / Reinicio** | `2026-11-12 13:42:08.962865666 +0000 UTC` |
+| **Último Inicio / Reinicio** | `2026-11-12 13:45:53.310534219 +0000 UTC` |
 | **Veces Reiniciado (Crash count)** | `0` |
 | **Directorio Servido (Web Root)** | `/app/dist` |
-| **Fecha de Compilación en Piave** | `2026-11-12 13:41:45.000000000 +0000` |
+| **Fecha de Compilación en Piave** | `2026-11-12 13:45:27.000000000 +0000` |
 | **Título HTML Desplegado** | `<title>Sistema de Administración de Condominios</title>` |
 | **Respuesta HTTP Puerto :3002** | `200` |
 | **Servidor Web Interno** | `` |
@@ -140,8 +140,8 @@ echo "" >> ""
 10.89.4.5` | Up 44 hours (healthy) | `100.126.211.117:8222->80/tcp` |
 | `fin-engine-brain` | `Up 20 hours
 10.89.0.205` | Up 20 hours | `` |
-| `stage-stage-condominio-app` | `Up 9 seconds (starting)
-10.89.5.215` | Up 9 seconds (starting) | `100.126.211.117:3002->3000/tcp, 127.0.0.1:3002->3000/tcp` |
+| `stage-stage-condominio-app` | `Up 25 seconds (starting)
+10.89.5.217` | Up 25 seconds (starting) | `127.0.0.1:3002->3000/tcp, 100.126.211.117:3002->3000/tcp` |
 
 ---
 
@@ -167,7 +167,7 @@ echo "" >> ""
 ## 6. Código Local en Mac
 - **Ruta:** `/Users/stefenello/development/stage-condominio-app`
 - **Branch Git:** `main`
-- **Último Commit:** `a452a13 - fix: use correct permission names in Maintenance module (2026-11-12 10:41:45 -0300)`
+- **Último Commit:** `e0bba96 - style: move Crear/Cancelar buttons outside card in Maintenance (2026-11-12 10:45:27 -0300)`
 - **Archivos Pendientes de Commit:**
 ```text
 
@@ -181,9 +181,9 @@ echo "" >> ""
 poll error getaddrinfo EAI_AGAIN svc-db
 poll error getaddrinfo EAI_AGAIN svc-db
 ---LOG_ERROR:svc-kong---
-10.89.1.44 - - [12/Nov/2026:13:42:25 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "6082a74e1b0c6b5e6d98e63135dfe20e"
-10.89.1.44 - - [12/Nov/2026:13:42:40 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "6c9e46062fba51723750474d74d8c653"
-10.89.1.44 - - [12/Nov/2026:13:42:55 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "7bb7833b442cf549715375568bbaae0c"
+10.89.1.44 - - [12/Nov/2026:13:46:26 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "bbdb1253eb6891418dfd070bce270e78"
+10.89.1.44 - - [12/Nov/2026:13:46:41 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "9444037f9a1704155b2b8d58814c6a06"
+10.89.1.44 - - [12/Nov/2026:13:46:57 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "1885757574e9ba453d6f184f2da62a0d"
 ---LOG_ERROR:stage-sb-db---
 [local] 2026-11-10 02:04:16.307 UTC [436250] postgres@postgres ERROR:  relation "public.condominiums" does not exist at character 60
 [local] 2026-11-10 02:04:57.450 UTC [436286] postgres@postgres ERROR:  relation "public.condominiums" does not exist at character 22
@@ -195,10 +195,6 @@ poll error getaddrinfo EAI_AGAIN svc-db
 {"level":"warn","module":"rest","proto":"WebSocket","remote":"10.89.5.5:37752","error":"websocket: close 1006 (abnormal closure): unexpected EOF","time":"2026-11-10T17:20:51Z","message":"Socket error"}
 {"level":"warn","module":"rest","proto":"WebSocket","remote":"10.89.5.5:36146","error":"websocket: close 1006 (abnormal closure): unexpected EOF","time":"2026-11-11T21:10:56Z","message":"Socket error"}
 {"level":"warn","module":"rest","proto":"WebSocket","remote":"10.89.5.5:45258","error":"websocket: close 1006 (abnormal closure): unexpected EOF","time":"2026-11-12T01:21:12Z","message":"Socket error"}
----LOG_ERROR:condo-sb-rest---
-12/Nov/2026:13:34:58 +0000: {"code":"PGRST000","details":"could not translate host name \"condo-sb-db\" to address: Try again\n","hint":null,"message":"Database connection error. Retrying the connection."}
-12/Nov/2026:13:35:03 +0000: {"code":"PGRST000","details":"could not translate host name \"condo-sb-db\" to address: Try again\n","hint":null,"message":"Database connection error. Retrying the connection."}
-12/Nov/2026:13:35:03 +0000: {"code":"PGRST000","details":"could not translate host name \"condo-sb-db\" to address: Try again\n","hint":null,"message":"Database connection error. Retrying the connection."}
 ---LOG_ERROR:condo-sb-auth---
 {"component":"api","error":"invalid_grant: Invalid Refresh Token: Refresh Token Not Found","level":"info","method":"POST","msg":"invalid_grant: Invalid Refresh Token: Refresh Token Not Found","path":"/token","referer":"http://100.126.211.117:3002","remote_addr":"204.119.24.225","request_id":"63550f15-d5e8-4141-87df-ce900a1e93f5","time":"2026-11-12T13:37:56Z"}
 ---LOG_ERROR:condo-sb-storage---
