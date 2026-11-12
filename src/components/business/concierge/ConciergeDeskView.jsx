@@ -627,9 +627,11 @@ export default function ConciergeDeskView() {
             </div>
             </form>
           )}
-          {handovers.length === 0 ? (
-            <div style={{ textAlign: 'center', color: 'var(--text-dim)', padding: '24px' }}>Sin relevos registrados.</div>
-          ) : (
+          <div style={{ ...styles.sectionBox, marginBottom: '14px' }}>
+            <h4 style={{ margin: '0 0 12px', color: 'var(--primary)' }}>Relevos registrados</h4>
+            {handovers.length === 0 ? (
+              <div style={{ textAlign: 'center', color: 'var(--text-dim)', padding: '24px' }}>Sin relevos registrados.</div>
+            ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
               {handovers.map(h => (
                 <div key={h.id} style={{ backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)', padding: '14px' }}>
@@ -646,6 +648,7 @@ export default function ConciergeDeskView() {
               ))}
             </div>
           )}
+          </div>
         </div>
       )}
     </div>
