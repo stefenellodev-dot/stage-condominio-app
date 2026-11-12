@@ -393,11 +393,11 @@ export default function MaintenanceModule() {
                   <label style={styles.label}>Documento (PDF, JPG, PNG)</label>
                   <input type="file" accept=".pdf,.jpg,.jpeg,.png" onChange={e => setCertFile(e.target.files[0])} style={styles.input} />
                 </div>
-                <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
-                  <button type="submit" disabled={savingCert} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>{savingCert ? 'Guardando…' : 'Crear'}</button>
-                  <button type="button" onClick={() => setCertView('list')} style={{ padding: '4px 10px', backgroundColor: 'var(--danger-bg)', color: 'var(--danger-text)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>Cancelar</button>
-                </div>
               </section>
+            <div style={{ display: 'flex', gap: '8px' }}>
+              <button type="submit" disabled={savingCert} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>{savingCert ? 'Guardando…' : 'Crear'}</button>
+              <button type="button" onClick={() => setCertView('list')} style={{ padding: '4px 10px', backgroundColor: 'var(--danger-bg)', color: 'var(--danger-text)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>Cancelar</button>
+            </div>
             </form>
           )}
           {certView === 'list' && (
