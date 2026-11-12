@@ -48,7 +48,9 @@ export default function AssembliesModule() {
     (async () => {
       const { data } = await supabase.from('condominiums').select('id,name,management_company_id').eq('management_company_id', selectedCompany).is('deleted_at', null).order('name');
       setCondominiums(data || []);
+      setSelectedAssembly('');
       if (data && data.length) setSelectedCondo(data[0].id);
+      else setSelectedCondo('');
     })();
   }, [selectedCompany]);
 
@@ -204,10 +206,12 @@ export default function AssembliesModule() {
             </select>
           )}
         </div>
-        <select value={selectedAssembly} onChange={e => setSelectedAssembly(e.target.value)} style={{ ...styles.select, minWidth: '300px' }}>
-          <option value="">Selecciona asamblea</option>
-          {assemblies.map(a => <option key={a.id} value={a.id}>{a.title} ({a.status})</option>)}
-        </select>
+        {assemblies.length > 0 && (
+          <select value={selectedAssembly} onChange={e => setSelectedAssembly(e.target.value)} style={{ ...styles.select, minWidth: '300px' }}>
+            <option value="">Selecciona asamblea</option>
+            {assemblies.map(a => <option key={a.id} value={a.id}>{a.title} ({a.status})</option>)}
+          </select>
+        )}
       </div>
 
       {selectedAssembly && selectedAsm && (
