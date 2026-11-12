@@ -303,7 +303,11 @@ export default function AssembliesModule() {
         <div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px', flexWrap: 'wrap', gap: '12px' }}>
             <p style={{ margin: 0, color: 'var(--text-secondary)', fontSize: '13px' }}>Asistentes acreditados: {attendees.length} (quórum {selectedAsm?.current_attendance_aliquot}%)</p>
-            <button onClick={() => setAttendeeView('form')} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>Nueva asistencia</button>
+            {attendeeView === 'list' ? (
+              <button onClick={() => setAttendeeView('form')} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>Nueva asistencia</button>
+            ) : (
+              <button onClick={() => setAttendeeView('list')} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>Volver a la lista</button>
+            )}
           </div>
           {attendeeView === 'form' && (
             <form onSubmit={async (e) => {
@@ -361,6 +365,7 @@ export default function AssembliesModule() {
               </section>
             </form>
           )}
+          {attendeeView === 'list' && (
           <div style={styles.tableWrapper}>
             <table style={{ ...styles.table, minWidth: '600px' }}>
               <thead><tr style={styles.thRow}>
@@ -381,6 +386,7 @@ export default function AssembliesModule() {
               </tbody>
             </table>
           </div>
+          )}
         </div>
       )}
 
