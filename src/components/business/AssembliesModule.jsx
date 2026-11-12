@@ -299,6 +299,11 @@ export default function AssembliesModule() {
         </div>
       )}
 
+      {tab === 'asistencia' && !selectedAssembly && (
+        <div style={{ ...styles.sectionBox, padding: '24px', textAlign: 'center', color: 'var(--text-dim)' }}>
+          Selecciona una asamblea en el filtro para ver los asistentes.
+        </div>
+      )}
       {tab === 'asistencia' && selectedAssembly && (
         <div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px', flexWrap: 'wrap', gap: '12px' }}>
