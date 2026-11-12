@@ -276,12 +276,7 @@ export default function AssembliesModule() {
             </div>
             </form>
           )}
-          {asmView === 'list' && (
-            assemblies.length === 0 ? (
-              <div style={{ ...styles.sectionBox, padding: '24px', textAlign: 'center', color: 'var(--text-dim)' }}>
-                Sin asambleas registradas.
-              </div>
-            ) : (
+          {asmView === 'list' && assemblies.length > 0 && (
           <div style={styles.tableWrapper}>
             <table style={{ ...styles.table, minWidth: '600px' }}>
               <thead><tr style={styles.thRow}>
@@ -392,7 +387,6 @@ export default function AssembliesModule() {
               </tbody>
             </table>
           </div>
-          )}
         </div>
       )}
 
