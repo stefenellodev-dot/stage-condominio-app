@@ -521,11 +521,11 @@ export default function ConciergeDeskView() {
                   <label style={styles.label}>Descripción</label>
                   <textarea value={logForm.description} onChange={e => setLogForm({ ...logForm, description: e.target.value })} style={{ ...styles.input, minHeight: '80px' }} required />
                 </div>
-                <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
-                  <button type="submit" disabled={savingLog} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>{savingLog ? 'Registrando…' : 'Crear'}</button>
-                  <button type="button" onClick={() => setLogView('list')} style={{ padding: '4px 10px', backgroundColor: 'var(--danger-bg)', color: 'var(--danger-text)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>Cancelar</button>
-                </div>
               </section>
+            <div style={{ display: 'flex', gap: '8px' }}>
+              <button type="submit" disabled={savingLog} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>{savingLog ? 'Registrando…' : 'Crear'}</button>
+              <button type="button" onClick={() => setLogView('list')} style={{ padding: '4px 10px', backgroundColor: 'var(--danger-bg)', color: 'var(--danger-text)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>Cancelar</button>
+            </div>
             </form>
           )}
           {logView === 'list' && (
