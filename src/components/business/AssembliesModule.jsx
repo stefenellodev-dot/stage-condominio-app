@@ -209,14 +209,6 @@ export default function AssembliesModule() {
         </div>
       </div>
 
-      <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '14px' }}>
-        {asmView === 'list' ? (
-          <button onClick={() => setAsmView('form')} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>Nueva asamblea</button>
-        ) : (
-          <button onClick={() => setAsmView('list')} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>Volver a la lista</button>
-        )}
-      </div>
-
       {loading && <p style={{ color: 'var(--text-dim)' }}>Cargando…</p>}
 
       {tab === 'asambleas' && (
@@ -257,6 +249,7 @@ export default function AssembliesModule() {
               </section>
             </form>
           )}
+          {asmView === 'list' && (
           <div style={styles.tableWrapper}>
             <table style={{ ...styles.table, minWidth: '600px' }}>
               <thead><tr style={styles.thRow}>
@@ -277,6 +270,7 @@ export default function AssembliesModule() {
               </tbody>
             </table>
           </div>
+          )}
         </div>
       )}
 
