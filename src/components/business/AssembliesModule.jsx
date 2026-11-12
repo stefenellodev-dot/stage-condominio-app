@@ -23,6 +23,7 @@ export default function AssembliesModule() {
   const [selectedCondo, setSelectedCondo] = useState('');
   const [assemblies, setAssemblies] = useState([]);
   const [selectedAssembly, setSelectedAssembly] = useState('');
+  const [asmView, setAsmView] = useState('list');
   const [topics, setTopics] = useState([]);
   const [attendees, setAttendees] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -206,44 +207,57 @@ export default function AssembliesModule() {
             </select>
           )}
         </div>
-        {assemblies.length > 0 && (
-          <select value={selectedAssembly} onChange={e => setSelectedAssembly(e.target.value)} style={{ ...styles.select, minWidth: '300px' }}>
-            <option value="">Selecciona asamblea</option>
-            {assemblies.map(a => <option key={a.id} value={a.id}>{a.title} ({a.status})</option>)}
-          </select>
-        )}
+        </div>
       </div>
 
-      {selectedAssembly && selectedAsm && (
-        <div style={{ display: 'flex', gap: '16px', marginBottom: '14px', flexWrap: 'wrap', fontSize: '13px' }}>
-          <span>Quórum: <strong>{selectedAsm.current_attendance_aliquot}%</strong> {selectedAsm.is_quorum_reached ? '✅' : '❌'}</span>
-          <span>Estado: <strong>{selectedAsm.status}</strong></span>
-          {selectedAsm.video_conference_url && <a href={selectedAsm.video_conference_url} target="_blank" rel="noreferrer" style={{ color: 'var(--primary)' }}>Enlace telemático</a>}
-        </div>
-      )}
+      <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '14px' }}>
+        {asmView === 'list' ? (
+          <button onClick={() => setAsmView('form')} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>Nueva asamblea</button>
+        ) : (
+          <button onClick={() => setAsmView('list')} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>Volver a la lista</button>
+        )}
+      </div>
 
       {loading && <p style={{ color: 'var(--text-dim)' }}>Cargando…</p>}
 
       {tab === 'asambleas' && (
         <div>
           {canManage && (
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '14px' }}>
+              {asmView === 'list' ? (
+                <button onClick={() => setAsmView('form')} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>Nueva asamblea</button>
+              ) : (
+                <button onClick={() => setAsmView('list')} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>Volver a la lista</button>
+              )}
+            </div>
+          )}
+          {asmView === 'form' && canManage && (
             <form onSubmit={handleCreateAssembly} style={{ ...styles.form, marginBottom: '16px' }}>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
-                <input placeholder="Título de la asamblea" value={asmForm.title} onChange={e => setAsmForm({ ...asmForm, title: e.target.value })} style={styles.input} required />
-                <select value={asmForm.assembly_type} onChange={e => setAsmForm({ ...asmForm, assembly_type: e.target.value })} style={styles.select}>
-                  {ASSEMBLY_TYPES.map(t => <option key={t} value={t}>{t}</option>)}
-                </select>
-              </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '10px', marginTop: '8px' }}>
-                <input type="date" value={asmForm.scheduled_date} onChange={e => setAsmForm({ ...asmForm, scheduled_date: e.target.value })} style={styles.input} required />
-                <input placeholder="Primera citación (HH:MM)" value={asmForm.first_call_time} onChange={e => setAsmForm({ ...asmForm, first_call_time: e.target.value })} style={styles.input} />
-                <input placeholder="Segunda citación (HH:MM)" value={asmForm.second_call_time} onChange={e => setAsmForm({ ...asmForm, second_call_time: e.target.value })} style={styles.input} />
-              </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginTop: '8px' }}>
-                <input placeholder="Enlace telemático (Zoom/Meet)" value={asmForm.video_conference_url} onChange={e => setAsmForm({ ...asmForm, video_conference_url: e.target.value })} style={styles.input} />
-                <input placeholder="Lugar" value={asmForm.location} onChange={e => setAsmForm({ ...asmForm, location: e.target.value })} style={styles.input} />
-              </div>
-              <button type="submit" disabled={savingAsm} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>{savingAsm ? 'Guardando…' : 'Crear asamblea'}</button>
+              <section style={styles.sectionBox}>
+                <h4 style={{ margin: '0 0 12px', color: 'var(--primary)' }}>Registrar asamblea</h4>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                  <input placeholder="Título de la asamblea" value={asmForm.title} onChange={e => setAsmForm({ ...asmForm, title: e.target.value })} style={styles.input} required />
+                  <select value={asmForm.assembly_type} onChange={e => setAsmForm({ ...asmForm, assembly_type: e.target.value })} style={styles.select}>
+                    <option value="ordinaria">Ordinaria</option>
+                    <option value="extraordinaria">Extraordinaria</option>
+                  </select>
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '10px', marginTop: '8px' }}>
+                  <input type="date" value={asmForm.scheduled_date} onChange={e => setAsmForm({ ...asmForm, scheduled_date: e.target.value })} style={styles.input} required />
+                  <input placeholder="Primera citación (HH:MM)" value={asmForm.first_call_time} onChange={e => setAsmForm({ ...asmForm, first_call_time: e.target.value })} style={styles.input} />
+                  <input placeholder="Segunda citación (HH:MM)" value={asmForm.second_call_time} onChange={e => setAsmForm({ ...asmForm, second_call_time: e.target.value })} style={styles.input} />
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginTop: '8px' }}>
+                  <input placeholder="Enlace telemático (Zoom/Meet)" value={asmForm.video_conference_url} onChange={e => setAsmForm({ ...asmForm, video_conference_url: e.target.value })} style={styles.input} />
+                  <input placeholder="Lugar" value={asmForm.location} onChange={e => setAsmForm({ ...asmForm, location: e.target.value })} style={styles.input} />
+                </div>
+                <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
+                  <button type="submit" disabled={savingAsm} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>{savingAsm ? 'Guardando…' : 'Crear'}</button>
+                  <button type="button" onClick={() => setAsmView('list')} style={{ padding: '4px 10px', backgroundColor: 'var(--danger-bg)', color: 'var(--danger-text)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>Cancelar</button>
+                </div>
+              </section>
+            </form>
+          )}
             </form>
           )}
           <div style={styles.tableWrapper}>
