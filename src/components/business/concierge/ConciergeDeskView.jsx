@@ -55,11 +55,21 @@ export default function ConciergeDeskView() {
   }, []);
 
   useEffect(() => {
-    if (!selectedCompany) return;
+    if (!selectedCompany) {
+      setCondominiums([]);
+      setSelectedCondo('');
+      setUnits([]);
+      return;
+    }
     (async () => {
       const { data } = await supabase.from('condominiums').select('id,name,rut,management_company_id').eq('management_company_id', selectedCompany).is('deleted_at', null).order('name');
       setCondominiums(data || []);
-      if (data && data.length) setSelectedCondo(data[0].id);
+      if (data && data.length) {
+        setSelectedCondo(data[0].id);
+      } else {
+        setSelectedCondo('');
+        setUnits([]);
+      }
     })();
   }, [selectedCompany]);
 
@@ -73,7 +83,10 @@ export default function ConciergeDeskView() {
   };
 
   const loadUnits = async () => {
-    if (!selectedCondo) return;
+    if (!selectedCondo) {
+      setUnits([]);
+      return;
+    }
     const { data } = await supabase.from('units').select('id, unit_number, condominium_id').eq('condominium_id', selectedCondo).is('deleted_at', null).order('unit_number');
     setUnits(data || []);
   };
