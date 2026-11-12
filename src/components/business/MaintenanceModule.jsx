@@ -28,6 +28,8 @@ export default function MaintenanceModule() {
   const { t } = useTranslation();
 
   const [tab, setTab] = useState('activos');
+  const [certView, setCertView] = useState('list');
+  const [certView, setCertView] = useState('list');
   const [assetView, setAssetView] = useState('list');
   const [companies, setCompanies] = useState([]);
   const [selectedCompany, setSelectedCompany] = useState('');
@@ -348,42 +350,60 @@ export default function MaintenanceModule() {
       {tab === 'certificaciones' && (
         <div>
           {canManage && (
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '14px' }}>
+              {certView === 'list' ? (
+                <button onClick={() => setCertView('form')} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>Nueva Certificación</button>
+              ) : (
+                <button onClick={() => setCertView('list')} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>Volver a la lista</button>
+              )}
+            </div>
+          )}
+          {certView === 'form' && canManage && (
             <form onSubmit={handleCreateCert} style={{ ...styles.form, marginBottom: '16px' }}>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
-                <select value={certForm.asset_id} onChange={e => setCertForm({ ...certForm, asset_id: e.target.value })} style={styles.select}>
-                  <option value="">Activo (opcional)</option>
-                  {assets.map(a => <option key={a.id} value={a.id}>{a.name}</option>)}
-                </select>
-                <select value={certForm.certification_type} onChange={e => setCertForm({ ...certForm, certification_type: e.target.value })} style={styles.select}>
-                  {CERT_TYPES.map(c => <option key={c} value={c}>{c}</option>)}
-                </select>
-              </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '10px', marginTop: '8px' }}>
-                <input placeholder="Nº certificado/folio" value={certForm.certificate_number} onChange={e => setCertForm({ ...certForm, certificate_number: e.target.value })} style={styles.input} required />
-                <input placeholder="Entidad emisora" value={certForm.issuing_entity} onChange={e => setCertForm({ ...certForm, issuing_entity: e.target.value })} style={styles.input} required />
-                <input placeholder="Empresa certificadora" value={certForm.certifying_company_name} onChange={e => setCertForm({ ...certForm, certifying_company_name: e.target.value })} style={styles.input} required />
-              </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginTop: '8px' }}>
-                <input placeholder="RUT certificadora" value={certForm.certifying_company_rut} onChange={e => setCertForm({ ...certForm, certifying_company_rut: e.target.value })} style={styles.input} required />
-                <input placeholder="Inspector" value={certForm.inspector_name} onChange={e => setCertForm({ ...certForm, inspector_name: e.target.value })} style={styles.input} />
-              </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '10px', marginTop: '8px' }}>
-                <input type="date" value={certForm.inspection_date} onChange={e => setCertForm({ ...certForm, inspection_date: e.target.value })} style={styles.input} required />
-                <input type="date" value={certForm.expiration_date} onChange={e => setCertForm({ ...certForm, expiration_date: e.target.value })} style={styles.input} required />
-                <select value={certForm.seal_result} onChange={e => setCertForm({ ...certForm, seal_result: e.target.value })} style={styles.select}>
-                  {SEAL_RESULTS.map(s => <option key={s} value={s}>{s}</option>)}
-                </select>
-              </div>
-              <div style={{ marginTop: '8px' }}>
-                <input placeholder="Observaciones" value={certForm.observations} onChange={e => setCertForm({ ...certForm, observations: e.target.value })} style={styles.input} />
-              </div>
-              <div style={{ marginTop: '8px' }}>
-                <label style={styles.label}>Documento (PDF, JPG, PNG)</label>
-                <input type="file" accept=".pdf,.jpg,.jpeg,.png" onChange={e => setCertFile(e.target.files[0])} style={styles.input} />
-              </div>
-              <button type="submit" disabled={savingCert} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>{savingCert ? 'Guardando…' : 'Registrar certificación'}</button>
+              <section style={styles.sectionBox}>
+                <h4 style={{ margin: '0 0 12px', color: 'var(--primary)' }}>Registrar certificación</h4>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                  <select value={certForm.asset_id} onChange={e => setCertForm({ ...certForm, asset_id: e.target.value })} style={styles.select}>
+                    <option value="">Activo (opcional)</option>
+                    {assets.map(a => <option key={a.id} value={a.id}>{a.name}</option>)}
+                  </select>
+                  <select value={certForm.certification_type} onChange={e => setCertForm({ ...certForm, certification_type: e.target.value })} style={styles.select}>
+                    {CERT_TYPES.map(c => <option key={c} value={c}>{c}</option>)}
+                  </select>
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '10px', marginTop: '8px' }}>
+                  <input placeholder="Nº certificado/folio" value={certForm.certificate_number} onChange={e => setCertForm({ ...certForm, certificate_number: e.target.value })} style={styles.input} required />
+                  <input placeholder="Entidad emisora" value={certForm.issuing_entity} onChange={e => setCertForm({ ...certForm, issuing_entity: e.target.value })} style={styles.input} required />
+                  <input placeholder="Empresa certificadora" value={certForm.certifying_company_name} onChange={e => setCertForm({ ...certForm, certifying_company_name: e.target.value })} style={styles.input} required />
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginTop: '8px' }}>
+                  <input placeholder="RUT certificadora" value={certForm.certifying_company_rut} onChange={e => setCertForm({ ...certForm, certifying_company_rut: e.target.value })} style={styles.input} required />
+                  <input placeholder="Inspector" value={certForm.inspector_name} onChange={e => setCertForm({ ...certForm, inspector_name: e.target.value })} style={styles.input} />
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '10px', marginTop: '8px' }}>
+                  <input type="date" value={certForm.inspection_date} onChange={e => setCertForm({ ...certForm, inspection_date: e.target.value })} style={styles.input} required />
+                  <input type="date" value={certForm.expiration_date} onChange={e => setCertForm({ ...certForm, expiration_date: e.target.value })} style={styles.input} required />
+                  <select value={certForm.seal_result} onChange={e => setCertForm({ ...certForm, seal_result: e.target.value })} style={styles.select}>
+                    {SEAL_RESULTS.map(s => <option key={s} value={s}>{s}</option>)}
+                  </select>
+                </div>
+                <div style={{ marginTop: '8px' }}>
+                  <input placeholder="Observaciones" value={certForm.observations} onChange={e => setCertForm({ ...certForm, observations: e.target.value })} style={styles.input} />
+                </div>
+                <div style={{ marginTop: '8px' }}>
+                  <label style={styles.label}>Documento (PDF, JPG, PNG)</label>
+                  <input type="file" accept=".pdf,.jpg,.jpeg,.png" onChange={e => setCertFile(e.target.files[0])} style={styles.input} />
+                </div>
+                <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
+                  <button type="submit" disabled={savingCert} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>{savingCert ? 'Guardando…' : 'Crear'}</button>
+                  <button type="button" onClick={() => setCertView('list')} style={{ padding: '4px 10px', backgroundColor: 'var(--danger-bg)', color: 'var(--danger-text)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>Cancelar</button>
+                </div>
+              </section>
             </form>
           )}
+            </form>
+          )}
+          {certView === 'list' && (
           <div style={styles.tableWrapper}>
             <table style={{ ...styles.table, minWidth: '900px' }}>
               <thead><tr style={styles.thRow}>
@@ -425,6 +445,7 @@ export default function MaintenanceModule() {
               </tbody>
             </table>
           </div>
+          )}
         </div>
       )}
 
