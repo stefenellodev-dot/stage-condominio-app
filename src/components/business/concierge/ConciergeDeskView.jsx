@@ -22,6 +22,7 @@ export default function ConciergeDeskView() {
   const canManage = can('create_visit') || can('create_parcel') || can('create_log');
 
   const [tab, setTab] = useState('visitas');
+  const [pkgView, setPkgView] = useState('list');
   const [visitView, setVisitView] = useState('list');
   const [companies, setCompanies] = useState([]);
   const [selectedCompany, setSelectedCompany] = useState('');
@@ -379,27 +380,42 @@ export default function ConciergeDeskView() {
       {tab === 'paquetes' && (
         <div>
           {canManage && (
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '14px' }}>
+              {pkgView === 'list' ? (
+                <button onClick={() => setPkgView('form')} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>Nuevo paquete</button>
+              ) : (
+                <button onClick={() => setPkgView('list')} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>Volver a la lista</button>
+              )}
+            </div>
+          )}
+          {pkgView === 'form' && canManage && (
             <form onSubmit={handleCreateParcel} style={{ ...styles.form, marginBottom: '16px' }}>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
-                <select value={pkgForm.unit_id} onChange={e => setPkgForm({ ...pkgForm, unit_id: e.target.value })} style={styles.select} required>
-                  <option value="">Selecciona unidad</option>
-                  {units.map(u => <option key={u.id} value={u.id}>{u.unit_number}</option>)}
-                </select>
-                <input placeholder="Nº guía/tracking" value={pkgForm.tracking_number} onChange={e => setPkgForm({ ...pkgForm, tracking_number: e.target.value })} style={styles.input} required />
-              </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '10px', marginTop: '8px' }}>
-                <select value={pkgForm.carrier} onChange={e => setPkgForm({ ...pkgForm, carrier: e.target.value })} style={styles.select}>
-                  <option value="chilexpress">Chilexpress</option>
-                  <option value="starken">Starken</option>
-                  <option value="blue_express">Blue Express</option>
-                  <option value="mercado_libre">Mercado Libre</option>
-                  <option value="correos_chile">Correos Chile</option>
-                  <option value="pedidos_ya">Pedidos Ya</option>
-                  <option value="otro">Otro</option>
-                </select>
-                <input placeholder="PIN de retiro" value={pkgForm.pickup_pin} onChange={e => setPkgForm({ ...pkgForm, pickup_pin: e.target.value })} style={styles.input} />
-              </div>
-              <button type="submit" disabled={savingPkg} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>{savingPkg ? 'Registrando…' : 'Registrar paquete'}</button>
+              <section style={styles.sectionBox}>
+                <h4 style={{ margin: '0 0 12px', color: 'var(--primary)' }}>Registrar paquete</h4>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                  <select value={pkgForm.unit_id} onChange={e => setPkgForm({ ...pkgForm, unit_id: e.target.value })} style={styles.select} required>
+                    <option value="">Selecciona unidad</option>
+                    {units.filter(u => !selectedCondo || selectedCondo === 'all' || u.condominium_id === selectedCondo).map(u => <option key={u.id} value={u.id}>{u.unit_number}</option>)}
+                  </select>
+                  <input placeholder="Nº guía/tracking" value={pkgForm.tracking_number} onChange={e => setPkgForm({ ...pkgForm, tracking_number: e.target.value })} style={styles.input} required />
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '10px', marginTop: '8px' }}>
+                  <select value={pkgForm.carrier} onChange={e => setPkgForm({ ...pkgForm, carrier: e.target.value })} style={styles.select}>
+                    <option value="chilexpress">Chilexpress</option>
+                    <option value="starken">Starken</option>
+                    <option value="blue_express">Blue Express</option>
+                    <option value="mercado_libre">Mercado Libre</option>
+                    <option value="correos_chile">Correos Chile</option>
+                    <option value="pedidos_ya">Pedidos Ya</option>
+                    <option value="otro">Otro</option>
+                  </select>
+                  <input placeholder="PIN de retiro" value={pkgForm.pickup_pin} onChange={e => setPkgForm({ ...pkgForm, pickup_pin: e.target.value })} style={styles.input} />
+                </div>
+                <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
+                  <button type="submit" disabled={savingPkg} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>{savingPkg ? 'Registrando…' : 'Crear'}</button>
+                  <button type="button" onClick={() => setPkgView('list')} style={{ padding: '4px 10px', backgroundColor: 'var(--danger-bg)', color: 'var(--danger-text)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>Cancelar</button>
+                </div>
+              </section>
             </form>
           )}
           {isMobile ? (
