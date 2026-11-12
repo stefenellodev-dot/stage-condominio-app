@@ -22,6 +22,7 @@ export default function ConciergeDeskView() {
   const canManage = can('create_visit') || can('create_parcel') || can('create_log');
 
   const [tab, setTab] = useState('visitas');
+  const [visitView, setVisitView] = useState('list');
   const [companies, setCompanies] = useState([]);
   const [selectedCompany, setSelectedCompany] = useState('');
   const [condominiums, setCondominiums] = useState([]);
@@ -281,6 +282,15 @@ export default function ConciergeDeskView() {
       {tab === 'visitas' && (
         <div>
           {canManage && (
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '14px' }}>
+              {visitView === 'list' ? (
+                <button onClick={() => setVisitView('form')} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>Nueva visita</button>
+              ) : (
+                <button onClick={() => setVisitView('list')} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>Volver a la lista</button>
+              )}
+            </div>
+          )}
+          {visitView === 'form' && canManage && (
             <form onSubmit={handleCreateVisit} style={{ ...styles.form, marginBottom: '16px' }}>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
                 <select value={visitForm.unit_id} onChange={e => setVisitForm({ ...visitForm, unit_id: e.target.value })} style={styles.select} required>
@@ -298,7 +308,10 @@ export default function ConciergeDeskView() {
                 <label style={styles.label}>Notas</label>
                 <textarea value={visitForm.notes} onChange={e => setVisitForm({ ...visitForm, notes: e.target.value })} style={{ ...styles.input, minHeight: '80px' }} />
               </div>
-              <button type="submit" disabled={savingVisit} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>{savingVisit ? 'Registrando…' : 'Registrar visita'}</button>
+              <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
+                <button type="submit" disabled={savingVisit} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>{savingVisit ? 'Registrando…' : 'Crear'}</button>
+                <button type="button" onClick={() => setVisitView('list')} style={{ padding: '4px 10px', backgroundColor: 'var(--danger-bg)', color: 'var(--danger-text)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>Cancelar</button>
+              </div>
             </form>
           )}
           {isMobile ? (
