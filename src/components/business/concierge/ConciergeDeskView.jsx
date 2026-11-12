@@ -418,7 +418,7 @@ export default function ConciergeDeskView() {
               </section>
             </form>
           )}
-          {isMobile ? (
+          {pkgView === 'list' && (isMobile ? (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
               {parcels.length === 0 ? (
                 <div style={{ textAlign: 'center', color: 'var(--text-dim)', padding: '24px' }}>Sin paquetes registrados.</div>
@@ -464,7 +464,7 @@ export default function ConciergeDeskView() {
               </tbody>
             </table>
           </div>
-          )}
+          ))}
         </div>
       )}
 
