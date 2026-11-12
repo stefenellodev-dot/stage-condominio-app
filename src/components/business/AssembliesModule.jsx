@@ -151,6 +151,36 @@ export default function AssembliesModule() {
           <p style={{ margin: 0, color: 'var(--text-secondary)', fontSize: '13px' }}>Convocatoria, quórum, votación y actas (Ley 21.442).</p>
         </div>
         <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+          <button
+            onClick={() => setTab('asambleas')}
+            style={tab === 'asambleas' ? { padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' } : { padding: '4px 10px', backgroundColor: 'var(--bg-surface)', color: 'var(--text-main)', border: '1px solid var(--border-subtle)', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}
+          >
+            Asambleas
+          </button>
+          <button
+            onClick={() => setTab('asistencia')}
+            style={tab === 'asistencia' ? { padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' } : { padding: '4px 10px', backgroundColor: 'var(--bg-surface)', color: 'var(--text-main)', border: '1px solid var(--border-subtle)', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}
+          >
+            Asistencia
+          </button>
+          <button
+            onClick={() => setTab('votacion')}
+            style={tab === 'votacion' ? { padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' } : { padding: '4px 10px', backgroundColor: 'var(--bg-surface)', color: 'var(--text-main)', border: '1px solid var(--border-subtle)', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}
+          >
+            Votación
+          </button>
+          <button
+            onClick={() => setTab('acta')}
+            style={tab === 'acta' ? { padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' } : { padding: '4px 10px', backgroundColor: 'var(--bg-surface)', color: 'var(--text-main)', border: '1px solid var(--border-subtle)', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}
+          >
+            Acta
+          </button>
+        </div>
+      </div>
+
+      <div style={{ ...styles.sectionBox, marginBottom: '14px' }}>
+        <h4 style={{ margin: '0 0 12px', color: 'var(--primary)' }}>Filtrar</h4>
+        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '10px' }}>
           {companies.length > 0 && (
             <select
               value={selectedCompany}
@@ -174,10 +204,7 @@ export default function AssembliesModule() {
             </select>
           )}
         </div>
-      </div>
-
-      <div style={{ display: 'flex', gap: '8px', marginBottom: '14px', flexWrap: 'wrap' }}>
-        <select value={selectedAssembly} onChange={e => setSelectedAssembly(e.target.value)} style={styles.select}>
+        <select value={selectedAssembly} onChange={e => setSelectedAssembly(e.target.value)} style={{ ...styles.select, minWidth: '300px' }}>
           <option value="">Selecciona asamblea</option>
           {assemblies.map(a => <option key={a.id} value={a.id}>{a.title} ({a.status})</option>)}
         </select>
@@ -190,13 +217,6 @@ export default function AssembliesModule() {
           {selectedAsm.video_conference_url && <a href={selectedAsm.video_conference_url} target="_blank" rel="noreferrer" style={{ color: 'var(--primary)' }}>Enlace telemático</a>}
         </div>
       )}
-
-      <div style={{ display: 'flex', gap: '6px', marginBottom: '14px' }}>
-        <button style={tabStyle(tab === 'asambleas')} onClick={() => setTab('asambleas')}>Asambleas</button>
-        <button style={tabStyle(tab === 'asistencia')} onClick={() => setTab('asistencia')}>Asistencia</button>
-        <button style={tabStyle(tab === 'votacion')} onClick={() => setTab('votacion')}>Votación</button>
-        <button style={tabStyle(tab === 'acta')} onClick={() => setTab('acta')}>Acta</button>
-      </div>
 
       {loading && <p style={{ color: 'var(--text-dim)' }}>Cargando…</p>}
 
@@ -219,7 +239,7 @@ export default function AssembliesModule() {
                 <input placeholder="Enlace telemático (Zoom/Meet)" value={asmForm.video_conference_url} onChange={e => setAsmForm({ ...asmForm, video_conference_url: e.target.value })} style={styles.input} />
                 <input placeholder="Lugar" value={asmForm.location} onChange={e => setAsmForm({ ...asmForm, location: e.target.value })} style={styles.input} />
               </div>
-              <button type="submit" disabled={savingAsm} style={{ ...styles.button, marginTop: '10px' }}>{savingAsm ? 'Guardando…' : 'Crear asamblea'}</button>
+              <button type="submit" disabled={savingAsm} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>{savingAsm ? 'Guardando…' : 'Crear asamblea'}</button>
             </form>
           )}
           <div style={styles.tableWrapper}>
