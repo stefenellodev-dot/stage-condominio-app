@@ -22,8 +22,8 @@ const statusColor = (s) => s === 'active' ? 'var(--success-text)' : s === 'warni
 
 export default function MaintenanceModule() {
   const { isSuperadmin, isAdmin } = useAuth();
-  const { canCreate, canEdit } = usePermissions('maintenance');
-  const canManage = canCreate || canEdit;
+  const { can } = usePermissions('maintenance');
+  const canManage = can('create_asset') || can('create_cert') || can('create_log');
   const { showSuccess, showError } = useToast();
   const { t } = useTranslation();
 
