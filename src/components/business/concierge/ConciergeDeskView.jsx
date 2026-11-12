@@ -292,29 +292,32 @@ export default function ConciergeDeskView() {
           )}
           {visitView === 'form' && canManage && (
             <form onSubmit={handleCreateVisit} style={{ ...styles.form, marginBottom: '16px' }}>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
-                <select value={visitForm.unit_id} onChange={e => setVisitForm({ ...visitForm, unit_id: e.target.value })} style={styles.select} required>
-                  <option value="">Selecciona unidad</option>
-                  {units.map(u => <option key={u.id} value={u.id}>{u.unit_number}</option>)}
-                </select>
-                <input placeholder="Visitante" value={visitForm.visitor_name} onChange={e => setVisitForm({ ...visitForm, visitor_name: e.target.value })} style={styles.input} required />
-              </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginTop: '8px' }}>
-                <input placeholder="Vehículo (opcional)" value={visitForm.vehicle_plate} onChange={e => setVisitForm({ ...visitForm, vehicle_plate: e.target.value })} style={styles.input} />
-                <input placeholder="RUT (opcional)" value={visitForm.visitor_rut} onChange={e => setVisitForm({ ...visitForm, visitor_rut: e.target.value })} style={styles.input} />
-                <input placeholder="Estacionamiento (opcional)" value={visitForm.parking_spot} onChange={e => setVisitForm({ ...visitForm, parking_spot: e.target.value })} style={styles.input} />
-              </div>
-              <div style={{ marginTop: '8px' }}>
-                <label style={styles.label}>Notas</label>
-                <textarea value={visitForm.notes} onChange={e => setVisitForm({ ...visitForm, notes: e.target.value })} style={{ ...styles.input, minHeight: '80px' }} />
-              </div>
-              <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
-                <button type="submit" disabled={savingVisit} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>{savingVisit ? 'Registrando…' : 'Crear'}</button>
-                <button type="button" onClick={() => setVisitView('list')} style={{ padding: '4px 10px', backgroundColor: 'var(--danger-bg)', color: 'var(--danger-text)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>Cancelar</button>
-              </div>
+              <section style={styles.sectionBox}>
+                <h4 style={{ margin: '0 0 12px', color: 'var(--primary)' }}>Registrar visita</h4>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                  <select value={visitForm.unit_id} onChange={e => setVisitForm({ ...visitForm, unit_id: e.target.value })} style={styles.select} required>
+                    <option value="">Selecciona unidad</option>
+                    {units.filter(u => !selectedCondo || selectedCondo === 'all' || u.condominium_id === selectedCondo).map(u => <option key={u.id} value={u.id}>{u.unit_number}</option>)}
+                  </select>
+                  <input placeholder="Visitante" value={visitForm.visitor_name} onChange={e => setVisitForm({ ...visitForm, visitor_name: e.target.value })} style={styles.input} required />
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginTop: '8px' }}>
+                  <input placeholder="Vehículo (opcional)" value={visitForm.vehicle_plate} onChange={e => setVisitForm({ ...visitForm, vehicle_plate: e.target.value })} style={styles.input} />
+                  <input placeholder="RUT (opcional)" value={visitForm.visitor_rut} onChange={e => setVisitForm({ ...visitForm, visitor_rut: e.target.value })} style={styles.input} />
+                  <input placeholder="Estacionamiento (opcional)" value={visitForm.parking_spot} onChange={e => setVisitForm({ ...visitForm, parking_spot: e.target.value })} style={styles.input} />
+                </div>
+                <div style={{ marginTop: '8px' }}>
+                  <label style={styles.label}>Notas</label>
+                  <textarea value={visitForm.notes} onChange={e => setVisitForm({ ...visitForm, notes: e.target.value })} style={{ ...styles.input, minHeight: '80px' }} />
+                </div>
+                <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
+                  <button type="submit" disabled={savingVisit} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>{savingVisit ? 'Registrando…' : 'Crear'}</button>
+                  <button type="button" onClick={() => setVisitView('list')} style={{ padding: '4px 10px', backgroundColor: 'var(--danger-bg)', color: 'var(--danger-text)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>Cancelar</button>
+                </div>
+              </section>
             </form>
           )}
-          {isMobile ? (
+          {visitView === 'list' && (isMobile ? (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
               {visits.length === 0 ? (
                 <div style={{ textAlign: 'center', color: 'var(--text-dim)', padding: '24px' }}>Sin visitas registradas.</div>
@@ -356,7 +359,7 @@ export default function ConciergeDeskView() {
               </tbody>
             </table>
           </div>
-          )}
+          ))}
         </div>
       )}
 
