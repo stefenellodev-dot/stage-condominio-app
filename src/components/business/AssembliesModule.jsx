@@ -317,7 +317,18 @@ export default function AssembliesModule() {
                 aliquot_represented: attendeeForm.aliquot,
               });
               if (error) { showError(error.message); }
-              else { showSuccess('Asistente registrado'); setAttendeeView('list'); setAttendeeForm({ unit_id: '', user_id: '', attendee_type: 'owner', aliquot: 5 }); }
+              else { 
+                showSuccess('Asistente registrado'); 
+                setAttendeeView('list'); 
+                setAttendeeForm({ unit_id: '', user_id: '', attendee_type: 'owner', aliquot: 5 });
+                // Reload attendees
+                const { data: a } = await supabase
+                  .from('assembly_attendees')
+                  .select('id, unit_id, user_id, attendee_type, aliquot_represented, check_in_time, is_verified, units(unit_number), profiles(full_name, email)')
+                  .eq('assembly_id', selectedAssembly)
+                  .order('check_in_time');
+                setAttendees(a || []);
+              }
               setSavingAttendee(false);
             }} style={{ ...styles.form, marginBottom: '16px' }}>
               <section style={styles.sectionBox}>
