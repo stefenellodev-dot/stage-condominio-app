@@ -23,6 +23,7 @@ export default function ConciergeDeskView() {
 
   const [tab, setTab] = useState('visitas');
   const [pkgView, setPkgView] = useState('list');
+  const [logView, setLogView] = useState('list');
   const [visitView, setVisitView] = useState('list');
   const [companies, setCompanies] = useState([]);
   const [selectedCompany, setSelectedCompany] = useState('');
@@ -487,31 +488,47 @@ export default function ConciergeDeskView() {
             </div>
           )}
           {canManage && (
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '14px' }}>
+              {logView === 'list' ? (
+                <button onClick={() => setLogView('form')} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>Nueva novedad</button>
+              ) : (
+                <button onClick={() => setLogView('list')} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>Volver a la lista</button>
+              )}
+            </div>
+          )}
+          {logView === 'form' && canManage && (
             <form onSubmit={handleCreateLog} style={{ ...styles.form, marginBottom: '16px' }}>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
-                <select value={logForm.shift} onChange={e => setLogForm({ ...logForm, shift: e.target.value })} style={styles.select}>
-                  <option value="morning">Mañana</option>
-                  <option value="afternoon">Tarde</option>
-                  <option value="night">Noche</option>
-                </select>
-                <select value={logForm.entry_type} onChange={e => setLogForm({ ...logForm, entry_type: e.target.value })} style={styles.select}>
-                  <option value="rutina">Rutina</option>
-                  <option value="espacios_comunes">Espacios comunes</option>
-                  <option value="reservas">Reservas</option>
-                  <option value="incidentes">Incidentes</option>
-                </select>
-              </div>
-              <div style={{ marginTop: '8px' }}>
-                <label style={styles.label}>Título</label>
-                <input value={logForm.title} onChange={e => setLogForm({ ...logForm, title: e.target.value })} style={styles.input} required />
-              </div>
-              <div style={{ marginTop: '8px' }}>
-                <label style={styles.label}>Descripción</label>
-                <textarea value={logForm.description} onChange={e => setLogForm({ ...logForm, description: e.target.value })} style={{ ...styles.input, minHeight: '80px' }} required />
-              </div>
-              <button type="submit" disabled={savingLog} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>{savingLog ? 'Registrando…' : 'Registrar novedad'}</button>
+              <section style={styles.sectionBox}>
+                <h4 style={{ margin: '0 0 12px', color: 'var(--primary)' }}>Registrar novedad</h4>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                  <select value={logForm.shift} onChange={e => setLogForm({ ...logForm, shift: e.target.value })} style={styles.select}>
+                    <option value="morning">Mañana</option>
+                    <option value="afternoon">Tarde</option>
+                    <option value="night">Noche</option>
+                  </select>
+                  <select value={logForm.entry_type} onChange={e => setLogForm({ ...logForm, entry_type: e.target.value })} style={styles.select}>
+                    <option value="rutina">Rutina</option>
+                    <option value="espacios_comunes">Espacios comunes</option>
+                    <option value="reservas">Reservas</option>
+                    <option value="incidentes">Incidentes</option>
+                  </select>
+                </div>
+                <div style={{ marginTop: '8px' }}>
+                  <label style={styles.label}>Título</label>
+                  <input value={logForm.title} onChange={e => setLogForm({ ...logForm, title: e.target.value })} style={styles.input} required />
+                </div>
+                <div style={{ marginTop: '8px' }}>
+                  <label style={styles.label}>Descripción</label>
+                  <textarea value={logForm.description} onChange={e => setLogForm({ ...logForm, description: e.target.value })} style={{ ...styles.input, minHeight: '80px' }} required />
+                </div>
+                <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
+                  <button type="submit" disabled={savingLog} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>{savingLog ? 'Registrando…' : 'Crear'}</button>
+                  <button type="button" onClick={() => setLogView('list')} style={{ padding: '4px 10px', backgroundColor: 'var(--danger-bg)', color: 'var(--danger-text)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>Cancelar</button>
+                </div>
+              </section>
             </form>
           )}
+          {logView === 'list' && (
           <div style={styles.tableWrapper}>
             <table style={{ ...styles.table, minWidth: '700px' }}>
               <thead><tr style={styles.thRow}>
@@ -532,6 +549,7 @@ export default function ConciergeDeskView() {
               </tbody>
             </table>
           </div>
+          )}
         </div>
       )}
       {tab === 'relevos' && (
