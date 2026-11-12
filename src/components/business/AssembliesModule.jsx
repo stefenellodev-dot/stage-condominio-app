@@ -207,7 +207,6 @@ export default function AssembliesModule() {
             </select>
           )}
         </div>
-        </div>
       </div>
 
       <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '14px' }}>
@@ -256,8 +255,6 @@ export default function AssembliesModule() {
                   <button type="button" onClick={() => setAsmView('list')} style={{ padding: '4px 10px', backgroundColor: 'var(--danger-bg)', color: 'var(--danger-text)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>Cancelar</button>
                 </div>
               </section>
-            </form>
-          )}
             </form>
           )}
           <div style={styles.tableWrapper}>
