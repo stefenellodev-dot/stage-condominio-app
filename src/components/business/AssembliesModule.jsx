@@ -26,6 +26,11 @@ export default function AssembliesModule() {
   const [asmView, setAsmView] = useState('list');
   const [topics, setTopics] = useState([]);
   const [attendees, setAttendees] = useState([]);
+  const [attendeeView, setAttendeeView] = useState('list');
+  const [units, setUnits] = useState([]);
+  const [profiles, setProfiles] = useState([]);
+  const [attendeeForm, setAttendeeForm] = useState({ unit_id: '', user_id: '', attendee_type: 'owner', aliquot: 5 });
+  const [savingAttendee, setSavingAttendee] = useState(false);
   const [loading, setLoading] = useState(false);
 
   // Form asamblea
@@ -59,8 +64,16 @@ export default function AssembliesModule() {
     if (!selectedCondo) {
       setAssemblies([]);
       setSelectedAssembly('');
+      setUnits([]);
+      setProfiles([]);
       return;
     }
+    (async () => {
+      const { data: uData } = await supabase.from('units').select('id, unit_number').eq('condominium_id', selectedCondo).is('deleted_at', null).order('unit_number');
+      setUnits(uData || []);
+      const { data: pData } = await supabase.from('profiles').select('id, full_name, email').order('email');
+      setProfiles(pData || []);
+    })();
     (async () => {
       setLoading(true);
       const { data, error } = await supabase
@@ -288,7 +301,52 @@ export default function AssembliesModule() {
 
       {tab === 'asistencia' && selectedAssembly && (
         <div>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '13px' }}>Asistentes acreditados: {attendees.length} (quórum {selectedAsm?.current_attendance_aliquot}%)</p>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px', flexWrap: 'wrap', gap: '12px' }}>
+            <p style={{ margin: 0, color: 'var(--text-secondary)', fontSize: '13px' }}>Asistentes acreditados: {attendees.length} (quórum {selectedAsm?.current_attendance_aliquot}%)</p>
+            <button onClick={() => setAttendeeView('form')} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>Nueva asistencia</button>
+          </div>
+          {attendeeView === 'form' && (
+            <form onSubmit={async (e) => {
+              e.preventDefault();
+              setSavingAttendee(true);
+              const { error } = await supabase.from('assembly_attendees').insert({
+                assembly_id: selectedAssembly,
+                unit_id: attendeeForm.unit_id,
+                user_id: attendeeForm.user_id,
+                attendee_type: attendeeForm.attendee_type,
+                aliquot_represented: attendeeForm.aliquot,
+              });
+              if (error) { showError(error.message); }
+              else { showSuccess('Asistente registrado'); setAttendeeView('list'); setAttendeeForm({ unit_id: '', user_id: '', attendee_type: 'owner', aliquot: 5 }); }
+              setSavingAttendee(false);
+            }} style={{ ...styles.form, marginBottom: '16px' }}>
+              <section style={styles.sectionBox}>
+                <h4 style={{ margin: '0 0 12px', color: 'var(--primary)' }}>Registrar asistencia</h4>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                  <select value={attendeeForm.unit_id} onChange={e => setAttendeeForm({ ...attendeeForm, unit_id: e.target.value })} style={styles.select} required>
+                    <option value="">Selecciona unidad</option>
+                    {units.map(u => <option key={u.id} value={u.id}>{u.unit_number}</option>)}
+                  </select>
+                  <select value={attendeeForm.user_id} onChange={e => setAttendeeForm({ ...attendeeForm, user_id: e.target.value })} style={styles.select} required>
+                    <option value="">Selecciona usuario</option>
+                    {profiles.map(p => <option key={p.id} value={p.id}>{p.full_name || p.email}</option>)}
+                  </select>
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginTop: '8px' }}>
+                  <select value={attendeeForm.attendee_type} onChange={e => setAttendeeForm({ ...attendeeForm, attendee_type: e.target.value })} style={styles.select}>
+                    <option value="owner">Propietario</option>
+                    <option value="proxy">Apoderado</option>
+                    <option value="tenant">Arrendatario</option>
+                  </select>
+                  <input type="number" placeholder="Alícuota %" value={attendeeForm.aliquot} onChange={e => setAttendeeForm({ ...attendeeForm, aliquot: parseFloat(e.target.value) || 0 })} style={styles.input} step="0.01" />
+                </div>
+                <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
+                  <button type="submit" disabled={savingAttendee} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>{savingAttendee ? 'Guardando…' : 'Crear'}</button>
+                  <button type="button" onClick={() => setAttendeeView('list')} style={{ padding: '4px 10px', backgroundColor: 'var(--danger-bg)', color: 'var(--danger-text)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>Cancelar</button>
+                </div>
+              </section>
+            </form>
+          )}
           <div style={styles.tableWrapper}>
             <table style={{ ...styles.table, minWidth: '600px' }}>
               <thead><tr style={styles.thRow}>
