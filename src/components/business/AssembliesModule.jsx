@@ -211,6 +211,14 @@ export default function AssembliesModule() {
             </select>
           )}
         </div>
+        {tab !== 'asambleas' && assemblies.length > 0 && (
+          <div style={{ marginTop: '10px' }}>
+            <select value={selectedAssembly} onChange={e => setSelectedAssembly(e.target.value)} style={{ ...styles.select, minWidth: '300px' }}>
+              <option value="">Selecciona asamblea</option>
+              {assemblies.map(a => <option key={a.id} value={a.id}>{a.title} ({a.status})</option>)}
+            </select>
+          </div>
+        )}
       </div>
 
       {loading && <p style={{ color: 'var(--text-dim)' }}>Cargando…</p>}
