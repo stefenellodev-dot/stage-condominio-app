@@ -28,6 +28,7 @@ export default function MaintenanceModule() {
   const { t } = useTranslation();
 
   const [tab, setTab] = useState('activos');
+  const [assetView, setAssetView] = useState('list');
   const [companies, setCompanies] = useState([]);
   const [selectedCompany, setSelectedCompany] = useState('');
   const [condominiums, setCondominiums] = useState([]);
@@ -281,28 +282,46 @@ export default function MaintenanceModule() {
       {tab === 'activos' && (
         <div>
           {canManage && (
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '14px' }}>
+              {assetView === 'list' ? (
+                <button onClick={() => setAssetView('form')} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>Nuevo Activo</button>
+              ) : (
+                <button onClick={() => setAssetView('list')} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>Volver a la lista</button>
+              )}
+            </div>
+          )}
+          {assetView === 'form' && canManage && (
             <form onSubmit={handleCreateAsset} style={{ ...styles.form, marginBottom: '16px' }}>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
-                <input placeholder="Nombre del activo" value={assetForm.name} onChange={e => setAssetForm({ ...assetForm, name: e.target.value })} style={styles.input} required />
-                <select value={assetForm.category} onChange={e => setAssetForm({ ...assetForm, category: e.target.value })} style={styles.select}>
-                  {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
-                </select>
-              </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '10px', marginTop: '8px' }}>
-                <input placeholder="Marca" value={assetForm.brand} onChange={e => setAssetForm({ ...assetForm, brand: e.target.value })} style={styles.input} />
-                <input placeholder="Modelo" value={assetForm.model} onChange={e => setAssetForm({ ...assetForm, model: e.target.value })} style={styles.input} />
-                <input placeholder="N° serie" value={assetForm.serial_number} onChange={e => setAssetForm({ ...assetForm, serial_number: e.target.value })} style={styles.input} />
-              </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '10px', marginTop: '8px' }}>
-                <input placeholder="Ubicación" value={assetForm.location} onChange={e => setAssetForm({ ...assetForm, location: e.target.value })} style={styles.input} required />
-                <input placeholder="Frecuencia (días)" type="number" value={assetForm.maintenance_frequency_days} onChange={e => setAssetForm({ ...assetForm, maintenance_frequency_days: e.target.value })} style={styles.input} />
-                <select value={assetForm.criticality_level} onChange={e => setAssetForm({ ...assetForm, criticality_level: e.target.value })} style={styles.select}>
-                  {CRITICALITY.map(c => <option key={c} value={c}>{c}</option>)}
-                </select>
-              </div>
-              <button type="submit" disabled={savingAsset} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>{savingAsset ? 'Guardando…' : 'Registrar activo'}</button>
+              <section style={styles.sectionBox}>
+                <h4 style={{ margin: '0 0 12px', color: 'var(--primary)' }}>Registrar activo</h4>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                  <input placeholder="Nombre del activo" value={assetForm.name} onChange={e => setAssetForm({ ...assetForm, name: e.target.value })} style={styles.input} required />
+                  <select value={assetForm.category} onChange={e => setAssetForm({ ...assetForm, category: e.target.value })} style={styles.select}>
+                    {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
+                  </select>
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '10px', marginTop: '8px' }}>
+                  <input placeholder="Marca" value={assetForm.brand} onChange={e => setAssetForm({ ...assetForm, brand: e.target.value })} style={styles.input} />
+                  <input placeholder="Modelo" value={assetForm.model} onChange={e => setAssetForm({ ...assetForm, model: e.target.value })} style={styles.input} />
+                  <input placeholder="N° serie" value={assetForm.serial_number} onChange={e => setAssetForm({ ...assetForm, serial_number: e.target.value })} style={styles.input} />
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '10px', marginTop: '8px' }}>
+                  <input placeholder="Ubicación" value={assetForm.location} onChange={e => setAssetForm({ ...assetForm, location: e.target.value })} style={styles.input} required />
+                  <input placeholder="Frecuencia (días)" type="number" value={assetForm.maintenance_frequency_days} onChange={e => setAssetForm({ ...assetForm, maintenance_frequency_days: e.target.value })} style={styles.input} />
+                  <select value={assetForm.criticality_level} onChange={e => setAssetForm({ ...assetForm, criticality_level: e.target.value })} style={styles.select}>
+                    {CRITICALITY.map(c => <option key={c} value={c}>{c}</option>)}
+                  </select>
+                </div>
+                <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
+                  <button type="submit" disabled={savingAsset} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>{savingAsset ? 'Guardando…' : 'Crear'}</button>
+                  <button type="button" onClick={() => setAssetView('list')} style={{ padding: '4px 10px', backgroundColor: 'var(--danger-bg)', color: 'var(--danger-text)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>Cancelar</button>
+                </div>
+              </section>
             </form>
           )}
+            </form>
+          )}
+          {assetView === 'list' && (
           <div style={styles.tableWrapper}>
             <table style={{ ...styles.table, minWidth: '700px' }}>
               <thead><tr style={styles.thRow}>
@@ -324,6 +343,7 @@ export default function MaintenanceModule() {
               </tbody>
             </table>
           </div>
+          )}
         </div>
       )}
 
