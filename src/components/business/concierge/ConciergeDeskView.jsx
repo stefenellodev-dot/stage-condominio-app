@@ -411,11 +411,11 @@ export default function ConciergeDeskView() {
                   </select>
                   <input placeholder="PIN de retiro" value={pkgForm.pickup_pin} onChange={e => setPkgForm({ ...pkgForm, pickup_pin: e.target.value })} style={styles.input} />
                 </div>
-                <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
-                  <button type="submit" disabled={savingPkg} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>{savingPkg ? 'Registrando…' : 'Crear'}</button>
-                  <button type="button" onClick={() => setPkgView('list')} style={{ padding: '4px 10px', backgroundColor: 'var(--danger-bg)', color: 'var(--danger-text)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>Cancelar</button>
-                </div>
               </section>
+            <div style={{ display: 'flex', gap: '8px' }}>
+              <button type="submit" disabled={savingPkg} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>{savingPkg ? 'Registrando…' : 'Crear'}</button>
+              <button type="button" onClick={() => setPkgView('list')} style={{ padding: '4px 10px', backgroundColor: 'var(--danger-bg)', color: 'var(--danger-text)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>Cancelar</button>
+            </div>
             </form>
           )}
           {pkgView === 'list' && (isMobile ? (
