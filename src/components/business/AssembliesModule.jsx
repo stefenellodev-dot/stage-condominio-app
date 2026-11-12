@@ -69,7 +69,7 @@ export default function AssembliesModule() {
       return;
     }
     (async () => {
-      const { data: uData } = await supabase.from('units').select('id, unit_number').eq('condominium_id', selectedCondo).is('deleted_at', null).order('unit_number');
+      const { data: uData } = await supabase.from('units').select('id, unit_number, aliquot, owner_id').eq('condominium_id', selectedCondo).is('deleted_at', null).order('unit_number');
       setUnits(uData || []);
       const { data: pData } = await supabase.from('profiles').select('id, full_name, email').order('email');
       setProfiles(pData || []);
@@ -323,13 +323,16 @@ export default function AssembliesModule() {
               <section style={styles.sectionBox}>
                 <h4 style={{ margin: '0 0 12px', color: 'var(--primary)' }}>Registrar asistencia</h4>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
-                  <select value={attendeeForm.unit_id} onChange={e => setAttendeeForm({ ...attendeeForm, unit_id: e.target.value })} style={styles.select} required>
+                  <select value={attendeeForm.unit_id} onChange={e => {
+                    const u = units.find(x => x.id === e.target.value);
+                    setAttendeeForm({ ...attendeeForm, unit_id: e.target.value, aliquot: u?.aliquot || 0, user_id: u?.owner_id || '' });
+                  }} style={styles.select} required>
                     <option value="">Selecciona unidad</option>
                     {units.map(u => <option key={u.id} value={u.id}>{u.unit_number}</option>)}
                   </select>
                   <select value={attendeeForm.user_id} onChange={e => setAttendeeForm({ ...attendeeForm, user_id: e.target.value })} style={styles.select} required>
                     <option value="">Selecciona usuario</option>
-                    {profiles.map(p => <option key={p.id} value={p.id}>{p.full_name || p.email}</option>)}
+                    {profiles.filter(p => !attendeeForm.unit_id || units.find(u => u.id === attendeeForm.unit_id)?.owner_id === p.id).map(p => <option key={p.id} value={p.id}>{p.full_name || p.email}</option>)}
                   </select>
                 </div>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginTop: '8px' }}>
@@ -338,7 +341,7 @@ export default function AssembliesModule() {
                     <option value="proxy">Apoderado</option>
                     <option value="tenant">Arrendatario</option>
                   </select>
-                  <input type="number" placeholder="Alícuota %" value={attendeeForm.aliquot} onChange={e => setAttendeeForm({ ...attendeeForm, aliquot: parseFloat(e.target.value) || 0 })} style={styles.input} step="0.01" />
+                  <input type="number" placeholder="Alícuota %" value={attendeeForm.aliquot} disabled style={{ ...styles.input, opacity: 0.6, cursor: 'not-allowed' }} step="0.01" />
                 </div>
                 <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
                   <button type="submit" disabled={savingAttendee} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>{savingAttendee ? 'Guardando…' : 'Crear'}</button>
