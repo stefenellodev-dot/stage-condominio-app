@@ -299,15 +299,8 @@ export default function AssembliesModule() {
         </div>
       )}
 
-      {tab === 'asistencia' && (
+      {tab === 'asistencia' && selectedAssembly && (
         <div>
-          {!selectedAssembly && (
-            <div style={{ ...styles.sectionBox, padding: '24px', textAlign: 'center', color: 'var(--text-dim)' }}>
-              Selecciona una asamblea en el filtro para ver los asistentes.
-            </div>
-          )}
-          {selectedAssembly && (
-          <div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px', flexWrap: 'wrap', gap: '12px' }}>
             <p style={{ margin: 0, color: 'var(--text-secondary)', fontSize: '13px' }}>Asistentes acreditados: {attendees.length} (quórum {selectedAsm?.current_attendance_aliquot}%)</p>
             {attendeeView === 'list' ? (
@@ -393,7 +386,6 @@ export default function AssembliesModule() {
               </tbody>
             </table>
           </div>
-          )}
           )}
         </div>
       )}
