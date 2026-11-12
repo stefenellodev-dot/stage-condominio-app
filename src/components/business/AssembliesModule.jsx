@@ -276,7 +276,7 @@ export default function AssembliesModule() {
             </div>
             </form>
           )}
-          {asmView === 'list' && (
+          {asmView === 'list' && assemblies.length > 0 && (
             assemblies.length === 0 ? (
               <div style={{ ...styles.sectionBox, padding: '24px', textAlign: 'center', color: 'var(--text-dim)' }}>
                 Sin asambleas registradas.
