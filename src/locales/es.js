@@ -23,6 +23,7 @@ export const es = {
     my_profile: 'Mi Perfil',
     users_management: 'Usuarios y Accesos',
     management_companies: 'Empresas Administradoras',
+    banks: 'Bancos e Instituciones Financieras',
     condominiums: 'Condominios',
     units: 'Unidades',
     common_areas: 'Espacios Comunes',

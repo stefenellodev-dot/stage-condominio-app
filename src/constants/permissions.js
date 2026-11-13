@@ -17,6 +17,13 @@ export const PERMISSIONS = {
     view: [SUPERADMIN, ADMIN],
     manage_members: [SUPERADMIN],
   },
+  banks: {
+    create: [SUPERADMIN],
+    edit: [SUPERADMIN],
+    delete: [SUPERADMIN],
+    view: [SUPERADMIN],
+    toggle: [SUPERADMIN],
+  },
   condominiums: {
     create: [SUPERADMIN],
     edit: [SUPERADMIN, ADMIN],

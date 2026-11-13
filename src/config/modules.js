@@ -11,6 +11,13 @@ export const businessModules = [
     roles: [ROLES.SUPERADMIN, ROLES.ADMIN],
   },
   {
+    id: 'banks',
+    labelKey: 'nav.banks',
+    icon: '🏦',
+    component: lazy(() => import('../components/business/banks/BanksModule')),
+    roles: [ROLES.SUPERADMIN],
+  },
+  {
     id: 'condominiums',
     labelKey: 'nav.condominiums',
     icon: '🏗️',
