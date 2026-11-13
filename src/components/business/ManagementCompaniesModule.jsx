@@ -40,10 +40,8 @@ const emptyForm = {
 const isValidEmail = (value) => !value || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 const isValidDate = (value) => !value || !Number.isNaN(Date.parse(value));
 
-import { useConfirm } from '../../hooks/useConfirm';
 
 export default function ManagementCompaniesModule() {
-  const { confirm, ConfirmDialogNode } = useConfirm();
   const { isSuperadmin, isAdmin } = useAuth();
   const { showSuccess, showError } = useToast();
   const { t } = useTranslation();
@@ -67,7 +65,6 @@ export default function ManagementCompaniesModule() {
   const [membersLoading, setMembersLoading] = useState(false);
   const [memberSearch, setMemberSearch] = useState('');
   const [candidateUsers, setCandidateUsers] = useState([]);
-  const [selectedUserId, setSelectedUserId] = useState('');
   const [memberSaving, setMemberSaving] = useState(null);
 
   const perPage = 8;
@@ -434,7 +431,6 @@ export default function ManagementCompaniesModule() {
     setSelectedCompany(company);
     setMembersView('members');
     setMemberSearch('');
-    setSelectedUserId('');
     loadMembers(company.id);
     if (isSuperadmin) loadCandidateUsers();
   };
@@ -445,7 +441,7 @@ export default function ManagementCompaniesModule() {
     setMembers([]);
   };
 
-  const handleAssignMember = async (userId = selectedUserId) => {
+  const handleAssignMember = async (userId) => {
     if (!selectedCompany || !userId) return;
 
     setMemberSaving(userId);
@@ -469,7 +465,6 @@ export default function ManagementCompaniesModule() {
     }
 
     showSuccess(t('management_companies.members_assigned'));
-    setSelectedUserId('');
     loadMembers(selectedCompany.id);
     if (isSuperadmin) loadCandidateUsers();
   };
@@ -1347,7 +1342,6 @@ export default function ManagementCompaniesModule() {
           </div>
         </div>
       ) : null}
-      {ConfirmDialogNode}
     </div>
   );
 }
