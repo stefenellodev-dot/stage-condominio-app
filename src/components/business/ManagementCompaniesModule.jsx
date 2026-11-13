@@ -404,6 +404,7 @@ export default function ManagementCompaniesModule() {
   };
 
   const loadCandidateUsers = async () => {
+    // Fetch all admin users
     const { data, error } = await supabase
       .from('profiles')
       .select('id, first_name, last_name, full_name, email, rut')
@@ -416,7 +417,17 @@ export default function ManagementCompaniesModule() {
       setCandidateUsers([]);
       return;
     }
-    setCandidateUsers(data || []);
+
+    // Fetch all existing members (across all companies) to exclude them
+    const { data: existingMembers } = await supabase
+      .from('management_company_members')
+      .select('user_id')
+      .is('deleted_at', null);
+
+    const existingUserIds = new Set((existingMembers || []).map(m => m.user_id));
+
+    // Exclude users already associated with any company
+    setCandidateUsers((data || []).filter(u => !existingUserIds.has(u.id)));
   };
 
   const openMembers = (company) => {
@@ -460,6 +471,7 @@ export default function ManagementCompaniesModule() {
     showSuccess(t('management_companies.members_assigned'));
     setSelectedUserId('');
     loadMembers(selectedCompany.id);
+    if (isSuperadmin) loadCandidateUsers();
   };
 
   const handleRemoveMember = async (memberId) => {
