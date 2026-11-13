@@ -930,6 +930,8 @@ export default function ManagementCompaniesModule() {
   if (membersView === 'members' && selectedCompany) {
     const memberUserIds = new Set(members.map((member) => member.user_id));
     const filteredCandidates = candidateUsers.filter((user) => {
+      // Exclude already-associated admins
+      if (memberUserIds.has(user.id)) return false;
       const term = memberSearch.trim().toLowerCase();
       if (!term) return true;
       return [user.full_name, user.first_name, user.last_name, user.email, user.rut]
