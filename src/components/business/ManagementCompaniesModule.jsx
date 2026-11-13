@@ -341,7 +341,7 @@ export default function ManagementCompaniesModule() {
   };
 
   const handleDelete = async (id) => {
-    if (!(await confirm(t('management_companies.delete_confirm')))) return;
+    if (!window.confirm(t('management_companies.delete_confirm'))) return;
 
     const { error } = await supabase
       .from('management_companies')
@@ -463,7 +463,7 @@ export default function ManagementCompaniesModule() {
   };
 
   const handleRemoveMember = async (memberId) => {
-    if (!(await confirm(t('management_companies.members_remove_confirm')))) return;
+    if (!window.confirm(t('management_companies.members_remove_confirm'))) return;
 
     const { error } = await supabase
       .from('management_company_members')
