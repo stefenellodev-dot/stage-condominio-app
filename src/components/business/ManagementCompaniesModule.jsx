@@ -487,6 +487,7 @@ export default function ManagementCompaniesModule() {
 
     showSuccess(t('management_companies.members_removed'));
     if (selectedCompany) loadMembers(selectedCompany.id);
+    if (isSuperadmin) loadCandidateUsers();
   };
 
   const filteredCompanies = useMemo(() => {
