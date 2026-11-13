@@ -25,6 +25,7 @@ export default function BanksModule() {
   const [view, setView] = useState('list');
   const [saving, setSaving] = useState(false);
   const [editingId, setEditingId] = useState(null);
+  const [editingBank, setEditingBank] = useState(null);
   const [form, setForm] = useState(emptyForm);
 
   const fetchBanks = async () => {
@@ -49,12 +50,14 @@ export default function BanksModule() {
   }, []);
 
   const handleNew = () => {
+    setEditingBank(null);
     setEditingId(null);
     setForm(emptyForm);
     setView('form');
   };
 
   const handleEdit = (bank) => {
+    setEditingBank(bank);
     setEditingId(bank.id);
     setForm({
       sbif_code: bank.sbif_code,
@@ -112,6 +115,7 @@ export default function BanksModule() {
 
       setView('list');
       setEditingId(null);
+      setEditingBank(null);
       setForm(emptyForm);
       fetchBanks();
     } catch (err) {
