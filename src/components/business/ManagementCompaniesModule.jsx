@@ -30,6 +30,7 @@ const emptyForm = {
   communeId: '',
   region: '',
   commune: '',
+  bankId: '',
   bankName: '',
   accountType: '',
   accountNumber: '',
@@ -65,6 +66,7 @@ export default function ManagementCompaniesModule() {
   const [membersLoading, setMembersLoading] = useState(false);
   const [memberSearch, setMemberSearch] = useState('');
   const [candidateUsers, setCandidateUsers] = useState([]);
+  const [banksCatalog, setBanksCatalog] = useState([]);
   const [memberSaving, setMemberSaving] = useState(null);
 
   const perPage = 8;
@@ -83,6 +85,15 @@ export default function ManagementCompaniesModule() {
       setCompanies(data || []);
     }
     setLoading(false);
+  };
+
+  const loadBanks = async () => {
+    const { data } = await supabase
+      .from('banks')
+      .select('id, sbif_code, name, short_name')
+      .eq('is_active', true)
+      .order('name');
+    setBanksCatalog(data || []);
   };
 
   const loadRegions = async () => {
@@ -107,6 +118,7 @@ export default function ManagementCompaniesModule() {
   useEffect(() => {
     loadCompanies();
     loadRegions();
+    loadBanks();
   }, []);
 
   useEffect(() => {
@@ -212,7 +224,8 @@ export default function ManagementCompaniesModule() {
     commune_id: form.communeId ? Number(form.communeId) : null,
     region: form.regionId ? form.region : null,
     commune: form.communeId ? form.commune : null,
-    bank_name: form.bankName.trim() || null,
+    bank_id: form.bankId || null,
+  bank_name: form.bankName.trim() || null,
     account_type: form.accountType || null,
     account_number: form.accountNumber.trim() || null,
     bank_recipient_rut: form.bankRecipientRut.trim() || null,
@@ -286,6 +299,7 @@ export default function ManagementCompaniesModule() {
       communeId: company.commune_id ? String(company.commune_id) : '',
       region: company.region || '',
       commune: company.commune || '',
+      bankId: company.bank_id || '',
       bankName: company.bank_name || '',
       accountType: company.account_type || '',
       accountNumber: company.account_number || '',
@@ -321,6 +335,7 @@ export default function ManagementCompaniesModule() {
       communeId: company.commune_id ? String(company.commune_id) : '',
       region: company.region || '',
       commune: company.commune || '',
+      bankId: company.bank_id || '',
       bankName: company.bank_name || '',
       accountType: company.account_type || '',
       accountNumber: company.account_number || '',
@@ -847,15 +862,28 @@ export default function ManagementCompaniesModule() {
             </h4>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
               <div>
-                <label style={styles.label} htmlFor="bankName">{t('management_companies.bank_name')}</label>
-                <input
-                  id="bankName" name="bankName"
-                  value={form.bankName}
-                  onChange={handleChange}
+                <label style={styles.label} htmlFor="bankId">{t('management_companies.bank_name')}</label>
+                <select
+                  id="bankId" name="bankId"
+                  value={form.bankId || ''}
+                  onChange={(e) => {
+                    const selected = banksCatalog.find((b) => b.id === e.target.value);
+                    setForm({
+                      ...form,
+                      bankId: selected ? selected.id : '',
+                      bankName: selected ? selected.name : '',
+                    });
+                  }}
                   disabled={readOnly}
-
-                  style={styles.input}
-                />
+                  style={styles.select}
+                >
+                  <option value="">-- Seleccionar Banco --</option>
+                  {banksCatalog.map((b) => (
+                    <option key={b.id} value={b.id}>
+                      {b.name} (Cód. {b.sbif_code})
+                    </option>
+                  ))}
+                </select>
               </div>
               <div>
                 <label style={styles.label} htmlFor="accountType">{t('management_companies.account_type')}</label>
