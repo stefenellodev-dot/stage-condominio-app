@@ -68,7 +68,7 @@ export default function ManagementCompaniesModule() {
   const [memberSearch, setMemberSearch] = useState('');
   const [candidateUsers, setCandidateUsers] = useState([]);
   const [selectedUserId, setSelectedUserId] = useState('');
-  const [memberSaving, setMemberSaving] = useState(false);
+  const [memberSaving, setMemberSaving] = useState(null);
 
   const perPage = 8;
 
@@ -437,7 +437,7 @@ export default function ManagementCompaniesModule() {
   const handleAssignMember = async (userId = selectedUserId) => {
     if (!selectedCompany || !userId) return;
 
-    setMemberSaving(true);
+    setMemberSaving(userId);
     const { error } = await supabase
       .from('management_company_members')
       .insert({
@@ -446,7 +446,7 @@ export default function ManagementCompaniesModule() {
         role: ROLES.ADMIN,
         status: 'active',
       });
-    setMemberSaving(false);
+    setMemberSaving(null);
 
     if (error) {
       if (error.code === '23505') {
@@ -1078,7 +1078,7 @@ export default function ManagementCompaniesModule() {
                     </div>
                     <button
                       onClick={() => handleAssignMember(user.id)}
-                      disabled={memberSaving || alreadyAssociated}
+                      disabled={!!memberSaving || alreadyAssociated}
                       style={{
                         ...styles.buttonAction,
                         opacity: alreadyAssociated ? 0.55 : 1,
@@ -1088,7 +1088,7 @@ export default function ManagementCompaniesModule() {
                     >
                       {alreadyAssociated
                         ? t('management_companies.members_already_associated')
-                        : memberSaving
+                        : memberSaving === user.id
                         ? t('management_companies.saving')
                         : t('management_companies.members_assign_button')}
                     </button>
