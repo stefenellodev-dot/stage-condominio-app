@@ -17,6 +17,7 @@ export default function CondominiumsModule() {
   const [companies, setCompanies] = useState([]);
   const [selectedCompany, setSelectedCompany] = useState('');
   const [regions, setRegions] = useState([]);
+  const [banksCatalog, setBanksCatalog] = useState([]);
   const [communes, setCommunes] = useState([]);
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -26,7 +27,7 @@ export default function CondominiumsModule() {
     id: '', management_company_id: '', name: '', rut: '', sii_property_role: '', type: 'tipo_a',
     destination: '', total_units: '', dom_certificate_number: '', dom_approval_date: '',
     reserve_fund_percentage: '5', street: '', street_number: '', region_id: '', commune_id: '',
-    region: '', commune: '', bank_name: '', account_type: '', account_number: '',
+    region: '', commune: '', bank_id: '', bank_id: '', bank_name: '', account_type: '', account_number: '',
     concierge_phone: '', administration_email: '', status: 'active',
   });
 
@@ -37,6 +38,8 @@ export default function CondominiumsModule() {
       if (companiesData && companiesData.length) setSelectedCompany(companiesData[0].id);
       const { data: regionsData } = await supabase.from('regions').select('id, name, roman_numeral').order('id');
       setRegions(regionsData || []);
+      const { data: banksData } = await supabase.from('banks').select('id, sbif_code, name, short_name').eq('is_active', true).order('name');
+      setBanksCatalog(banksData || []);
     })();
   }, []);
 
@@ -60,7 +63,7 @@ export default function CondominiumsModule() {
     setLoading(true);
     const { data, error } = await supabase
       .from('condominiums')
-      .select('id, name, rut, sii_property_role, type, destination, total_units, dom_certificate_number, dom_approval_date, street, street_number, commune, region, region_id, commune_id, bank_name, account_type, account_number, reserve_fund_percentage, concierge_phone, administration_email, status, management_company_id')
+      .select('id, name, rut, sii_property_role, type, destination, total_units, dom_certificate_number, dom_approval_date, street, street_number, commune, region, region_id, commune_id, bank_id, bank_name, account_type, account_number, reserve_fund_percentage, concierge_phone, administration_email, status, management_company_id')
       .eq('management_company_id', selectedCompany)
       .is('deleted_at', null)
       .order('name');
@@ -105,7 +108,8 @@ export default function CondominiumsModule() {
       commune_id: formData.commune_id ? parseInt(formData.commune_id) : null,
       region: formData.region || null,
       commune: formData.commune || null,
-      bank_name: formData.bank_name.trim() || null,
+      bank_id: formData.bank_id || null,
+    bank_name: formData.bank_name.trim() || null,
       account_type: formData.account_type || null,
       account_number: formData.account_number.trim() || null,
       concierge_phone: formData.concierge_phone.trim() || null,
@@ -115,7 +119,7 @@ export default function CondominiumsModule() {
     setSaving(false);
     if (error) { showError(error.message); return; }
     showSuccess('Condominio creado exitosamente');
-    setFormData({ id: '', management_company_id: '', name: '', rut: '', sii_property_role: '', type: 'tipo_a', destination: '', total_units: '', dom_certificate_number: '', dom_approval_date: '', reserve_fund_percentage: '5', street: '', street_number: '', region_id: '', commune_id: '', region: '', commune: '', bank_name: '', account_type: '', account_number: '', concierge_phone: '', administration_email: '', status: 'active' });
+    setFormData({ id: '', management_company_id: '', name: '', rut: '', sii_property_role: '', type: 'tipo_a', destination: '', total_units: '', dom_certificate_number: '', dom_approval_date: '', reserve_fund_percentage: '5', street: '', street_number: '', region_id: '', commune_id: '', region: '', commune: '', bank_id: '', bank_id: '', bank_name: '', account_type: '', account_number: '', concierge_phone: '', administration_email: '', status: 'active' });
     setFormMode('list');
     loadCondominiums();
   };
@@ -139,6 +143,7 @@ export default function CondominiumsModule() {
       commune_id: condo.commune_id ? String(condo.commune_id) : '',
       region: condo.region || '',
       commune: condo.commune || '',
+      bank_id: condo.bank_id || '',
       bank_name: condo.bank_name || '',
       account_type: condo.account_type || '',
       account_number: condo.account_number || '',
@@ -170,6 +175,7 @@ export default function CondominiumsModule() {
       commune_id: condo.commune_id ? String(condo.commune_id) : '',
       region: condo.region || '',
       commune: condo.commune || '',
+      bank_id: condo.bank_id || '',
       bank_name: condo.bank_name || '',
       account_type: condo.account_type || '',
       account_number: condo.account_number || '',
@@ -200,7 +206,8 @@ export default function CondominiumsModule() {
       commune_id: formData.commune_id ? parseInt(formData.commune_id) : null,
       region: formData.region || null,
       commune: formData.commune || null,
-      bank_name: formData.bank_name.trim() || null,
+      bank_id: formData.bank_id || null,
+    bank_name: formData.bank_name.trim() || null,
       account_type: formData.account_type || null,
       account_number: formData.account_number.trim() || null,
       concierge_phone: formData.concierge_phone.trim() || null,
@@ -226,7 +233,7 @@ export default function CondominiumsModule() {
 
   const handleCancel = () => {
     setReadOnly(false);
-    setFormData({ id: '', management_company_id: '', name: '', rut: '', sii_property_role: '', type: 'tipo_a', destination: '', total_units: '', dom_certificate_number: '', dom_approval_date: '', reserve_fund_percentage: '5', street: '', street_number: '', region_id: '', commune_id: '', region: '', commune: '', bank_name: '', account_type: '', account_number: '', concierge_phone: '', administration_email: '', status: 'active' });
+    setFormData({ id: '', management_company_id: '', name: '', rut: '', sii_property_role: '', type: 'tipo_a', destination: '', total_units: '', dom_certificate_number: '', dom_approval_date: '', reserve_fund_percentage: '5', street: '', street_number: '', region_id: '', commune_id: '', region: '', commune: '', bank_id: '', bank_id: '', bank_name: '', account_type: '', account_number: '', concierge_phone: '', administration_email: '', status: 'active' });
     setFormMode('list');
   };
 
@@ -301,7 +308,29 @@ export default function CondominiumsModule() {
             <section style={styles.sectionBox}>
               <h4 style={{ margin: '0 0 12px', color: 'var(--primary)' }}>Cuenta Bancaria</h4>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '12px' }}>
-                <div><label style={styles.label}>Banco</label><input type="text" name="bank_name" value={formData.bank_name} onChange={handleChange} disabled={readOnly} style={styles.input} /></div>
+                <div>
+                <label style={styles.label}>Banco</label>
+                <select
+                  value={formData.bank_id || ''}
+                  onChange={(e) => {
+                    const selected = banksCatalog.find((b) => b.id === e.target.value);
+                    setFormData({
+                      ...formData,
+                      bank_id: selected ? selected.id : '',
+                      bank_name: selected ? selected.name : '',
+                    });
+                  }}
+                  disabled={readOnly}
+                  style={styles.select}
+                >
+                  <option value="">-- Seleccionar Banco --</option>
+                  {banksCatalog.map((b) => (
+                    <option key={b.id} value={b.id}>
+                      {b.name} (Cód. {b.sbif_code})
+                    </option>
+                  ))}
+                </select>
+              </div>
                 <div><label style={styles.label}>Tipo de cuenta</label><select name="account_type" value={formData.account_type} onChange={handleChange} disabled={readOnly} style={styles.select}><option value="">Seleccionar</option><option value="corriente">Corriente</option><option value="vista">Vista</option><option value="ahorro">Ahorro</option></select></div>
                 <div><label style={styles.label}>N° de cuenta</label><input type="text" name="account_number" value={formData.account_number} onChange={handleChange} disabled={readOnly} style={styles.input} /></div>
               </div>

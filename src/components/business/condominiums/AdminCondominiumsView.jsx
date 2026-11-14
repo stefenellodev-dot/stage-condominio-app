@@ -26,7 +26,7 @@ export default function AdminCondominiumsView() {
     id: '', management_company_id: '', name: '', rut: '', sii_property_role: '', type: 'tipo_a',
     destination: '', total_units: '', dom_certificate_number: '', dom_approval_date: '',
     reserve_fund_percentage: '5', street: '', street_number: '', region_id: '', commune_id: '',
-    region: '', commune: '', bank_name: '', account_type: '', account_number: '',
+    region: '', commune: '', bank_id: '', bank_name: '', account_type: '', account_number: '',
     concierge_phone: '', administration_email: '', status: 'active',
   });
 
@@ -115,7 +115,7 @@ export default function AdminCondominiumsView() {
     setSaving(false);
     if (error) { showError(error.message); return; }
     showSuccess('Condominio creado exitosamente');
-    setFormData({ id: '', management_company_id: '', name: '', rut: '', sii_property_role: '', type: 'tipo_a', destination: '', total_units: '', dom_certificate_number: '', dom_approval_date: '', reserve_fund_percentage: '5', street: '', street_number: '', region_id: '', commune_id: '', region: '', commune: '', bank_name: '', account_type: '', account_number: '', concierge_phone: '', administration_email: '', status: 'active' });
+    setFormData({ id: '', management_company_id: '', name: '', rut: '', sii_property_role: '', type: 'tipo_a', destination: '', total_units: '', dom_certificate_number: '', dom_approval_date: '', reserve_fund_percentage: '5', street: '', street_number: '', region_id: '', commune_id: '', region: '', commune: '', bank_id: '', bank_name: '', account_type: '', account_number: '', concierge_phone: '', administration_email: '', status: 'active' });
     setFormMode('list');
     loadCondominiums();
   };
@@ -226,7 +226,7 @@ export default function AdminCondominiumsView() {
 
   const handleCancel = () => {
     setReadOnly(false);
-    setFormData({ id: '', management_company_id: '', name: '', rut: '', sii_property_role: '', type: 'tipo_a', destination: '', total_units: '', dom_certificate_number: '', dom_approval_date: '', reserve_fund_percentage: '5', street: '', street_number: '', region_id: '', commune_id: '', region: '', commune: '', bank_name: '', account_type: '', account_number: '', concierge_phone: '', administration_email: '', status: 'active' });
+    setFormData({ id: '', management_company_id: '', name: '', rut: '', sii_property_role: '', type: 'tipo_a', destination: '', total_units: '', dom_certificate_number: '', dom_approval_date: '', reserve_fund_percentage: '5', street: '', street_number: '', region_id: '', commune_id: '', region: '', commune: '', bank_id: '', bank_name: '', account_type: '', account_number: '', concierge_phone: '', administration_email: '', status: 'active' });
     setFormMode('list');
   };
 
@@ -301,7 +301,29 @@ export default function AdminCondominiumsView() {
             <section style={styles.sectionBox}>
               <h4 style={{ margin: '0 0 12px', color: 'var(--primary)' }}>Cuenta Bancaria</h4>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '12px' }}>
-                <div><label style={styles.label}>Banco</label><input type="text" name="bank_name" value={formData.bank_name} onChange={handleChange} disabled={readOnly} style={styles.input} /></div>
+                <div>
+                <label style={styles.label}>Banco</label>
+                <select
+                  value={formData.bank_id || ''}
+                  onChange={(e) => {
+                    const selected = banksCatalog.find((b) => b.id === e.target.value);
+                    setFormData({
+                      ...formData,
+                      bank_id: selected ? selected.id : '',
+                      bank_name: selected ? selected.name : '',
+                    });
+                  }}
+                  disabled={readOnly}
+                  style={styles.select}
+                >
+                  <option value="">-- Seleccionar Banco --</option>
+                  {banksCatalog.map((b) => (
+                    <option key={b.id} value={b.id}>
+                      {b.name} (Cód. {b.sbif_code})
+                    </option>
+                  ))}
+                </select>
+              </div>
                 <div><label style={styles.label}>Tipo de cuenta</label><select name="account_type" value={formData.account_type} onChange={handleChange} disabled={readOnly} style={styles.select}><option value="">Seleccionar</option><option value="corriente">Corriente</option><option value="vista">Vista</option><option value="ahorro">Ahorro</option></select></div>
                 <div><label style={styles.label}>N° de cuenta</label><input type="text" name="account_number" value={formData.account_number} onChange={handleChange} disabled={readOnly} style={styles.input} /></div>
               </div>
