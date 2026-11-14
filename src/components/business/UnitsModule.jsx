@@ -213,7 +213,7 @@ export default function UnitsModule() {
   const handleNew = () => {
     setEditingId(null);
     setReadOnly(false);
-    setForm(emptyForm);
+    setForm({ ...emptyForm, condominiumId: filterCondominium !== 'all' ? filterCondominium : '' });
     setView('form');
   };
 
