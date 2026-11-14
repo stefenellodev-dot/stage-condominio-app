@@ -246,7 +246,7 @@ export default function AdminCondominiumsView() {
         )}
       </div>
 
-      {formMode === 'list' && companies.length > 0 && (
+      {companies.length > 0 && (
         <div style={{ ...styles.sectionBox, marginBottom: '14px' }}>
           <h4 style={{ margin: '0 0 12px', color: 'var(--primary)' }}>Filtro</h4>
           <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
