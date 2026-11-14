@@ -380,21 +380,10 @@ export default function UnitsModule() {
             </h4>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
               <div>
-                <label style={styles.label} htmlFor="condominiumId">{t('units.condominium')}</label>
-                <select
-                  id="condominiumId" name="condominiumId"
-                  value={form.condominiumId}
-                  onChange={handleChange}
-                  disabled={readOnly}
-                  style={styles.select}
-                >
-                  <option value="">{t('units.select_condominium')}</option>
-                  {condominiums.map((condominium) => (
-                    <option key={condominium.id} value={condominium.id}>
-                      {condominium.name}
-                    </option>
-                  ))}
-                </select>
+                <label style={styles.label}>{t('units.condominium')}</label>
+                <div style={{ padding: '10px 14px', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-subtle)', backgroundColor: 'var(--bg-surface)', color: 'var(--text-main)', fontSize: '14px' }}>
+                  {condominiums.find(c => c.id === (form.condominiumId || filterCondominium))?.name || '—'}
+                </div>
               </div>
               <div>
                 <label style={styles.label} htmlFor="unitNumber">{t('units.unit_number')}</label>
@@ -565,7 +554,7 @@ export default function UnitsModule() {
             {t('units.subtitle')}
           </p>
         </div>
-        {canManageUnits ? (
+        {canManageUnits && filterCondominium !== 'all' ? (
           view === 'list' ? (
             <button onClick={handleNew} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>
               {t('units.new_button')}
@@ -649,7 +638,7 @@ export default function UnitsModule() {
 
       {/* Selectores de empresa y condominio movidos al header */}
 
-      {view === 'list' && (
+      {view === 'list' && filterCondominium !== 'all' && (
             <div style={styles.tableWrapper}>
         <table style={{ ...styles.table, tableLayout: 'fixed', minWidth: '1080px' }}>
           <thead>
