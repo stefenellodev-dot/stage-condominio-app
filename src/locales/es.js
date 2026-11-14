@@ -426,6 +426,7 @@ export const es = {
     section_assignment: 'Asignación',
     condominium: 'Condominio *',
     select_condominium: '-- Seleccionar condominio --',
+    select_unit_type: '-- Seleccionar tipo de unidad --',
     unit_number: 'Número de unidad *',
     unit_type: 'Tipo de unidad *',
     floor: 'Piso',

@@ -8,9 +8,9 @@ import { useTranslation } from '../../context/I18nContext';
 const emptyForm = {
   condominiumId: '',
   unitNumber: '',
-  unitType: 'departamento',
+  unitType: '',
   floor: '',
-  blockOrTower: 'Torre A',
+  blockOrTower: '',
   aliquot: '',
   surfaceM2: '',
   ownerId: '',
@@ -223,7 +223,7 @@ export default function UnitsModule() {
     setForm({
       condominiumId: unit.condominium_id ? String(unit.condominium_id) : '',
       unitNumber: unit.unit_number || '',
-      unitType: unit.unit_type || 'departamento',
+      unitType: unit.unit_type || '',
       floor: unit.floor ? String(unit.floor) : '',
       blockOrTower: unit.block_or_tower || '',
       aliquot: unit.aliquot ? String(unit.aliquot) : '',
@@ -241,7 +241,7 @@ export default function UnitsModule() {
     setForm({
       condominiumId: unit.condominium_id ? String(unit.condominium_id) : '',
       unitNumber: unit.unit_number || '',
-      unitType: unit.unit_type || 'departamento',
+      unitType: unit.unit_type || '',
       floor: unit.floor ? String(unit.floor) : '',
       blockOrTower: unit.block_or_tower || '',
       aliquot: unit.aliquot ? String(unit.aliquot) : '',
@@ -404,6 +404,7 @@ export default function UnitsModule() {
                   disabled={readOnly}
                   style={styles.select}
                 >
+                  <option value="">{t('units.select_unit_type')}</option>
                   <option value="departamento">{t('units.type_departamento')}</option>
                   <option value="casa">{t('units.type_casa')}</option>
                   <option value="oficina">{t('units.type_oficina')}</option>
