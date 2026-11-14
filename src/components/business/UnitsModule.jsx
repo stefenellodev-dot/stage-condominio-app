@@ -111,7 +111,8 @@ export default function UnitsModule() {
       const { data } = await supabase.from('condominiums').select('id, name, management_company_id').eq('management_company_id', filterCompany).is('deleted_at', null).order('name', { ascending: true });
       if (data) {
         setCondominiums(data);
-        if (data.length && filterCondominium === 'all') setFilterCondominium(data[0].id);
+        if (data.length) setFilterCondominium(data[0].id);
+        else setFilterCondominium('all');
       }
     })();
   }, [filterCompany]);
