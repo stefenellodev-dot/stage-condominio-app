@@ -1,5 +1,5 @@
 # Estado del Sistema: Mac (Código) vs Piave (Despliegue e Infraestructura)
-**Fecha de levantamiento:** 2026-11-13 16:04:45
+**Fecha de levantamiento:** 2026-11-13 21:05:04
 **Servidor Remoto (Infraestructura y Producción):** piave (100.126.211.117)
 **Host Local (Desarrollo):** dstefene1-mac
 
@@ -8,9 +8,9 @@
 ## 1. Servidor Físico Piave (Host y Recursos)
 - **HOSTNAME:** `piave`
 - **KERNEL:** `6.8.0-139-generic`
-- **UPTIME:** `up 7 weeks, 3 days, 2 hours, 22 minutes`
+- **UPTIME:** `up 7 weeks, 3 days, 7 hours, 22 minutes`
 - **DISK_USAGE:** `60G/232G (28% en uso)`
-- **RAM_USAGE:** `2890MB / 7829MB (36.9%)`
+- **RAM_USAGE:** `3029MB / 7829MB (38.7%)`
 - **PODMAN_VER:** `podman version 4.9.3`
 
 # Verificar buckets de storage
@@ -27,7 +27,7 @@ done
 echo "" >> ""
 - **Base de Datos:** `postgres`
 - **Tamaño en Disco:** `16 MB`
-- **Conexiones Activas:** `6`
+- **Conexiones Activas:** `7`
 
 ---
 
@@ -37,10 +37,10 @@ echo "" >> ""
 | :--- | :--- |
 | **Contenedor Web** | `stage-stage-condominio-app` |
 | **Estado del Contenedor** | `running` |
-| **Último Inicio / Reinicio** | `2026-11-13 19:04:18.435413609 +0000 UTC` |
+| **Último Inicio / Reinicio** | `2026-11-14 00:04:38.214914841 +0000 UTC` |
 | **Veces Reiniciado (Crash count)** | `0` |
 | **Directorio Servido (Web Root)** | `/app/dist` |
-| **Fecha de Compilación en Piave** | `2026-11-13 19:03:44.000000000 +0000` |
+| **Fecha de Compilación en Piave** | `2026-11-14 00:04:06.000000000 +0000` |
 | **Título HTML Desplegado** | `<title>Sistema de Administración de Condominios</title>` |
 | **Respuesta HTTP Puerto :3002** | `200` |
 | **Servidor Web Interno** | `` |
@@ -65,8 +65,8 @@ echo "" >> ""
 10.89.1.13` | Up 7 weeks | `` |
 | `svc-storage` | `Up 7 weeks
 10.89.1.16` | Up 7 weeks | `` |
-| `svc-gateway` | `Up 6 weeks
-10.89.1.6` | Up 6 weeks | `` |
+| `svc-gateway` | `Up 7 weeks
+10.89.1.6` | Up 7 weeks | `` |
 | `svc-mailhog` | `Up 6 weeks
 10.89.1.17` | Up 6 weeks | `127.0.0.1:8025->8025/tcp` |
 | `svc-pg-meta` | `Up 6 weeks
@@ -80,8 +80,8 @@ echo "" >> ""
 | `rollback-test-db` | `Up 5 weeks` | Up 5 weeks | `` |
 | `svc-push` | `Up 5 weeks
 10.89.1.26` | Up 5 weeks | `` |
-| `stage-demo-app` | `Up 10 days
-10.89.3.24` | Up 10 days | `127.0.0.1:3000->3000/tcp, 100.126.211.117:3000->3000/tcp` |
+| `stage-demo-app` | `Up 11 days
+10.89.3.24` | Up 11 days | `127.0.0.1:3000->3000/tcp, 100.126.211.117:3000->3000/tcp` |
 | `svc-kong` | `Up 10 days
 10.89.1.46` | Up 10 days | `127.0.0.1:8000->8000/tcp` |
 | `svc-auth` | `Up 10 days
@@ -104,9 +104,9 @@ echo "" >> ""
 10.89.3.96` | Up 10 days | `` |
 | `stage-sb-meta` | `Up 10 days
 10.89.3.97` | Up 10 days | `` |
-| `concierge-test` | `Up 5 days` | Up 5 days | `0.0.0.0:3003->3000/tcp` |
-| `stage-new` | `Up 5 days` | Up 5 days | `0.0.0.0:3005->3000/tcp` |
-| `concierge-test2` | `Up 5 days` | Up 5 days | `0.0.0.0:3006->3000/tcp` |
+| `concierge-test` | `Up 6 days` | Up 6 days | `0.0.0.0:3003->3000/tcp` |
+| `stage-new` | `Up 6 days` | Up 6 days | `0.0.0.0:3005->3000/tcp` |
+| `concierge-test2` | `Up 6 days` | Up 6 days | `0.0.0.0:3006->3000/tcp` |
 | `stage-condominio-app-v2` | `Created` | Created | `100.126.211.117:3002->3000/tcp` |
 | `condo-sb-db` | `Up 3 days (healthy)
 10.89.5.2` | Up 3 days (healthy) | `` |
@@ -126,22 +126,22 @@ echo "" >> ""
 10.89.5.34` | Up 3 days (healthy) | `100.126.211.117:8200->8000/tcp` |
 | `vaultwarden` | `Up 3 days (healthy)
 10.89.4.5` | Up 3 days (healthy) | `100.126.211.117:8222->80/tcp` |
-| `fin-engine-redis` | `Up 5 hours
-10.89.0.145` | Up 5 hours | `` |
-| `fin-engine-agent-pedro` | `Up 4 hours
-10.89.0.164` | Up 4 hours | `` |
-| `fin-engine-agent-pablo` | `Up 4 hours
-10.89.0.165` | Up 4 hours | `` |
-| `fin-engine-agent-marcos` | `Up 4 hours
-10.89.0.166` | Up 4 hours | `` |
-| `fin-engine-brain` | `Up 4 hours
-10.89.0.167` | Up 4 hours | `` |
-| `fin-engine-dashboard` | `Up 4 hours
-10.89.0.170` | Up 4 hours | `0.0.0.0:8080->8080/tcp` |
-| `fin-engine-notifier` | `Up 3 hours
-10.89.0.173` | Up 3 hours | `` |
+| `fin-engine-redis` | `Up 10 hours
+10.89.0.145` | Up 10 hours | `` |
+| `fin-engine-agent-pedro` | `Up 9 hours
+10.89.0.164` | Up 9 hours | `` |
+| `fin-engine-agent-pablo` | `Up 9 hours
+10.89.0.165` | Up 9 hours | `` |
+| `fin-engine-agent-marcos` | `Up 9 hours
+10.89.0.166` | Up 9 hours | `` |
+| `fin-engine-brain` | `Up 9 hours
+10.89.0.167` | Up 9 hours | `` |
+| `fin-engine-dashboard` | `Up 9 hours
+10.89.0.170` | Up 9 hours | `0.0.0.0:8080->8080/tcp` |
+| `fin-engine-notifier` | `Up 8 hours
+10.89.0.173` | Up 8 hours | `` |
 | `stage-stage-condominio-app` | `Up 29 seconds (starting)
-10.89.5.33` | Up 29 seconds (starting) | `100.126.211.117:3002->3000/tcp, 127.0.0.1:3002->3000/tcp` |
+10.89.5.40` | Up 29 seconds (starting) | `127.0.0.1:3002->3000/tcp, 100.126.211.117:3002->3000/tcp` |
 
 ---
 
@@ -167,7 +167,7 @@ echo "" >> ""
 ## 6. Código Local en Mac
 - **Ruta:** `/Users/stefenello/development/stage-condominio-app`
 - **Branch Git:** `main`
-- **Último Commit:** `1ce5ebe - feat: add Banks module (CMF/SBIF catalog) with standard theme (2026-11-13 16:03:47 -0300)`
+- **Último Commit:** `5ae31a6 - fix: add secondary sort by id for stable list ordering (2026-11-13 21:04:06 -0300)`
 - **Archivos Pendientes de Commit:**
 ```text
 
@@ -182,9 +182,9 @@ echo "" >> ""
 2026-11-12 18:05:38.563 UTC [1450358] ERROR:  syntax error at or near "public" at character 67
 2026-11-12 18:06:41.946 UTC [1450400] FATAL:  database "template0" is not currently accepting connections
 ---LOG_ERROR:svc-kong---
-10.89.1.44 - - [13/Nov/2026:19:04:49 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "3a5425496ee01a29c23b3a10a24d3966"
-10.89.1.44 - - [13/Nov/2026:19:05:04 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "54525360241a327bce4880064b10534d"
-10.89.1.44 - - [13/Nov/2026:19:05:19 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "dd92211661861e0278a071375e11cd43"
+10.89.1.44 - - [14/Nov/2026:00:05:21 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "493644594bc2a6504ef47836f624096e"
+10.89.1.44 - - [14/Nov/2026:00:05:36 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "d475ae3bb7bd11617697a1734f2b7a20"
+10.89.1.44 - - [14/Nov/2026:00:05:51 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "0ab5512ea993545cfa964673c370c762"
 ---LOG_ERROR:stage-sb-db---
 [local] 2026-11-12 17:45:47.753 UTC [596633] postgres@postgres ERROR:  relation "assembly_motions" does not exist at character 22
 [local] 2026-11-12 17:46:17.432 UTC [596664] postgres@condosmart FATAL:  database "condosmart" does not exist
@@ -193,9 +193,7 @@ echo "" >> ""
 {"level":"warn","module":"rest","proto":"WebSocket","remote":"10.89.5.5:41276","error":"websocket: close 1006 (abnormal closure): unexpected EOF","time":"2026-11-12T18:07:46Z","message":"Socket error"}
 {"level":"warn","module":"rest","proto":"WebSocket","remote":"10.89.5.5:53164","error":"websocket: close 1006 (abnormal closure): unexpected EOF","time":"2026-11-12T19:15:16Z","message":"Socket error"}
 {"level":"warn","module":"rest","proto":"WebSocket","remote":"10.89.5.5:34906","error":"websocket: close 1006 (abnormal closure): unexpected EOF","time":"2026-11-13T15:34:22Z","message":"Socket error"}
----LOG_ERROR:condo-sb-auth---
-{"component":"api","error":"invalid_grant: Invalid login credentials","level":"info","method":"POST","msg":"invalid_grant: Invalid login credentials","path":"/token","referer":"http://100.126.211.117:3002","remote_addr":"191.112.211.218","request_id":"9e9e2f42-f9d3-4aeb-a1a6-f642826cc0f6","time":"2026-11-12T22:46:14Z"}
----LOG_ERROR:condo-sb-storage---
-{"level":40,"time":"2026-11-13T18:03:04.093Z","pid":1,"hostname":"9da06a17fc8f","region":"not-specified","reqId":"req-d7","tenantId":"default","project":"default","reqId":"req-d7","type":"request","req":{"region":"not-specified","traceId":"req-d7","method":"GET","url":"/object/sign/avatars/f57fb39b-d83c-4af5-bcce-05c33e1bf09d/avatar_1794336367418.jpg?token=redacted","headers":{"host":"condo-sb-storage:5000","x_forwarded_proto":"http","x_forwarded_host":"api.ecomunity.cl","x_forwarded_port":"8000","x_real_ip":"10.89.5.34","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36","accept":"image/jxl,image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8","cf_connecting_ip":"191.112.214.111","cf_ipcountry":"CL","cf_ray":"a59fb0e57cfe45db-GIG","referer":"https://www.ecomunity.cl/"},"hostname":"condo-sb-storage:5000","remoteAddress":"10.89.5.34","remotePort":60962},"res":{"statusCode":400,"headers":{"content_type":"application/json; charset=utf-8","content_length":"65"}},"responseTime":8.526206970214844,"error":{"raw":"{\"metadata\":{},\"code\":\"InvalidJWT\",\"httpStatusCode\":400,\"userStatusCode\":400}","name":"Error","message":"jwt expired","stack":"Error: jwt expired\n    at Object.InvalidJWT (/app/dist/internal/errors/codes.js:110:22)\n    at Object.<anonymous> (/app/dist/http/routes/object/getSignedObject.js:77:36)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"},"resources":["/avatars/f57fb39b-d83c-4af5-bcce-05c33e1bf09d/avatar_1794336367418.jpg"],"operation":"storage.object.get_signed","msg":"default | GET | 400 | 10.89.5.34 | req-d7 | /object/sign/avatars/f57fb39b-d83c-4af5-bcce-05c33e1bf09d/avatar_1794336367418.jpg?token=redacted | Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36"}
-{"level":40,"time":"2026-11-13T18:03:04.391Z","pid":1,"hostname":"9da06a17fc8f","region":"not-specified","reqId":"req-d9","tenantId":"default","project":"default","reqId":"req-d9","type":"request","req":{"region":"not-specified","traceId":"req-d9","method":"GET","url":"/object/sign/avatars/6d4872c7-16e1-41ad-8c1b-b274846a7eeb/avatar_1794337475984.jpeg?token=redacted","headers":{"host":"condo-sb-storage:5000","x_forwarded_proto":"http","x_forwarded_host":"api.ecomunity.cl","x_forwarded_port":"8000","x_real_ip":"10.89.5.34","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36","accept":"image/jxl,image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8","cf_connecting_ip":"191.112.214.111","cf_ipcountry":"CL","cf_ray":"a59fb0e57cfd45db-GIG","referer":"https://www.ecomunity.cl/"},"hostname":"condo-sb-storage:5000","remoteAddress":"10.89.5.34","remotePort":60962},"res":{"statusCode":400,"headers":{"content_type":"application/json; charset=utf-8","content_length":"65"}},"responseTime":2.8067827224731445,"error":{"raw":"{\"metadata\":{},\"code\":\"InvalidJWT\",\"httpStatusCode\":400,\"userStatusCode\":400}","name":"Error","message":"jwt expired","stack":"Error: jwt expired\n    at Object.InvalidJWT (/app/dist/internal/errors/codes.js:110:22)\n    at Object.<anonymous> (/app/dist/http/routes/object/getSignedObject.js:77:36)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"},"resources":["/avatars/6d4872c7-16e1-41ad-8c1b-b274846a7eeb/avatar_1794337475984.jpeg"],"operation":"storage.object.get_signed","msg":"default | GET | 400 | 10.89.5.34 | req-d9 | /object/sign/avatars/6d4872c7-16e1-41ad-8c1b-b274846a7eeb/avatar_1794337475984.jpeg?token=redacted | Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36"}
+---LOG_ERROR:condo-sb-rest---
+13/Nov/2026:23:49:39 +0000: {"code":"PGRST000","details":"could not translate host name \"condo-sb-db\" to address: Try again\n","hint":null,"message":"Database connection error. Retrying the connection."}
+13/Nov/2026:23:49:39 +0000: {"code":"PGRST000","details":"could not translate host name \"condo-sb-db\" to address: Try again\n","hint":null,"message":"Database connection error. Retrying the connection."}
 ```
