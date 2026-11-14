@@ -326,7 +326,7 @@ export default function AdminCondominiumsView() {
         </div>
       )}
 
-      {formMode === 'list' && (
+      {formMode === 'list' && condominiums.length > 0 && (
       <div style={styles.tableWrapper}>
         <table style={{ ...styles.table, minWidth: '800px' }}>
           <thead>
@@ -344,8 +344,6 @@ export default function AdminCondominiumsView() {
           <tbody>
             {loading ? (
               <tr><td colSpan="8" style={{ ...styles.td, textAlign: 'center', color: 'var(--text-dim)', padding: '24px' }}>Cargando...</td></tr>
-            ) : condominiums.length === 0 ? (
-              <tr><td colSpan="8" style={{ ...styles.td, textAlign: 'center', color: 'var(--text-dim)', padding: '24px' }}>No se encontraron condominios.</td></tr>
             ) : condominiums.map((c) => (
               <tr key={c.id} style={styles.tr}>
                 <td style={styles.td}>{c.name}</td>
