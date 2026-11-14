@@ -651,6 +651,7 @@ export default function CommonAreasModule() {
                   disabled={readOnly}
                   style={styles.select}
                 >
+                  <option value="">{t('common_areas.select_area_type')}</option>
                   <option value="quincho">{t('common_areas.type_quincho')}</option>
                   <option value="piscina">{t('common_areas.type_piscina')}</option>
                   <option value="gimnasio">{t('common_areas.type_gimnasio')}</option>
@@ -999,7 +1000,7 @@ export default function CommonAreasModule() {
           >
             {t('common_areas.tab_bookings')}
           </button>
-          {activeTab === 'catalog' && canManageAreas ? (
+          {activeTab === 'catalog' && canManageAreas && selectedCondo && selectedCondo !== 'all' ? (
             <button onClick={handleNew} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>
               {t('common_areas.new_button')}
             </button>
@@ -1161,7 +1162,16 @@ export default function CommonAreasModule() {
                     {area.fee_amount ? `$${area.fee_amount}` : t('common_areas.free')}
                   </td>
                   <td style={{ ...styles.td, textAlign: 'center' }}>
-                    {(area.status || 'available').toUpperCase()}
+                    <span style={{
+                      padding: '3px 8px',
+                      borderRadius: '12px',
+                      fontSize: '10.5px',
+                      fontWeight: '700',
+                      backgroundColor: (area.status || 'available') === 'available' ? 'var(--success-bg)' : (area.status || 'available') === 'maintenance' ? 'var(--warning-bg)' : 'var(--danger-bg)',
+                      color: (area.status || 'available') === 'available' ? 'var(--success-text)' : (area.status || 'available') === 'maintenance' ? 'var(--warning-text)' : 'var(--danger-text)',
+                    }}>
+                      {(area.status || 'available') === 'available' ? t('common_areas.status_available') : (area.status || 'available') === 'maintenance' ? t('common_areas.status_maintenance') : t('common_areas.status_inactive')}
+                    </span>
                   </td>
                   <td style={{ ...styles.td, textAlign: 'center' }}>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', alignItems: 'center' }}>

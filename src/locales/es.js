@@ -331,6 +331,7 @@ export const es = {
     active_status: 'Activos',
     inactive_status: 'Inactivos',
     all_types: 'Todos los tipos',
+    select_area_type: '-- Seleccionar tipo de espacio --',
     type_a: 'Tipo A',
     type_b: 'Tipo B',
     all_destinations: 'Todos los destinos',
