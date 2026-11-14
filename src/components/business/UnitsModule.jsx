@@ -716,7 +716,16 @@ export default function UnitsModule() {
                     {getOwnerName(unit.owner_id)}
                   </td>
                   <td style={{ ...styles.td, textAlign: 'center' }}>
-                    {(unit.status || 'active').toUpperCase()}
+                    <span style={{
+                      padding: '3px 8px',
+                      borderRadius: '12px',
+                      fontSize: '10.5px',
+                      fontWeight: '700',
+                      backgroundColor: (unit.status || 'active') === 'active' ? 'var(--success-bg)' : 'var(--danger-bg)',
+                      color: (unit.status || 'active') === 'active' ? 'var(--success-text)' : 'var(--danger-text)',
+                    }}>
+                      {(unit.status || 'active').toUpperCase()}
+                    </span>
                   </td>
                   <td style={{ ...styles.td, textAlign: 'center' }}>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', alignItems: 'center' }}>
