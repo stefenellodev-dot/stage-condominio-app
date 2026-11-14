@@ -77,7 +77,8 @@ export default function ManagementCompaniesModule() {
       .from('management_companies')
       .select('*')
       .is('deleted_at', null)
-      .order('created_at', { ascending: false });
+      .order('created_at', { ascending: false })
+      .order('id', { ascending: true });
 
     if (error) {
       showError(error.message);
@@ -379,7 +380,8 @@ export default function ManagementCompaniesModule() {
       .select('id, role, status, created_at, user_id')
       .eq('management_company_id', companyId)
       .is('deleted_at', null)
-      .order('created_at', { ascending: false });
+      .order('created_at', { ascending: false })
+      .order('id', { ascending: true });
 
     if (error) {
       showError(error.message);
