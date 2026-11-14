@@ -1,5 +1,5 @@
 # Estado del Sistema: Mac (Código) vs Piave (Despliegue e Infraestructura)
-**Fecha de levantamiento:** 2026-11-13 21:05:04
+**Fecha de levantamiento:** 2026-11-13 21:30:31
 **Servidor Remoto (Infraestructura y Producción):** piave (100.126.211.117)
 **Host Local (Desarrollo):** dstefene1-mac
 
@@ -8,9 +8,9 @@
 ## 1. Servidor Físico Piave (Host y Recursos)
 - **HOSTNAME:** `piave`
 - **KERNEL:** `6.8.0-139-generic`
-- **UPTIME:** `up 7 weeks, 3 days, 7 hours, 22 minutes`
+- **UPTIME:** `up 7 weeks, 3 days, 7 hours, 48 minutes`
 - **DISK_USAGE:** `60G/232G (28% en uso)`
-- **RAM_USAGE:** `3029MB / 7829MB (38.7%)`
+- **RAM_USAGE:** `2989MB / 7829MB (38.2%)`
 - **PODMAN_VER:** `podman version 4.9.3`
 
 # Verificar buckets de storage
@@ -26,7 +26,7 @@ for bucket in colillas comprobantes-pago certificaciones evidencias-infracciones
 done
 echo "" >> ""
 - **Base de Datos:** `postgres`
-- **Tamaño en Disco:** `16 MB`
+- **Tamaño en Disco:** `17 MB`
 - **Conexiones Activas:** `7`
 
 ---
@@ -37,10 +37,10 @@ echo "" >> ""
 | :--- | :--- |
 | **Contenedor Web** | `stage-stage-condominio-app` |
 | **Estado del Contenedor** | `running` |
-| **Último Inicio / Reinicio** | `2026-11-14 00:04:38.214914841 +0000 UTC` |
+| **Último Inicio / Reinicio** | `2026-11-14 00:30:07.306644041 +0000 UTC` |
 | **Veces Reiniciado (Crash count)** | `0` |
 | **Directorio Servido (Web Root)** | `/app/dist` |
-| **Fecha de Compilación en Piave** | `2026-11-14 00:04:06.000000000 +0000` |
+| **Fecha de Compilación en Piave** | `2026-11-14 00:29:40.000000000 +0000` |
 | **Título HTML Desplegado** | `<title>Sistema de Administración de Condominios</title>` |
 | **Respuesta HTTP Puerto :3002** | `200` |
 | **Servidor Web Interno** | `` |
@@ -138,10 +138,10 @@ echo "" >> ""
 10.89.0.167` | Up 9 hours | `` |
 | `fin-engine-dashboard` | `Up 9 hours
 10.89.0.170` | Up 9 hours | `0.0.0.0:8080->8080/tcp` |
-| `fin-engine-notifier` | `Up 8 hours
-10.89.0.173` | Up 8 hours | `` |
-| `stage-stage-condominio-app` | `Up 29 seconds (starting)
-10.89.5.40` | Up 29 seconds (starting) | `127.0.0.1:3002->3000/tcp, 100.126.211.117:3002->3000/tcp` |
+| `fin-engine-notifier` | `Up 9 hours
+10.89.0.173` | Up 9 hours | `` |
+| `stage-stage-condominio-app` | `Up 27 seconds (starting)
+10.89.5.46` | Up 27 seconds (starting) | `127.0.0.1:3002->3000/tcp, 100.126.211.117:3002->3000/tcp` |
 
 ---
 
@@ -167,7 +167,7 @@ echo "" >> ""
 ## 6. Código Local en Mac
 - **Ruta:** `/Users/stefenello/development/stage-condominio-app`
 - **Branch Git:** `main`
-- **Último Commit:** `5ae31a6 - fix: add secondary sort by id for stable list ordering (2026-11-13 21:04:06 -0300)`
+- **Último Commit:** `3ff6525 - style: disable company selector when creating/editing condominium (2026-11-13 21:29:40 -0300)`
 - **Archivos Pendientes de Commit:**
 ```text
 
@@ -182,18 +182,17 @@ echo "" >> ""
 2026-11-12 18:05:38.563 UTC [1450358] ERROR:  syntax error at or near "public" at character 67
 2026-11-12 18:06:41.946 UTC [1450400] FATAL:  database "template0" is not currently accepting connections
 ---LOG_ERROR:svc-kong---
-10.89.1.44 - - [14/Nov/2026:00:05:21 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "493644594bc2a6504ef47836f624096e"
-10.89.1.44 - - [14/Nov/2026:00:05:36 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "d475ae3bb7bd11617697a1734f2b7a20"
-10.89.1.44 - - [14/Nov/2026:00:05:51 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "0ab5512ea993545cfa964673c370c762"
+10.89.1.44 - - [14/Nov/2026:00:30:46 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "1d5dfb7cd0f85256be487e44463e1f1a"
+10.89.1.44 - - [14/Nov/2026:00:31:01 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "7d52b74cd16ece5200565464ea03fd48"
+10.89.1.44 - - [14/Nov/2026:00:31:16 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "8763b65b657a3648af0a0a4efd7aea7b"
 ---LOG_ERROR:stage-sb-db---
 [local] 2026-11-12 17:45:47.753 UTC [596633] postgres@postgres ERROR:  relation "assembly_motions" does not exist at character 22
 [local] 2026-11-12 17:46:17.432 UTC [596664] postgres@condosmart FATAL:  database "condosmart" does not exist
 [local] 2026-11-12 18:06:44.839 UTC [597531] postgres@template0 FATAL:  database "template0" is not currently accepting connections
+---LOG_ERROR:condo-sb-db---
+[local] 2026-11-14 00:09:11.960 UTC [327605] postgres@postgres ERROR:  syntax error at or near "," at character 48
 ---LOG_ERROR:condo-sb-inbucket---
-{"level":"warn","module":"rest","proto":"WebSocket","remote":"10.89.5.5:41276","error":"websocket: close 1006 (abnormal closure): unexpected EOF","time":"2026-11-12T18:07:46Z","message":"Socket error"}
 {"level":"warn","module":"rest","proto":"WebSocket","remote":"10.89.5.5:53164","error":"websocket: close 1006 (abnormal closure): unexpected EOF","time":"2026-11-12T19:15:16Z","message":"Socket error"}
 {"level":"warn","module":"rest","proto":"WebSocket","remote":"10.89.5.5:34906","error":"websocket: close 1006 (abnormal closure): unexpected EOF","time":"2026-11-13T15:34:22Z","message":"Socket error"}
----LOG_ERROR:condo-sb-rest---
-13/Nov/2026:23:49:39 +0000: {"code":"PGRST000","details":"could not translate host name \"condo-sb-db\" to address: Try again\n","hint":null,"message":"Database connection error. Retrying the connection."}
-13/Nov/2026:23:49:39 +0000: {"code":"PGRST000","details":"could not translate host name \"condo-sb-db\" to address: Try again\n","hint":null,"message":"Database connection error. Retrying the connection."}
+{"level":"warn","module":"rest","proto":"WebSocket","remote":"10.89.5.5:58994","error":"websocket: close 1006 (abnormal closure): unexpected EOF","time":"2026-11-14T00:17:33Z","message":"Socket error"}
 ```
