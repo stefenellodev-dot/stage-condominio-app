@@ -1282,7 +1282,7 @@ export default function ManagementCompaniesModule() {
                       backgroundColor: company.status === 'active' ? 'var(--success-bg)' : company.status === 'suspended' ? 'var(--warning-bg)' : 'var(--danger-bg)',
                       color: company.status === 'active' ? 'var(--success-text)' : company.status === 'suspended' ? 'var(--warning-text)' : 'var(--danger-text)',
                     }}>
-                      {company.status === 'active' ? t('management_companies.active_status') : company.status === 'inactive' ? t('management_companies.inactive_status') : company.status === 'suspended' ? t('management_companies.suspended_status') : (company.status || 'active').toUpperCase()}
+                      {company.status === 'active' ? t('management_companies.status_active') : company.status === 'inactive' ? t('management_companies.status_inactive') : company.status === 'suspended' ? t('management_companies.status_suspended') : (company.status || 'active').toUpperCase()}
                     </span>
                   </td>
                   <td style={{ ...styles.td, textAlign: 'center' }}>
