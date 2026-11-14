@@ -395,6 +395,8 @@ export const es = {
     search_placeholder: '🔍 Buscar por unidad, condominio, propietario o empresa...',
     all_statuses: 'Todos los estados',
     active_status: 'Activas',
+    status_active: 'Activa',
+    status_inactive: 'Inactiva',
     inactive_status: 'Inactivas',
     all_types: 'Todos los tipos',
     type_departamento: 'Departamento',

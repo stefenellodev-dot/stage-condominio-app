@@ -724,7 +724,7 @@ export default function UnitsModule() {
                       backgroundColor: (unit.status || 'active') === 'active' ? 'var(--success-bg)' : 'var(--danger-bg)',
                       color: (unit.status || 'active') === 'active' ? 'var(--success-text)' : 'var(--danger-text)',
                     }}>
-                      {(unit.status || 'active').toUpperCase()}
+                      {(unit.status || 'active') === 'active' ? t('units.status_active') : t('units.status_inactive')}
                     </span>
                   </td>
                   <td style={{ ...styles.td, textAlign: 'center' }}>
