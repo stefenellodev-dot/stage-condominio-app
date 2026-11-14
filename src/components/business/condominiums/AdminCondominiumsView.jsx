@@ -250,7 +250,7 @@ export default function AdminCondominiumsView() {
         <div style={{ ...styles.sectionBox, marginBottom: '14px' }}>
           <h4 style={{ margin: '0 0 12px', color: 'var(--primary)' }}>Filtro</h4>
           <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-            <select value={selectedCompany} onChange={e => setSelectedCompany(e.target.value)} style={{ ...styles.select, minWidth: '220px' }}>
+            <select value={selectedCompany} onChange={e => setSelectedCompany(e.target.value)} disabled={formMode !== 'list'} style={{ ...styles.select, minWidth: '220px', opacity: formMode !== 'list' ? 0.6 : 1, cursor: formMode !== 'list' ? 'not-allowed' : 'pointer' }}>
               {companies.map(c => <option key={c.id} value={c.id}>{c.fantasy_name || c.legal_name}</option>)}
             </select>
           </div>
