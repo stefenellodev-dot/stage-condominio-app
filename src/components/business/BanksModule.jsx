@@ -237,7 +237,7 @@ export default function BanksModule() {
                         backgroundColor: bank.is_active ? 'var(--success-bg)' : 'var(--danger-bg)',
                         color: bank.is_active ? 'var(--success-text)' : 'var(--danger-text)',
                       }}>
-                        {bank.is_active ? 'ACTIVO' : 'INACTIVO'}
+                        {bank.is_active ? t('banks.status_active') : t('banks.status_inactive')}
                       </span>
                     </td>
                     <td style={{ ...styles.td, textAlign: 'center' }}>

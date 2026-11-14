@@ -310,6 +310,10 @@ export const es = {
     members_already_associated: 'ya asociado',
     members_role_admin: 'admin',
   },
+  banks: {
+    status_active: 'Activa',
+    status_inactive: 'Inactiva',
+  },
 
   condominiums: {
     title: 'Condominios',
