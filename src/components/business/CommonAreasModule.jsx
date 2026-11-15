@@ -186,11 +186,16 @@ export default function CommonAreasModule() {
   }, []);
 
   useEffect(() => {
-    if (!selectedCompany || selectedCompany === 'all') return;
+    if (!selectedCompany || selectedCompany === 'all') {
+      setCondominiums([]);
+      setSelectedCondo('all');
+      return;
+    }
     (async () => {
       const { data } = await supabase.from('condominiums').select('id, name, management_company_id').eq('management_company_id', selectedCompany).is('deleted_at', null).order('name', { ascending: true });
       setCondominiums(data || []);
       if (data && data.length) setSelectedCondo(data[0].id);
+      else setSelectedCondo('all');
     })();
   }, [selectedCompany]);
 
