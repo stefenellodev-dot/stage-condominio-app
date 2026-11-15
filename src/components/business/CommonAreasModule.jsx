@@ -56,7 +56,6 @@ export default function CommonAreasModule() {
   const [bookings, setBookings] = useState([]);
   const [bookingsLoading, setBookingsLoading] = useState(true);
   const [bookingView, setBookingView] = useState('list');
-  const [editingBookingId, setEditingBookingId] = useState(null);
   const [bookingForm, setBookingForm] = useState({
     commonAreaId: '',
     unitId: '',
@@ -398,7 +397,6 @@ export default function CommonAreasModule() {
   };
 
   const handleNewBooking = () => {
-    setEditingBookingId(null);
     setBookingForm({
       commonAreaId: '',
       unitId: '',
@@ -417,7 +415,6 @@ export default function CommonAreasModule() {
   };
 
   const handleBookingBack = () => {
-    setEditingBookingId(null);
     setBookingForm({
       commonAreaId: '',
       unitId: '',

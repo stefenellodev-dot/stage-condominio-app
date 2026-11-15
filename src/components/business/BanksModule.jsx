@@ -19,7 +19,6 @@ export default function BanksModule() {
   const { t } = useTranslation();
 
   const [banks, setBanks] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [filterType, setFilterType] = useState('all');
   const [view, setView] = useState('list');
@@ -29,7 +28,6 @@ export default function BanksModule() {
   const [form, setForm] = useState(emptyForm);
 
   const fetchBanks = async () => {
-    setLoading(true);
     try {
       const { data, error } = await supabase
         .from('banks')
@@ -41,7 +39,6 @@ export default function BanksModule() {
     } catch (err) {
       showError(err.message);
     } finally {
-      setLoading(false);
     }
   };
 
