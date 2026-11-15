@@ -1,5 +1,5 @@
 # Estado del Sistema: Mac (Código) vs Piave (Despliegue e Infraestructura)
-**Fecha de levantamiento:** 2026-11-15 13:32:05
+**Fecha de levantamiento:** 2026-11-15 13:36:40
 **Servidor Remoto (Infraestructura y Producción):** piave (100.126.211.117)
 **Host Local (Desarrollo):** dstefene1-mac
 
@@ -8,9 +8,9 @@
 ## 1. Servidor Físico Piave (Host y Recursos)
 - **HOSTNAME:** `piave`
 - **KERNEL:** `6.8.0-139-generic`
-- **UPTIME:** `up 7 weeks, 4 days, 23 hours, 49 minutes`
+- **UPTIME:** `up 7 weeks, 4 days, 23 hours, 54 minutes`
 - **DISK_USAGE:** `60G/232G (28% en uso)`
-- **RAM_USAGE:** `3275MB / 7829MB (41.8%)`
+- **RAM_USAGE:** `3256MB / 7829MB (41.6%)`
 - **PODMAN_VER:** `podman version 4.9.3`
 
 # Verificar buckets de storage
@@ -27,7 +27,7 @@ done
 echo "" >> ""
 - **Base de Datos:** `postgres`
 - **Tamaño en Disco:** `17 MB`
-- **Conexiones Activas:** `6`
+- **Conexiones Activas:** `7`
 
 ---
 
@@ -37,10 +37,10 @@ echo "" >> ""
 | :--- | :--- |
 | **Contenedor Web** | `stage-stage-condominio-app` |
 | **Estado del Contenedor** | `running` |
-| **Último Inicio / Reinicio** | `2026-11-15 16:31:37.987907782 +0000 UTC` |
+| **Último Inicio / Reinicio** | `2026-11-15 16:36:13.711530843 +0000 UTC` |
 | **Veces Reiniciado (Crash count)** | `0` |
 | **Directorio Servido (Web Root)** | `/app/dist` |
-| **Fecha de Compilación en Piave** | `2026-11-15 16:31:04.000000000 +0000` |
+| **Fecha de Compilación en Piave** | `2026-11-15 16:35:47.000000000 +0000` |
 | **Título HTML Desplegado** | `<title>Sistema de Administración de Condominios</title>` |
 | **Respuesta HTTP Puerto :3002** | `200` |
 | **Servidor Web Interno** | `` |
@@ -140,8 +140,8 @@ echo "" >> ""
 10.89.0.170` | Up 2 days | `0.0.0.0:8080->8080/tcp` |
 | `fin-engine-notifier` | `Up 2 days
 10.89.0.173` | Up 2 days | `` |
-| `stage-stage-condominio-app` | `Up 31 seconds (starting)
-10.89.5.80` | Up 31 seconds (starting) | `127.0.0.1:3002->3000/tcp, 100.126.211.117:3002->3000/tcp` |
+| `stage-stage-condominio-app` | `Up 30 seconds (starting)
+10.89.5.82` | Up 30 seconds (starting) | `127.0.0.1:3002->3000/tcp, 100.126.211.117:3002->3000/tcp` |
 
 ---
 
@@ -167,7 +167,7 @@ echo "" >> ""
 ## 6. Código Local en Mac
 - **Ruta:** `/Users/stefenello/development/stage-condominio-app`
 - **Branch Git:** `main`
-- **Último Commit:** `a8ba0aa - i18n: replace hardcoded strings with t() in main modules (2026-11-15 13:31:08 -0300)`
+- **Último Commit:** `38aff35 - i18n: standardize select_* keys to 'Seleccione ...' format (2026-11-15 13:35:47 -0300)`
 - **Archivos Pendientes de Commit:**
 ```text
 
@@ -178,9 +178,9 @@ echo "" >> ""
 ## 7. Errores Detectados en Logs de Contenedores en Piave
 ```text
 ---LOG_ERROR:svc-kong---
-10.89.1.44 - - [15/Nov/2026:16:32:11 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "78942a36afaf4163e828ff584f072049"
-10.89.1.44 - - [15/Nov/2026:16:32:26 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "ec91f0744aeb8724feba9f465fc64700"
-10.89.1.44 - - [15/Nov/2026:16:32:41 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "e47fae4c67a3e27574132f5cabc67a43"
+10.89.1.44 - - [15/Nov/2026:16:36:42 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "dc65c23af3dbf1311d95526116667b35"
+10.89.1.44 - - [15/Nov/2026:16:36:57 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "d9d8452037090a24ad6f5d39ee95bf67"
+10.89.1.44 - - [15/Nov/2026:16:37:12 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "4d717d4bac8d1870ed07032afebcfe7c"
 ---LOG_ERROR:condo-sb-inbucket---
 {"level":"warn","module":"rest","proto":"WebSocket","remote":"10.89.5.5:34906","error":"websocket: close 1006 (abnormal closure): unexpected EOF","time":"2026-11-13T15:34:22Z","message":"Socket error"}
 {"level":"warn","module":"rest","proto":"WebSocket","remote":"10.89.5.5:58994","error":"websocket: close 1006 (abnormal closure): unexpected EOF","time":"2026-11-14T00:17:33Z","message":"Socket error"}
