@@ -1356,7 +1356,18 @@ export default function CommonAreasModule() {
                       <td style={{ ...styles.td, textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: '12px' }}>
                         {booking.fee_amount ? `$${booking.fee_amount}` : t('common_areas.free')}
                       </td>
-                      <td style={{ ...styles.td, textAlign: 'center' }}>{booking.status}</td>
+                      <td style={{ ...styles.td, textAlign: 'center' }}>
+                        <span style={{
+                          padding: '3px 8px',
+                          borderRadius: '12px',
+                          fontSize: '10.5px',
+                          fontWeight: '700',
+                          backgroundColor: booking.status === 'confirmed' ? 'var(--success-bg)' : booking.status === 'pending' ? 'var(--warning-bg)' : booking.status === 'rejected' ? 'var(--danger-bg)' : 'var(--bg-surface)',
+                          color: booking.status === 'confirmed' ? 'var(--success-text)' : booking.status === 'pending' ? 'var(--warning-text)' : booking.status === 'rejected' ? 'var(--danger-text)' : 'var(--text-dim)',
+                        }}>
+                          {booking.status === 'pending' ? t('common_areas.booking_pending') : booking.status === 'confirmed' ? t('common_areas.booking_confirmed') : booking.status === 'rejected' ? t('common_areas.booking_rejected') : booking.status === 'cancelled' ? t('common_areas.booking_cancelled') : booking.status === 'completed' ? t('common_areas.booking_completed') : booking.status}
+                        </span>
+                      </td>
                       <td style={{ ...styles.td, textAlign: 'center' }}>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', alignItems: 'center' }}>
                           {booking.user_id === user?.id && (booking.status === 'pending' || booking.status === 'confirmed') ? (
