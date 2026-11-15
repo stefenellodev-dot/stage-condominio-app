@@ -316,7 +316,7 @@ export default function MaintenanceModule() {
                 </div>
               </section>
             <div style={{ display: 'flex', gap: '8px' }}>
-              <button type="submit" disabled={savingAsset} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>{savingAsset ? 'Guardando…' : 'Crear'}</button>
+              <button type="submit" disabled={savingAsset} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>{savingAsset ? t('common.saving') : t('common.create')}</button>
               <button type="button" onClick={() => setAssetView('list')} style={{ padding: '4px 10px', backgroundColor: 'var(--danger-bg)', color: 'var(--danger-text)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>Cancelar</button>
             </div>
             </form>
@@ -396,7 +396,7 @@ export default function MaintenanceModule() {
                 </div>
               </section>
             <div style={{ display: 'flex', gap: '8px' }}>
-              <button type="submit" disabled={savingCert} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>{savingCert ? 'Guardando…' : 'Crear'}</button>
+              <button type="submit" disabled={savingCert} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>{savingCert ? t('common.saving') : t('common.create')}</button>
               <button type="button" onClick={() => setCertView('list')} style={{ padding: '4px 10px', backgroundColor: 'var(--danger-bg)', color: 'var(--danger-text)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>Cancelar</button>
             </div>
             </form>
@@ -491,7 +491,7 @@ export default function MaintenanceModule() {
                   </select>
                 </div>
                 <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
-                  <button type="submit" disabled={savingLog} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>{savingLog ? 'Guardando…' : 'Crear'}</button>
+                  <button type="submit" disabled={savingLog} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>{savingLog ? t('common.saving') : t('common.create')}</button>
                   <button type="button" onClick={() => setLogView('list')} style={{ padding: '4px 10px', backgroundColor: 'var(--danger-bg)', color: 'var(--danger-text)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>Cancelar</button>
                 </div>
               </section>

@@ -348,7 +348,7 @@ export default function CondominiumsModule() {
               </div>
             </section>
             <div style={{ display: 'flex', gap: '8px' }}>
-              {!readOnly && <button type="submit" disabled={saving} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>{saving ? 'Guardando...' : formMode === 'create' ? 'Crear' : 'Actualizar'}</button>}
+              {!readOnly && <button type="submit" disabled={saving} style={{ padding: '4px 10px', backgroundColor: 'var(--bg-card)', color: 'var(--text-main)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>{saving ? 'Guardando...' : formMode === 'create' ? t('common.create') : t('common.update')}</button>}
               <button type="button" onClick={handleCancel} style={{ padding: '4px 10px', backgroundColor: 'var(--danger-bg)', color: 'var(--danger-text)', border: 'none', borderRadius: '4px', fontSize: '11.5px', cursor: 'pointer' }}>Cancelar</button>
             </div>
           </form>

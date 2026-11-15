@@ -315,12 +315,12 @@ export default function ConciergeDeskView() {
                     <option value="">Selecciona unidad</option>
                     {units.filter(u => !selectedCondo || selectedCondo === 'all' || u.condominium_id === selectedCondo).map(u => <option key={u.id} value={u.id}>{u.unit_number}</option>)}
                   </select>
-                  <input placeholder="Visitante" value={visitForm.visitor_name} onChange={e => setVisitForm({ ...visitForm, visitor_name: e.target.value })} style={styles.input} required />
+                  <input placeholder={t('concierge.visitor_name')} value={visitForm.visitor_name} onChange={e => setVisitForm({ ...visitForm, visitor_name: e.target.value })} style={styles.input} required />
                 </div>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginTop: '8px' }}>
-                  <input placeholder="Vehículo (opcional)" value={visitForm.vehicle_plate} onChange={e => setVisitForm({ ...visitForm, vehicle_plate: e.target.value })} style={styles.input} />
-                  <input placeholder="RUT (opcional)" value={visitForm.visitor_rut} onChange={e => setVisitForm({ ...visitForm, visitor_rut: e.target.value })} style={styles.input} />
-                  <input placeholder="Estacionamiento (opcional)" value={visitForm.parking_spot} onChange={e => setVisitForm({ ...visitForm, parking_spot: e.target.value })} style={styles.input} />
+                  <input placeholder={t('concierge.vehicle_plate')} value={visitForm.vehicle_plate} onChange={e => setVisitForm({ ...visitForm, vehicle_plate: e.target.value })} style={styles.input} />
+                  <input placeholder={t('concierge.visitor_rut')} value={visitForm.visitor_rut} onChange={e => setVisitForm({ ...visitForm, visitor_rut: e.target.value })} style={styles.input} />
+                  <input placeholder={t('concierge.parking_spot')} value={visitForm.parking_spot} onChange={e => setVisitForm({ ...visitForm, parking_spot: e.target.value })} style={styles.input} />
                 </div>
                 <div style={{ marginTop: '8px' }}>
                   <label style={styles.label}>Notas</label>
@@ -336,7 +336,7 @@ export default function ConciergeDeskView() {
           {visitView === 'list' && (isMobile ? (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
               {visits.length === 0 ? (
-                <div style={{ textAlign: 'center', color: 'var(--text-dim)', padding: '24px' }}>Sin visitas registradas.</div>
+                <div style={{ textAlign: 'center', color: 'var(--text-dim)', padding: '24px' }}>{t('concierge.no_visits')}</div>
               ) : visits.map(v => (
                 <div key={v.id} style={{ backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)', padding: '14px' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
@@ -361,7 +361,7 @@ export default function ConciergeDeskView() {
               </tr></thead>
               <tbody>
                 {visits.length === 0 ? (
-                  <tr><td colSpan="6" style={{ ...styles.td, textAlign: 'center', color: 'var(--text-dim)', padding: '24px' }}>Sin visitas registradas.</td></tr>
+                  <tr><td colSpan="6" style={{ ...styles.td, textAlign: 'center', color: 'var(--text-dim)', padding: '24px' }}>{t('concierge.no_visits')}</td></tr>
                 ) : visits.map(v => (
                   <tr key={v.id} style={styles.tr}>
                     <td style={styles.td}>{v.units?.unit_number}</td>
@@ -423,7 +423,7 @@ export default function ConciergeDeskView() {
           {pkgView === 'list' && (isMobile ? (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
               {parcels.length === 0 ? (
-                <div style={{ textAlign: 'center', color: 'var(--text-dim)', padding: '24px' }}>Sin paquetes registrados.</div>
+                <div style={{ textAlign: 'center', color: 'var(--text-dim)', padding: '24px' }}>{t('concierge.no_packages')}</div>
               ) : parcels.map(p => (
                 <div key={p.id} style={{ backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)', padding: '14px' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
@@ -453,7 +453,7 @@ export default function ConciergeDeskView() {
               </tr></thead>
               <tbody>
                 {parcels.length === 0 ? (
-                  <tr><td colSpan="5" style={{ ...styles.td, textAlign: 'center', color: 'var(--text-dim)', padding: '24px' }}>Sin paquetes registrados.</td></tr>
+                  <tr><td colSpan="5" style={{ ...styles.td, textAlign: 'center', color: 'var(--text-dim)', padding: '24px' }}>{t('concierge.no_packages')}</td></tr>
                 ) : parcels.map(p => (
                   <tr key={p.id} style={styles.tr}>
                     <td style={styles.td}>{p.units?.unit_number}</td>
@@ -537,7 +537,7 @@ export default function ConciergeDeskView() {
               </tr></thead>
               <tbody>
                 {logs.length === 0 ? (
-                  <tr><td colSpan="4" style={{ ...styles.td, textAlign: 'center', color: 'var(--text-dim)', padding: '24px' }}>Sin novedades registradas.</td></tr>
+                  <tr><td colSpan="4" style={{ ...styles.td, textAlign: 'center', color: 'var(--text-dim)', padding: '24px' }}>{t('concierge.no_logs')}</td></tr>
                 ) : logs.map(l => (
                   <tr key={l.id} style={styles.tr}>
                     <td style={styles.td}>{l.created_at ? new Date(l.created_at).toLocaleDateString('es-CL') : ''}</td>
@@ -631,7 +631,7 @@ export default function ConciergeDeskView() {
           <div style={{ ...styles.sectionBox, marginBottom: '14px' }}>
             <h4 style={{ margin: '0 0 12px', color: 'var(--primary)' }}>Relevos registrados</h4>
             {handovers.length === 0 ? (
-              <div style={{ textAlign: 'center', color: 'var(--text-dim)', padding: '24px' }}>Sin relevos registrados.</div>
+              <div style={{ textAlign: 'center', color: 'var(--text-dim)', padding: '24px' }}>{t('concierge.no_handovers')}</div>
             ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
               {handovers.map(h => (
