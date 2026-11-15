@@ -1,5 +1,5 @@
 # Estado del Sistema: Mac (Código) vs Piave (Despliegue e Infraestructura)
-**Fecha de levantamiento:** 2026-11-15 01:47:30
+**Fecha de levantamiento:** 2026-11-15 13:32:05
 **Servidor Remoto (Infraestructura y Producción):** piave (100.126.211.117)
 **Host Local (Desarrollo):** dstefene1-mac
 
@@ -8,9 +8,9 @@
 ## 1. Servidor Físico Piave (Host y Recursos)
 - **HOSTNAME:** `piave`
 - **KERNEL:** `6.8.0-139-generic`
-- **UPTIME:** `up 7 weeks, 4 days, 12 hours, 5 minutes`
+- **UPTIME:** `up 7 weeks, 4 days, 23 hours, 49 minutes`
 - **DISK_USAGE:** `60G/232G (28% en uso)`
-- **RAM_USAGE:** `3261MB / 7829MB (41.7%)`
+- **RAM_USAGE:** `3275MB / 7829MB (41.8%)`
 - **PODMAN_VER:** `podman version 4.9.3`
 
 # Verificar buckets de storage
@@ -27,7 +27,7 @@ done
 echo "" >> ""
 - **Base de Datos:** `postgres`
 - **Tamaño en Disco:** `17 MB`
-- **Conexiones Activas:** `7`
+- **Conexiones Activas:** `6`
 
 ---
 
@@ -37,10 +37,10 @@ echo "" >> ""
 | :--- | :--- |
 | **Contenedor Web** | `stage-stage-condominio-app` |
 | **Estado del Contenedor** | `running` |
-| **Último Inicio / Reinicio** | `2026-11-15 04:47:04.518432795 +0000 UTC` |
+| **Último Inicio / Reinicio** | `2026-11-15 16:31:37.987907782 +0000 UTC` |
 | **Veces Reiniciado (Crash count)** | `0` |
 | **Directorio Servido (Web Root)** | `/app/dist` |
-| **Fecha de Compilación en Piave** | `2026-11-15 04:46:18.000000000 +0000` |
+| **Fecha de Compilación en Piave** | `2026-11-15 16:31:04.000000000 +0000` |
 | **Título HTML Desplegado** | `<title>Sistema de Administración de Condominios</title>` |
 | **Respuesta HTTP Puerto :3002** | `200` |
 | **Servidor Web Interno** | `` |
@@ -114,34 +114,34 @@ echo "" >> ""
 10.89.5.3` | Up 5 days | `127.0.0.1:8280->3000/tcp` |
 | `condo-sb-inbucket` | `Up 5 days
 10.89.5.5` | Up 5 days | `100.126.211.117:9100->9000/tcp` |
-| `condo-sb-rest` | `Up 4 days
-10.89.5.24` | Up 4 days | `` |
+| `condo-sb-rest` | `Up 5 days
+10.89.5.24` | Up 5 days | `` |
 | `condo-sb-auth` | `Up 5 days
 10.89.5.7` | Up 5 days | `` |
 | `condo-sb-storage` | `Up 5 days
 10.89.5.8` | Up 5 days | `` |
 | `condo-sb-meta` | `Up 5 days
 10.89.5.9` | Up 5 days | `` |
-| `condo-sb-kong` | `Up 4 days (healthy)
-10.89.5.34` | Up 4 days (healthy) | `100.126.211.117:8200->8000/tcp` |
+| `condo-sb-kong` | `Up 5 days (healthy)
+10.89.5.34` | Up 5 days (healthy) | `100.126.211.117:8200->8000/tcp` |
 | `vaultwarden` | `Up 4 days (healthy)
 10.89.4.5` | Up 4 days (healthy) | `100.126.211.117:8222->80/tcp` |
-| `fin-engine-redis` | `Up 39 hours
-10.89.0.145` | Up 39 hours | `` |
-| `fin-engine-agent-pedro` | `Up 38 hours
-10.89.0.164` | Up 38 hours | `` |
-| `fin-engine-agent-pablo` | `Up 38 hours
-10.89.0.165` | Up 38 hours | `` |
-| `fin-engine-agent-marcos` | `Up 38 hours
-10.89.0.166` | Up 38 hours | `` |
-| `fin-engine-brain` | `Up 38 hours
-10.89.0.167` | Up 38 hours | `` |
-| `fin-engine-dashboard` | `Up 38 hours
-10.89.0.170` | Up 38 hours | `0.0.0.0:8080->8080/tcp` |
-| `fin-engine-notifier` | `Up 37 hours
-10.89.0.173` | Up 37 hours | `` |
-| `stage-stage-condominio-app` | `Up 30 seconds (starting)
-10.89.5.78` | Up 30 seconds (starting) | `100.126.211.117:3002->3000/tcp, 127.0.0.1:3002->3000/tcp` |
+| `fin-engine-redis` | `Up 2 days
+10.89.0.145` | Up 2 days | `` |
+| `fin-engine-agent-pedro` | `Up 2 days
+10.89.0.164` | Up 2 days | `` |
+| `fin-engine-agent-pablo` | `Up 2 days
+10.89.0.165` | Up 2 days | `` |
+| `fin-engine-agent-marcos` | `Up 2 days
+10.89.0.166` | Up 2 days | `` |
+| `fin-engine-brain` | `Up 2 days
+10.89.0.167` | Up 2 days | `` |
+| `fin-engine-dashboard` | `Up 2 days
+10.89.0.170` | Up 2 days | `0.0.0.0:8080->8080/tcp` |
+| `fin-engine-notifier` | `Up 2 days
+10.89.0.173` | Up 2 days | `` |
+| `stage-stage-condominio-app` | `Up 31 seconds (starting)
+10.89.5.80` | Up 31 seconds (starting) | `127.0.0.1:3002->3000/tcp, 100.126.211.117:3002->3000/tcp` |
 
 ---
 
@@ -167,7 +167,7 @@ echo "" >> ""
 ## 6. Código Local en Mac
 - **Ruta:** `/Users/stefenello/development/stage-condominio-app`
 - **Branch Git:** `main`
-- **Último Commit:** `758b605 - refactor: remove dead state (editingBookingId, loading) from CommonAreas and Banks (2026-11-15 01:46:22 -0300)`
+- **Último Commit:** `a8ba0aa - i18n: replace hardcoded strings with t() in main modules (2026-11-15 13:31:08 -0300)`
 - **Archivos Pendientes de Commit:**
 ```text
 
@@ -177,22 +177,11 @@ echo "" >> ""
 
 ## 7. Errores Detectados en Logs de Contenedores en Piave
 ```text
----LOG_ERROR:svc-db---
-2026-11-12 18:05:33.239 UTC [1450355] ERROR:  syntax error at or near "public" at character 87
-2026-11-12 18:05:38.563 UTC [1450358] ERROR:  syntax error at or near "public" at character 67
-2026-11-12 18:06:41.946 UTC [1450400] FATAL:  database "template0" is not currently accepting connections
 ---LOG_ERROR:svc-kong---
-10.89.1.44 - - [15/Nov/2026:04:47:31 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "da915d741983157ac5db64052e21065a"
-10.89.1.44 - - [15/Nov/2026:04:47:46 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "77140547e7df4841af7a781084be0d51"
-10.89.1.44 - - [15/Nov/2026:04:48:01 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "e06aa13837beac10615a0323617a1505"
----LOG_ERROR:stage-sb-db---
-[local] 2026-11-12 17:45:47.753 UTC [596633] postgres@postgres ERROR:  relation "assembly_motions" does not exist at character 22
-[local] 2026-11-12 17:46:17.432 UTC [596664] postgres@condosmart FATAL:  database "condosmart" does not exist
-[local] 2026-11-12 18:06:44.839 UTC [597531] postgres@template0 FATAL:  database "template0" is not currently accepting connections
+10.89.1.44 - - [15/Nov/2026:16:32:11 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "78942a36afaf4163e828ff584f072049"
+10.89.1.44 - - [15/Nov/2026:16:32:26 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "ec91f0744aeb8724feba9f465fc64700"
+10.89.1.44 - - [15/Nov/2026:16:32:41 +0000] "GET /rest/v1/email_outbox?sent_at=is.null&failed_at=is.null&order=created_at.asc&limit=10&select=id,event_type,user_id,email,payload,attempt_count,next_attempt_at,locked_at,locale HTTP/1.1" 200 2 "-" "Python-urllib/3.11" kong_request_id: "e47fae4c67a3e27574132f5cabc67a43"
 ---LOG_ERROR:condo-sb-inbucket---
-{"level":"warn","module":"rest","proto":"WebSocket","remote":"10.89.5.5:53164","error":"websocket: close 1006 (abnormal closure): unexpected EOF","time":"2026-11-12T19:15:16Z","message":"Socket error"}
 {"level":"warn","module":"rest","proto":"WebSocket","remote":"10.89.5.5:34906","error":"websocket: close 1006 (abnormal closure): unexpected EOF","time":"2026-11-13T15:34:22Z","message":"Socket error"}
 {"level":"warn","module":"rest","proto":"WebSocket","remote":"10.89.5.5:58994","error":"websocket: close 1006 (abnormal closure): unexpected EOF","time":"2026-11-14T00:17:33Z","message":"Socket error"}
----LOG_ERROR:condo-sb-rest---
-15/Nov/2026:04:29:34 +0000: {"code":"PGRST000","details":"could not translate host name \"condo-sb-db\" to address: Try again\n","hint":null,"message":"Database connection error. Retrying the connection."}
 ```
