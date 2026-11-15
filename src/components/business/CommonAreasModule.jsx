@@ -8,7 +8,7 @@ import { useTranslation } from '../../context/I18nContext';
 const emptyForm = {
   condominiumId: '',
   name: '',
-  areaType: 'quincho',
+  areaType: '',
   description: '',
   capacity: '10',
   requiresBooking: true,
