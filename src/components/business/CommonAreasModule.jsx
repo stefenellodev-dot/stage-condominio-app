@@ -299,7 +299,7 @@ export default function CommonAreasModule() {
   const handleNew = () => {
     setEditingId(null);
     setReadOnly(false);
-    setForm(emptyForm);
+    setForm({ ...emptyForm, condominiumId: selectedCondo !== 'all' ? selectedCondo : '' });
     setView('form');
   };
 
@@ -616,21 +616,10 @@ export default function CommonAreasModule() {
             </h4>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
               <div>
-                <label style={styles.label} htmlFor="condominiumId">{t('common_areas.condominium')}</label>
-                <select
-                  id="condominiumId" name="condominiumId"
-                  value={form.condominiumId}
-                  onChange={handleChange}
-                  disabled={readOnly}
-                  style={styles.select}
-                >
-                  <option value="">{t('common_areas.select_condominium')}</option>
-                  {condominiums.map((condominium) => (
-                    <option key={condominium.id} value={condominium.id}>
-                      {condominium.name}
-                    </option>
-                  ))}
-                </select>
+                <label style={styles.label}>{t('common_areas.condominium')}</label>
+                <div style={{ padding: '10px 14px', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-subtle)', backgroundColor: 'var(--bg-surface)', color: 'var(--text-main)', fontSize: '14px' }}>
+                  {condominiums.find(c => c.id === (form.condominiumId || selectedCondo))?.name || '—'}
+                </div>
               </div>
               <div>
                 <label style={styles.label} htmlFor="name">{t('common_areas.name')}</label>
@@ -1086,6 +1075,7 @@ export default function CommonAreasModule() {
 
       {/* Selectores de empresa y condominio movidos al header */}
 
+      {filteredAreas.length > 0 && (
       <div style={styles.tableWrapper}>
         <table style={{ ...styles.table, tableLayout: 'fixed', minWidth: '1080px' }}>
           <thead>
@@ -1205,6 +1195,7 @@ export default function CommonAreasModule() {
           </tbody>
         </table>
       </div>
+      )}
 
       {totalPages > 1 ? (
         <div
@@ -1319,6 +1310,7 @@ export default function CommonAreasModule() {
           </div>
           </div>
 
+          {filteredBookings.length > 0 && (
           <div style={styles.tableWrapper}>
             <table style={{ ...styles.table, tableLayout: 'fixed', minWidth: '1120px' }}>
               <thead>
@@ -1390,6 +1382,7 @@ export default function CommonAreasModule() {
               </tbody>
             </table>
           </div>
+          )}
 
           {bookingTotalPages > 1 ? (
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '14px', fontSize: '13px' }}>
